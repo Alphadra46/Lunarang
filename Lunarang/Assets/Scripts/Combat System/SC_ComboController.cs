@@ -19,7 +19,7 @@ public class SC_ComboController : MonoBehaviour
     public List<WeaponType> currentComboWeaponTypes = new List<WeaponType>();
     
     public WeaponType nextType = WeaponType.Null;
-    private bool canPerformCombo;
+    private bool canPerformCombo = true;
     
     private Animator _animator;
     
@@ -52,8 +52,11 @@ public class SC_ComboController : MonoBehaviour
     private void Attack(WeaponType type)
     {
         
-        IncrementCombo(type);
-        UpdateAnimator();
+        if (canPerformCombo)
+        {
+            IncrementCombo(type);
+            UpdateAnimator();
+        }
         
     }
 
@@ -96,21 +99,7 @@ public class SC_ComboController : MonoBehaviour
         comboCounter = 0;
         currentComboWeaponTypes.Clear();
     }
-
-    // private void AttachInputBuffering()
-    // {
-    //     SC_InputManager.instance.weaponA.performed += _ => InputBuffering(WeaponType.WeaponA);
-    //     SC_InputManager.instance.weaponB.performed += _ => InputBuffering(WeaponType.WeaponB);
-    //     SC_InputManager.instance.weaponC.performed += _ => InputBuffering(WeaponType.WeaponC);
-    // }
-    //
-    // private void DetachInputBuffering()
-    // {
-    //     SC_InputManager.instance.weaponA.performed -= _ => InputBuffering(WeaponType.WeaponA);
-    //     SC_InputManager.instance.weaponB.performed -= _ => InputBuffering(WeaponType.WeaponB);
-    //     SC_InputManager.instance.weaponC.performed -= _ => InputBuffering(WeaponType.WeaponC);
-    // }
-    //
+    
     // private void InputBuffering(WeaponType type)
     // {
     //     if (nextType == WeaponType.Null)
