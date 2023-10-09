@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Kellojo.SimpleLootTable.Editor;
 using UnityEditor;
 using UnityEngine;
 
