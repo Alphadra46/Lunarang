@@ -1,12 +1,9 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 public class SC_ComboController : MonoBehaviour
 {
+    
     #region Variables
     
     [Header("Settings")]
@@ -18,8 +15,9 @@ public class SC_ComboController : MonoBehaviour
 
     public List<WeaponType> currentComboWeaponTypes = new List<WeaponType>();
     
-    public WeaponType nextType = WeaponType.Null;
-    private bool canPerformCombo = true;
+    public WeaponType inputBuffered = WeaponType.Null;
+    [SerializeField]private bool canPerformCombo = true;
+    private bool isInputBufferingOn = false;
     
     private Animator _animator;
     
@@ -57,6 +55,10 @@ public class SC_ComboController : MonoBehaviour
             IncrementCombo(type);
             UpdateAnimator();
         }
+        else if(isInputBufferingOn)
+        {
+            InputBuffering(type);
+        }
         
     }
 
@@ -64,6 +66,25 @@ public class SC_ComboController : MonoBehaviour
     {
         _animator.SetInteger("Combo", comboCounter);
         _animator.SetInteger("Type", (int)weaponType);
+    }
+
+    #region Combo Part
+
+    private void CanPerformCombo()
+    {
+        canPerformCombo = true;
+        print("Can Combo");
+
+        if (inputBuffered == WeaponType.Null) return;
+        
+        Attack(inputBuffered);
+        inputBuffered = WeaponType.Null;
+
+    }
+    private void CantPerformCombo()
+    {
+        canPerformCombo = false;
+        print("Can't Combo");
     }
     
     /// <summary>
@@ -98,20 +119,34 @@ public class SC_ComboController : MonoBehaviour
     {
         comboCounter = 0;
         currentComboWeaponTypes.Clear();
+        UpdateAnimator();
+    }
+
+    #endregion
+
+    #region Input Buffering
+    
+    public void ActivateInputBuffering()
+    {
+        isInputBufferingOn = true;
+        print("Buffering On");
     }
     
-    // private void InputBuffering(WeaponType type)
-    // {
-    //     if (nextType == WeaponType.Null)
-    //     {
-    //         nextType = type;
-    //     }
-    // }
-    //
-    // private void LaunchInputBuffered()
-    // {
-    //     Attack(nextType);
-    // }
+    public void DesactivateInputBuffering()
+    {
+        isInputBufferingOn = false;
+        print("Buffering Off");
+    }
+    
+    private void InputBuffering(WeaponType type)
+    {
+        if (inputBuffered != WeaponType.Null) return;
+        
+        inputBuffered = type;
+        print("Buffered : " + inputBuffered);
+    }
+    
+    #endregion
     
     #endregion
     
