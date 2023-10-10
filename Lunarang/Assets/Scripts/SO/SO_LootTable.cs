@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "LootTable", fileName = "LootTable_")]
-public class SO_LootTable : SC_LootTable<GameObject> {}
+[CreateAssetMenu(menuName = "SO/LootTable", fileName = "LootTable_")]
+public class SO_LootTable : SC_LootTable<SC_Skill> {}
 
 [System.Serializable]
-public class SO_LootTableConfig : Loot<GameObject> {}
+public class SO_LootTableConfig : Loot<SC_Skill> {}

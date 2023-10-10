@@ -1,13 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 
 public class SC_LootTable<T> : ScriptableObject where T : Object
 {
     public List<Loot<T>> lootTable = new List<Loot<T>>();
+    public List<Loot<T>> lootTableSave = new List<Loot<T>>();
+
+    public bool saveDoneOnce = false;
 
 
     public float GetChanceFor(Loot<T> dropConfig)
@@ -39,6 +45,12 @@ public class SC_LootTable<T> : ScriptableObject where T : Object
 
     public List<T> GetDrop()
     {
+        if (!saveDoneOnce)
+        {
+            //lootTableSave.AddRange(lootTable);
+            lootTableSave = lootTable.ToList();
+        }
+        saveDoneOnce = true;
         var result = new List<T>();
         var roll = Random.Range(0, OverallDropProbability);
 
@@ -59,6 +71,11 @@ public class SC_LootTable<T> : ScriptableObject where T : Object
         }
         
         return result;
+    }
+
+    public void ResetLootTable()
+    {
+        lootTable = lootTableSave.ToList();
     }
 
     public void SimulateDrop()
