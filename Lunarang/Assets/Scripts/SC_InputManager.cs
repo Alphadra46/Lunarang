@@ -15,6 +15,7 @@ public class SC_InputManager : MonoBehaviour
     [HideInInspector] public InputAction weaponC;
     [HideInInspector] public InputAction skillA;
     [HideInInspector] public InputAction skillB;
+    [HideInInspector] public InputAction move;
 
     [Header("UI")]
     [HideInInspector] public InputAction navigate;
@@ -105,6 +106,8 @@ public class SC_InputManager : MonoBehaviour
         weaponC = playerInputActions.General.WeaponC;
         skillA = playerInputActions.General.SkillA;
         skillB = playerInputActions.General.SkillB;
+        
+        move = playerInputActions.General.Move;
     }
 
     /// <summary>
@@ -117,6 +120,8 @@ public class SC_InputManager : MonoBehaviour
         weaponC.Enable();
         skillA.Enable();
         skillB.Enable();
+        
+        move.Enable();
     }
 
     /// <summary>
@@ -129,6 +134,8 @@ public class SC_InputManager : MonoBehaviour
         weaponC.Disable();
         skillA.Disable();
         skillB.Disable();
+        
+        move.Disable();
     }
 
     /// <summary>
@@ -141,6 +148,8 @@ public class SC_InputManager : MonoBehaviour
         weaponC.started += DetectDevice;
         skillA.started += DetectDevice;
         skillB.started += DetectDevice;
+
+        move.started += DetectDevice;
     }
     
     /// <summary>

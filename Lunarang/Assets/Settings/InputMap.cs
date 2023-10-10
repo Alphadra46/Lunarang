@@ -71,6 +71,15 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""04c9c71a-8a3d-4062-a3e0-70b2e6e1a1e6"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": ""NormalizeVector2"",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -161,6 +170,72 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""action"": ""Skill B"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4d04391-46c5-43ea-94e1-a54faba21014"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""3b4a6e75-509c-4eda-b03e-02b029b2ac16"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""06868c62-8114-4a4b-aa08-cad050fe3c06"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""a535441c-4c2c-4520-a4a5-dace4595bb8e"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""4d11e68c-0174-4f0d-9b68-77651e1d2a93"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""a36560f4-55d9-4736-a45b-bf25fc685cfd"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -723,6 +798,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_General_WeaponC = m_General.FindAction("Weapon C", throwIfNotFound: true);
         m_General_SkillA = m_General.FindAction("Skill A", throwIfNotFound: true);
         m_General_SkillB = m_General.FindAction("Skill B", throwIfNotFound: true);
+        m_General_Move = m_General.FindAction("Move", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -801,6 +877,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_General_WeaponC;
     private readonly InputAction m_General_SkillA;
     private readonly InputAction m_General_SkillB;
+    private readonly InputAction m_General_Move;
     public struct GeneralActions
     {
         private @InputMap m_Wrapper;
@@ -810,6 +887,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @WeaponC => m_Wrapper.m_General_WeaponC;
         public InputAction @SkillA => m_Wrapper.m_General_SkillA;
         public InputAction @SkillB => m_Wrapper.m_General_SkillB;
+        public InputAction @Move => m_Wrapper.m_General_Move;
         public InputActionMap Get() { return m_Wrapper.m_General; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -834,6 +912,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @SkillB.started += instance.OnSkillB;
             @SkillB.performed += instance.OnSkillB;
             @SkillB.canceled += instance.OnSkillB;
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
         }
 
         private void UnregisterCallbacks(IGeneralActions instance)
@@ -853,6 +934,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @SkillB.started -= instance.OnSkillB;
             @SkillB.performed -= instance.OnSkillB;
             @SkillB.canceled -= instance.OnSkillB;
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
         }
 
         public void RemoveCallbacks(IGeneralActions instance)
@@ -995,6 +1079,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnWeaponC(InputAction.CallbackContext context);
         void OnSkillA(InputAction.CallbackContext context);
         void OnSkillB(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
