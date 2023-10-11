@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Numerics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -26,6 +27,10 @@ public class SC_PlayerController : MonoBehaviour
     [Tooltip("Current speed multiplier of the player.")] public float speedMultiplier = 1;
     [Tooltip("Current real speed of the player.")] private float speedEffective;
     [Tooltip("Rotation speed of the player.")] public float rotationFactorPerFrame = 1f;
+    private bool isDashing;
+
+    [Tooltip("How long the dash will stay active"), SerializeField] private float dashTime;
+    [Tooltip("The speed of the Dash"), SerializeField] private float dashSpeed;
     #endregion
 
 
@@ -47,7 +52,8 @@ public class SC_PlayerController : MonoBehaviour
         SC_InputManager.instance.move.started += OnMove;
         SC_InputManager.instance.move.performed += OnMove;
         SC_InputManager.instance.move.canceled += OnMove;
-        
+
+        SC_InputManager.instance.dash.started += Dash;
     }
     
     /// <summary>
@@ -62,6 +68,27 @@ public class SC_PlayerController : MonoBehaviour
         currentMovement.z = currentMovementInput.y; // Set the current movement vector y with the input value
         isMovementInputPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0; // Set a boolean to check if the player is pressing the input
         
+    }
+
+    private void Dash(InputAction.CallbackContext context)
+    {
+        if (isDashing)
+            return;
+        
+        isDashing = true;
+        StartCoroutine(DashCoroutine());
+    }
+
+    IEnumerator DashCoroutine()
+    {
+        float startTime = Time.time;
+
+        while (Time.time < startTime+dashTime)
+        {
+            _characterController.Move(transform.forward * (dashSpeed * Time.deltaTime));
+            yield return null;
+        }
+        isDashing = false;
     }
     
     /// <summary>
@@ -82,7 +109,6 @@ public class SC_PlayerController : MonoBehaviour
     /// </summary>
     private void Rotate()
     {
-        
         var positionToLookAt = currentMovement;
         var currentRotation = transform.rotation;
         
@@ -106,8 +132,12 @@ public class SC_PlayerController : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        Rotate(); // Rotate the player
-        _characterController.Move((IsoVectorConvert(currentMovement) * speedEffective) * Time.deltaTime); // Move the player
+        if (!isDashing)
+        {
+            Rotate(); // Rotate the player
+            _characterController.Move((IsoVectorConvert(currentMovement) * speedEffective) * Time.deltaTime); // Move the player
+        }
+            
     }
 
     #endregion
