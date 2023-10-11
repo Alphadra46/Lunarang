@@ -1038,6 +1038,15 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  dash:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 20c20834-90d1-45a5-a4f1-60cf16a9ac5e
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   navigate:
     m_Name: 
     m_Type: 0
@@ -1450,7 +1459,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 1
   m_SkinWidth: 0.05
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
@@ -1472,6 +1481,10 @@ MonoBehaviour:
   speedBase: 5
   speedMultiplier: 1
   rotationFactorPerFrame: 1
+  dashTime: 0.25
+  dashSpeed: 20
+  gravity: -9.81
+  gravityMultiplier: 20
 --- !u!1 &1819944921
 GameObject:
   m_ObjectHideFlags: 0
@@ -1622,6 +1635,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d91398baff95e54b89304bf6e4095e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpBase: 5
+  hpMultiplier: 1
+  defBase: 0
+  defMultiplier: 1
+  atkBase: 0
+  atkMultiplier: 1
+  speedBase: 0
+  speedMultiplier: 1
+  currentWeakness: 
 --- !u!1 &1952995750
 GameObject:
   m_ObjectHideFlags: 0
