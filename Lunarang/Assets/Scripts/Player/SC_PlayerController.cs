@@ -125,7 +125,7 @@ public class SC_PlayerController : MonoBehaviour
         
         var targetRotation = Quaternion.LookRotation(result);
 
-        print(transform.forward);
+        // print(transform.forward);
         
         transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationFactorPerFrame);
         
