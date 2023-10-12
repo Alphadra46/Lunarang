@@ -13,7 +13,7 @@ using Vector3 = UnityEngine.Vector3;
 public class SC_PlayerController : MonoBehaviour
 {
     #region Variables
-
+    
     private CharacterController _characterController;
     private Animator _animator;
     
@@ -27,7 +27,7 @@ public class SC_PlayerController : MonoBehaviour
     [Tooltip("Current speed multiplier of the player.")] public float speedMultiplier = 1;
     [Tooltip("Current real speed of the player.")] private float speedEffective;
     [Tooltip("Rotation speed of the player.")] public float rotationFactorPerFrame = 1f;
-    private bool isDashing;
+    public bool isDashing;
 
     [Tooltip("How long the dash will stay active"), SerializeField] private float dashTime = 0.25f;
     [Tooltip("The speed of the Dash"), SerializeField] private float dashSpeed = 20f;
@@ -80,6 +80,7 @@ public class SC_PlayerController : MonoBehaviour
             return;
         
         isDashing = true;
+        _animator.SetBool("IsDashing", true);
         StartCoroutine(DashCoroutine());
     }
 
@@ -93,6 +94,7 @@ public class SC_PlayerController : MonoBehaviour
             yield return null;
         }
         isDashing = false;
+        _animator.SetBool("IsDashing", false);
     }
     
     /// <summary>

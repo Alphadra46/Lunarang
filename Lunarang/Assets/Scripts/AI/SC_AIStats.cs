@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Enum;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -11,27 +12,49 @@ public class SC_AIStats : MonoBehaviour
 {
 
     #region Variables
+
+    #region Stats
     
     [Header("Stats Settings")]
+    
+    // Max HP and HP
     [Tooltip("Current base MaxHP of the enemy")] public float maxHPBase = 15;
     [Tooltip("Current MaxHP multiplier of the enemy")] public float maxHPModifier = 0;
-    [Tooltip("Current effective MaxHP of the enemy")] private float maxHPEffective;
-    [Tooltip("Current HP of the enemy")] private float currentHP;
+    private float maxHPEffective => maxHPBase * (1 + maxHPModifier);
+    private float currentHP;
+    
     [Space(5)]
+    
+    // DEF
     [Tooltip("Current base DEF of the enemy")] public float defBase = 1;
     [Tooltip("Current DEF multiplier of the enemy")] public float defModifier = 0;
-    [Tooltip("Current effective DEF of the enemy")] private float defEffective;
+    private float defEffective => defBase * (1 + defModifier);
+    
     [Space(5)]
+    
+    // ATK
     [Tooltip("Current base ATK of the enemy")] public float atkBase = 1;
     [Tooltip("Current ATK multiplier of the enemy")] public float atkModifier = 0;
-    [Tooltip("Current effective ATK of the enemy")] private float atkEffective;
+    private float atkEffective => atkBase * (1 + atkModifier);
+    
     [Space(5)]
+    
+    // Speed
     [Tooltip("Current base Speed of the enemy")] public float speedBase = 5;
     [Tooltip("Current Speed multiplier of the enemy")] public float speedModifier = 0;
-    [Tooltip("Current effective Speed of the enemy")] private float speedEffective;
+    private float speedEffective => speedBase * (1 + speedModifier);
     
+    
+    #endregion
+
     [Space(10)]
+    
+    #region Status - Buff, Debuff, and Shields
+    
     [Header("Status")]
+
+    #region Shield
+
     [Space(2.5f)]
     [Tooltip("Has a shield to break before taking damage")] public bool hasShield;
     [Tooltip("How many weaknesses to broke the shield")] public int weaknessLength = 3;
@@ -44,23 +67,43 @@ public class SC_AIStats : MonoBehaviour
     [Space(5)]
     [Tooltip("Current weakness of the shield")] public List<WeaponType> currentWeakness;
     [Tooltip("Previous weakness of the shield")] public List<WeaponType> previousWeakness;
+
+    #endregion
     
+    
+    [Tooltip("List of all current debuffs on this enemy"), SerializeField] private List<Enum_Debuff> currentDebuffs;
+    
+    #endregion
+    
+    #region Debug
+
     [Space(10)]
     [Header("Debug")] 
     public TextMeshProUGUI debugUIHP;
     public TextMeshProUGUI debugUIWeaknesses;
+
+    #endregion
     
     #endregion
 
 
+    #region Init
+    
+    /// <summary>
+    /// Initialize HP
+    /// Initialize Shield
+    /// </summary>
     private void Start()
     {
-        
-        CalculateStats();
+
         currentHP = maxHPEffective;
-        
         InitWeaknessShield();
+        
     }
+    
+    #endregion
+
+    #region Shield Part
 
     private void InitWeaknessShield()
     {
@@ -84,16 +127,60 @@ public class SC_AIStats : MonoBehaviour
 
     }
 
-    private void CalculateStats()
+    private IEnumerator RegenerateShield()
     {
         
-        maxHPEffective = maxHPBase * (1 + maxHPModifier);
-        defEffective = defBase * (1 + defModifier);
-        atkEffective = atkBase * (1 + atkModifier);
-        speedEffective = speedBase * (1 + speedModifier);
+        
+        yield return new WaitForSeconds(delayBeforeRegen);
+
+        isBreaked = false;
+        InitWeaknessShield();
 
     }
     
+
+    #endregion
+
+    #region Status
+
+    private void ApplyDebuffToSelf(Enum_Debuff newDebuff, float tick=1, float duration=5)
+    {
+        
+        currentDebuffs.Add(newDebuff);
+
+        switch (newDebuff)
+        {
+            case Enum_Debuff.Poison:
+                StartCoroutine(PoisonDoT((maxHPEffective * 0.1f), tick, duration));
+                break;
+        }
+        
+    }
+
+    private IEnumerator PoisonDoT(float incomingDamage, float tick, float duration)
+    {
+        var finalDamage = incomingDamage - defEffective;
+        
+        
+        while (duration != 0)
+        {
+            currentHP -= finalDamage;
+            duration -= tick;
+            
+            // Debug Part
+            print("Dummy : -" + finalDamage + " HP");
+            print((duration+1) + " seconds reamining");
+
+            debugUIHP.text = currentHP + "/" + maxHPEffective;
+            yield return new WaitForSeconds(tick);
+        }
+
+    }
+
+    #endregion
+
+    #region Damage Part
+
     private void TakeWeaknessDamage(WeaponType incomingType)
     {
 
@@ -136,17 +223,9 @@ public class SC_AIStats : MonoBehaviour
         return finalDamage;
     }
     
-    private IEnumerator RegenerateShield()
-    {
-        
-        
-        yield return new WaitForSeconds(delayBeforeRegen);
 
-        isBreaked = false;
-        InitWeaknessShield();
-
-    }
-
+    #endregion
+    
     #region Collisions Part
 
     private void OnTriggerEnter(Collider col)
@@ -164,7 +243,8 @@ public class SC_AIStats : MonoBehaviour
         }
         else
         {
-            TakeDamage(5);
+            // TakeDamage(5);
+            ApplyDebuffToSelf(Enum_Debuff.Poison, 1, 10);
         }
 
     }

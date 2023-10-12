@@ -1697,6 +1697,7 @@ MonoBehaviour:
   speedBase: 5
   speedMultiplier: 1
   rotationFactorPerFrame: 1
+  isDashing: 0
   dashTime: 0.25
   dashSpeed: 20
   gravity: -9.81
@@ -1861,14 +1862,15 @@ MonoBehaviour:
   atkModifier: 0
   speedBase: 5
   speedModifier: 0
-  hasShield: 1
+  hasShield: 0
   weaknessLength: 3
   randomWeakness: 1
-  canRegenShield: 0
+  canRegenShield: 1
   delayBeforeRegen: 4
   isBreaked: 0
   currentWeakness: 
   previousWeakness: 
+  currentDebuffs: 
   debugUIHP: {fileID: 593055404}
   debugUIWeaknesses: {fileID: 1568661767}
 --- !u!54 &1943227391

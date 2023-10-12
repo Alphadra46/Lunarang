@@ -20,6 +20,7 @@ public class SC_ComboController : MonoBehaviour
     private bool isInputBufferingOn = false;
     
     private Animator _animator;
+    private SC_PlayerController _controller;
     
     #endregion
 
@@ -49,6 +50,8 @@ public class SC_ComboController : MonoBehaviour
 
     private void Attack(WeaponType type)
     {
+        
+        // if(_controller.isDashing) return;
         
         if (canPerformCombo)
         {
