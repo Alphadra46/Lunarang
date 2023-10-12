@@ -73,7 +73,6 @@ public class SC_ComboController : MonoBehaviour
     private void CanPerformCombo()
     {
         canPerformCombo = true;
-        print("Can Combo");
 
         if (inputBuffered == WeaponType.Null) return;
         
@@ -84,7 +83,6 @@ public class SC_ComboController : MonoBehaviour
     private void CantPerformCombo()
     {
         canPerformCombo = false;
-        print("Can't Combo");
     }
     
     /// <summary>
@@ -118,6 +116,7 @@ public class SC_ComboController : MonoBehaviour
     private void ResetCombo()
     {
         comboCounter = 0;
+        weaponType = WeaponType.Null;
         currentComboWeaponTypes.Clear();
         UpdateAnimator();
     }

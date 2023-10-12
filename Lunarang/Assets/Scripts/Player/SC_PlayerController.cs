@@ -29,8 +29,12 @@ public class SC_PlayerController : MonoBehaviour
     [Tooltip("Rotation speed of the player.")] public float rotationFactorPerFrame = 1f;
     private bool isDashing;
 
-    [Tooltip("How long the dash will stay active"), SerializeField] private float dashTime;
-    [Tooltip("The speed of the Dash"), SerializeField] private float dashSpeed;
+    [Tooltip("How long the dash will stay active"), SerializeField] private float dashTime = 0.25f;
+    [Tooltip("The speed of the Dash"), SerializeField] private float dashSpeed = 20f;
+    
+    [Tooltip("Current gravity who impact of the player"), SerializeField] private float gravity = -9.81f;
+    [Tooltip("Current gravity multiplier who impact of the player"), SerializeField] private float gravityMultiplier = 3f;
+    
     #endregion
 
 
@@ -109,7 +113,7 @@ public class SC_PlayerController : MonoBehaviour
     /// </summary>
     private void Rotate()
     {
-        var positionToLookAt = currentMovement;
+        var positionToLookAt = new Vector3(currentMovement.x, 0, currentMovement.z);
         var currentRotation = transform.rotation;
         
         var rotation = Quaternion.Euler(0, 45f, 0);
@@ -121,10 +125,25 @@ public class SC_PlayerController : MonoBehaviour
         
         var targetRotation = Quaternion.LookRotation(result);
 
-        print(transform.forward);
+        // print(transform.forward);
         
         transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationFactorPerFrame);
         
+    }
+
+    private void Gravity()
+    {
+        float velocity;
+        
+        if (_characterController.isGrounded)
+        {
+            velocity = -1f;
+        }
+        else
+        {
+            velocity = gravity * gravityMultiplier * Time.deltaTime;
+        }
+        currentMovement.y = velocity;
     }
     
     /// <summary>
@@ -134,6 +153,7 @@ public class SC_PlayerController : MonoBehaviour
     {
         if (!isDashing)
         {
+            Gravity();
             Rotate(); // Rotate the player
             _characterController.Move((IsoVectorConvert(currentMovement) * speedEffective) * Time.deltaTime); // Move the player
         }
