@@ -49,6 +49,13 @@ public class SC_LootTableEditorBase<T> : UnityEditor.Editor where T :Object
             lootTable.SimulateDrop();
         }
     }
+    void DrawChanceEntry(float value, string text) {
+        Rect r = EditorGUILayout.BeginVertical();
+        EditorGUI.ProgressBar(r, value, text);
+        GUILayout.Space(18);
+        EditorGUILayout.EndVertical();
+        GUILayout.Space(2);
+    }
     
     GUIStyle GetTitleStyle() {
         var style = new GUIStyle(EditorStyles.label);
@@ -67,11 +74,4 @@ public class SC_LootTableEditorBase<T> : UnityEditor.Editor where T :Object
         return style;
     }
     
-    void DrawChanceEntry(float value, string text) {
-        Rect r = EditorGUILayout.BeginVertical();
-        EditorGUI.ProgressBar(r, value, text);
-        GUILayout.Space(18);
-        EditorGUILayout.EndVertical();
-        GUILayout.Space(2);
-    }
 }

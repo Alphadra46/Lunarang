@@ -6,7 +6,14 @@ using UnityEngine;
 public class SC_Skill : ScriptableObject
 {
     public bool isReinforced;
+    public enum SkillTypeEnum
+    {
+        Active,
+        Passive
+    }
 
+    public SkillTypeEnum skillType;
+    
     public void ReinforceSkill()
     {
         isReinforced = true;

@@ -52,19 +52,19 @@ public class SC_RoomRewardEditor : UnityEditor.Editor
         SC_RoomRewards roomRewards = (SC_RoomRewards)target;
         if (GUILayout.Button("Skill 1"))
         {
-            roomRewards.ChooseReward1();
+            roomRewards.ChooseReward(0);
         }
         
         EditorGUILayout.Space(8);
         if (GUILayout.Button("Skill 2"))
         {
-            roomRewards.ChooseReward2();
+            roomRewards.ChooseReward(1);
         }
         
         EditorGUILayout.Space(8);
         if (GUILayout.Button("Skill 3"))
         {
-            roomRewards.ChooseReward3();
+            roomRewards.ChooseReward(2);
         }
     }
     
