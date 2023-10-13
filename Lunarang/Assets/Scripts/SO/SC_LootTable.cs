@@ -65,7 +65,7 @@ public class SC_LootTable<T> : ScriptableObject where T : Object
             var count = 1;
             for (int j = 0; j < count; j++)
             {
-                result.Add(dropConfig.Skill);
+                result.Add(dropConfig.Drop);
             }
             break;
         }
@@ -96,12 +96,12 @@ public class Loot<T> where T : Object
 {
     [Tooltip("Between 0 and 100")]
     public int Probability;
-    public T Skill;
+    public T Drop;
     
     public override string ToString() {
-        if (Skill == null) return "Missing Assignment (!)";
+        if (Drop == null) return "Missing Assignment (!)";
         var count = string.Format("1");
 
-        return Skill.name +" " +count;
+        return Drop.name +" " +count;
     }
 }

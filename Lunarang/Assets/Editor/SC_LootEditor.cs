@@ -21,13 +21,13 @@ public class SC_LootEditor : PropertyDrawer
         position.height = (position.height - LINE_SPACING) / 2;
 
         position = DrawLabel(position, overallWidth, "Probability", 0.25f);
-        position = DrawLabel(position, overallWidth, "Skill", 0.55f);
+        position = DrawLabel(position, overallWidth, "Drop", 0.55f);
 
         position.y += GetPropertyHeight(property, label) / 2;
         position.x = initialX;
 
         position = DrawPropertyField(position, overallWidth, property.FindPropertyRelative("Probability"), 0.25f);
-        position = DrawPropertyField(position, overallWidth, property.FindPropertyRelative("Skill"), 0.55f);
+        position = DrawPropertyField(position, overallWidth, property.FindPropertyRelative("Drop"), 0.55f);
 
         EditorGUI.indentLevel = indent;
         EditorGUI.EndProperty();

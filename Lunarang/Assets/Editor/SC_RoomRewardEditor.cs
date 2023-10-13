@@ -50,19 +50,19 @@ public class SC_RoomRewardEditor : UnityEditor.Editor
         EditorGUILayout.Space(32);
         
         SC_RoomRewards roomRewards = (SC_RoomRewards)target;
-        if (GUILayout.Button("Skill 1"))
+        if (GUILayout.Button("Drop 1"))
         {
             roomRewards.ChooseReward(0);
         }
         
         EditorGUILayout.Space(8);
-        if (GUILayout.Button("Skill 2"))
+        if (GUILayout.Button("Drop 2"))
         {
             roomRewards.ChooseReward(1);
         }
         
         EditorGUILayout.Space(8);
-        if (GUILayout.Button("Skill 3"))
+        if (GUILayout.Button("Drop 3"))
         {
             roomRewards.ChooseReward(2);
         }
