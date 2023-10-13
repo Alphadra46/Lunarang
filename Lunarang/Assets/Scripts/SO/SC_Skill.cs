@@ -18,5 +18,11 @@ public class SC_Skill : ScriptableObject
     public void ReinforceSkill()
     {
         level++;
+
+        if (skillType == SkillTypeEnum.Passive)
+        {
+            var passiveSkill = (SC_PassiveSkills)this;
+            passiveSkill.ApplyPassiveSkillEffect();
+        }
     }
 }

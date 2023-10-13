@@ -25,7 +25,6 @@ public class SC_RoomRewards : MonoBehaviour
     private SC_ResourcesInventory resourcesInventoryScript;
     
     private SC_Constellation constellationFollowed;
-    //Temp -> GameObject will be changed to the type of the Skill class
     private List<SC_Skill> skillRewardList = new List<SC_Skill>();
     private List<SC_Resources> resourceRewardList = new List<SC_Resources>(); //Can be change with a simple variable instead of a List
 
@@ -128,8 +127,7 @@ public class SC_RoomRewards : MonoBehaviour
                       : skillRewardList[0].name) + ", " +
                   (rewardList[1] == RewardType.Resource
                       ? resourceRewardList[0].resourceName
-                      : (rewardList[0] == RewardType.Resource ? skillRewardList[0].name : skillRewardList[1].name)) +
-                  ", " +
+                      : (rewardList[0] == RewardType.Resource ? skillRewardList[0].name : skillRewardList[1].name)) + ", " +
                   (rewardList[2] == RewardType.Resource
                       ? resourceRewardList[0].resourceName
                       : skillRewardList[1])
@@ -145,7 +143,6 @@ public class SC_RoomRewards : MonoBehaviour
     {
         if (rewardList.Contains(RewardType.Resource))
             resourcesInventoryScript = Resources.Load<SC_ResourcesInventory>("ResourceInventory");
-        //var resourceInventory = resourcesInventoryScript.resourceInventory; //Maybe not needed
         
         skillInventoryScript = Resources.Load<SC_SkillsInventory>("SkillInventory");
         var skillInventory = skillInventoryScript.skillInventory;
@@ -192,7 +189,6 @@ public class SC_RoomRewards : MonoBehaviour
 
     private int SearchForSkill(SC_Skill skillToSearch, out Loot<SC_Skill> skillFound)
     {
-        var skill = new Loot<GameObject>();
         for (int i = 0; i < constellationList.Count; i++)
         {
             for (int j = 0; j < constellationList[i].constellationLootTable.lootTable.Count; j++)
