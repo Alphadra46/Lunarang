@@ -51,16 +51,19 @@ public class SC_RoomRewards : MonoBehaviour
             if (constellation.isFollowingThisConstellation)
             {
                 constellationFollowed = constellation;
-                Debug.Log("Constellation Followed : "+constellationFollowed.name);
+                Debug.Log("Constellation Followed : "+ constellationFollowed.name);
                 break;
             }
         }
 
         //Guaranteed skill of the followed Constellation
-        skillRewardList.Add(constellationFollowed.constellationLootTable.GetDrop()[0]);
+        if (constellationFollowed.constellationLootTable.lootTable.Count > 0) //Skip the guaranteed skill drop if there is no more skills in the pool
+            skillRewardList.Add(constellationFollowed.constellationLootTable.GetDrop()[0]);
+        
+        
         
         //Randomize the type of reward the player is getting (2 skills OR 1 skill and 1 resource)
-        for (int i = 0; i < numberOfReward-1; i++)
+        for (int i = 0; i < (constellationFollowed.constellationLootTable.lootTable.Count>0?numberOfReward-1:numberOfReward); i++)
         {
             var index = rewardList.Contains(RewardType.Resource)?1:Random.Range(0, 2); //Choose at random between a resource or a skill and if a resource is already in the reward list it just draw skill
             var rewardType = index == 0 ? RewardType.Resource : RewardType.Skill;
@@ -72,7 +75,7 @@ public class SC_RoomRewards : MonoBehaviour
 
     private void SelectReward()
     {
-        for (int i = 0; i < numberOfReward-1; i++)
+        for (int i = 0; i < (constellationFollowed.constellationLootTable.lootTable.Count>0?numberOfReward-1:numberOfReward); i++)
         {
             switch (rewardList[i])
             {
@@ -84,6 +87,12 @@ public class SC_RoomRewards : MonoBehaviour
                     break;
                 case RewardType.Skill: //Random skills from random selected constellations loot tables
                     var indexOfSelectedConstellation = Random.Range(0, constellationList.Count);
+                    if (constellationList[indexOfSelectedConstellation].constellationLootTable.lootTable.Count <= 0) //If the loot table selected is empty then re-randomize the drop
+                    {
+                        i--;
+                        continue;
+                    }
+                    
                     var skillDropped = constellationList[indexOfSelectedConstellation].constellationLootTable.GetDrop()[0];
                     if (skillRewardList.Contains(skillDropped))
                     {
@@ -97,14 +106,35 @@ public class SC_RoomRewards : MonoBehaviour
             }
         }
 
-        var line = "Guaranteed skill : " + skillRewardList[0].name +
-                   "\n Random drops : " + (rewardList.Contains(RewardType.Resource) 
-                       ?(rewardList[0] == RewardType.Resource
-                           ? resourceRewardList[0].resourceName
-                           : skillRewardList[1].name) + ", "+ (rewardList[1] == RewardType.Resource
-                           ? resourceRewardList[0].resourceName
-                           : skillRewardList[1].name)
-                       :skillRewardList[1].name + ", " + skillRewardList[2].name);
+        var line = "";
+
+
+        if (constellationFollowed.constellationLootTable.lootTable.Count > 0)
+        {
+           line = "Guaranteed skill : " + skillRewardList[0].name +
+                "\n Random drops : " + (rewardList.Contains(RewardType.Resource) 
+                    ?(rewardList[0] == RewardType.Resource
+                        ? resourceRewardList[0].resourceName
+                        : skillRewardList[1].name) + ", "+ (rewardList[1] == RewardType.Resource
+                        ? resourceRewardList[0].resourceName
+                        : skillRewardList[1].name)
+                    :skillRewardList[1].name + ", " + skillRewardList[2].name);
+        }
+        else
+        {
+            line = "Random drops : " + (rewardList.Contains(RewardType.Resource)
+                ? (rewardList[0] == RewardType.Resource
+                      ? resourceRewardList[0].resourceName
+                      : skillRewardList[0].name) + ", " +
+                  (rewardList[1] == RewardType.Resource
+                      ? resourceRewardList[0].resourceName
+                      : (rewardList[0] == RewardType.Resource ? skillRewardList[0].name : skillRewardList[1].name)) +
+                  ", " +
+                  (rewardList[2] == RewardType.Resource
+                      ? resourceRewardList[0].resourceName
+                      : skillRewardList[1])
+                : skillRewardList[0].name + ", " + skillRewardList[1].name + ", " + skillRewardList[2].name);
+        }
 
 
         Debug.Log(line);
@@ -127,10 +157,13 @@ public class SC_RoomRewards : MonoBehaviour
                     resourcesInventoryScript.AddResource(resourceRewardList[0]);
                     break;
                 case RewardType.Skill:
-                    if (skillInventory.Contains(skillRewardList[index]) && !skillRewardList[index].isReinforced) //Rework this for level on skills
+                    if (skillInventory.Contains(skillRewardList[index]) && skillRewardList[index].level > 0)
                     {
                         skillInventory[skillInventory.IndexOf(skillRewardList[index])].ReinforceSkill();
-                        constellationList[SearchForSkill(skillRewardList[index], out Loot<SC_Skill> skillToRemove)].constellationLootTable.lootTable.Remove(skillToRemove); //Remove skill from pool if taken another time
+                        if (skillRewardList[index].level >= skillRewardList[index].maxLevel)
+                        {
+                            constellationList[SearchForSkill(skillRewardList[index], out Loot<SC_Skill> skillToRemove)].constellationLootTable.lootTable.Remove(skillToRemove); //Remove skill from pool if it's already at max level
+                        }
                     }
                     else skillInventoryScript.AddSkill(skillRewardList[index]);
                     break;
@@ -140,12 +173,19 @@ public class SC_RoomRewards : MonoBehaviour
         }
         else
         {
-            if (skillInventory.Contains(skillRewardList[index]) && !skillRewardList[index].isReinforced)
+            if (skillInventory.Contains(skillRewardList[index]) && skillRewardList[index].level > 0)
             {
                 skillInventory[skillInventory.IndexOf(skillRewardList[index])].ReinforceSkill();
-                constellationList[SearchForSkill(skillRewardList[index], out Loot<SC_Skill> skillToRemove)].constellationLootTable.lootTable.Remove(skillToRemove); //Remove skill from pool if taken another time
+                if (skillRewardList[index].level >= skillRewardList[index].maxLevel)
+                {
+                    constellationList[SearchForSkill(skillRewardList[index], out Loot<SC_Skill> skillToRemove)].constellationLootTable.lootTable.Remove(skillToRemove); //Remove skill from pool if it's already at max level
+                }
             }
-            else skillInventoryScript.AddSkill(skillRewardList[index]);
+            else
+            {
+                skillInventoryScript.AddSkill(skillRewardList[index]);
+                skillRewardList[index].level = 1;
+            }
         }
     }
     

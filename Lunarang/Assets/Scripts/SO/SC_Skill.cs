@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Skill")]
+[CreateAssetMenu(menuName = "SO/Skill/Skill Template")]
 public class SC_Skill : ScriptableObject
 {
-    public bool isReinforced;
+    public int level = 0;
+    [HideInInspector] public int maxLevel = 5;
     public enum SkillTypeEnum
     {
         Active,
@@ -16,6 +17,6 @@ public class SC_Skill : ScriptableObject
     
     public void ReinforceSkill()
     {
-        isReinforced = true;
+        level++;
     }
 }

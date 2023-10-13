@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Passive Skill")]
+[CreateAssetMenu(menuName = "SO/Skill/Passive Skill")]
 public class SC_PassiveSkills : SC_Skill
 {
     public enum AffectedStat //The player stats that is affeted by the effect of this skill "None" if there is a special effect
