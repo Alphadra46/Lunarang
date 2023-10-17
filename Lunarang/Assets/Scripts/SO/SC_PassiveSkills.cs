@@ -30,7 +30,7 @@ public class SC_PassiveSkills : SC_Skill
         switch (affectedStat)
         {
             case AffectedStat.Attack:
-                SC_PlayerStats.instance.attackModifier += LevelScaling();
+                SC_PlayerStats.instance.atkModifier += LevelScaling();
                 break;
             case AffectedStat.Crit:
                 SC_PlayerStats.instance.critRate += LevelScaling();

@@ -24,30 +24,35 @@ public class SC_AIStats : MonoBehaviour
     
     [PropertySpace(SpaceAfter = 10)]
     [TabGroup("Settings/Stats/Subtabs", "HP", SdfIconType.HeartFill, TextColor = "green"),
-     ProgressBar(0, "maxHPEffective", r: 0, g: 1, b: 0, Height = 20), ReadOnly]
-    public float currentHP;
+     ProgressBar(0, "maxHealthEffective", r: 0, g: 1, b: 0, Height = 20), ReadOnly]
+    public float currentHealth;
     
     [TabGroup("Settings/Stats/Subtabs", "HP")]
     [FoldoutGroup("Settings/Stats/Subtabs/HP/Max HP")]
-    [Tooltip("Current base MaxHP of the enemy")] public float maxHPBase = 15;
+    [Tooltip("Current base MaxHP of the enemy")] public float maxHealthBase = 15;
     
     [TabGroup("Settings/Stats/Subtabs", "HP")]
     [FoldoutGroup("Settings/Stats/Subtabs/HP/Max HP")]
-    [Tooltip("Current MaxHP multiplier of the enemy")] public float maxHPModifier = 0;
-    private float maxHPEffective => maxHPBase * (1 + maxHPModifier);
+    [Tooltip("Current MaxHP multiplier of the enemy")] public float maxHealthModifier = 0;
+    private float maxHealthEffective => maxHealthBase * (1 + maxHealthModifier);
 
     #endregion
     [Space(5)]
-    
+
+    #region DEF
+
     // DEF
     [TabGroup("Settings/Stats/Subtabs", "DEF", SdfIconType.ShieldFill, TextColor = "blue")]
     [Tooltip("Current base DEF of the enemy")] public float defBase = 1;
     [TabGroup("Settings/Stats/Subtabs", "DEF")]
     [Tooltip("Current DEF multiplier of the enemy")] public float defModifier = 0;
     private float defEffective => defBase * (1 + defModifier);
-    
+
+    #endregion
     [Space(5)]
-    
+
+    #region ATK
+
     // ATK
     [TabGroup("Settings/Stats/Subtabs", "ATK", TextColor = "red")]
     [Tooltip("Current base ATK of the enemy")] public float atkBase = 1;
@@ -55,8 +60,12 @@ public class SC_AIStats : MonoBehaviour
     [Tooltip("Current ATK multiplier of the enemy")] public float atkModifier = 0;
     private float atkEffective => atkBase * (1 + atkModifier);
     
+
+    #endregion
     [Space(5)]
-    
+
+    #region SPD
+
     // Speed
     [TabGroup("Settings/Stats/Subtabs", "SPD", SdfIconType.Speedometer, TextColor = "purple")]
     [Tooltip("Current base Speed of the enemy")] public float speedBase = 5;
@@ -64,6 +73,14 @@ public class SC_AIStats : MonoBehaviour
     [Tooltip("Current Speed multiplier of the enemy")] public float speedModifier = 0;
     private float speedEffective => speedBase * (1 + speedModifier);
     
+    [PropertySpace(SpaceBefore = 10)]
+    [TabGroup("Settings/Stats/Subtabs", "SPD")]
+    [Tooltip("Current base ATK Speed of the enemy")] public float atkSpdBase = 1;
+    [TabGroup("Settings/Stats/Subtabs", "SPD")]
+    [Tooltip("Current base ATK Cooldown Speed of the enemy")] public float atkCDSpdBase = 1;
+    
+
+    #endregion
     
     #endregion
 
@@ -131,7 +148,7 @@ public class SC_AIStats : MonoBehaviour
     private void Start()
     {
 
-        currentHP = maxHPEffective;
+        currentHealth = maxHealthEffective;
         InitWeaknessShield();
         
     }
@@ -186,7 +203,7 @@ public class SC_AIStats : MonoBehaviour
         switch (newDebuff)
         {
             case Enum_Debuff.Poison:
-                StartCoroutine(PoisonDoT((maxHPEffective * 0.1f), tick, duration));
+                StartCoroutine(PoisonDoT((maxHealthEffective * 0.1f), tick, duration));
                 break;
         }
         
@@ -199,14 +216,14 @@ public class SC_AIStats : MonoBehaviour
         
         while (duration != 0)
         {
-            currentHP -= finalDamage;
+            currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;
             duration -= tick;
             
-            // Debug Part
-            print("Dummy : -" + finalDamage + " HP");
-            print((duration+1) + " seconds reamining");
+            // // Debug Part
+            // print("Dummy : -" + finalDamage + " HP");
+            // print((duration+1) + " seconds reamining");
             
-            _renderer.UpdateHealthBar(currentHP, maxHPEffective);
+            _renderer.UpdateHealthBar(currentHealth, maxHealthEffective);
             _renderer.DebugDamage(finalDamage);
             
             yield return new WaitForSeconds(tick);
@@ -249,13 +266,13 @@ public class SC_AIStats : MonoBehaviour
     {
         var finalDamage = incomingDamage - defEffective; // Here for the second part of the formula.
 
-        currentHP -= finalDamage;
+        currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;
 
         // Debug Part
         print("Dummy : -" + finalDamage + " HP");
-        print("Dummy : " + currentHP + "/" + maxHPEffective);
+        print("Dummy : " + currentHealth + "/" + maxHealthEffective);
 
-        _renderer.UpdateHealthBar(currentHP, maxHPEffective);
+        _renderer.UpdateHealthBar(currentHealth, maxHealthEffective);
         _renderer.DebugDamage(finalDamage);
 
         return finalDamage;

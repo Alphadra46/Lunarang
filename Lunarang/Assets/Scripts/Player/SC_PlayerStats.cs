@@ -4,41 +4,88 @@ using System.Collections.Generic;
 using Enum;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SC_PlayerStats : MonoBehaviour
 {
 
     public static SC_PlayerStats instance;
     
-    [Header("Player statistics")]
+    #region Health
+
+    [PropertySpace(SpaceBefore = 10, SpaceAfter = 10)]
+    [TabGroup("Stats", "HP", SdfIconType.HeartFill, TextColor = "green"), 
+     ProgressBar(0, "maxHealthEffective", r: 0, g: 1, b: 0, Height = 20), ReadOnly] 
+    public float currentHealth;
     
-    public int maxHealth;
+    [TabGroup("Stats", "HP")]
+    public int maxHealth = 30;
+    [TabGroup("Stats", "HP")]
     public float maxHealthModifier = 0f;
+    [TabGroup("Stats", "HP")]
     public float maxHealthEffective => maxHealth * (1 + maxHealthModifier);
-    [HideInInspector] public float currentHealth;
+    
 
-    public int maxMana;
+    #endregion
+
+    #region Mana
+
+    [PropertySpace(SpaceBefore = 10, SpaceAfter = 10)]
+    [TabGroup("Stats", "MP", SdfIconType.StarFill, TextColor = "blue"),
+     ProgressBar(0, "maxManaEffective", r: 0, g: 0.75f, b: 1, Height = 20), ReadOnly]
+    public float currentMana;
+    
+    [TabGroup("Stats", "MP")]
+    public int maxMana = 10;
+    [TabGroup("Stats", "MP")]
     public float maxManaModifier = 0f;
+    [TabGroup("Stats", "MP")]
     public float maxManaEffective => maxMana * (1 + maxManaModifier);
-    [HideInInspector] public float currentMana;
     
-    [SerializeField] private int weaponAttack;
-    [HideInInspector] public float attackModifier;
-    [SerializeField] public float currentAttack => weaponAttack * (1 + attackModifier);
-    
-    
-    private int baseSpeed;
-    [HideInInspector] public float speedModifier;
-    [ShowInInspector] public float currentSpeed => baseSpeed * (1 + speedModifier);
-    
-    public float critRate;
 
-    //DEBUG ONLY
-    public float curATK;
-    public float curSPD;
+    #endregion
+
+    #region ATK
+
+    [PropertySpace(SpaceBefore = 10)]
+    [TabGroup("Stats", "ATK",TextColor = "red"), ShowInInspector, ReadOnly] public float currentAttack => atkBase * (1 + atkModifier);
+    
+    [PropertySpace(SpaceBefore = 10)]
+    [TabGroup("Stats", "ATK"), ShowInInspector] private int atkBase = 5;
+    [TabGroup("Stats", "ATK")] public float atkModifier;
+
+    #endregion
+
+    #region SPD
+
+    [PropertySpace(SpaceBefore = 10)]
+    [TabGroup("Stats", "SPD", SdfIconType.Speedometer, TextColor = "purple"), ShowInInspector] public float currentSpeed => baseSpeed * (1 + speedModifier);
+    [PropertySpace(SpaceBefore = 10)]
+    [TabGroup("Stats", "SPD"), ShowInInspector] private int baseSpeed;
+    [TabGroup("Stats", "SPD")] public float speedModifier;
+
+    #endregion
+
+    #region Crit
+
+    [PropertySpace(SpaceBefore = 10)]
+    [TabGroup("Stats", "Crit",TextColor = "darkred")]
+    [Range(0, 100)]
+    public float critRate = 5;
+    
+    [TabGroup("Stats", "Crit")]
+    public float critDmg = 1.5f;
+    
+    [PropertySpace(SpaceBefore = 10)]
+    [TabGroup("Stats", "Crit"), ShowInInspector, ReadOnly]
+    public float critValue => critDmg * critRate;
+
+    #endregion
+    
 
     #region Status
-
+    
+    [TabGroup("Status", "Debuffs")]
     public List<Enum_Debuff> currentDebuffs;
 
     #endregion
@@ -53,13 +100,6 @@ public class SC_PlayerStats : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        curATK = currentAttack;
-        curSPD = currentSpeed;
     }
 
     #region Status
@@ -101,7 +141,6 @@ public class SC_PlayerStats : MonoBehaviour
     
 
     #endregion
-    
     
     public void TakeDamage(int damage)
     {
