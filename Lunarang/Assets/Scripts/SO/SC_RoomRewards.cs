@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class SC_RoomRewards : MonoBehaviour
 {
+
+    public static SC_RoomRewards instance;
     
     public enum RewardType
     {
@@ -27,6 +29,12 @@ public class SC_RoomRewards : MonoBehaviour
     private SC_Constellation constellationFollowed;
     private List<SC_Skill> skillRewardList = new List<SC_Skill>();
     private List<SC_Resources> resourceRewardList = new List<SC_Resources>(); //Can be change with a simple variable instead of a List
+
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     public void ResetAllLootTables()
     {
@@ -146,6 +154,7 @@ public class SC_RoomRewards : MonoBehaviour
         
         skillInventoryScript = Resources.Load<SC_SkillsInventory>("SkillInventory");
         var skillInventory = skillInventoryScript.skillInventory;
+        var i = rewardList.Contains(RewardType.Resource) ? Mathf.Clamp(index, 0, 1) : index;
         if (index > 0)
         {
             switch (rewardList[index-1])
@@ -154,15 +163,16 @@ public class SC_RoomRewards : MonoBehaviour
                     resourcesInventoryScript.AddResource(resourceRewardList[0]);
                     break;
                 case RewardType.Skill:
-                    if (skillInventory.Contains(skillRewardList[index]) && skillRewardList[index].level > 0)
+                    
+                    if (skillInventory.Contains(skillRewardList[i]) && skillRewardList[i].level > 0)
                     {
-                        skillInventory[skillInventory.IndexOf(skillRewardList[index])].ReinforceSkill();
-                        if (skillRewardList[index].level >= skillRewardList[index].maxLevel)
+                        skillInventory[skillInventory.IndexOf(skillRewardList[i])].ReinforceSkill();
+                        if (skillRewardList[i].level >= skillRewardList[i].maxLevel)
                         {
-                            constellationList[SearchForSkill(skillRewardList[index], out Loot<SC_Skill> skillToRemove)].constellationLootTable.lootTable.Remove(skillToRemove); //Remove skill from pool if it's already at max level
+                            constellationList[SearchForSkill(skillRewardList[i], out Loot<SC_Skill> skillToRemove)].constellationLootTable.lootTable.Remove(skillToRemove); //Remove skill from pool if it's already at max level
                         }
                     }
-                    else skillInventoryScript.AddSkill(skillRewardList[index]);
+                    else skillInventoryScript.AddSkill(skillRewardList[i]);
                     break;
                 default:
                     break;
@@ -170,18 +180,18 @@ public class SC_RoomRewards : MonoBehaviour
         }
         else
         {
-            if (skillInventory.Contains(skillRewardList[index]) && skillRewardList[index].level > 0)
+            if (skillInventory.Contains(skillRewardList[i]) && skillRewardList[i].level > 0) //Same problem as higher
             {
-                skillInventory[skillInventory.IndexOf(skillRewardList[index])].ReinforceSkill();
-                if (skillRewardList[index].level >= skillRewardList[index].maxLevel)
+                skillInventory[skillInventory.IndexOf(skillRewardList[i])].ReinforceSkill();
+                if (skillRewardList[i].level >= skillRewardList[i].maxLevel)
                 {
-                    constellationList[SearchForSkill(skillRewardList[index], out Loot<SC_Skill> skillToRemove)].constellationLootTable.lootTable.Remove(skillToRemove); //Remove skill from pool if it's already at max level
+                    constellationList[SearchForSkill(skillRewardList[i], out Loot<SC_Skill> skillToRemove)].constellationLootTable.lootTable.Remove(skillToRemove); //Remove skill from pool if it's already at max level
                 }
             }
             else
             {
-                skillInventoryScript.AddSkill(skillRewardList[index]);
-                skillRewardList[index].level = 1;
+                skillRewardList[i].level = 1;
+                skillInventoryScript.AddSkill(skillRewardList[i]);
             }
         }
     }
