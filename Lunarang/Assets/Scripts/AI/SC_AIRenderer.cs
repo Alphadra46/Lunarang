@@ -1,13 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SC_AIRenderer : MonoBehaviour
 {
 
     #region Variables
+
+    public Transform _transform;
     
     [BoxGroup("Damage Area")]
     public GameObject TextDamageUI;
@@ -28,6 +32,15 @@ public class SC_AIRenderer : MonoBehaviour
     
     #endregion
 
+    #region Init
+
+    private void Awake()
+    {
+        
+    }
+
+    #endregion
+    
     #region Debug
 
     public void DebugDamage(float incomingDamage)

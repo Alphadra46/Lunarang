@@ -6,6 +6,7 @@ using Enum;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -34,7 +35,7 @@ public class SC_AIStats : MonoBehaviour
     [TabGroup("Settings/Stats/Subtabs", "HP")]
     [FoldoutGroup("Settings/Stats/Subtabs/HP/Max HP")]
     [Tooltip("Current MaxHP multiplier of the enemy")] public float maxHealthModifier = 0;
-    private float maxHealthEffective => maxHealthBase * (1 + maxHealthModifier);
+    public float maxHealthEffective => maxHealthBase * (1 + maxHealthModifier);
 
     #endregion
     [Space(5)]
@@ -46,7 +47,7 @@ public class SC_AIStats : MonoBehaviour
     [Tooltip("Current base DEF of the enemy")] public float defBase = 1;
     [TabGroup("Settings/Stats/Subtabs", "DEF")]
     [Tooltip("Current DEF multiplier of the enemy")] public float defModifier = 0;
-    private float defEffective => defBase * (1 + defModifier);
+    public float defEffective => defBase * (1 + defModifier);
 
     #endregion
     [Space(5)]
@@ -58,7 +59,7 @@ public class SC_AIStats : MonoBehaviour
     [Tooltip("Current base ATK of the enemy")] public float atkBase = 1;
     [TabGroup("Settings/Stats/Subtabs", "ATK")]
     [Tooltip("Current ATK multiplier of the enemy")] public float atkModifier = 0;
-    private float atkEffective => atkBase * (1 + atkModifier);
+    public float atkEffective => atkBase * (1 + atkModifier);
     
 
     #endregion
@@ -71,13 +72,7 @@ public class SC_AIStats : MonoBehaviour
     [Tooltip("Current base Speed of the enemy")] public float speedBase = 5;
     [TabGroup("Settings/Stats/Subtabs", "SPD")]
     [Tooltip("Current Speed multiplier of the enemy")] public float speedModifier = 0;
-    private float speedEffective => speedBase * (1 + speedModifier);
-    
-    [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("Settings/Stats/Subtabs", "SPD")]
-    [Tooltip("Current base ATK Speed of the enemy")] public float atkSpdBase = 1;
-    [TabGroup("Settings/Stats/Subtabs", "SPD")]
-    [Tooltip("Current base ATK Cooldown Speed of the enemy")] public float atkCDSpdBase = 1;
+    public float speedEffective => speedBase * (1 + speedModifier);
     
 
     #endregion
@@ -130,6 +125,7 @@ public class SC_AIStats : MonoBehaviour
     #endregion
 
     private SC_AIRenderer _renderer;
+    private NavMeshAgent _agent;
     
     #endregion
 
@@ -138,7 +134,8 @@ public class SC_AIStats : MonoBehaviour
 
     private void Awake()
     {
-        _renderer = GetComponent<SC_AIRenderer>();
+        if(!TryGetComponent(out _renderer)) return;
+        if(!TryGetComponent(out _agent)) return;
     }
 
     /// <summary>
@@ -147,9 +144,11 @@ public class SC_AIStats : MonoBehaviour
     /// </summary>
     private void Start()
     {
-
+        
         currentHealth = maxHealthEffective;
         InitWeaknessShield();
+        
+        if(_agent != null) _agent.speed = speedEffective;
         
     }
     
@@ -262,11 +261,12 @@ public class SC_AIStats : MonoBehaviour
 
     }
 
-    private float TakeDamage(float incomingDamage)
+    private void TakeDamage(float incomingDamage)
     {
         var finalDamage = incomingDamage - defEffective; // Here for the second part of the formula.
 
         currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;
+        
 
         // Debug Part
         print("Dummy : -" + finalDamage + " HP");
@@ -274,8 +274,9 @@ public class SC_AIStats : MonoBehaviour
 
         _renderer.UpdateHealthBar(currentHealth, maxHealthEffective);
         _renderer.DebugDamage(finalDamage);
+        
+        if(currentHealth == 0) Destroy(gameObject);
 
-        return finalDamage;
     }
     
 

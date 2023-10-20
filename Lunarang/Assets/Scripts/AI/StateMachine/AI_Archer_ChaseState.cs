@@ -1,0 +1,117 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.AI;
+
+public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
+{
+    
+    public AI_Archer_ChaseState(AI_Archer_StateMachine.EnemyState key, AI_Archer_StateMachine manager) : base(key, manager)
+    {
+        _aiArcherStateMachine = manager;
+    }
+    
+    #region Variables
+
+    private readonly AI_Archer_StateMachine _aiArcherStateMachine;
+    private NavMeshAgent _agent;
+    private Transform _transform;
+    
+    private Collider[] objectsInArea;
+
+    private GameObject player;
+    
+    private bool canAttack = true;
+    private bool canDefense = true;
+
+    #endregion
+
+    public override void EnterState()
+    {
+        
+        _transform = _aiArcherStateMachine.centerPoint;
+        player = GameObject.FindWithTag("Player");
+        _agent = _aiArcherStateMachine.agent;
+        _agent.updateRotation = false;
+        
+    }
+
+    public override void ExitState()
+    {
+        switch (_aiArcherStateMachine.NextState)
+        {
+            case AI_Archer_StateMachine.EnemyState.Attack:
+                _aiArcherStateMachine.StartCoroutine(AttackCooldown());
+                break;
+            case AI_Archer_StateMachine.EnemyState.Defense:
+                _aiArcherStateMachine.StartCoroutine(DefenseCooldown());
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        
+    }
+
+    public override void UpdateState()
+    {
+
+        var distance = Vector3.Distance(_aiArcherStateMachine.transform.position, player.transform.position);
+        
+        if (distance <= _aiArcherStateMachine.defenseAreaRadius)
+        {
+            _agent.isStopped = true;
+            if (canDefense)
+            {
+                _aiArcherStateMachine.TransitionToState(AI_Archer_StateMachine.EnemyState.Defense);
+            }
+        }
+        else if (distance <= _aiArcherStateMachine.chaseAreaRadius)
+        {
+            _agent.isStopped = true;
+            if (canAttack && hasLineOfSightTo(player.transform))
+            {
+                _aiArcherStateMachine.TransitionToState(AI_Archer_StateMachine.EnemyState.Attack);
+            }
+                
+        }
+        else
+        {
+            _agent.isStopped = false;
+            _agent.SetDestination(player.transform.position);
+        }
+        
+        _aiArcherStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiArcherStateMachine.centerPoint.position.y, player.transform.position.z));
+        
+    }
+
+    private bool hasLineOfSightTo(Transform target)
+    {
+        return Physics.SphereCast(_transform.position + _aiArcherStateMachine.ProjectileSpawnOffset, 0.1f,
+            ((target.position + _aiArcherStateMachine.ProjectileSpawnOffset) -
+             (_transform.position + _aiArcherStateMachine.ProjectileSpawnOffset)).normalized, out var Hit,
+            _aiArcherStateMachine.chaseAreaRadius, LayerMask.NameToLayer("Player")) && Hit.collider.CompareTag("Player");
+    }
+
+    public override AI_Archer_StateMachine.EnemyState GetNextState()
+    {
+        return AI_Archer_StateMachine.EnemyState.Chase;
+    }
+    
+    public IEnumerator AttackCooldown()
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(_aiArcherStateMachine.atkCDBase);
+        canAttack = true;
+
+    }
+    
+    public IEnumerator DefenseCooldown()
+    {
+        canDefense = false;
+        yield return new WaitForSeconds(_aiArcherStateMachine.defenseCDBase);
+        canDefense = true;
+
+    }
+}
