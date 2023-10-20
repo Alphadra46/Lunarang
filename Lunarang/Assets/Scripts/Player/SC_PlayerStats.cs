@@ -61,7 +61,7 @@ public class SC_PlayerStats : MonoBehaviour
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "SPD", SdfIconType.Speedometer, TextColor = "purple"), ShowInInspector] public float currentSpeed => baseSpeed * (1 + speedModifier);
     [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("Stats", "SPD"), ShowInInspector] private int baseSpeed;
+    [TabGroup("Stats", "SPD"), ShowInInspector] private int baseSpeed = 5;
     [TabGroup("Stats", "SPD")] public float speedModifier;
 
     #endregion
