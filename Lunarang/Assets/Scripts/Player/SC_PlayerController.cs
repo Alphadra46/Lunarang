@@ -13,6 +13,8 @@ using Vector3 = UnityEngine.Vector3;
 public class SC_PlayerController : MonoBehaviour
 {
     #region Variables
+
+    public static SC_PlayerController instance;
     
     private CharacterController _characterController;
     private Animator _animator;
@@ -21,11 +23,9 @@ public class SC_PlayerController : MonoBehaviour
     [Tooltip("Current read value from Movement input action")] public Vector2 currentMovementInput;
     [Tooltip("Current movement value")] public Vector3 currentMovement;
     [Tooltip("Is pressing movement input ?")] public bool isMovementInputPressed;
-    
+    public bool canMove = true;
+
     [Header("Movement Settings")]
-    [Tooltip("Current speed base value of the player.")] public float speedBase = 2;
-    [Tooltip("Current speed multiplier of the player.")] public float speedMultiplier = 1;
-    [Tooltip("Current real speed of the player.")] private float speedEffective;
     [Tooltip("Rotation speed of the player.")] public float rotationFactorPerFrame = 1f;
     public bool isDashing;
 
@@ -42,15 +42,15 @@ public class SC_PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        if(instance != null) Destroy(this);
+        instance = this;
+        
         _characterController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
     }
 
     private void Start()
     {
-        
-        // Calculate the effective speed
-        speedEffective = speedBase * speedMultiplier;
         
         // Assign the moving function to an input
         SC_InputManager.instance.move.started += OnMove;
@@ -66,6 +66,7 @@ public class SC_PlayerController : MonoBehaviour
     /// <param name="ctx"></param>
     private void OnMove(InputAction.CallbackContext ctx)
     {
+        if(!canMove) return;
         
         currentMovementInput = ctx.ReadValue<Vector2>(); // Read the input value
         currentMovement.x = currentMovementInput.x; // Set the current movement vector x with the input value
@@ -157,7 +158,7 @@ public class SC_PlayerController : MonoBehaviour
         {
             Gravity();
             Rotate(); // Rotate the player
-            _characterController.Move((IsoVectorConvert(currentMovement) * speedEffective) * Time.deltaTime); // Move the player
+            _characterController.Move((IsoVectorConvert(currentMovement) * SC_PlayerStats.instance.currentSpeed) * Time.deltaTime); // Move the player
         }
             
     }

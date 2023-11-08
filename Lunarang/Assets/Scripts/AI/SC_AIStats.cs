@@ -121,6 +121,12 @@ public class SC_AIStats : MonoBehaviour
     [TabGroup("Settings", "Status")]
     [Title("Debuffs")]
     [Tooltip("List of all current debuffs on this enemy"), SerializeField] private List<Enum_Debuff> currentDebuffs;
+
+
+    [Title("IDs")] 
+    [Tooltip("Plus tard flemme")] public string id;
+    [Tooltip("Plus tard flemme")] public static int globalUid = 0;
+    [Tooltip("Plus tard flemme"), ShowInInspector] public int uid = 0;
     
     #endregion
 
@@ -136,6 +142,11 @@ public class SC_AIStats : MonoBehaviour
     {
         if(!TryGetComponent(out _renderer)) return;
         if(!TryGetComponent(out _agent)) return;
+        
+        globalUid = 0;
+        
+        globalUid++;
+        uid = globalUid;
     }
 
     /// <summary>
