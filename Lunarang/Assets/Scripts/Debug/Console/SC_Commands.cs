@@ -92,8 +92,21 @@ public class SC_Commands : MonoBehaviour
                 else
                 {
                     
-                    
-                    
+                }
+                
+                break;
+            
+            case "godmode":
+                if (textSplited.Length > 1)
+                {
+                    console.PrintLine("<color=red> > Looser.");
+                }
+                else
+                {
+                    SC_PlayerStats.instance.isGod = !SC_PlayerStats.instance.isGod;
+                    console.PrintLine(SC_PlayerStats.instance.isGod
+                        ? "<color=#ffac26> > You've been elevated has a god."
+                        : "<color=red> > You've just fallen back in with the losers.");
                 }
                 
                 break;

@@ -15,7 +15,6 @@ public class AI_Archer_IdleState : BaseState<AI_Archer_StateMachine.EnemyState>
 
     public override void EnterState()
     {
-        Debug.Log("IDLE");
         _aiArcherStateMachine.StartCoroutine(TransitionPatrol());
     }
 

@@ -16,14 +16,12 @@ public class AI_Archer_DefenseState : BaseState<AI_Archer_StateMachine.EnemyStat
 
     public override void EnterState()
     {
-        Debug.Log("DASH");
         // _aiArcherStateMachine._rb.AddForce(-_aiArcherStateMachine.centerPoint.transform.forward * _aiArcherStateMachine.dashSpeed, ForceMode.Impulse);
         _aiArcherStateMachine.StartCoroutine(Dash());
     }
 
     public override void ExitState()
     {
-        Debug.Log("DASH END");
         _aiArcherStateMachine._rb.velocity = Vector3.zero;
     }
 

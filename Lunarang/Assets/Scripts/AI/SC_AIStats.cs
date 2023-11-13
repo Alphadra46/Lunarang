@@ -15,10 +15,15 @@ public class SC_AIStats : MonoBehaviour
 
     #region Variables
 
+    [Title("IDs")] 
+    [Tooltip("Plus tard flemme")] public string id;
+    [Tooltip("Plus tard flemme")] public static int globalUid = 0;
+    [Tooltip("Plus tard flemme"), ShowInInspector] public int uid = 0;
+    
     #region Stats
     
     [TabGroup("Settings", "Stats")]
-    
+    [Title("Parameters")]
     // Max HP and HP
 
     #region HP
@@ -47,7 +52,7 @@ public class SC_AIStats : MonoBehaviour
     [Tooltip("Current base DEF of the enemy")] public float defBase = 1;
     [TabGroup("Settings/Stats/Subtabs", "DEF")]
     [Tooltip("Current DEF multiplier of the enemy")] public float defModifier = 0;
-    public float defEffective => defBase * (1 + defModifier);
+    public float currentDEF => defBase * (1 + defModifier);
 
     #endregion
     [Space(5)]
@@ -59,8 +64,11 @@ public class SC_AIStats : MonoBehaviour
     [Tooltip("Current base ATK of the enemy")] public float atkBase = 1;
     [TabGroup("Settings/Stats/Subtabs", "ATK")]
     [Tooltip("Current ATK multiplier of the enemy")] public float atkModifier = 0;
-    public float atkEffective => atkBase * (1 + atkModifier);
+    public float currentATK => atkBase * (1 + atkModifier);
     
+    [PropertySpace(SpaceBefore = 10)]
+    [Tooltip("How many % of the enemy ATK the attack does"),TabGroup("Settings/Stats/Subtabs", "ATK")] public float[] moveValues;
+    [Tooltip("Index of the current attack MV"),TabGroup("Settings/Stats/Subtabs", "ATK"), ReadOnly] public int moveValueIndex = 0;
 
     #endregion
     [Space(5)]
@@ -72,7 +80,7 @@ public class SC_AIStats : MonoBehaviour
     [Tooltip("Current base Speed of the enemy")] public float speedBase = 5;
     [TabGroup("Settings/Stats/Subtabs", "SPD")]
     [Tooltip("Current Speed multiplier of the enemy")] public float speedModifier = 0;
-    public float speedEffective => speedBase * (1 + speedModifier);
+    public float currentSPD => speedBase * (1 + speedModifier);
     
 
     #endregion
@@ -122,11 +130,6 @@ public class SC_AIStats : MonoBehaviour
     [Title("Debuffs")]
     [Tooltip("List of all current debuffs on this enemy"), SerializeField] private List<Enum_Debuff> currentDebuffs;
 
-
-    [Title("IDs")] 
-    [Tooltip("Plus tard flemme")] public string id;
-    [Tooltip("Plus tard flemme")] public static int globalUid = 0;
-    [Tooltip("Plus tard flemme"), ShowInInspector] public int uid = 0;
     
     #endregion
 
@@ -159,7 +162,7 @@ public class SC_AIStats : MonoBehaviour
         currentHealth = maxHealthEffective;
         InitWeaknessShield();
         
-        if(_agent != null) _agent.speed = speedEffective;
+        if(_agent != null) _agent.speed = currentSPD;
         
     }
     
@@ -192,7 +195,6 @@ public class SC_AIStats : MonoBehaviour
     private IEnumerator RegenerateShield()
     {
         
-        
         yield return new WaitForSeconds(delayBeforeRegen);
 
         isBreaked = false;
@@ -221,7 +223,7 @@ public class SC_AIStats : MonoBehaviour
 
     private IEnumerator PoisonDoT(float incomingDamage, float tick, float duration)
     {
-        var finalDamage = incomingDamage - defEffective;
+        var finalDamage = incomingDamage - currentDEF;
         
         
         while (duration != 0)
@@ -245,6 +247,10 @@ public class SC_AIStats : MonoBehaviour
 
     #region Damage Part
 
+    /// <summary>
+    /// Inflict damage to the weakness
+    /// </summary>
+    /// <param name="incomingType"></param>
     private void TakeWeaknessDamage(WeaponType incomingType)
     {
 
@@ -272,9 +278,9 @@ public class SC_AIStats : MonoBehaviour
 
     }
 
-    private void TakeDamage(float incomingDamage)
+    public void TakeDamage(float rawDamage)
     {
-        var finalDamage = incomingDamage - defEffective; // Here for the second part of the formula.
+        var finalDamage = rawDamage - currentDEF; // Here for the second part of the formula.
 
         currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;
         
@@ -322,6 +328,7 @@ public class SC_AIStats : MonoBehaviour
     }
 
     #endregion
-    
+
+
     
 }

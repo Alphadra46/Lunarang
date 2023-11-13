@@ -15,7 +15,6 @@ public class AI_Warrior_IdleState : BaseState<AI_Warrior_StateMachine.EnemyState
 
     public override void EnterState()
     {
-        Debug.Log("IDLE");
         _aiStateMachine.StartCoroutine(TransitionPatrol());
     }
 

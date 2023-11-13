@@ -91,7 +91,7 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
         return Physics.SphereCast(_transform.position + _aiArcherStateMachine.ProjectileSpawnOffset, 0.1f,
             ((target.position + _aiArcherStateMachine.ProjectileSpawnOffset) -
              (_transform.position + _aiArcherStateMachine.ProjectileSpawnOffset)).normalized, out var Hit,
-            _aiArcherStateMachine.chaseAreaRadius, LayerMask.NameToLayer("Player")) && Hit.collider.CompareTag("Player");
+            _aiArcherStateMachine.chaseAreaRadius, _aiArcherStateMachine.layersAttackable) && Hit.collider.CompareTag("Player");
     }
 
     public override AI_Archer_StateMachine.EnemyState GetNextState()

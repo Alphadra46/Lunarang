@@ -16,18 +16,25 @@ public class AI_Warrior_StunState : BaseState<AI_Warrior_StateMachine.EnemyState
 
     public override void EnterState()
     {
-        Debug.Log("DASH");
-        // _aiArcherStateMachine._rb.AddForce(-_aiArcherStateMachine.centerPoint.transform.forward * _aiArcherStateMachine.dashSpeed, ForceMode.Impulse);
+        _aiStateMachine.StartCoroutine(StunTimer(_aiStateMachine.stunDuration));
     }
 
     public override void ExitState()
     {
-        Debug.Log("DASH END");
-        _aiStateMachine._rb.velocity = Vector3.zero;
+        
     }
 
     public override void UpdateState()
     {
+        
+    }
+
+    public IEnumerator StunTimer(float duration)
+    {
+
+        yield return new WaitForSeconds(duration);
+
+        _aiStateMachine.TransitionToState(AI_Warrior_StateMachine.EnemyState.Chase);
         
     }
 

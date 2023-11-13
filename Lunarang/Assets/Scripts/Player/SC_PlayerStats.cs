@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class SC_PlayerStats : MonoBehaviour
+public class SC_PlayerStats : MonoBehaviour, IDamageable
 {
 
     public static SC_PlayerStats instance;
@@ -28,19 +28,16 @@ public class SC_PlayerStats : MonoBehaviour
 
     #endregion
 
-    #region Mana
-
-    [PropertySpace(SpaceBefore = 10, SpaceAfter = 10)]
-    [TabGroup("Stats", "MP", SdfIconType.StarFill, TextColor = "blue"),
-     ProgressBar(0, "maxManaEffective", r: 0, g: 0.75f, b: 1, Height = 20), ReadOnly]
-    public float currentMana;
+    #region DEF
     
-    [TabGroup("Stats", "MP")]
-    public int maxMana = 10;
-    [TabGroup("Stats", "MP")]
-    public float maxManaModifier = 0f;
-    [TabGroup("Stats", "MP")]
-    public float maxManaEffective => maxMana * (1 + maxManaModifier);
+    [PropertySpace(SpaceBefore = 10)]
+    [TabGroup("Stats", "DEF",SdfIconType.ShieldFill, TextColor = "blue"), ShowInInspector, ReadOnly]
+    public float currentDEF => defBase * (1 + defModifier);
+    
+    [TabGroup("Stats", "DEF")]
+    public int defBase = 10;
+    [TabGroup("Stats", "DEF")]
+    public float defModifier = 0f;
     
 
     #endregion
@@ -48,7 +45,8 @@ public class SC_PlayerStats : MonoBehaviour
     #region ATK
 
     [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("Stats", "ATK",TextColor = "red"), ShowInInspector, ReadOnly] public float currentAttack => atkBase * (1 + atkModifier);
+    [TabGroup("Stats", "ATK",TextColor = "red"), ShowInInspector, ReadOnly]
+    public float currentAttack => atkBase * (1 + atkModifier);
     
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "ATK"), ShowInInspector] private int atkBase = 5;
@@ -59,7 +57,9 @@ public class SC_PlayerStats : MonoBehaviour
     #region SPD
 
     [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("Stats", "SPD", SdfIconType.Speedometer, TextColor = "purple"), ShowInInspector] public float currentSpeed => baseSpeed * (1 + speedModifier);
+    [TabGroup("Stats", "SPD", SdfIconType.Speedometer, TextColor = "purple"), ShowInInspector]
+    public float currentSpeed => baseSpeed * (1 + speedModifier);
+    
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "SPD"), ShowInInspector] private int baseSpeed = 5;
     [TabGroup("Stats", "SPD")] public float speedModifier;
@@ -87,14 +87,21 @@ public class SC_PlayerStats : MonoBehaviour
     
     [TabGroup("Status", "Debuffs")]
     public List<Enum_Debuff> currentDebuffs;
-
+    [TabGroup("Status", "Debugs")]
+    public bool isGod;
+    
+    
     #endregion
+
+    private SC_PlayerController _controller;
     
     
     // Start is called before the first frame update
     void Awake()
     {
         instance = this;
+        
+        if(!TryGetComponent(out _controller)) return;
     }
 
     private void Start()
@@ -141,15 +148,38 @@ public class SC_PlayerStats : MonoBehaviour
     
 
     #endregion
-    
-    public void TakeDamage(int damage)
+
+    public void TakeDamage(float rawDamage)
     {
-        currentHealth = currentHealth - damage < 0 ? 0 : currentHealth - damage;
+        
+        if(_controller.isDashing || isGod) return;
+            
+        var finalDamage = rawDamage - currentDEF;
+        
+        currentHealth = currentHealth - finalDamage < 0 ? 0 : currentHealth - finalDamage;
+        
     }
 
     public void Heal(int healAmount)
     {
         currentHealth = currentHealth + healAmount > maxHealth ? maxHealth : currentHealth + healAmount;
+    }
+
+    private void OnTriggerEnter(Collider col)
+    {
+        
+        if (!col.CompareTag("HurtBox_AI")) return;
+        
+        if(!col.transform.parent.parent.TryGetComponent(out SC_AIStats aiStats)) return;
+        
+        
+        var aiCurrentAtk = aiStats.currentATK;
+        var aiCurrentMV = aiStats.moveValues[aiStats.moveValueIndex];
+
+        var rawDamage = Mathf.Round(aiCurrentMV * aiCurrentAtk);
+        
+        TakeDamage(rawDamage);
+          
     }
     
 }

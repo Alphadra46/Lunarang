@@ -35,10 +35,12 @@ public class SC_DebugConsole : MonoBehaviour
         commands.console = this;
     }
 
+    /// <summary>
+    /// Open a console
+    /// </summary>
+    /// <param name="ctx"></param>
     private void ShowConsole(InputAction.CallbackContext ctx)
     {
-
-        
         
         if (currentUI != null)
         {
@@ -53,31 +55,14 @@ public class SC_DebugConsole : MonoBehaviour
             if(!currentUI.transform.GetChild(0).GetChild(0).TryGetComponent(out textLinesPanel)) return;
             
             commandline.onEndEdit.AddListener(commands.SendCommand);
-            commandline.onValueChanged.AddListener(OnChange);
             
             EventSystem.current.SetSelectedGameObject(commandline.gameObject);
         }
         
     }
-
-    private void OnChange(string text)
-    {
-
-        // switch (text)
-        // {
-        //     case string a when a.Contains("e:"):
-        //
-        //         var array = GameObject.FindGameObjectsWithTag("Entity").ToList();
-        //         
-        //         
-        //         
-        //         break;
-        // }
-        
-    }
     
-
-
+    
+    
     public void PrintLine(string text)
     {
         

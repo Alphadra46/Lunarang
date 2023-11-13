@@ -63,8 +63,6 @@ public class AI_Archer_StateMachine : StateManager<AI_Archer_StateMachine.EnemyS
     #region Attack
     
     [TabGroup("States", "Attack")]
-    [Tooltip("How many % of the enemy ATK the attack does")] public float moveValue = 0.5f;
-    [TabGroup("States", "Attack")]
     [Tooltip("Current base ATK Speed of the enemy")] public float atkSpdBase = 1;
     [TabGroup("States", "Attack")]
     [Tooltip("Current base ATK Cooldown of the enemy")] public float atkCDBase = 1;
@@ -74,6 +72,8 @@ public class AI_Archer_StateMachine : StateManager<AI_Archer_StateMachine.EnemyS
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("States", "Attack")]
     public Vector3 ProjectileSpawnOffset = new Vector3(0, 0.5f, 0);
+    [TabGroup("States", "Attack")]
+    public LayerMask layersAttackable;
     
     
     #endregion
@@ -142,14 +142,14 @@ public class AI_Archer_StateMachine : StateManager<AI_Archer_StateMachine.EnemyS
 
     public void SpawnProjectile()
     {
-        print("Shooted");
+        
         var projectile = Instantiate(projectileGO).GetComponent<SC_Projectile>();
 
         projectile.transform.position = centerPoint.position + ProjectileSpawnOffset;
         projectile.transform.forward = centerPoint.forward;
         
         projectile.speed = atkSpdBase;
-        projectile.damage = (int)Mathf.Round((moveValue * _stats.atkEffective));
+        projectile.damage = (int)Mathf.Round((_stats.moveValues[_stats.moveValueIndex] * _stats.currentATK));
         projectile._rb.AddForce(centerPoint.transform.forward * projectile.speed, ForceMode.VelocityChange);
 
     }
