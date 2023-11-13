@@ -29,6 +29,7 @@ public class SC_PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [Tooltip("Rotation speed of the player.")] public float rotationFactorPerFrame = 1f;
     public bool isDashing;
+    public bool canDash = true;
 
     [Tooltip("How long the dash will stay active"), SerializeField] private float dashTime = 0.25f;
     [Tooltip("The speed of the Dash"), SerializeField] private float dashSpeed = 20f;
@@ -78,6 +79,9 @@ public class SC_PlayerController : MonoBehaviour
     /// <param name="context"></param>
     private void Dash(InputAction.CallbackContext context)
     {
+        
+        if(!canDash)
+            return;
         if (isDashing)
             return;
         

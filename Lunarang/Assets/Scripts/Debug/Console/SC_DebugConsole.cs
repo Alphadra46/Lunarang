@@ -46,10 +46,12 @@ public class SC_DebugConsole : MonoBehaviour
         {
             Destroy(currentUI);
             SC_PlayerController.instance.canMove = true;
+            SC_PlayerController.instance.canDash = true;
         }
         else
         {
             SC_PlayerController.instance.canMove = false;
+            SC_PlayerController.instance.canDash = false;
             currentUI = Instantiate(UIPrefab);
             if(!currentUI.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).TryGetComponent(out commandline)) return;
             if(!currentUI.transform.GetChild(0).GetChild(0).TryGetComponent(out textLinesPanel)) return;
@@ -60,9 +62,20 @@ public class SC_DebugConsole : MonoBehaviour
         }
         
     }
-    
-    
-    
+
+    private void Update()
+    {
+        
+        if (currentUI == null) return;
+
+        if (commandline.isFocused != false) return;
+        
+        EventSystem.current.SetSelectedGameObject(commandline.gameObject, null);
+        commandline.OnPointerClick(new PointerEventData(EventSystem.current));
+
+    }
+
+
     public void PrintLine(string text)
     {
         

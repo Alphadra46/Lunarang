@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class SC_Commands : MonoBehaviour
 {
-    public static SC_Commands instance;
+    private static SC_Commands instance;
     public SC_DebugConsole console;
 
     private void Awake()
@@ -20,7 +20,7 @@ public class SC_Commands : MonoBehaviour
     {
         var textSplited = text.ToLower().Split(" ");
         var command = textSplited[0];
-        
+
         switch (command)
         {
             
@@ -47,9 +47,9 @@ public class SC_Commands : MonoBehaviour
                         var allEntities = FindObjectsOfType<SC_AIStats>().ToList();
                         print(allEntities.Count);
 
-                        foreach (var e in allEntities)
+                        foreach (var e in allEntities.Where(e => e.id == args[0]))
                         {
-                            if(e.id == args[0]) Destroy(e);
+                            Destroy(e);
                         }
                         console.PrintLine("<color=#42adf5>"+ args[0] + " <color=white>has been killed.");
                         
@@ -85,12 +85,29 @@ public class SC_Commands : MonoBehaviour
             
             case "summon":
 
-                if (textSplited.Length <= 1)
+                switch (textSplited.Length)
                 {
-                    console.PrintLine("<color=red> Please enter an entity type.");
-                }
-                else
-                {
+                    
+                    case <= 1:
+                        console.PrintLine("<color=red> Please enter an entity type.");
+                        break;
+                    case > 1:
+                    {
+                        console.PrintLine("<color=green> Entity : " + textSplited[1]);
+                        foreach (var entity in from prefab in SC_GameManager.instance.prefabsEntities where textSplited[1] == prefab.name.ToLower() select Instantiate(prefab))
+                        {
+                            if (textSplited.Length <= 2) continue;
+                            
+                            if (textSplited[2].Contains("@pos:"))
+                            {
+                                
+                            }
+
+                        }
+                        
+                        // console.PrintLine("<color=green> Entity : " + textSplited[1] + " summoned at loc : x: " + textSplited[2] + " y: " + textSplited[3]);
+                        break;
+                    }
                     
                 }
                 
