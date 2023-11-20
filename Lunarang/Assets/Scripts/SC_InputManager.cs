@@ -40,13 +40,13 @@ public class SC_InputManager : MonoBehaviour
         playerInputActions = new InputMap();
         
         InitUIInputs();
-        OnEnableUIInputs();
+        EnableUIInputs();
 
         InitGeneralInputs();
-        OnEnableGeneralInputs();
+        EnableGeneralInputs();
         
         InitDebugInputs();
-        OnEnableDebugInputs();
+        EnableDebugInputs();
 
         AttachToDeviceDetection();
     }
@@ -71,7 +71,7 @@ public class SC_InputManager : MonoBehaviour
     /// <summary>
     /// Used to enable all of the Inputs in the UI map from the custom PlayerInputActions
     /// </summary>
-    private void OnEnableUIInputs()
+    public void EnableUIInputs()
     {
         navigate.Enable();
         submit.Enable();
@@ -88,7 +88,7 @@ public class SC_InputManager : MonoBehaviour
     /// <summary>
     /// Used to disable all of the Inputs in the UI map from the custom PlayerInputActions
     /// </summary>
-    public void OnDisableUIInputs()
+    public void DisableUIInputs()
     {
         navigate.Disable();
         submit.Disable();
@@ -121,7 +121,7 @@ public class SC_InputManager : MonoBehaviour
     /// <summary>
     /// Used to enable all of the Inputs in the General map from the custom PlayerInputActions
     /// </summary>
-    private void OnEnableGeneralInputs()
+    public void EnableGeneralInputs()
     {
         weaponA.Enable();
         weaponB.Enable();
@@ -136,7 +136,7 @@ public class SC_InputManager : MonoBehaviour
     /// <summary>
     /// Used to disable all of the Inputs in the General map from the custom PlayerInputActions
     /// </summary>
-    public void OnDisableGeneralInputs()
+    public void DisableGeneralInputs()
     {
         weaponA.Disable();
         weaponB.Disable();
@@ -159,7 +159,7 @@ public class SC_InputManager : MonoBehaviour
     /// <summary>
     /// Used to enable all of the Inputs in the Debug map from the custom PlayerInputActions
     /// </summary>
-    private void OnEnableDebugInputs()
+    public void EnableDebugInputs()
     {
         console.Enable();
     }
@@ -167,7 +167,7 @@ public class SC_InputManager : MonoBehaviour
     /// <summary>
     /// Used to disable all of the Inputs in the Debug map from the custom PlayerInputActions
     /// </summary>
-    public void OnDisableDebugInputs()
+    public void DisableDebugInputs()
     {
         console.Disable();
     }

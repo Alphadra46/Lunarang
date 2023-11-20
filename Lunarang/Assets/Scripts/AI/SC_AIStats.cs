@@ -14,11 +14,9 @@ public class SC_AIStats : MonoBehaviour
 {
 
     #region Variables
-
+    
     [Title("IDs")] 
-    [Tooltip("Plus tard flemme")] public string id;
-    [Tooltip("Plus tard flemme")] public static int globalUid = 0;
-    [Tooltip("Plus tard flemme"), ShowInInspector] public int uid = 0;
+    [Tooltip("Plus tard flemme")] public string typeID;
     
     #region Stats
     
@@ -145,11 +143,6 @@ public class SC_AIStats : MonoBehaviour
     {
         if(!TryGetComponent(out _renderer)) return;
         if(!TryGetComponent(out _agent)) return;
-        
-        globalUid = 0;
-        
-        globalUid++;
-        uid = globalUid;
     }
 
     /// <summary>
@@ -312,7 +305,7 @@ public class SC_AIStats : MonoBehaviour
         
         if (hasShield && !isBreaked)
         {
-            TakeWeaknessDamage(playerComboController.weaponType);
+            TakeWeaknessDamage(playerComboController.currentWeapon.type);
         }
         else
         {
@@ -328,7 +321,6 @@ public class SC_AIStats : MonoBehaviour
     }
 
     #endregion
-
 
     
 }

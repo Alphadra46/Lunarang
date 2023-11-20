@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1328,6 +1328,22 @@ MonoBehaviour:
   - {fileID: 1753954169216546166, guid: 1c2d62af54507e84d87089c94c535b6a, type: 3}
   - {fileID: 75451546300128363, guid: a8e5ec8c9c8df5746b2216a22df4032c, type: 3}
   - {fileID: 6131542437344180460, guid: fefc79a653203a54982c8683d755be0b, type: 3}
+  commands:
+  - name: help
+    description: All commands avaibles.
+    aliases: []
+  - name: summon
+    description: Invoke an entity at a certain location.
+    aliases:
+    - sum
+  - name: kill
+    description: Obliterates an entity.
+    aliases:
+    - k
+  - name: godmode
+    description: Raises you to the rank of god.
+    aliases:
+    - gm
 --- !u!1 &1636500839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1559,7 +1575,7 @@ PrefabInstance:
     - target: {fileID: 75451546859845270, guid: a8e5ec8c9c8df5746b2216a22df4032c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 75451546859845270, guid: a8e5ec8c9c8df5746b2216a22df4032c,
         type: 3}
@@ -1589,7 +1605,7 @@ PrefabInstance:
     - target: {fileID: 75451547096652091, guid: a8e5ec8c9c8df5746b2216a22df4032c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 75451547096652091, guid: a8e5ec8c9c8df5746b2216a22df4032c,
         type: 3}
@@ -1653,7 +1669,7 @@ PrefabInstance:
     - target: {fileID: 1753954168742897478, guid: 1c2d62af54507e84d87089c94c535b6a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 1753954168742897478, guid: 1c2d62af54507e84d87089c94c535b6a,
         type: 3}
@@ -1683,7 +1699,7 @@ PrefabInstance:
     - target: {fileID: 1753954168801003586, guid: 1c2d62af54507e84d87089c94c535b6a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 1753954168801003586, guid: 1c2d62af54507e84d87089c94c535b6a,
         type: 3}
@@ -1839,6 +1855,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3353019030451939601, guid: f9671b65f0516084592b87fc41176aba,
+        type: 3}
+      propertyPath: equippedWeapons.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3353019030451939601, guid: f9671b65f0516084592b87fc41176aba,
+        type: 3}
+      propertyPath: equippedWeapons.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1dd9b304f7eb742478f70c2af72bb3b8,
+        type: 2}
+    - target: {fileID: 3353019030451939601, guid: f9671b65f0516084592b87fc41176aba,
+        type: 3}
+      propertyPath: equippedWeapons.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e2c4b4116754fc499f205d55a158572,
+        type: 2}
+    - target: {fileID: 3353019030451939601, guid: f9671b65f0516084592b87fc41176aba,
+        type: 3}
+      propertyPath: equippedWeapons.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7fd4a33a5aa85494fbb31512f2ec6830,
+        type: 2}
     - target: {fileID: 3353019030451939603, guid: f9671b65f0516084592b87fc41176aba,
         type: 3}
       propertyPath: m_Name
@@ -1956,7 +1995,7 @@ PrefabInstance:
     - target: {fileID: 6131542437378994034, guid: fefc79a653203a54982c8683d755be0b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 6131542437378994034, guid: fefc79a653203a54982c8683d755be0b,
         type: 3}
@@ -1986,7 +2025,7 @@ PrefabInstance:
     - target: {fileID: 6131542437498111870, guid: fefc79a653203a54982c8683d755be0b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 6131542437498111870, guid: fefc79a653203a54982c8683d755be0b,
         type: 3}

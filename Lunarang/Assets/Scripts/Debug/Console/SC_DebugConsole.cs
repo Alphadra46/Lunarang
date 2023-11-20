@@ -45,16 +45,19 @@ public class SC_DebugConsole : MonoBehaviour
         if (currentUI != null)
         {
             Destroy(currentUI);
-            SC_PlayerController.instance.canMove = true;
-            SC_PlayerController.instance.canDash = true;
+            SC_InputManager.instance.EnableGeneralInputs();
         }
         else
         {
-            SC_PlayerController.instance.canMove = false;
-            SC_PlayerController.instance.canDash = false;
+            SC_InputManager.instance.DisableGeneralInputs();
+            
             currentUI = Instantiate(UIPrefab);
             if(!currentUI.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).TryGetComponent(out commandline)) return;
-            if(!currentUI.transform.GetChild(0).GetChild(0).TryGetComponent(out textLinesPanel)) return;
+            if (!currentUI.transform.GetChild(0).GetChild(0).GetChild(1).TryGetComponent(out textLinesPanel))
+            {
+                textLinesPanel.gameObject.SetActive(false);
+                return;
+            }
             
             commandline.onEndEdit.AddListener(commands.SendCommand);
             
@@ -78,6 +81,7 @@ public class SC_DebugConsole : MonoBehaviour
 
     public void PrintLine(string text)
     {
+        if(!textLinesPanel.gameObject.activeInHierarchy) textLinesPanel.gameObject.SetActive(true);
         
         var line = Instantiate(TextLinePrefab, textLinesPanel.transform);
         if(!line.transform.GetChild(0).TryGetComponent(out TMP_Text lineTMP)) return;
