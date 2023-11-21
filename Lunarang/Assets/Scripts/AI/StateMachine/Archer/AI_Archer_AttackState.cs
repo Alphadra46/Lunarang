@@ -15,7 +15,6 @@ public class AI_Archer_AttackState : BaseState<AI_Archer_StateMachine.EnemyState
 
     public override void EnterState()
     {
-        Debug.Log("ATTACK");
         _aiArcherStateMachine.SpawnProjectile();
         _aiArcherStateMachine.TransitionToState(AI_Archer_StateMachine.EnemyState.Chase);
     }

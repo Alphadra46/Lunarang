@@ -24,7 +24,6 @@ public class AI_Archer_PatrolState : BaseState<AI_Archer_StateMachine.EnemyState
 
     public override void EnterState()
     {
-        Debug.Log("PATROL");
         _agent = _aiArcherStateMachine.agent;
         _agent.updateRotation = false;
     }

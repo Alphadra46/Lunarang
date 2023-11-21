@@ -24,7 +24,7 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
     private GameObject player;
     
     private bool canAttack = true;
-    private bool canBeStun = true;
+    // private bool canBeStun = true;
 
     #endregion
 
@@ -40,6 +40,7 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
 
     public override void ExitState()
     {
+        
         switch (_aiStateMachine.NextState)
         {
             case AI_Warrior_StateMachine.EnemyState.Attack:
@@ -82,10 +83,10 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
 
     private bool hasLineOfSightTo(Transform target)
     {
-        return Physics.SphereCast(_transform.position + _aiStateMachine.ProjectileSpawnOffset, 0.1f,
-            ((target.position + _aiStateMachine.ProjectileSpawnOffset) -
-             (_transform.position + _aiStateMachine.ProjectileSpawnOffset)).normalized, out var Hit,
-            _aiStateMachine.chaseAreaRadius, LayerMask.NameToLayer("Player")) && Hit.collider.CompareTag("Player");
+        return Physics.SphereCast(_transform.position, 0.1f,
+            ((target.position) -
+             (_transform.position)).normalized, out var Hit,
+            _aiStateMachine.chaseAreaRadius, _aiStateMachine.layersAttackable) && Hit.collider.CompareTag("Player");
     }
 
     public override AI_Warrior_StateMachine.EnemyState GetNextState()
@@ -101,4 +102,5 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
         canAttack = true;
 
     }
+    
 }

@@ -12,6 +12,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public class SC_PlayerController : MonoBehaviour
 {
+    
     #region Variables
 
     public static SC_PlayerController instance;
@@ -28,6 +29,7 @@ public class SC_PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [Tooltip("Rotation speed of the player.")] public float rotationFactorPerFrame = 1f;
     public bool isDashing;
+    public bool canDash = true;
 
     [Tooltip("How long the dash will stay active"), SerializeField] private float dashTime = 0.25f;
     [Tooltip("The speed of the Dash"), SerializeField] private float dashSpeed = 20f;
@@ -37,9 +39,13 @@ public class SC_PlayerController : MonoBehaviour
     
     #endregion
 
-
     #region Init
 
+    /// <summary>
+    /// Init the instance.
+    /// Get the character controller
+    /// Get the animator
+    /// </summary>
     private void Awake()
     {
         if(instance != null) Destroy(this);
@@ -49,34 +55,33 @@ public class SC_PlayerController : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
+    /// <summary>
+    /// Assign functions to an input
+    /// </summary>
     private void Start()
     {
         
-        // Assign the moving function to an input
         SC_InputManager.instance.move.started += OnMove;
         SC_InputManager.instance.move.performed += OnMove;
         SC_InputManager.instance.move.canceled += OnMove;
 
         SC_InputManager.instance.dash.started += Dash;
-    }
-    
-    /// <summary>
-    /// Read the input and set the value in a vector
-    /// </summary>
-    /// <param name="ctx"></param>
-    private void OnMove(InputAction.CallbackContext ctx)
-    {
-        if(!canMove) return;
-        
-        currentMovementInput = ctx.ReadValue<Vector2>(); // Read the input value
-        currentMovement.x = currentMovementInput.x; // Set the current movement vector x with the input value
-        currentMovement.z = currentMovementInput.y; // Set the current movement vector y with the input value
-        isMovementInputPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0; // Set a boolean to check if the player is pressing the input
         
     }
 
+    #endregion
+    
+    #region Functions
+    
+    /// <summary>
+    /// Launch the dash coroutine and change the bool value "isDashing"
+    /// </summary>
+    /// <param name="context"></param>
     private void Dash(InputAction.CallbackContext context)
     {
+        
+        if(!canDash)
+            return;
         if (isDashing)
             return;
         
@@ -85,6 +90,11 @@ public class SC_PlayerController : MonoBehaviour
         StartCoroutine(DashCoroutine());
     }
 
+    /// <summary>
+    /// Move the player at a high speed during a certain duration.
+    /// Reset the bool "isDashing"
+    /// </summary>
+    /// <returns></returns>
     IEnumerator DashCoroutine()
     {
         float startTime = Time.time;
@@ -133,7 +143,10 @@ public class SC_PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationFactorPerFrame);
         
     }
-
+    
+    /// <summary>
+    /// Apply gravity to the controller
+    /// </summary>
     private void Gravity()
     {
         float velocity;
@@ -163,6 +176,25 @@ public class SC_PlayerController : MonoBehaviour
             
     }
 
+    #endregion
+
+    #region Events
+
+    /// <summary>
+    /// Read the input and set the value in a vector
+    /// </summary>
+    /// <param name="ctx"></param>
+    private void OnMove(InputAction.CallbackContext ctx)
+    {
+        if(!canMove) return;
+        
+        currentMovementInput = ctx.ReadValue<Vector2>(); // Read the input value
+        currentMovement.x = currentMovementInput.x; // Set the current movement vector x with the input value
+        currentMovement.z = currentMovementInput.y; // Set the current movement vector y with the input value
+        isMovementInputPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0; // Set a boolean to check if the player is pressing the input
+        
+    }
+    
     #endregion
     
 }

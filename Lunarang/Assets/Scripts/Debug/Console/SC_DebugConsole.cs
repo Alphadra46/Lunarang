@@ -35,51 +35,53 @@ public class SC_DebugConsole : MonoBehaviour
         commands.console = this;
     }
 
+    /// <summary>
+    /// Open a console
+    /// </summary>
+    /// <param name="ctx"></param>
     private void ShowConsole(InputAction.CallbackContext ctx)
     {
-
-        
         
         if (currentUI != null)
         {
             Destroy(currentUI);
-            SC_PlayerController.instance.canMove = true;
+            SC_InputManager.instance.EnableGeneralInputs();
         }
         else
         {
-            SC_PlayerController.instance.canMove = false;
+            SC_InputManager.instance.DisableGeneralInputs();
+            
             currentUI = Instantiate(UIPrefab);
             if(!currentUI.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).TryGetComponent(out commandline)) return;
-            if(!currentUI.transform.GetChild(0).GetChild(0).TryGetComponent(out textLinesPanel)) return;
+            if (!currentUI.transform.GetChild(0).GetChild(0).GetChild(1).TryGetComponent(out textLinesPanel))
+            {
+                textLinesPanel.gameObject.SetActive(false);
+                return;
+            }
             
             commandline.onEndEdit.AddListener(commands.SendCommand);
-            commandline.onValueChanged.AddListener(OnChange);
             
             EventSystem.current.SetSelectedGameObject(commandline.gameObject);
         }
         
     }
 
-    private void OnChange(string text)
+    private void Update()
     {
-
-        // switch (text)
-        // {
-        //     case string a when a.Contains("e:"):
-        //
-        //         var array = GameObject.FindGameObjectsWithTag("Entity").ToList();
-        //         
-        //         
-        //         
-        //         break;
-        // }
         
+        if (currentUI == null) return;
+
+        if (commandline.isFocused != false) return;
+        
+        EventSystem.current.SetSelectedGameObject(commandline.gameObject, null);
+        commandline.OnPointerClick(new PointerEventData(EventSystem.current));
+
     }
-    
 
 
     public void PrintLine(string text)
     {
+        if(!textLinesPanel.gameObject.activeInHierarchy) textLinesPanel.gameObject.SetActive(true);
         
         var line = Instantiate(TextLinePrefab, textLinesPanel.transform);
         if(!line.transform.GetChild(0).TryGetComponent(out TMP_Text lineTMP)) return;

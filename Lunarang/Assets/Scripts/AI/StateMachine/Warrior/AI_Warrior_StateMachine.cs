@@ -65,24 +65,26 @@ public class AI_Warrior_StateMachine : StateManager<AI_Warrior_StateMachine.Enem
     [TabGroup("States", "Attack")]
     [Range(1f, 100f)] public float attackRange = 1f;
     [TabGroup("States", "Attack")]
-    [Tooltip("How many % of the enemy ATK the attack does")] public float moveValue = 0.5f;
-    [TabGroup("States", "Attack")]
     [Tooltip("Current base ATK Speed of the enemy")] public float atkSpdBase = 1;
     [TabGroup("States", "Attack")]
     [Tooltip("Current base ATK Cooldown of the enemy")] public float atkCDBase = 1;
+    [TabGroup("States", "Attack")]
+    [Tooltip("Attack Duration")] public float atkDuration = 1f;
+    
+    
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("States", "Attack")]
-    public GameObject projectileGO;
-    [PropertySpace(SpaceBefore = 10)]
+    public GameObject hurtBox;
     [TabGroup("States", "Attack")]
-    public Vector3 ProjectileSpawnOffset = new Vector3(0, 0.5f, 0);
+    public LayerMask layersAttackable;
     
     
     #endregion
 
     #region Stun
-
     
+    [TabGroup("States", "Stun")]
+    public float stunDuration = 0.2f;
 
     #endregion
 
@@ -132,6 +134,16 @@ public class AI_Warrior_StateMachine : StateManager<AI_Warrior_StateMachine.Enem
 
     public void Attack()
     {
+        
+        hurtBox.SetActive(true);
+        
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        
+        TransitionToState(EnemyState.Stun);
+        
     }
 
 
