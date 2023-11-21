@@ -15,7 +15,7 @@ public class SC_MainMenuManager : MonoBehaviour
     public GameObject settingsMenu; //The settings panel
 
     //Used for the back button. Chose to use a Stack (FILO) so that the first selection the user make will be the last one when we use the back button.
-    public Stack<GameObject> previousSelectedGameObject = new Stack<GameObject>(); 
+    public readonly Stack<GameObject> previousSelectedGameObject = new Stack<GameObject>(); 
     
     
     private void Awake()
