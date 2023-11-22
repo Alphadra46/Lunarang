@@ -22,6 +22,9 @@ public class AI_Archer_PatrolState : BaseState<AI_Archer_StateMachine.EnemyState
 
     #endregion
 
+    /// <summary>
+    /// Initialize references
+    /// </summary>
     public override void EnterState()
     {
         _agent = _aiArcherStateMachine.agent;
@@ -32,7 +35,10 @@ public class AI_Archer_PatrolState : BaseState<AI_Archer_StateMachine.EnemyState
     {
         
     }
-
+    
+    /// <summary>
+    /// Check if Player is in chase area, if yes enter Chase State, else set a random point in his range.
+    /// </summary>
     public override void UpdateState()
     {
         
@@ -66,7 +72,10 @@ public class AI_Archer_PatrolState : BaseState<AI_Archer_StateMachine.EnemyState
     {
         return AI_Archer_StateMachine.EnemyState.Patrol;
     }
-
+    
+    /// <summary>
+    /// Delay before find a new destination.
+    /// </summary>
     IEnumerator DelayBeforeNextDestination()
     {
         canMove = false;

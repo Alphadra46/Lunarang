@@ -10,7 +10,8 @@ public class SC_PassiveSkills : SC_Skill
     {
         Attack,
         Health,
-        Crit,
+        CritRate,
+        CritDMG,
         Speed,
         None
     }
@@ -32,8 +33,11 @@ public class SC_PassiveSkills : SC_Skill
             case AffectedStat.Attack:
                 SC_PlayerStats.instance.atkModifier += LevelScaling();
                 break;
-            case AffectedStat.Crit:
-                SC_PlayerStats.instance.critRate += LevelScaling();
+            case AffectedStat.CritRate:
+                SC_PlayerStats.instance.bonusCritRate += LevelScaling();
+                break;
+            case AffectedStat.CritDMG:
+                SC_PlayerStats.instance.bonusCritDMG += LevelScaling();
                 break;
             case AffectedStat.Health:
                 Debug.Log("TODO - Health modifier");

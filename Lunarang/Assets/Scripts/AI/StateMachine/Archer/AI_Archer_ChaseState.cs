@@ -28,6 +28,9 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
 
     #endregion
 
+    /// <summary>
+    /// Initialize references.
+    /// </summary>
     public override void EnterState()
     {
         
@@ -38,6 +41,10 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
         
     }
 
+    /// <summary>
+    /// If switch to Attack State, start the cooldown for attack.
+    /// If switch to Defense State, start the cooldown for dash.
+    /// </summary>
     public override void ExitState()
     {
         switch (_aiArcherStateMachine.NextState)
@@ -53,7 +60,14 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
         }
         
     }
-
+    
+    /// <summary>
+    /// Check the distance between Archer and the Player.
+    /// If Player is in the defense area, Archer dash backward.
+    /// If Player is in the chase area, Archer can attack and has Player in line of sight, switch to Attack State.
+    /// If Player is no longer in the chase Area, follow the player.
+    /// Rotate toward the player.
+    /// </summary>
     public override void UpdateState()
     {
 
@@ -86,6 +100,13 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
         
     }
 
+    /// <summary>
+    /// Check if the target is in line of sight.
+    /// </summary>
+    /// <param name="target">Transform targeted</param>
+    /// <returns>
+    /// Boolean of has in line of sight.
+    /// </returns>
     private bool hasLineOfSightTo(Transform target)
     {
         return Physics.SphereCast(_transform.position + _aiArcherStateMachine.ProjectileSpawnOffset, 0.1f,
@@ -93,12 +114,15 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
              (_transform.position + _aiArcherStateMachine.ProjectileSpawnOffset)).normalized, out var Hit,
             _aiArcherStateMachine.chaseAreaRadius, _aiArcherStateMachine.layersAttackable) && Hit.collider.CompareTag("Player");
     }
-
+    
     public override AI_Archer_StateMachine.EnemyState GetNextState()
     {
         return AI_Archer_StateMachine.EnemyState.Chase;
     }
     
+    /// <summary>
+    /// Internal Cooldown before next attack.
+    /// </summary>
     public IEnumerator AttackCooldown()
     {
         canAttack = false;
@@ -107,6 +131,9 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
 
     }
     
+    /// <summary>
+    /// Internal Cooldown before next dash.
+    /// </summary>
     public IEnumerator DefenseCooldown()
     {
         canDefense = false;
@@ -114,4 +141,5 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
         canDefense = true;
 
     }
+    
 }

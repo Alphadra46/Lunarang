@@ -91,9 +91,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboMaxLength: 3
   comboCounter: 0
-  weaponType: 0
+  currentWeapon: {fileID: 0}
+  equippedWeapons: []
+  currentType: 0
   currentComboWeaponTypes: 
-  inputBuffered: 0
+  currentComboParameters: 
+  inputBufferedWeapon: {fileID: 0}
   canPerformCombo: 1
 --- !u!114 &3353019030451939604
 MonoBehaviour:
@@ -113,6 +116,7 @@ MonoBehaviour:
   canMove: 1
   rotationFactorPerFrame: 1
   isDashing: 0
+  canDash: 1
   dashTime: 0.25
   dashSpeed: 20
   gravity: -9.81
@@ -135,9 +139,10 @@ MonoBehaviour:
   defBase: 1
   defModifier: 0
   atkModifier: 0
+  baseSpeed: 7
   speedModifier: 0
   critRate: 5
-  critDmg: 1.5
+  critDmg: 50
   currentDebuffs: 
   isGod: 0
 --- !u!1 &3353019030551694122

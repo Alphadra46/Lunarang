@@ -13,6 +13,9 @@ public class AI_Warrior_AttackState : BaseState<AI_Warrior_StateMachine.EnemySta
     private readonly AI_Warrior_StateMachine _aiStateMachine;
     private NavMeshAgent _agent;
 
+    /// <summary>
+    /// Call Attack function and launch the coroutine End Attack.
+    /// </summary>
     public override void EnterState()
     {
         _aiStateMachine.Attack();
@@ -28,6 +31,10 @@ public class AI_Warrior_AttackState : BaseState<AI_Warrior_StateMachine.EnemySta
     {
     }
 
+    /// <summary>
+    /// After a certain delay, deactivate the hurtbox and switch to Chase State.
+    /// </summary>
+    /// <param name="delay">Delay in seconds before switching state.</param>
     public IEnumerator EndAttack(float delay)
     {
 
@@ -35,7 +42,6 @@ public class AI_Warrior_AttackState : BaseState<AI_Warrior_StateMachine.EnemySta
         _aiStateMachine.hurtBox.SetActive(false);
         _aiStateMachine.TransitionToState(AI_Warrior_StateMachine.EnemyState.Chase);
         
-
     }
     
     public override AI_Warrior_StateMachine.EnemyState GetNextState()
