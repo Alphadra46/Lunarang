@@ -13,6 +13,9 @@ public class AI_Warrior_IdleState : BaseState<AI_Warrior_StateMachine.EnemyState
     private readonly AI_Warrior_StateMachine _aiStateMachine;
     private NavMeshAgent _agent;
 
+    /// <summary>
+    /// Switch to Patrol State
+    /// </summary>
     public override void EnterState()
     {
         _aiStateMachine.StartCoroutine(TransitionPatrol());
@@ -33,6 +36,10 @@ public class AI_Warrior_IdleState : BaseState<AI_Warrior_StateMachine.EnemyState
         return AI_Warrior_StateMachine.EnemyState.Patrol;
     }
 
+    /// <summary>
+    /// Switch to Patrol State after a certain delay
+    /// </summary>
+    /// <returns></returns>
     IEnumerator TransitionPatrol()
     {
         yield return new WaitForSeconds(_aiStateMachine.idleDelay);

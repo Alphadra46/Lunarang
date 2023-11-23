@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Numerics;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -19,23 +20,55 @@ public class SC_PlayerController : MonoBehaviour
     
     private CharacterController _characterController;
     private Animator _animator;
-    
-    [Header("Debug Info")] 
+
+    #region Movements
+
+    [TabGroup("Tabs","Movement")]
     [Tooltip("Current read value from Movement input action")] public Vector2 currentMovementInput;
+    
+    [TabGroup("Tabs","Movement")]
+    [PropertySpace(SpaceAfter = 5)]
     [Tooltip("Current movement value")] public Vector3 currentMovement;
+    
+    [TabGroup("Tabs","Movement")]
     [Tooltip("Is pressing movement input ?")] public bool isMovementInputPressed;
+    
+    [TabGroup("Tabs","Movement")]
     public bool canMove = true;
 
-    [Header("Movement Settings")]
+    #endregion
+
+    #region Dash
+
+    [TabGroup("Tabs","Dash")]
+    [PropertySpace(SpaceAfter = 5)]
     [Tooltip("Rotation speed of the player.")] public float rotationFactorPerFrame = 1f;
+    
+    [TabGroup("Tabs","Dash")]
     public bool isDashing;
+    
+    [TabGroup("Tabs","Dash")]
+    [PropertySpace(SpaceAfter = 5)]
     public bool canDash = true;
 
+    [TabGroup("Tabs","Dash")]
     [Tooltip("How long the dash will stay active"), SerializeField] private float dashTime = 0.25f;
-    [Tooltip("The speed of the Dash"), SerializeField] private float dashSpeed = 20f;
     
+    [TabGroup("Tabs","Dash")]
+    [PropertySpace(SpaceAfter = 5)]
+    [Tooltip("The speed of the Dash"), SerializeField] private float dashSpeed = 20f;
+
+    #endregion
+
+    #region Gravity
+
+    [TabGroup("Tabs","Gravity")]
     [Tooltip("Current gravity who impact of the player"), SerializeField] private float gravity = -9.81f;
+    
+    [TabGroup("Tabs","Gravity")]
     [Tooltip("Current gravity multiplier who impact of the player"), SerializeField] private float gravityMultiplier = 3f;
+
+    #endregion
     
     #endregion
 
@@ -76,7 +109,6 @@ public class SC_PlayerController : MonoBehaviour
     /// <summary>
     /// Launch the dash coroutine and change the bool value "isDashing"
     /// </summary>
-    /// <param name="context"></param>
     private void Dash(InputAction.CallbackContext context)
     {
         
@@ -88,13 +120,13 @@ public class SC_PlayerController : MonoBehaviour
         isDashing = true;
         _animator.SetBool("IsDashing", true);
         StartCoroutine(DashCoroutine());
+        
     }
 
     /// <summary>
     /// Move the player at a high speed during a certain duration.
     /// Reset the bool "isDashing"
     /// </summary>
-    /// <returns></returns>
     IEnumerator DashCoroutine()
     {
         float startTime = Time.time;
@@ -111,8 +143,8 @@ public class SC_PlayerController : MonoBehaviour
     /// <summary>
     /// Convert a Vector 3 to a Isometric Vector 3
     /// </summary>
-    /// <param name="vector"></param>
-    /// <returns></returns>
+    /// <param name="vector">Vector to convert</param>
+    /// <returns>Vector converted for Isometric</returns>
     private static Vector3 IsoVectorConvert(Vector3 vector)
     {
         var rotation = Quaternion.Euler(0, 45f, 0); // Initialize the value to add to the base Vector 3
@@ -183,7 +215,6 @@ public class SC_PlayerController : MonoBehaviour
     /// <summary>
     /// Read the input and set the value in a vector
     /// </summary>
-    /// <param name="ctx"></param>
     private void OnMove(InputAction.CallbackContext ctx)
     {
         if(!canMove) return;

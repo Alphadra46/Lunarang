@@ -13,7 +13,9 @@ public class AI_Warrior_StunState : BaseState<AI_Warrior_StateMachine.EnemyState
     private readonly AI_Warrior_StateMachine _aiStateMachine;
     private NavMeshAgent _agent;
     
-
+    /// <summary>
+    /// Start a coroutine to stun the entity for a certain duration.
+    /// </summary>
     public override void EnterState()
     {
         _aiStateMachine.StartCoroutine(StunTimer(_aiStateMachine.stunDuration));
@@ -29,6 +31,10 @@ public class AI_Warrior_StunState : BaseState<AI_Warrior_StateMachine.EnemyState
         
     }
 
+    /// <summary>
+    /// Stun the entity for a certain duration, and after switch to Chase State.
+    /// </summary>
+    /// <param name="duration">Duration of the stun.</param>
     public IEnumerator StunTimer(float duration)
     {
 

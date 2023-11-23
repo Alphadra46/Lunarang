@@ -13,13 +13,18 @@ public class AI_Archer_DefenseState : BaseState<AI_Archer_StateMachine.EnemyStat
     private readonly AI_Archer_StateMachine _aiArcherStateMachine;
     private NavMeshAgent _agent;
     
-
+    /// <summary>
+    /// Call Dash function.
+    /// </summary>
     public override void EnterState()
     {
         // _aiArcherStateMachine._rb.AddForce(-_aiArcherStateMachine.centerPoint.transform.forward * _aiArcherStateMachine.dashSpeed, ForceMode.Impulse);
         _aiArcherStateMachine.StartCoroutine(Dash());
     }
-
+    
+    /// <summary>
+    /// Reset Velocity
+    /// </summary>
     public override void ExitState()
     {
         _aiArcherStateMachine._rb.velocity = Vector3.zero;
@@ -35,6 +40,10 @@ public class AI_Archer_DefenseState : BaseState<AI_Archer_StateMachine.EnemyStat
         return AI_Archer_StateMachine.EnemyState.Chase;
     }
 
+    /// <summary>
+    /// Move at a high speed to a certain direction for a short time.
+    /// Return to Chase State after finishing.
+    /// </summary>
     IEnumerator Dash()
     {
         var timer = _aiArcherStateMachine.dashDuration;

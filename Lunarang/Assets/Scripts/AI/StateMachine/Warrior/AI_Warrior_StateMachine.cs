@@ -95,6 +95,10 @@ public class AI_Warrior_StateMachine : StateManager<AI_Warrior_StateMachine.Enem
 
     #endregion
     
+    /// <summary>
+    /// Initialize all references.
+    /// Add all states to the state list.
+    /// </summary>
     private void Awake()
     {
         if (!TryGetComponent(out agent)) return;
@@ -110,6 +114,13 @@ public class AI_Warrior_StateMachine : StateManager<AI_Warrior_StateMachine.Enem
         CurrentState = States[EnemyState.Idle];
     }
 
+    /// <summary>
+    /// Get a random point in a certain range.
+    /// </summary>
+    /// <param name="center">Center of the range</param>
+    /// <param name="range">Radius of the range</param>
+    /// <param name="result">Found Point</param>
+    /// <returns>Return a boolean depending on whether he found a point or not.</returns>
     public bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
 
@@ -125,6 +136,10 @@ public class AI_Warrior_StateMachine : StateManager<AI_Warrior_StateMachine.Enem
         return false;
     }
 
+    /// <summary>
+    /// Get a random range for Patrol between a Min and a Max value.
+    /// </summary>
+    /// <returns>Random patrol radius</returns>
     public float RandomPatrolRange()
     {
         patrolRadius = Random.Range(patrolRadiusMin, patrolRadiusMax);
@@ -132,6 +147,9 @@ public class AI_Warrior_StateMachine : StateManager<AI_Warrior_StateMachine.Enem
         return patrolRadius;
     }
 
+    /// <summary>
+    /// Activate the hurtbox to deal damage to the forward entity.
+    /// </summary>
     public void Attack()
     {
         
@@ -139,8 +157,13 @@ public class AI_Warrior_StateMachine : StateManager<AI_Warrior_StateMachine.Enem
         
     }
 
+    /// <summary>
+    /// Switch to Stun State when Player's Hurtbox touche him.
+    /// </summary>
+    /// <param name="other"></param>
     public void OnTriggerEnter(Collider other)
     {
+        if(!other.CompareTag("HurtBox_Player")) return;
         
         TransitionToState(EnemyState.Stun);
         

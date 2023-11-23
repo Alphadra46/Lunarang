@@ -13,6 +13,9 @@ public class AI_Archer_AttackState : BaseState<AI_Archer_StateMachine.EnemyState
     private readonly AI_Archer_StateMachine _aiArcherStateMachine;
     private NavMeshAgent _agent;
 
+    /// <summary>
+    /// Spawn a projectile and directly back to Chase State.
+    /// </summary>
     public override void EnterState()
     {
         _aiArcherStateMachine.SpawnProjectile();

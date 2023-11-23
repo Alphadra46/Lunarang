@@ -27,7 +27,11 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
     // private bool canBeStun = true;
 
     #endregion
+    
 
+    /// <summary>
+    /// Initialize references.
+    /// </summary>
     public override void EnterState()
     {
         
@@ -38,6 +42,9 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
         
     }
 
+    /// <summary>
+    /// If switch to Attack State, start internal cooldown for attacks.
+    /// </summary>
     public override void ExitState()
     {
         
@@ -49,7 +56,15 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
         }
         
     }
-
+    
+    
+    /// <summary>
+    /// Check the distance between Archer and the Player.
+    /// If Player is in the attack area, Warrior can attack and has Player in line of sight, switch to Attack State.
+    /// If Player is in the chase Area, follow the player.
+    /// If Player is no longer in the chase Area, switch to Patrol State.
+    /// Rotate toward the player.
+    /// </summary>
     public override void UpdateState()
     {
 
@@ -80,7 +95,14 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
         _aiStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiStateMachine.centerPoint.position.y, player.transform.position.z));
         
     }
-
+    
+    /// <summary>
+    /// Check if the target is in line of sight.
+    /// </summary>
+    /// <param name="target">Transform targeted</param>
+    /// <returns>
+    /// Boolean of has in line of sight.
+    /// </returns>
     private bool hasLineOfSightTo(Transform target)
     {
         return Physics.SphereCast(_transform.position, 0.1f,
@@ -94,6 +116,9 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
         return AI_Warrior_StateMachine.EnemyState.Chase;
     }
     
+    /// <summary>
+    /// Internal Cooldown before next attack.
+    /// </summary>
     public IEnumerator AttackCooldown()
     {
         

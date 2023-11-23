@@ -13,6 +13,9 @@ public class AI_Archer_IdleState : BaseState<AI_Archer_StateMachine.EnemyState>
     private readonly AI_Archer_StateMachine _aiArcherStateMachine;
     private NavMeshAgent _agent;
 
+    /// <summary>
+    /// Switch to Patrol State.
+    /// </summary>
     public override void EnterState()
     {
         _aiArcherStateMachine.StartCoroutine(TransitionPatrol());
@@ -33,6 +36,9 @@ public class AI_Archer_IdleState : BaseState<AI_Archer_StateMachine.EnemyState>
         return AI_Archer_StateMachine.EnemyState.Patrol;
     }
 
+    /// <summary>
+    /// Delay before switching to Patrol State.
+    /// </summary>
     IEnumerator TransitionPatrol()
     {
         yield return new WaitForSeconds(_aiArcherStateMachine.idleDelay);

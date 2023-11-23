@@ -48,9 +48,16 @@ public class SC_AIStats : MonoBehaviour
     // DEF
     [TabGroup("Settings/Stats/Subtabs", "DEF", SdfIconType.ShieldFill, TextColor = "blue")]
     [Tooltip("Current base DEF of the enemy")] public float defBase = 1;
+    
     [TabGroup("Settings/Stats/Subtabs", "DEF")]
-    [Tooltip("Current DEF multiplier of the enemy")] public float defModifier = 0;
-    public float currentDEF => defBase * (1 + defModifier);
+    [Tooltip("Current DEF modifier of the enemy")] public float defModifier = 0;
+    
+    [TabGroup("Settings/Stats/Subtabs", "DEF")]
+    [Tooltip("Current DEF of the enemy"), ShowInInspector, ReadOnly] public float currentDEF => defBase * (1 + defModifier);
+    
+    [TabGroup("Settings/Stats/Subtabs", "DEF")]
+    [Tooltip("DEF Stat used to reduce damage taken"), ShowInInspector, ReadOnly]
+    public float defMultiplier => (100 / (100 + currentDEF));
 
     #endregion
     [Space(5)]
@@ -162,7 +169,10 @@ public class SC_AIStats : MonoBehaviour
     #endregion
 
     #region Shield Part
-
+    
+    /// <summary>
+    /// Initialize the Weaknesses and create a shield that should be broken before apply damage to the Entity.
+    /// </summary>
     private void InitWeaknessShield()
     {
         if(!hasShield) return;
@@ -185,6 +195,9 @@ public class SC_AIStats : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Internal cooldown that regenerate Weaknesses Shield after a certain delay.
+    /// </summary>
     private IEnumerator RegenerateShield()
     {
         
@@ -241,7 +254,7 @@ public class SC_AIStats : MonoBehaviour
     #region Damage Part
 
     /// <summary>
-    /// Inflict damage to the weakness
+    /// Apply a damage to the weaknesses.
     /// </summary>
     /// <param name="incomingType"></param>
     private void TakeWeaknessDamage(WeaponType incomingType)
@@ -271,12 +284,20 @@ public class SC_AIStats : MonoBehaviour
 
     }
 
-    public void TakeDamage(float rawDamage)
+    /// <summary>
+    /// Calculating real taken damage by the entity.
+    /// Apply this amount to the entity.
+    /// </summary>
+    /// <param name="rawDamage">Amount of a non-crit damage</param>
+    /// <param name="rawCrit">Amount of a crit damage</param>
+    /// <param name="isCrit">is this damage a Crit ?</param>
+    public void TakeDamage(float rawDamage, float rawCrit, bool isCrit)
     {
-        var finalDamage = rawDamage - currentDEF; // Here for the second part of the formula.
+        // Check if the damage is a Critical one and reduce damage by the current DEF of the entity.
+        var finalDamage = isCrit ? rawCrit * defMultiplier : rawDamage * defMultiplier; 
 
+        // Apply damage to the entity. Check if doesn't go below 0.
         currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;
-        
 
         // Debug Part
         print("Dummy : -" + finalDamage + " HP");
@@ -294,23 +315,32 @@ public class SC_AIStats : MonoBehaviour
     
     #region Collisions Part
 
+    /// <summary>
+    /// Detect collisions and if collide with Player's HurtBox, take damage or weakness break.
+    /// </summary>
+    /// <param name="col"></param>
     private void OnTriggerEnter(Collider col)
     {
         if (!col.CompareTag("HurtBox_Player")) return;
-        
-        Debug.Log("Tamerelacoli");
             
         var player = col.transform.parent.gameObject;
-        var playerComboController = player.GetComponent<SC_ComboController>();
+        var pCombo = player.GetComponent<SC_ComboController>();
+        var pStats = player.GetComponent<SC_PlayerStats>();
+
+        var isCritical = Random.value < pStats.critRate ? true : false;
+
+        var currentMV = pCombo.currentWeapon.MovesValues[pCombo.comboCounter-1];
+        
+        var rawDamage = currentMV * pStats.currentATK;
+        var rawCrit = rawDamage * (1 + pStats.critDMG);
         
         if (hasShield && !isBreaked)
         {
-            TakeWeaknessDamage(playerComboController.currentWeapon.type);
+            TakeWeaknessDamage(pCombo.currentWeapon.type);
         }
         else
         {
-            TakeDamage(5);
-            //ApplyDebuffToSelf(Enum_Debuff.Poison, 1, 10);
+            TakeDamage(rawDamage, rawCrit, isCritical);
         }
 
     }

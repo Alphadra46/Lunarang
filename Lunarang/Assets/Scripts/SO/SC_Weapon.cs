@@ -8,5 +8,6 @@ public class SC_Weapon : ScriptableObject
     
     public WeaponType type;
     public ParameterType parameter;
+    public List<float> MovesValues = new List<float>();
     
 }

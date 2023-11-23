@@ -10,7 +10,9 @@ public class SC_PlayerStats : MonoBehaviour, IDamageable
 {
 
     public static SC_PlayerStats instance;
-    
+
+    #region Variables
+
     #region Health
 
     [PropertySpace(SpaceBefore = 10, SpaceAfter = 10)]
@@ -46,7 +48,7 @@ public class SC_PlayerStats : MonoBehaviour, IDamageable
 
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "ATK",TextColor = "red"), ShowInInspector, ReadOnly]
-    public float currentAttack => atkBase * (1 + atkModifier);
+    public float currentATK => atkBase * (1 + atkModifier);
     
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "ATK"), ShowInInspector] private int atkBase = 5;
@@ -61,7 +63,7 @@ public class SC_PlayerStats : MonoBehaviour, IDamageable
     public float currentSpeed => baseSpeed * (1 + speedModifier);
     
     [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("Stats", "SPD"), ShowInInspector] private int baseSpeed = 5;
+    [TabGroup("Stats", "SPD"), SerializeField] private int baseSpeed = 7;
     [TabGroup("Stats", "SPD")] public float speedModifier;
 
     #endregion
@@ -70,15 +72,37 @@ public class SC_PlayerStats : MonoBehaviour, IDamageable
 
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "Crit",TextColor = "darkred")]
+    [FoldoutGroup("Stats/Crit/Base Rate")]
     [Range(0, 100)]
-    public float critRate = 5;
+    public float baseCritRate = 5;
+    [PropertySpace(SpaceBefore = 5)]
+    [TabGroup("Stats", "Crit",TextColor = "darkred")]
+    [FoldoutGroup("Stats/Crit/Base Rate")]
+    public float bonusCritRate = 0;
     
+    [PropertySpace(SpaceBefore = 10)]
+    [TabGroup("Stats", "Crit",TextColor = "darkred"), ShowInInspector, ReadOnly]
+    public float critRate => baseCritRate + bonusCritRate;
+    
+    
+    [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "Crit")]
-    public float critDmg = 1.5f;
+    [FoldoutGroup("Stats/Crit/Base DMG")]
+    [Range(50, 1000)]
+    public float baseCritDMG = 50;
+    [PropertySpace(SpaceBefore = 5)]
+    [TabGroup("Stats", "Crit")]
+    [FoldoutGroup("Stats/Crit/Base DMG")]
+    public float bonusCritDMG = 0;
+    
+    
+    [TabGroup("Stats", "Crit",TextColor = "darkred"), ShowInInspector, ReadOnly]
+    public float critDMG => baseCritDMG + bonusCritDMG;
+    
     
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "Crit"), ShowInInspector, ReadOnly]
-    public float critValue => critDmg * critRate;
+    public float critValue => critDMG + (critRate * 2);
 
     #endregion
     
@@ -94,23 +118,41 @@ public class SC_PlayerStats : MonoBehaviour, IDamageable
     #endregion
 
     private SC_PlayerController _controller;
-    
-    
-    // Start is called before the first frame update
+
+    #endregion
+
+
+    #region Init
+
+    /// <summary>
+    /// Set this code into a Singleton
+    /// Get the PlayerController
+    /// </summary>
     void Awake()
     {
         instance = this;
         
         if(!TryGetComponent(out _controller)) return;
     }
-
+    
+    /// <summary>
+    /// At the start, set currentHP to the maxHP
+    /// </summary>
     private void Start()
     {
         currentHealth = maxHealth;
     }
 
-    #region Status
+    #endregion
 
+    #region Status
+    
+    /// <summary>
+    /// Apply a debuff to self with a certain type, a certain activation cooldown and a duration.
+    /// </summary>
+    /// <param name="newDebuff">Debuff to apply</param>
+    /// <param name="tick">Cooldown between to activation</param>
+    /// <param name="duration">Duration before debuff expire</param>
     private void ApplyDebuffToSelf(Enum_Debuff newDebuff, float tick=1, float duration=5)
     {
         
@@ -124,7 +166,14 @@ public class SC_PlayerStats : MonoBehaviour, IDamageable
         }
         
     }
-
+    
+    /// <summary>
+    /// Coroutine for the poison debuff, apply damage every ticks during a certain duration.
+    /// </summary>
+    /// <param name="incomingDamage">Damage before Damage Reduction</param>
+    /// <param name="tick">Cooldown between to damage</param>
+    /// <param name="duration">Duration before poison expire</param>
+    /// <returns></returns>
     private IEnumerator PoisonDoT(float incomingDamage, float tick, float duration)
     {
         var finalDamage = incomingDamage; // TO-DO : Place Defense here
@@ -149,6 +198,10 @@ public class SC_PlayerStats : MonoBehaviour, IDamageable
 
     #endregion
 
+    /// <summary>
+    /// Apply Damage to the Player.
+    /// </summary>
+    /// <param name="rawDamage">Damage before Damage Reduction</param>
     public void TakeDamage(float rawDamage)
     {
         
@@ -160,11 +213,20 @@ public class SC_PlayerStats : MonoBehaviour, IDamageable
         
     }
 
+    /// <summary>
+    /// Heal the player by a certain amount
+    /// </summary>
+    /// <param name="healAmount"></param>
     public void Heal(int healAmount)
     {
+        // Check if the heal don't exceed the Max HP limit, if yes, set to max hp, else increment currentHP by healAmount.
         currentHealth = currentHealth + healAmount > maxHealth ? maxHealth : currentHealth + healAmount;
     }
 
+    /// <summary>
+    /// Detect Hurtbox collision, set up taking damage.
+    /// </summary>
+    /// <param name="col"></param>
     private void OnTriggerEnter(Collider col)
     {
         

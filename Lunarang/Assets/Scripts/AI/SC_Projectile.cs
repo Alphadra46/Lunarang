@@ -17,12 +17,20 @@ public class SC_Projectile : MonoBehaviour
     
     #endregion
 
+    /// <summary>
+    /// Get Rigidbody.
+    /// Invoke a timer to destroy this GameObject after a certain delay.
+    /// </summary>
     private void Awake()
     {
         if (!TryGetComponent(out _rb)) return;
         Invoke(DESTROY_METHOD_NAME, autoDestroyTime);
     }
 
+    /// <summary>
+    /// Detect collision and if collide with Player, apply damage to Player.
+    /// </summary>
+    /// <param name="col"></param>
     private void OnTriggerEnter(Collider col)
     {
         if (col.CompareTag("Player"))
@@ -32,6 +40,11 @@ public class SC_Projectile : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Destroy this GameObject.
+    /// Cancel internal cooldown for destroying.
+    /// Reset the velocity.
+    /// </summary>
     private void Destroy()
     {
         CancelInvoke(DESTROY_METHOD_NAME);

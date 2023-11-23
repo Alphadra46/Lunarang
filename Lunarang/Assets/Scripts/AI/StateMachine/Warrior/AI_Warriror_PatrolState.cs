@@ -22,6 +22,9 @@ public class AI_Warrior_PatrolState : BaseState<AI_Warrior_StateMachine.EnemySta
 
     #endregion
 
+    /// <summary>
+    /// Initialize references
+    /// </summary>
     public override void EnterState()
     {
         _agent = _aiStateMachine.agent;
@@ -33,6 +36,9 @@ public class AI_Warrior_PatrolState : BaseState<AI_Warrior_StateMachine.EnemySta
         
     }
 
+    /// <summary>
+    /// Check if Player is in chase area, if yes enter Chase State, else set a random point in his range.
+    /// </summary>
     public override void UpdateState()
     {
         
@@ -66,6 +72,9 @@ public class AI_Warrior_PatrolState : BaseState<AI_Warrior_StateMachine.EnemySta
         return AI_Warrior_StateMachine.EnemyState.Patrol;
     }
 
+    /// <summary>
+    /// Delay before find a new destination.
+    /// </summary>
     IEnumerator DelayBeforeNextDestination()
     {
         canMove = false;
