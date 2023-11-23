@@ -16,7 +16,7 @@ public class SC_PanelButton : MonoBehaviour
 
     public void SelectPanel()
     {
-        attachedPanel.SetActive(true); //Activate the panel attached to this button
+        attachedPanel.SetActive(true); //Activate the panel attached to this button so it display the settings attached to it
         EventSystem.current.SetSelectedGameObject(attachedPanel.GetComponentInChildren<Selectable>().gameObject); //Select the first Selectable Ui element in this panel
         
         if (SC_MainMenuManager.instance.previousSelectedGameObject.Peek() != gameObject)
