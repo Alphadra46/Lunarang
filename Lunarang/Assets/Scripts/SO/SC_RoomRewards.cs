@@ -15,27 +15,30 @@ public class SC_RoomRewards : MonoBehaviour
         Skill
     }
 
-    public List<RewardType> rewardList = new List<RewardType>();
+    public List<RewardType> rewardList = new List<RewardType>(); //List of the different type of reward, it is used to differentiate from which loot table the drop will be selected
 
-    public List<SC_Constellation> constellationList = new List<SC_Constellation>();
-    public SC_ResourceLootTable resourcesList;
+    public List<SC_Constellation> constellationList = new List<SC_Constellation>(); //The list of every constellation, used to check which constellation is followed by the player
+    public SC_ResourceLootTable resourcesList; //The loot table of every resources in the game
 
     [Tooltip("Must be at least 1 if at least the guaranteed skill, including the guaranteed skill")]
-    [SerializeField] private int numberOfReward;
+    [SerializeField] private int numberOfReward; //How many reward the player will get when there is a reward (Include the guaranteed skill if a constellation is followed by the player)
 
-    private SC_SkillsInventory skillInventoryScript;
-    private SC_ResourcesInventory resourcesInventoryScript;
+    private SC_SkillsInventory skillInventoryScript; //reference to the skill inventory script
+    private SC_ResourcesInventory resourcesInventoryScript; //reference to the resource inventory script
     
-    private SC_Constellation constellationFollowed;
-    private List<SC_Skill> skillRewardList = new List<SC_Skill>();
-    private List<SC_Resources> resourceRewardList = new List<SC_Resources>(); //Can be change with a simple variable instead of a List
+    private SC_Constellation constellationFollowed; //The constellation that is followed by the player and from which the guaranteed skill will be selected
+    private List<SC_Skill> skillRewardList = new List<SC_Skill>(); //List of every skill that has been dropped by the player
+    private List<SC_Resources> resourceRewardList = new List<SC_Resources>(); //List of every skill that has been dropped by the player //Can be change with a simple variable instead of a List
 
 
-    private void Awake()
+    private void Awake() 
     {
-        instance = this;
+        instance = this; //This script is made a singleton to be accessible from everywhere in the scene
     }
 
+    /// <summary>
+    /// Reset all the loot tables with their initial values (skill list)
+    /// </summary>
     public void ResetAllLootTables()
     {
         foreach (var constellation in constellationList)
@@ -49,11 +52,13 @@ public class SC_RoomRewards : MonoBehaviour
     /// </summary>
     public void SimulateReward()
     {
+        //Clearing all the lists used during the selection of drops
         rewardList.Clear();
         skillRewardList.Clear();
         resourceRewardList.Clear();
         
-        foreach (var constellation in constellationList) //Checking all constellation to know which one is followed
+        //Checking all constellation to know which one is followed
+        foreach (var constellation in constellationList) 
         {
             if (constellation.isFollowingThisConstellation)
             {
@@ -63,7 +68,7 @@ public class SC_RoomRewards : MonoBehaviour
             }
         }
 
-        //Guaranteed skill of the followed Constellation
+        //Guaranteed skill of the followed Constellation, if the player doesn't 
         if (constellationFollowed.constellationLootTable.lootTable.Count > 0) //Skip the guaranteed skill drop if there is no more skills in the pool
             skillRewardList.Add(constellationFollowed.constellationLootTable.GetDrop()[0]);
         
@@ -80,30 +85,32 @@ public class SC_RoomRewards : MonoBehaviour
         SelectReward(); //Select the 2 random rewards that the player will get
     }
 
+    /// <summary>
+    /// Select random rewards based on the reward types in the rewardList variable
+    /// </summary>
     private void SelectReward()
     {
-        for (int i = 0; i < (constellationFollowed.constellationLootTable.lootTable.Count>0?numberOfReward-1:numberOfReward); i++)
+        for (int i = 0; i < (constellationFollowed.constellationLootTable.lootTable.Count>0?numberOfReward-1:numberOfReward); i++) //There is a security in case the player already have all of the skill at max level from a the constellation he follows
         {
             switch (rewardList[i])
             {
-                case RewardType.Resource:
-                    //var indexofSelectedResource = Random.Range(0,resourcesList.lootTable.Count);
+                case RewardType.Resource: //Select a random resource
                     var resourceDropped = resourcesList.GetDrop()[0];
                     resourceDropped.amount = Random.Range(resourceDropped.minAmount, resourceDropped.maxAmount);
                     resourceRewardList.Add(resourceDropped);
                     break;
                 case RewardType.Skill: //Random skills from random selected constellations loot tables
                     var indexOfSelectedConstellation = Random.Range(0, constellationList.Count);
-                    if (constellationList[indexOfSelectedConstellation].constellationLootTable.lootTable.Count <= 0) //If the loot table selected is empty then re-randomize the drop
+                    if (constellationList[indexOfSelectedConstellation].constellationLootTable.lootTable.Count <= 0) //If the loot table selected is empty then re-randomize the drop to avoid null references
                     {
-                        i--;
+                        i--; //Need to decrease the index by 1 before continue so that there is the right amount of reward at the end
                         continue;
                     }
                     
                     var skillDropped = constellationList[indexOfSelectedConstellation].constellationLootTable.GetDrop()[0];
-                    if (skillRewardList.Contains(skillDropped))
+                    if (skillRewardList.Contains(skillDropped)) //Prevent the player to have twice the same skill in a single reward selection
                     {
-                        i--;
+                        i--; //Need to decrease the index by 1 before continue so that there is the right amount of reward at the end
                         continue;
                     }
                     skillRewardList.Add(skillDropped); //Getting the first drop of the lootTable and then adding it to the reward list if the reward is different from what have been already chosen
@@ -113,6 +120,7 @@ public class SC_RoomRewards : MonoBehaviour
             }
         }
 
+        #region Debug
         var line = "";
 
 
@@ -144,7 +152,7 @@ public class SC_RoomRewards : MonoBehaviour
 
 
         Debug.Log(line);
-        
+        #endregion
     }
     
     public void ChooseReward(int index)
