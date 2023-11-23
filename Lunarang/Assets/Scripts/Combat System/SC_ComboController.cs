@@ -61,21 +61,12 @@ public class SC_ComboController : MonoBehaviour
 
     #endregion
     
-    private Animator _animator;
+    public Animator _animator;
     private SC_PlayerController _controller;
     
     #endregion
 
     #region Init
-    
-    
-    /// <summary>
-    /// Get Animator
-    /// </summary>
-    private void Awake()
-    {
-        if (!TryGetComponent(out _animator)) return;
-    }
     
     private void Start()
     {
@@ -124,9 +115,21 @@ public class SC_ComboController : MonoBehaviour
     /// </summary>
     private void UpdateAnimator()
     {
+        
         _animator.SetInteger("Combo", comboCounter);
-        if(currentWeapon != null)
-            _animator.SetInteger("Type", (int)currentWeapon.type);
+        if (currentWeapon != null)
+            _animator.SetTrigger(currentWeapon.id);
+        
+        if (currentComboParameters.Count > 0)
+        {
+            _animator.SetInteger("Parameter_1", (int) currentComboParameters[0]);
+        }
+        else if (currentComboParameters.Count > 1)
+        {
+            _animator.SetInteger("Parameter_1", (int) currentComboParameters[0]);
+            _animator.SetInteger("Parameter_2", (int) currentComboParameters[1]);
+        }
+        
     }
 
     #region Combo Part
@@ -134,7 +137,7 @@ public class SC_ComboController : MonoBehaviour
     /// <summary>
     /// Set combo to performable.
     /// </summary>
-    private void CanPerformCombo()
+    public void CanPerformCombo()
     {
         canPerformCombo = true;
 
@@ -148,7 +151,7 @@ public class SC_ComboController : MonoBehaviour
     /// <summary>
     /// Set combo to not performable.
     /// </summary>
-    private void CantPerformCombo()
+    public void CantPerformCombo()
     {
         canPerformCombo = false;
     }
@@ -187,7 +190,7 @@ public class SC_ComboController : MonoBehaviour
     /// <summary>
     /// Reset the current combo and its parameters.
     /// </summary>
-    private void ResetCombo()
+    public void ResetCombo()
     {
         comboCounter = 0;
         currentType = WeaponType.Null;
@@ -212,7 +215,7 @@ public class SC_ComboController : MonoBehaviour
     /// <summary>
     /// Deactivate the possibility to do stock an input.
     /// </summary>
-    public void DesactivateInputBuffering()
+    public void DeactivateInputBuffering()
     {
         isInputBufferingOn = false;
         print("Buffering Off");

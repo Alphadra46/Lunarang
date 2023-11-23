@@ -27,7 +27,10 @@ public class SC_DebugConsole : MonoBehaviour
 
 
     #region Init
-
+    
+    /// <summary>
+    /// 
+    /// </summary>
     private void Start()
     {
         SC_InputManager.instance.console.started += ShowConsole;
@@ -66,6 +69,7 @@ public class SC_DebugConsole : MonoBehaviour
         
     }
 
+    
     private void Update()
     {
         
@@ -79,6 +83,10 @@ public class SC_DebugConsole : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="text"></param>
     public void PrintLine(string text)
     {
         if(!textLinesPanel.gameObject.activeInHierarchy) textLinesPanel.gameObject.SetActive(true);

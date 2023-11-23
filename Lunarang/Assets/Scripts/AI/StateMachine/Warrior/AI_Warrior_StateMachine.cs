@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 public class AI_Warrior_StateMachine : StateManager<AI_Warrior_StateMachine.EnemyState>
 {
     
-    public enum EnemyState
+    public enum EnemyState // TODO : Combiner les Enums
     {
         
         Idle,
@@ -114,6 +114,7 @@ public class AI_Warrior_StateMachine : StateManager<AI_Warrior_StateMachine.Enem
         CurrentState = States[EnemyState.Idle];
     }
 
+    // TODO : Refaire les commentaires.
     /// <summary>
     /// Get a random point in a certain range.
     /// </summary>
@@ -163,12 +164,12 @@ public class AI_Warrior_StateMachine : StateManager<AI_Warrior_StateMachine.Enem
     /// <param name="other"></param>
     public void OnTriggerEnter(Collider other)
     {
+        
         if(!other.CompareTag("HurtBox_Player")) return;
         
         TransitionToState(EnemyState.Stun);
         
     }
-
 
     #region Gizmos
 

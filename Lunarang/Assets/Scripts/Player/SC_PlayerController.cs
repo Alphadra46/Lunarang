@@ -19,7 +19,7 @@ public class SC_PlayerController : MonoBehaviour
     public static SC_PlayerController instance;
     
     private CharacterController _characterController;
-    private Animator _animator;
+    public Animator _animator;
 
     #region Movements
 
@@ -85,7 +85,6 @@ public class SC_PlayerController : MonoBehaviour
         instance = this;
         
         _characterController = GetComponent<CharacterController>();
-        _animator = GetComponent<Animator>();
     }
 
     /// <summary>
@@ -223,6 +222,8 @@ public class SC_PlayerController : MonoBehaviour
         currentMovement.x = currentMovementInput.x; // Set the current movement vector x with the input value
         currentMovement.z = currentMovementInput.y; // Set the current movement vector y with the input value
         isMovementInputPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0; // Set a boolean to check if the player is pressing the input
+        
+        _animator.SetBool("isMoving", isMovementInputPressed);
         
     }
     

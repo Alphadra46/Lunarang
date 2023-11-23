@@ -5,7 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Weapon/Weapon Template")]
 public class SC_Weapon : ScriptableObject
 {
-    
+
+    public string id;
     public WeaponType type;
     public ParameterType parameter;
     public List<float> MovesValues = new List<float>();

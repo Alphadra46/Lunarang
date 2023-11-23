@@ -10,7 +10,7 @@ using UnityEngine.AI;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class SC_AIStats : MonoBehaviour
+public class SC_AIStats : MonoBehaviour, IDamageable
 {
 
     #region Variables
@@ -289,12 +289,10 @@ public class SC_AIStats : MonoBehaviour
     /// Apply this amount to the entity.
     /// </summary>
     /// <param name="rawDamage">Amount of a non-crit damage</param>
-    /// <param name="rawCrit">Amount of a crit damage</param>
-    /// <param name="isCrit">is this damage a Crit ?</param>
-    public void TakeDamage(float rawDamage, float rawCrit, bool isCrit)
+    public void TakeDamage(float rawDamage)
     {
         // Check if the damage is a Critical one and reduce damage by the current DEF of the entity.
-        var finalDamage = isCrit ? rawCrit * defMultiplier : rawDamage * defMultiplier; 
+        var finalDamage = rawDamage * defMultiplier;
 
         // Apply damage to the entity. Check if doesn't go below 0.
         currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;
@@ -340,7 +338,7 @@ public class SC_AIStats : MonoBehaviour
         }
         else
         {
-            TakeDamage(rawDamage, rawCrit, isCritical);
+            TakeDamage(rawDamage);
         }
 
     }
@@ -351,6 +349,5 @@ public class SC_AIStats : MonoBehaviour
     }
 
     #endregion
-
     
 }
