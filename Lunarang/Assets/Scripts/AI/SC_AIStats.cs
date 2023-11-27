@@ -292,7 +292,7 @@ public class SC_AIStats : MonoBehaviour, IDamageable
     public void TakeDamage(float rawDamage)
     {
         // Check if the damage is a Critical one and reduce damage by the current DEF of the entity.
-        var finalDamage = rawDamage * defMultiplier;
+        var finalDamage = MathF.Round(rawDamage * defMultiplier);
 
         // Apply damage to the entity. Check if doesn't go below 0.
         currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;

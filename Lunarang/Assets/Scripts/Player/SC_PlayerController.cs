@@ -117,6 +117,7 @@ public class SC_PlayerController : MonoBehaviour
             return;
         
         isDashing = true;
+        
         _animator.SetBool("IsDashing", true);
         StartCoroutine(DashCoroutine());
         
@@ -198,12 +199,24 @@ public class SC_PlayerController : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (!isDashing)
-        {
-            Gravity();
-            Rotate(); // Rotate the player
-            _characterController.Move((IsoVectorConvert(currentMovement) * SC_PlayerStats.instance.currentSpeed) * Time.deltaTime); // Move the player
-        }
+        isMovementInputPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0; // Set a boolean to check if the player is pressing the input
+
+        _animator.SetBool("isMoving", isMovementInputPressed);
+        _animator.SetBool("canMove", canMove);
+
+        if (!canMove) return;
+            
+        Gravity();
+        Rotate(); // Rotate the player
+        _characterController.Move((IsoVectorConvert(currentMovement) * SC_PlayerStats.instance.currentSpeed) * Time.deltaTime); // Move the player
+    }
+
+    public void FreezeMovement(bool value)
+    {
+        
+        canMove = value;
+        currentMovementInput = value ? Vector2.zero : currentMovementInput;
+        currentMovement = value ? Vector3.zero : currentMovementInput;
             
     }
 
@@ -221,9 +234,6 @@ public class SC_PlayerController : MonoBehaviour
         currentMovementInput = ctx.ReadValue<Vector2>(); // Read the input value
         currentMovement.x = currentMovementInput.x; // Set the current movement vector x with the input value
         currentMovement.z = currentMovementInput.y; // Set the current movement vector y with the input value
-        isMovementInputPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0; // Set a boolean to check if the player is pressing the input
-        
-        _animator.SetBool("isMoving", isMovementInputPressed);
         
     }
     

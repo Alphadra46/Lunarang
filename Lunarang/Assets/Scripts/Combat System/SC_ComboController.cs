@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -67,7 +68,12 @@ public class SC_ComboController : MonoBehaviour
     #endregion
 
     #region Init
-    
+
+    private void Awake()
+    {
+        if(!TryGetComponent(out _controller)) return;
+    }
+
     private void Start()
     {
         AttachInputToAttack();
@@ -102,6 +108,9 @@ public class SC_ComboController : MonoBehaviour
         {
             IncrementCombo(usedWeapon);
             UpdateAnimator();
+            
+            _controller.FreezeMovement(true);
+
         }
         else if(isInputBufferingOn)
         {

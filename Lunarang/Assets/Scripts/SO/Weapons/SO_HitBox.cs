@@ -23,7 +23,7 @@ public class SO_HitBox : ScriptableObject
     [ShowIf("type", HitBoxType.Box)]
     public Vector3 halfExtents;
     [ShowIf("type", HitBoxType.Box)]
-    public Quaternion orientation;
+    public Quaternion orientation = new Quaternion(0, 0, 0, 0);
 
     #endregion
 
