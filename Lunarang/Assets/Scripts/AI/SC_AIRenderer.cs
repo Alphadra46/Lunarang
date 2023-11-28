@@ -10,8 +10,6 @@ public class SC_AIRenderer : MonoBehaviour
 {
 
     #region Variables
-
-    public Transform _transform;
     
     [BoxGroup("Damage Area")]
     public GameObject TextDamageUI;
@@ -27,7 +25,6 @@ public class SC_AIRenderer : MonoBehaviour
     public TextMeshProUGUI debugUIWeaknesses;
     
     #endregion
-    
     
     
     #endregion
@@ -52,6 +49,8 @@ public class SC_AIRenderer : MonoBehaviour
 
     #endregion
 
+    
+
     #region Functions
 
     /// <summary>
@@ -61,7 +60,7 @@ public class SC_AIRenderer : MonoBehaviour
     /// <param name="maxHP">Maximal amount of Health Point.</param>
     public void UpdateHealthBar(float currentHP, float maxHP)
     {
-        debugUIHP.text = currentHP + "/" + maxHP;    
+        debugUIHP.text = currentHP + "/" + maxHP;
     }
     
     /// <summary>

@@ -7,17 +7,17 @@ using UnityEngine.AI;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class AI_Archer_StateMachine : StateManager<AI_Archer_StateMachine.EnemyState>
+public class AI_Bully_StateMachine : StateManager<AI_Bully_StateMachine.EnemyState>
 {
     
-    public enum EnemyState
+    public enum EnemyState // TODO : Combiner les Enums
     {
         
         Idle,
         Patrol,
         Chase,
         Attack,
-        Defense
+        Stun
         
     }
 
@@ -63,36 +63,28 @@ public class AI_Archer_StateMachine : StateManager<AI_Archer_StateMachine.EnemyS
     #region Attack
     
     [TabGroup("States", "Attack")]
+    [Range(1f, 100f)] public float attackRange = 1f;
+    [TabGroup("States", "Attack")]
     [Tooltip("Current base ATK Speed of the enemy")] public float atkSpdBase = 1;
     [TabGroup("States", "Attack")]
     [Tooltip("Current base ATK Cooldown of the enemy")] public float atkCDBase = 1;
+    [TabGroup("States", "Attack")]
+    [Tooltip("Attack Duration")] public float atkDuration = 1f;
+    
+    
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("States", "Attack")]
-    public GameObject projectileGO;
-    [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("States", "Attack")]
-    public Vector3 ProjectileSpawnOffset = new Vector3(0, 0.5f, 0);
+    public GameObject hurtBox;
     [TabGroup("States", "Attack")]
     public LayerMask layersAttackable;
     
     
     #endregion
 
-    #region Defense
-
-    [TabGroup("States", "Defense")]
-    [Range(1f, 100f)]
-    public float defenseAreaRadius = 1;
-    [TabGroup("States", "Defense")]
-    [Range(1f, 100f)]
-    public float defenseCDBase = 2f;
-    [TabGroup("States", "Defense")]
-    [Range(1f, 100f)]
-    public float dashSpeed = 4f;
-    [TabGroup("States", "Defense")]
-    [Range(0f, 1f)]
-    public float dashDuration = 1f;
+    #region Stun
     
+    [TabGroup("States", "Stun")]
+    public float stunDuration = 0.2f;
 
     #endregion
 
@@ -113,65 +105,53 @@ public class AI_Archer_StateMachine : StateManager<AI_Archer_StateMachine.EnemyS
         if (!TryGetComponent(out _stats)) return;
         if (!TryGetComponent(out _rb)) return;
         
-        States.Add(EnemyState.Idle, new AI_Archer_IdleState(EnemyState.Idle, this));
-        States.Add(EnemyState.Patrol, new AI_Archer_PatrolState(EnemyState.Patrol, this));
-        States.Add(EnemyState.Chase, new AI_Archer_ChaseState(EnemyState.Chase, this));
-        States.Add(EnemyState.Attack, new AI_Archer_AttackState(EnemyState.Attack, this));
-        States.Add(EnemyState.Defense, new AI_Archer_DefenseState(EnemyState.Defense, this));
+        States.Add(EnemyState.Idle, new AI_Bully_IdleState(EnemyState.Idle, this));
+        States.Add(EnemyState.Patrol, new AI_Bully_PatrolState(EnemyState.Patrol, this));
+        States.Add(EnemyState.Chase, new AI_Bully_ChaseState(EnemyState.Chase, this));
+        States.Add(EnemyState.Attack, new AI_Bully_AttackState(EnemyState.Attack, this));
+        States.Add(EnemyState.Stun, new AI_Bully_StunState(EnemyState.Stun, this));
         
         CurrentState = States[EnemyState.Idle];
     }
-    
+
+    // TODO : Refaire les commentaires.
+
     /// <summary>
-    /// Summon a projectile from the spawn offset.
-    /// Set all the settings of the projectile.
+    /// Activate the hurtbox to deal damage to the forward entity.
     /// </summary>
-    public void SpawnProjectile()
+    public void Attack()
     {
         
-        var projectile = Instantiate(projectileGO).GetComponent<SC_Projectile>();
-
-        projectile.transform.position = centerPoint.position + ProjectileSpawnOffset;
-        projectile.transform.forward = centerPoint.forward;
+        hurtBox.SetActive(true);
         
-        projectile.speed = atkSpdBase;
-        projectile.damage = (int)Mathf.Round((_stats.moveValues[_stats.moveValueIndex] * _stats.currentATK));
-        projectile._rb.AddForce(centerPoint.transform.forward * projectile.speed, ForceMode.VelocityChange);
-
     }
 
     /// <summary>
-    /// Check if the target is in line of sight.
+    /// Switch to Stun State when Player's Hurtbox touche him.
     /// </summary>
-    /// <param name="target">Transform targeted</param>
-    /// <param name="start"></param>
-    /// <returns>
-    /// Boolean of has in line of sight.
-    /// </returns>
-    public bool hasLineOfSightTo(Transform target, Transform start)
+    /// <param name="other"></param>
+    public void OnTriggerEnter(Collider other)
     {
-        return Physics.SphereCast(start.position + ProjectileSpawnOffset, 0.1f,
-            ((target.position + ProjectileSpawnOffset) -
-             (start.position + ProjectileSpawnOffset)).normalized, out var Hit,
-            chaseAreaRadius, layersAttackable) && Hit.collider.CompareTag("Player");
+        
+        if(!other.CompareTag("HurtBox_Player")) return;
+        
+        TransitionToState(EnemyState.Stun);
+        
     }
 
     #region Gizmos
 
     private void OnDrawGizmos()
     {
-        // Patrol Zone
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, patrolRadius);
-        
+
         // Chase Area
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, chaseAreaRadius);
         
-        // Defense Area
+        // Attack Area
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, defenseAreaRadius);
-        
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+
         // Forward Ray
         Gizmos.color = Color.yellow;
         Gizmos.DrawRay(new Vector3(centerPoint.position.x, 1, centerPoint.position.z), centerPoint.forward);

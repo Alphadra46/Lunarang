@@ -29,7 +29,7 @@ public class SC_DebugConsole : MonoBehaviour
     #region Init
     
     /// <summary>
-    /// 
+    /// Initialize all references and inputs.
     /// </summary>
     private void Start()
     {
@@ -39,7 +39,7 @@ public class SC_DebugConsole : MonoBehaviour
     }
 
     /// <summary>
-    /// Open a console
+    /// Open the command text box and an command line log.
     /// </summary>
     /// <param name="ctx"></param>
     private void ShowConsole(InputAction.CallbackContext ctx)
@@ -68,14 +68,16 @@ public class SC_DebugConsole : MonoBehaviour
         }
         
     }
-
     
+    /// <summary>
+    /// Force the Event System to focus on the CommandLine.
+    /// </summary>
     private void Update()
     {
         
         if (currentUI == null) return;
 
-        if (commandline.isFocused != false) return;
+        if (commandline.isFocused) return;
         
         EventSystem.current.SetSelectedGameObject(commandline.gameObject, null);
         commandline.OnPointerClick(new PointerEventData(EventSystem.current));
@@ -84,9 +86,9 @@ public class SC_DebugConsole : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Create a new text line in the command line log.
     /// </summary>
-    /// <param name="text"></param>
+    /// <param name="text">String that showed in the text line.</param>
     public void PrintLine(string text)
     {
         if(!textLinesPanel.gameObject.activeInHierarchy) textLinesPanel.gameObject.SetActive(true);

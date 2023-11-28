@@ -4,6 +4,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [Serializable]
 public struct Commands
@@ -38,7 +39,6 @@ public class SC_Commands : MonoBehaviour
             
             // Command : Kill
             case "kill":
-                // No argument
                 if (textSplited.Length <= 1)
                 {
                     Destroy(FindObjectOfType<SC_PlayerController>().gameObject);
@@ -46,6 +46,7 @@ public class SC_Commands : MonoBehaviour
                 }
                 else
                 {
+                    
                     // More than one argument
                     if(textSplited[1].Split(",", StringSplitOptions.RemoveEmptyEntries).Length > 1){
                         var args = textSplited[1].Split(",", StringSplitOptions.RemoveEmptyEntries);
@@ -111,6 +112,25 @@ public class SC_Commands : MonoBehaviour
                             }
                             
                         }
+                        else if (arg.Contains("@a"))
+                        {
+                            
+                            var screenPos = Input.mousePosition;
+                            
+                            var ray = Camera.main.ScreenPointToRay(screenPos);
+
+                            if (Physics.Raycast(ray, out var hitData)) {
+                                
+                                if (hitData.collider.CompareTag("Entity") || hitData.collider.CompareTag("Player"))
+                                {
+                                    Destroy(hitData.collider.gameObject);
+                                }
+                                
+                            }
+                            
+                            console.PrintLine("<color=#42adf5>"+ hitData.collider.name + " <color=white>has been killed.");
+                            
+                        }
                         
                     }
                     
@@ -119,7 +139,6 @@ public class SC_Commands : MonoBehaviour
                 break;
             
             case "summon":
-
                 switch (textSplited.Length)
                 {
                     
@@ -127,35 +146,23 @@ public class SC_Commands : MonoBehaviour
                         console.PrintLine("<color=red> Please enter an entity type.");
                         break;
                     case 2:
-                        foreach (var entity in from prefab in SC_GameManager.instance.prefabsEntities where textSplited[1] == prefab.name.ToLower() select Instantiate(prefab))
+                        var entityID = textSplited[1];
+                        
+                        foreach (var entity in from prefab in SC_GameManager.instance.prefabsEntities where entityID == prefab.GetComponent<SC_AIStats>().typeID select Instantiate(prefab))
                         {
-                            var player = GameObject.FindWithTag("Player").transform;
-
-                            entity.transform.position = player.position;
+                            var screenPos = Input.mousePosition;
                             
+                            var ray = Camera.main.ScreenPointToRay(screenPos);
+
+                            if (Physics.Raycast(ray, out var hitData)) {
+                                var worldPos = hitData.point;
+                                print(worldPos);
+                                entity.transform.position = worldPos;
+                            }
                         }
                         
-                        console.PrintLine("<color=green> Entity : " + textSplited[1] + " summoned at player pos");
+                        console.PrintLine("<color=green> Entity : " + entityID + " summoned at mouse position.");
                         break;
-                    case > 2:
-                    {
-                        var coords = textSplited[2].Split(":")[1].Split(",");
-                        var x = coords[0];
-                        var y = coords[1];
-                        
-                        foreach (var entity in from prefab in SC_GameManager.instance.prefabsEntities where textSplited[1] == prefab.GetComponent<SC_AIStats>().typeID select Instantiate(prefab))
-                        {
-                            if (!textSplited[2].Contains("@pos:")) continue;
-                            
-
-                            entity.transform.position = new Vector3(float.Parse(x), 0, float.Parse(y));
-
-                        }
-                        
-                        console.PrintLine("<color=green> Entity : " + textSplited[1] + " summoned at loc : x: " + coords[0] + " y: " + coords[1]);
-                        break;
-                    }
-                    
                 }
                 
                 break;

@@ -3,17 +3,17 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AI_Archer_PatrolState : BaseState<AI_Archer_StateMachine.EnemyState>
+public class AI_Bully_PatrolState : BaseState<AI_Bully_StateMachine.EnemyState>
 {
     
-    public AI_Archer_PatrolState(AI_Archer_StateMachine.EnemyState key, AI_Archer_StateMachine manager) : base(key , manager)
+    public AI_Bully_PatrolState(AI_Bully_StateMachine.EnemyState key, AI_Bully_StateMachine manager) : base(key , manager)
     {
-        _aiArcherStateMachine = manager;
+        _aiStateMachine = manager;
     }
 
     #region Variables
 
-    private readonly AI_Archer_StateMachine _aiArcherStateMachine;
+    private readonly AI_Bully_StateMachine _aiStateMachine;
     private NavMeshAgent _agent;
 
     private bool canMove = true;
@@ -27,7 +27,7 @@ public class AI_Archer_PatrolState : BaseState<AI_Archer_StateMachine.EnemyState
     /// </summary>
     public override void EnterState()
     {
-        _agent = _aiArcherStateMachine.agent;
+        _agent = _aiStateMachine.agent;
         _agent.updateRotation = false;
     }
 
@@ -35,19 +35,18 @@ public class AI_Archer_PatrolState : BaseState<AI_Archer_StateMachine.EnemyState
     {
         
     }
-    
+
     /// <summary>
     /// Check if Player is in chase area, if yes enter Chase State, else set a random point in his range.
     /// </summary>
     public override void UpdateState()
     {
         
-        objectsInArea = Physics.OverlapSphere(_aiArcherStateMachine.centerPoint.position, _aiArcherStateMachine.chaseAreaRadius);
+        objectsInArea = Physics.OverlapSphere(_aiStateMachine.centerPoint.position, _aiStateMachine.chaseAreaRadius);
         
         if (objectsInArea.Any(obj => obj.CompareTag("Player")))
         {
-            _aiArcherStateMachine.TransitionToState(AI_Archer_StateMachine.EnemyState.Chase);
-            Debug.Log("!!");
+            _aiStateMachine.TransitionToState(AI_Bully_StateMachine.EnemyState.Chase);
         }
         else
         {
@@ -55,31 +54,31 @@ public class AI_Archer_PatrolState : BaseState<AI_Archer_StateMachine.EnemyState
         
             if (!canMove) return;
 
-            if (!_aiArcherStateMachine.RandomPoint(_aiArcherStateMachine.transform.position, _aiArcherStateMachine.RandomPatrolRange(_aiArcherStateMachine.patrolRadiusMin, _aiArcherStateMachine.patrolRadiusMax),
+            if (!_aiStateMachine.RandomPoint(_aiStateMachine.transform.position, 6,
                     out var point)) return;
             
             Debug.DrawRay(point, Vector3.up, Color.blue, 1f);
             _agent.SetDestination(point);
 
-            _aiArcherStateMachine.centerPoint.LookAt(new Vector3(point.x, _aiArcherStateMachine.centerPoint.position.y, point.z));
+            _aiStateMachine.centerPoint.LookAt(new Vector3(point.x, _aiStateMachine.centerPoint.position.y, point.z));
             
-            _aiArcherStateMachine.StartCoroutine(DelayBeforeNextDestination());
+            _aiStateMachine.StartCoroutine(DelayBeforeNextDestination());
         }
         
     }
 
-    public override AI_Archer_StateMachine.EnemyState GetNextState()
+    public override AI_Bully_StateMachine.EnemyState GetNextState()
     {
-        return AI_Archer_StateMachine.EnemyState.Patrol;
+        return AI_Bully_StateMachine.EnemyState.Patrol;
     }
-    
+
     /// <summary>
     /// Delay before find a new destination.
     /// </summary>
     IEnumerator DelayBeforeNextDestination()
     {
         canMove = false;
-        yield return new WaitForSeconds(_aiArcherStateMachine.patrolDelay);
+        yield return new WaitForSeconds(_aiStateMachine.patrolDelay);
         canMove = true;
     }
     

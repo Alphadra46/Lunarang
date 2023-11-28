@@ -305,7 +305,6 @@ public class SC_AIStats : MonoBehaviour, IDamageable
         _renderer.DebugDamage(finalDamage);
         
         if(currentHealth == 0) Destroy(gameObject);
-
     }
     
 

@@ -5,17 +5,17 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyState>
+public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
 {
     
-    public AI_Warrior_ChaseState(AI_Warrior_StateMachine.EnemyState key, AI_Warrior_StateMachine manager) : base(key, manager)
+    public AI_Bully_ChaseState(AI_Bully_StateMachine.EnemyState key, AI_Bully_StateMachine manager) : base(key, manager)
     {
         _aiStateMachine = manager;
     }
     
     #region Variables
 
-    private readonly AI_Warrior_StateMachine _aiStateMachine;
+    private readonly AI_Bully_StateMachine _aiStateMachine;
     private NavMeshAgent _agent;
     private Transform _transform;
     
@@ -29,7 +29,6 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
     #endregion
     
 
-    // ReSharper disable Unity.PerformanceAnalysis
     /// <summary>
     /// Initialize references.
     /// </summary>
@@ -48,7 +47,14 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
     /// </summary>
     public override void ExitState()
     {
-        if (_aiStateMachine.NextState == AI_Warrior_StateMachine.EnemyState.Attack) _aiStateMachine.StartCoroutine(AttackCooldown());
+        
+        switch (_aiStateMachine.NextState)
+        {
+            case AI_Bully_StateMachine.EnemyState.Attack:
+                _aiStateMachine.StartCoroutine(AttackCooldown());
+                break;
+        }
+        
     }
     
     
@@ -68,10 +74,9 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
         {
             
             _agent.isStopped = true;
-            if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform, _aiStateMachine.chaseAreaRadius, _aiStateMachine.layersAttackable))
+            if (canAttack && hasLineOfSightTo(player.transform))
             {
-                Debug.Log("DIEEE");
-                _aiStateMachine.TransitionToState(AI_Warrior_StateMachine.EnemyState.Attack);
+                _aiStateMachine.TransitionToState(AI_Bully_StateMachine.EnemyState.Attack);
             }
                 
         }
@@ -84,18 +89,31 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
         }
         else
         {
-            _aiStateMachine.TransitionToState(AI_Warrior_StateMachine.EnemyState.Patrol);
+            _aiStateMachine.TransitionToState(AI_Bully_StateMachine.EnemyState.Patrol);
         }
         
         _aiStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiStateMachine.centerPoint.position.y, player.transform.position.z));
         
     }
     
-
-
-    public override AI_Warrior_StateMachine.EnemyState GetNextState()
+    /// <summary>
+    /// Check if the target is in line of sight.
+    /// </summary>
+    /// <param name="target">Transform targeted</param>
+    /// <returns>
+    /// Boolean of has in line of sight.
+    /// </returns>
+    private bool hasLineOfSightTo(Transform target)
     {
-        return AI_Warrior_StateMachine.EnemyState.Chase;
+        return Physics.SphereCast(_transform.position, 0.1f,
+            ((target.position) -
+             (_transform.position)).normalized, out var Hit,
+            _aiStateMachine.chaseAreaRadius, _aiStateMachine.layersAttackable) && Hit.collider.CompareTag("Player");
+    }
+
+    public override AI_Bully_StateMachine.EnemyState GetNextState()
+    {
+        return AI_Bully_StateMachine.EnemyState.Chase;
     }
     
     /// <summary>

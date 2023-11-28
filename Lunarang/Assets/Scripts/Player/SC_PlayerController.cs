@@ -118,7 +118,7 @@ public class SC_PlayerController : MonoBehaviour
         
         isDashing = true;
         
-        _animator.SetBool("IsDashing", true);
+        _animator.SetBool("isDashing", true);
         StartCoroutine(DashCoroutine());
         
     }
@@ -137,7 +137,7 @@ public class SC_PlayerController : MonoBehaviour
             yield return null;
         }
         isDashing = false;
-        _animator.SetBool("IsDashing", false);
+        _animator.SetBool("isDashing", false);
     }
     
     /// <summary>

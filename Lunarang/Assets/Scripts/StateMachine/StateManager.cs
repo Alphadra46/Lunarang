@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public abstract class StateManager<EState> : MonoBehaviour where EState : System.Enum
 {
@@ -45,4 +47,57 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : System
         IsTransitionState = false;
         
     }
+    
+    /// <summary>
+    /// Get a random point in a certain range.
+    /// </summary>
+    /// <param name="center">Center of the range</param>
+    /// <param name="range">Radius of the range</param>
+    /// <param name="result">Found Point</param>
+    /// <returns>Return a boolean depending on whether he found a point or not.</returns>
+    public bool RandomPoint(Vector3 center, float range, out Vector3 result)
+    {
+
+        var randomPoint = center + Random.insideUnitSphere * range;
+
+        if (NavMesh.SamplePosition(randomPoint, out var hit, 1.0f, NavMesh.AllAreas))
+        {
+            result = hit.position;
+            return true;
+        }
+        
+        result = Vector3.zero;
+        return false;
+    }
+
+    /// <summary>
+    /// Get a random range for Patrol between a Min and a Max value.
+    /// </summary>
+    /// <returns>Random patrol radius</returns>
+    public float RandomPatrolRange(float min, float max)
+    {
+        var patrolRadius = Random.Range(min, max);
+
+        return patrolRadius;
+    }
+
+
+    /// <summary>
+    /// Check if the target is in line of sight.
+    /// </summary>
+    /// <param name="target">Transform targeted</param>
+    /// <param name="start"></param>
+    /// <param name="chaseAreaRadius"></param>
+    /// <param name="layersAttackable"></param>
+    /// <returns>
+    /// Boolean of has in line of sight.
+    /// </returns>
+    public bool hasLineOfSightTo(Transform target, Transform start, float chaseAreaRadius, LayerMask layersAttackable)
+    {
+        return Physics.SphereCast(start.position + Vector3.up, 0.1f,
+            ((target.position + Vector3.up) -
+             (start.position + Vector3.up)).normalized, out var Hit,
+            chaseAreaRadius, layersAttackable) && Hit.collider.CompareTag("Player");
+    }
+    
 }

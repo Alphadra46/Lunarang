@@ -84,7 +84,7 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
         else if (distance <= _aiArcherStateMachine.chaseAreaRadius)
         {
             _agent.isStopped = true;
-            if (canAttack && hasLineOfSightTo(player.transform))
+            if (canAttack && _aiArcherStateMachine.hasLineOfSightTo(player.transform, _transform))
             {
                 _aiArcherStateMachine.TransitionToState(AI_Archer_StateMachine.EnemyState.Attack);
             }
@@ -99,21 +99,7 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
         _aiArcherStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiArcherStateMachine.centerPoint.position.y, player.transform.position.z));
         
     }
-
-    /// <summary>
-    /// Check if the target is in line of sight.
-    /// </summary>
-    /// <param name="target">Transform targeted</param>
-    /// <returns>
-    /// Boolean of has in line of sight.
-    /// </returns>
-    private bool hasLineOfSightTo(Transform target)
-    {
-        return Physics.SphereCast(_transform.position + _aiArcherStateMachine.ProjectileSpawnOffset, 0.1f,
-            ((target.position + _aiArcherStateMachine.ProjectileSpawnOffset) -
-             (_transform.position + _aiArcherStateMachine.ProjectileSpawnOffset)).normalized, out var Hit,
-            _aiArcherStateMachine.chaseAreaRadius, _aiArcherStateMachine.layersAttackable) && Hit.collider.CompareTag("Player");
-    }
+    
     
     public override AI_Archer_StateMachine.EnemyState GetNextState()
     {
