@@ -118,6 +118,8 @@ public class SC_PlayerStats : MonoBehaviour, IDamageable
     #endregion
 
     private SC_PlayerController _controller;
+    public GameObject mainHUD;
+    public SC_UI_HealthBar hpBar;
 
     #endregion
 
@@ -141,6 +143,7 @@ public class SC_PlayerStats : MonoBehaviour, IDamageable
     private void Start()
     {
         currentHealth = maxHealth;
+        hpBar.HealthUpdate(currentHealth, maxHealth);
     }
 
     #endregion
@@ -211,6 +214,8 @@ public class SC_PlayerStats : MonoBehaviour, IDamageable
         
         currentHealth = currentHealth - finalDamage < 0 ? 0 : currentHealth - finalDamage;
         
+        hpBar.HealthUpdate(currentHealth, maxHealth);
+        
     }
 
     /// <summary>
@@ -221,6 +226,8 @@ public class SC_PlayerStats : MonoBehaviour, IDamageable
     {
         // Check if the heal don't exceed the Max HP limit, if yes, set to max hp, else increment currentHP by healAmount.
         currentHealth = currentHealth + healAmount > maxHealth ? maxHealth : currentHealth + healAmount;
+        
+        hpBar.HealthUpdate(currentHealth, maxHealth);
     }
 
     /// <summary>

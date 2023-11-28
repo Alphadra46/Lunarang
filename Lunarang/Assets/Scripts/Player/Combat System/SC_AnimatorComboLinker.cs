@@ -8,6 +8,7 @@ public class SC_AnimatorComboLinker : MonoBehaviour
 {
 
     public SC_ComboController comboController;
+    public SC_PlayerController movementController;
 
     // All functions here are just to link the Animator from the Mesh to the ComboController
     
@@ -72,12 +73,15 @@ public class SC_AnimatorComboLinker : MonoBehaviour
         
     }
 
-    private void OnDrawGizmos()
+    public void FreezeMovement()
     {
-        
-        
-        
+        movementController.FreezeMovement(true);
     }
+    public void UnfreezeMovement()
+    {
+        movementController.FreezeMovement(false);
+    }
+    
 }
 
 
