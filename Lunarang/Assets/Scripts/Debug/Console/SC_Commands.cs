@@ -28,7 +28,10 @@ public class SC_Commands : MonoBehaviour
         instance = this;
     }
 
-
+    /// <summary>
+    /// Compare the received text with the various possible admin commands, then perform their actions.
+    /// </summary>
+    /// <param name="text">Text to compare</param>
     public void SendCommand(string text)
     {
         var textSplited = text.ToLower().Split(" ");
@@ -117,7 +120,7 @@ public class SC_Commands : MonoBehaviour
                             
                             var screenPos = Input.mousePosition;
                             
-                            var ray = Camera.main.ScreenPointToRay(screenPos);
+                            var ray = Camera.main!.ScreenPointToRay(screenPos);
 
                             if (Physics.Raycast(ray, out var hitData)) {
                                 
@@ -152,13 +155,12 @@ public class SC_Commands : MonoBehaviour
                         {
                             var screenPos = Input.mousePosition;
                             
-                            var ray = Camera.main.ScreenPointToRay(screenPos);
+                            var ray = Camera.main!.ScreenPointToRay(screenPos);
 
-                            if (Physics.Raycast(ray, out var hitData)) {
-                                var worldPos = hitData.point;
-                                print(worldPos);
-                                entity.transform.position = worldPos;
-                            }
+                            if (!Physics.Raycast(ray, out var hitData)) continue;
+                            var worldPos = hitData.point;
+                            print(worldPos);
+                            entity.transform.position = worldPos;
                         }
                         
                         console.PrintLine("<color=green> Entity : " + entityID + " summoned at mouse position.");

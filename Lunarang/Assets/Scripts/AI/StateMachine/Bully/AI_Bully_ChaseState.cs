@@ -74,7 +74,7 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
         {
             
             _agent.isStopped = true;
-            if (canAttack && hasLineOfSightTo(player.transform))
+            if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _aiStateMachine.centerPoint, _aiStateMachine.chaseAreaRadius, _aiStateMachine.layersAttackable))
             {
                 _aiStateMachine.TransitionToState(AI_Bully_StateMachine.EnemyState.Attack);
             }
@@ -91,25 +91,12 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
         {
             _aiStateMachine.TransitionToState(AI_Bully_StateMachine.EnemyState.Patrol);
         }
-        
-        _aiStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiStateMachine.centerPoint.position.y, player.transform.position.z));
+
+        var playerPos = player.transform.position;
+        _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
         
     }
     
-    /// <summary>
-    /// Check if the target is in line of sight.
-    /// </summary>
-    /// <param name="target">Transform targeted</param>
-    /// <returns>
-    /// Boolean of has in line of sight.
-    /// </returns>
-    private bool hasLineOfSightTo(Transform target)
-    {
-        return Physics.SphereCast(_transform.position, 0.1f,
-            ((target.position) -
-             (_transform.position)).normalized, out var Hit,
-            _aiStateMachine.chaseAreaRadius, _aiStateMachine.layersAttackable) && Hit.collider.CompareTag("Player");
-    }
 
     public override AI_Bully_StateMachine.EnemyState GetNextState()
     {
@@ -119,7 +106,7 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
     /// <summary>
     /// Internal Cooldown before next attack.
     /// </summary>
-    public IEnumerator AttackCooldown()
+    private IEnumerator AttackCooldown()
     {
         
         canAttack = false;
@@ -127,5 +114,6 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
         canAttack = true;
 
     }
+    
     
 }

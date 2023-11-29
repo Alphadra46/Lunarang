@@ -16,9 +16,8 @@ public class AI_Bully_StateMachine : StateManager<AI_Bully_StateMachine.EnemySta
         Idle,
         Patrol,
         Chase,
-        Attack,
-        Stun
-        
+        Attack
+
     }
 
     #region Variables
@@ -81,18 +80,11 @@ public class AI_Bully_StateMachine : StateManager<AI_Bully_StateMachine.EnemySta
     
     #endregion
 
-    #region Stun
-    
-    [TabGroup("States", "Stun")]
-    public float stunDuration = 0.2f;
-
-    #endregion
-
     [HideInInspector] public NavMeshAgent agent;
 
     public SC_AIStats _stats;
     public Rigidbody _rb;
-
+    
     #endregion
     
     /// <summary>
@@ -109,8 +101,7 @@ public class AI_Bully_StateMachine : StateManager<AI_Bully_StateMachine.EnemySta
         States.Add(EnemyState.Patrol, new AI_Bully_PatrolState(EnemyState.Patrol, this));
         States.Add(EnemyState.Chase, new AI_Bully_ChaseState(EnemyState.Chase, this));
         States.Add(EnemyState.Attack, new AI_Bully_AttackState(EnemyState.Attack, this));
-        States.Add(EnemyState.Stun, new AI_Bully_StunState(EnemyState.Stun, this));
-        
+
         CurrentState = States[EnemyState.Idle];
     }
 
@@ -125,7 +116,7 @@ public class AI_Bully_StateMachine : StateManager<AI_Bully_StateMachine.EnemySta
         hurtBox.SetActive(true);
         
     }
-
+    
     /// <summary>
     /// Switch to Stun State when Player's Hurtbox touche him.
     /// </summary>
@@ -134,9 +125,14 @@ public class AI_Bully_StateMachine : StateManager<AI_Bully_StateMachine.EnemySta
     {
         
         if(!other.CompareTag("HurtBox_Player")) return;
+
+        if (!other.TryGetComponent(out SC_ComboController playerCombo)) return;
         
-        TransitionToState(EnemyState.Stun);
-        
+        if (playerCombo.comboCounter == 3)
+        {
+            _rb.AddForce(other.transform.forward, ForceMode.Impulse);
+        }
+
     }
 
     #region Gizmos
