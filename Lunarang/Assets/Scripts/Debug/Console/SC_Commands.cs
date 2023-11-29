@@ -196,6 +196,7 @@ public class SC_Commands : MonoBehaviour
                 Destroy(console.currentUI);
                 SC_PlayerController.instance.canMove = true;
                 break;
+            
         }
 
         console.commandline.text = null;

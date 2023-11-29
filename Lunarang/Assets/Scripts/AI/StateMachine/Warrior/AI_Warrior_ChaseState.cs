@@ -40,7 +40,8 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
         player = GameObject.FindWithTag("Player");
         _agent = _aiStateMachine.agent;
         _agent.updateRotation = false;
-        
+        _agent.speed = _aiStateMachine.chaseSpeed;
+
     }
 
     /// <summary>

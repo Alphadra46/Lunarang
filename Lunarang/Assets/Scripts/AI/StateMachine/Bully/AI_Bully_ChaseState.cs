@@ -39,6 +39,7 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
         player = GameObject.FindWithTag("Player");
         _agent = _aiStateMachine.agent;
         _agent.updateRotation = false;
+        _agent.speed = _aiStateMachine.chaseSpeed;
         
     }
 

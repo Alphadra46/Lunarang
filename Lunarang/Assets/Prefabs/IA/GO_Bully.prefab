@@ -2384,9 +2384,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d91398baff95e54b89304bf6e4095e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeID: warrior
+  typeID: bully
   currentHealth: 0
-  maxHealthBase: 15
+  maxHealthBase: 225
   maxHealthModifier: 0
   defBase: 1
   defModifier: 0
@@ -2421,20 +2421,19 @@ MonoBehaviour:
   NextState: 0
   centerPoint: {fileID: 4374947321126673344}
   idleDelay: 1
-  patrolRadiusMin: 0.1
-  patrolRadiusMax: 1
+  patrolRadiusMin: 2
+  patrolRadiusMax: 2
   patrolRadius: 0
-  patrolDelay: 1
-  chaseAreaRadius: 1
-  attackRange: 1
+  patrolDelay: 2
+  chaseAreaRadius: 4
+  attackRange: 2
   atkSpdBase: 1
-  atkCDBase: 1
+  atkCDBase: 2
   atkDuration: 1
   hurtBox: {fileID: 6131542438275865336}
   layersAttackable:
     serializedVersion: 2
     m_Bits: 2147483648
-  stunDuration: 0.2
   agent: {fileID: 0}
   _stats: {fileID: 0}
   _rb: {fileID: 0}
@@ -2619,7 +2618,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8474651742996372913, guid: 90845cad353b8a745bd26ca43b6808b2, type: 3}
+  - {fileID: 2100000, guid: e665e164d134f0641aa876ac16c1cc17, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2897,7 +2896,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7557540490364101082, guid: 90845cad353b8a745bd26ca43b6808b2, type: 3}
+  - {fileID: 2100000, guid: a61f83f2e9f4a654ab1d7a8bff0cc8e7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

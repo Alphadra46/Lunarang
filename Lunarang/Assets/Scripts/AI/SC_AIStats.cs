@@ -38,7 +38,7 @@ public class SC_AIStats : MonoBehaviour, IDamageable
     [TabGroup("Settings/Stats/Subtabs", "HP")]
     [FoldoutGroup("Settings/Stats/Subtabs/HP/Max HP")]
     [Tooltip("Current MaxHP multiplier of the enemy")] public float maxHealthModifier = 0;
-    public float maxHealthEffective => maxHealthBase * (1 + maxHealthModifier);
+    public float currentMaxHealth => maxHealthBase * (1 + maxHealthModifier);
 
     #endregion
     [Space(5)]
@@ -159,8 +159,11 @@ public class SC_AIStats : MonoBehaviour, IDamageable
     private void Start()
     {
         
-        currentHealth = maxHealthEffective;
+        currentHealth = currentMaxHealth;
         InitWeaknessShield();
+        
+        _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
+        _renderer.UpdateWeaknessBar(currentWeakness);
         
         if(_agent != null) _agent.speed = currentSPD;
         
@@ -221,7 +224,7 @@ public class SC_AIStats : MonoBehaviour, IDamageable
         switch (newDebuff)
         {
             case Enum_Debuff.Poison:
-                StartCoroutine(PoisonDoT((maxHealthEffective * 0.1f), tick, duration));
+                StartCoroutine(PoisonDoT((currentMaxHealth * 0.1f), tick, duration));
                 break;
         }
         
@@ -241,7 +244,7 @@ public class SC_AIStats : MonoBehaviour, IDamageable
             // print("Dummy : -" + finalDamage + " HP");
             // print((duration+1) + " seconds reamining");
             
-            _renderer.UpdateHealthBar(currentHealth, maxHealthEffective);
+            _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
             _renderer.DebugDamage(finalDamage);
             
             yield return new WaitForSeconds(tick);
@@ -299,9 +302,9 @@ public class SC_AIStats : MonoBehaviour, IDamageable
 
         // Debug Part
         print("Dummy : -" + finalDamage + " HP");
-        print("Dummy : " + currentHealth + "/" + maxHealthEffective);
+        print("Dummy : " + currentHealth + "/" + currentMaxHealth);
 
-        _renderer.UpdateHealthBar(currentHealth, maxHealthEffective);
+        _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
         _renderer.DebugDamage(finalDamage);
         
         if(currentHealth == 0) Destroy(gameObject);

@@ -29,6 +29,7 @@ public class AI_Bully_PatrolState : BaseState<AI_Bully_StateMachine.EnemyState>
     {
         _agent = _aiStateMachine.agent;
         _agent.updateRotation = false;
+        _agent.speed = _aiStateMachine.patrolSpeed;
     }
 
     public override void ExitState()

@@ -28,7 +28,8 @@ public class SC_AIRenderer : MonoBehaviour
     
     
     #endregion
-    
+
+
     #region Debug
 
     /// <summary>
@@ -48,8 +49,6 @@ public class SC_AIRenderer : MonoBehaviour
     }
 
     #endregion
-
-    
 
     #region Functions
 
