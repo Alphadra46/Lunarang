@@ -5,8 +5,13 @@ public class SC_KillCommand : SC_Command
 {
     public override string descText => "Kill an entity targeted.";
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="args">Parameters of the actions.</param>
     public override void Execute(string[] args)
     {
+        
         // Without argument
         if (args.Length <= 1)
         {
@@ -81,6 +86,7 @@ public class SC_KillCommand : SC_Command
             }
             
         }
+
     }
     
 }

@@ -12,9 +12,14 @@ public static class SC_CommandLineSystem
         {"help", new SC_HelpCommand()},
         {"gm", new SC_GodmodeCommand()}
     };
-
+    
+    /// <summary>
+    /// Finds a command based on a string, then executes it.
+    /// </summary>
+    /// <param name="input">String key to find an command</param>
     public static void Execute(string input)
     {
+        
         var lines = input.Split(new string[] { "\r\n", "\n\r", "\n" },
             System.StringSplitOptions.RemoveEmptyEntries);
         

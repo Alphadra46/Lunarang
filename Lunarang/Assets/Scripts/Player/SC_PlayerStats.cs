@@ -24,8 +24,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     public int maxHealth = 30;
     [TabGroup("Stats", "HP")]
     public float maxHealthModifier = 0f;
-    [TabGroup("Stats", "HP")]
-    public float maxHealthEffective => maxHealth * (1 + maxHealthModifier);
+    [TabGroup("Stats", "HP")] private float maxHealthEffective => maxHealth * (1 + maxHealthModifier);
     
 
     #endregion

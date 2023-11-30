@@ -14,7 +14,6 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : System
     [ShowInInspector, PropertySpace(SpaceAfter = 10)] public EState NextState;
     
     protected bool IsTransitionState = false;
-    
 
     /// <summary>
     /// Call current state start function.
@@ -49,7 +48,7 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : System
     }
     
     /// <summary>
-    /// Get a random point in a certain range.
+    /// Get the next destination in an range.
     /// </summary>
     /// <param name="center">Center of the range</param>
     /// <param name="range">Radius of the range</param>
@@ -80,24 +79,23 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : System
 
         return patrolRadius;
     }
-
-
+    
     /// <summary>
     /// Check if the target is in line of sight.
     /// </summary>
-    /// <param name="target">Transform targeted</param>
-    /// <param name="start"></param>
-    /// <param name="chaseAreaRadius"></param>
-    /// <param name="layersAttackable"></param>
+    /// <param name="target">Transform targeted.</param>
+    /// <param name="start">Transform of the start.</param>
+    /// <param name="sphereRadius">Radius of the sphere at the end of the line.</param>
+    /// <param name="layersAttackable">Layer hittable by the line.</param>
     /// <returns>
     /// Boolean of has in line of sight.
     /// </returns>
-    public bool hasLineOfSightTo(Transform target, Transform start, float chaseAreaRadius, LayerMask layersAttackable)
+    public bool hasLineOfSightTo(Transform target, Transform start, float sphereRadius, LayerMask layersAttackable)
     {
         return Physics.SphereCast(start.position + Vector3.up, 0.1f,
             ((target.position + Vector3.up) -
              (start.position + Vector3.up)).normalized, out var Hit,
-            chaseAreaRadius, layersAttackable) && Hit.collider.CompareTag("Player");
+            sphereRadius, layersAttackable) && Hit.collider.CompareTag("Player");
     }
     
 }

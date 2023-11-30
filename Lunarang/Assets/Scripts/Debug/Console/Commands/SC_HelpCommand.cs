@@ -2,6 +2,10 @@
 {
     public override string descText => "Show all commands.";
     
+    /// <summary>
+    /// Print all commands available in the console log.
+    /// </summary>
+    /// <param name="args">Parameters of the actions.</param>
     public override void Execute(string[] args)
     {
         

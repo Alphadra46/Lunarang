@@ -2,6 +2,11 @@
 {
     public override string descText => "Elevate the player to god.";
 
+    
+    /// <summary>
+    /// Switch player state to God, cancelling all damages.
+    /// </summary>
+    /// <param name="args">Parameters of the actions.</param>
     public override void Execute(string[] args)
     {
         
