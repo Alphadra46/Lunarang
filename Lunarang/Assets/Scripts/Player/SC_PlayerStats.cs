@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class SC_PlayerStats : MonoBehaviour, IDamageable
+public class SC_PlayerStats : SC_Subject, IDamageable
 {
 
     public static SC_PlayerStats instance;
@@ -146,6 +146,14 @@ public class SC_PlayerStats : MonoBehaviour, IDamageable
         hpBar.HealthUpdate(currentHealth, maxHealth);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            TakeDamage(5f);
+        }
+    }
+    
     #endregion
 
     #region Status
@@ -214,8 +222,8 @@ public class SC_PlayerStats : MonoBehaviour, IDamageable
         
         currentHealth = currentHealth - finalDamage < 0 ? 0 : currentHealth - finalDamage;
         
-        hpBar.HealthUpdate(currentHealth, maxHealth);
-        
+        //hpBar.HealthUpdate(currentHealth, maxHealth);
+        NotifyObservers(currentHealth, maxHealth);
     }
 
     /// <summary>
