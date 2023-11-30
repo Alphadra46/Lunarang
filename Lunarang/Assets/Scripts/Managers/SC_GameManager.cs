@@ -11,8 +11,6 @@ public class SC_GameManager : MonoBehaviour
     [Title("Settings")]
     [PropertySpace(SpaceBefore = 10)]
     public List<GameObject> prefabsEntities = new List<GameObject>();
-    [PropertySpace(SpaceBefore = 10)]
-    public List<Commands> commands = new List<Commands>();
 
     #endregion
 

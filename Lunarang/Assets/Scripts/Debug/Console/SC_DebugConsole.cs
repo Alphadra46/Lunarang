@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,6 +13,8 @@ using UnityEngine.UI;
 public class SC_DebugConsole : MonoBehaviour
 {
 
+    public static SC_DebugConsole instance;
+    
     #region Variables
     
     public GameObject UIPrefab;
@@ -19,32 +22,40 @@ public class SC_DebugConsole : MonoBehaviour
     public GameObject currentUI;
     private VerticalLayoutGroup textLinesPanel;
     public TMP_InputField commandline;
-    public SC_Commands commands;
 
+    [ShowInInspector] private List<string> history = new List<string>();
+    
     public string[] separators = {" "};
     
     #endregion
 
 
     #region Init
-    
+
+    /// <summary>
+    /// Convert to Singleton.
+    /// </summary>
+    private void Awake()
+    {
+        if(instance != null) Destroy(this);
+        instance = this;
+    }
+
     /// <summary>
     /// Initialize all references and inputs.
     /// </summary>
     private void Start()
     {
         SC_InputManager.instance.console.started += ShowConsole;
-        commands = gameObject.AddComponent<SC_Commands>();
-        commands.console = this;
     }
-
+    
     /// <summary>
     /// Open the command text box and an command line log.
     /// </summary>
     /// <param name="ctx"></param>
     private void ShowConsole(InputAction.CallbackContext ctx)
     {
-        
+        print(history.Count);
         if (currentUI != null)
         {
             Destroy(currentUI);
@@ -57,12 +68,17 @@ public class SC_DebugConsole : MonoBehaviour
             currentUI = Instantiate(UIPrefab);
             if(!currentUI.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).TryGetComponent(out commandline)) return;
             if (!currentUI.transform.GetChild(0).GetChild(0).GetChild(1).TryGetComponent(out textLinesPanel))
+                return;
+            
+            if(history.Count > 0){
+                UpdateLog();
+            }
+            else
             {
                 textLinesPanel.gameObject.SetActive(false);
-                return;
             }
             
-            commandline.onEndEdit.AddListener(commands.SendCommand);
+            commandline.onSubmit.AddListener(SendCommand);
             
             EventSystem.current.SetSelectedGameObject(commandline.gameObject);
         }
@@ -84,6 +100,15 @@ public class SC_DebugConsole : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Send current input to the CommandLineSystem.
+    /// </summary>
+    /// <param name="input"></param>
+    public void SendCommand(string input)
+    {
+        SC_CommandLineSystem.Execute(input);
+        commandline.text = "";
+    }
 
     /// <summary>
     /// Create a new text line in the command line log.
@@ -91,17 +116,42 @@ public class SC_DebugConsole : MonoBehaviour
     /// <param name="text">String that showed in the text line.</param>
     public void PrintLine(string text)
     {
+        history.Add(text);
+        UpdateLog();
+    }
+
+    public void UpdateLog()
+    {
+        
         if(!textLinesPanel.gameObject.activeInHierarchy) textLinesPanel.gameObject.SetActive(true);
         
-        var line = Instantiate(TextLinePrefab, textLinesPanel.transform);
-        if(!line.transform.GetChild(0).TryGetComponent(out TMP_Text lineTMP)) return;
+        foreach (Transform child in textLinesPanel.transform)
+        {
+            Destroy(child.gameObject);
+        }
 
-        lineTMP.text = text;
+        foreach (var line in history)
+        {
+            var instantiateLine = Instantiate(TextLinePrefab, textLinesPanel.transform);
+            
+            if(!instantiateLine.transform.GetChild(0).TryGetComponent(out TMP_Text lineTMP)) return;
+            lineTMP.text = line;
+        }
+        
+    }
 
+    public void ClearLog()
+    {
+
+        foreach (Transform child in textLinesPanel.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        
     }
 
     #endregion
-    
-    
-    
+
+
+
 }
