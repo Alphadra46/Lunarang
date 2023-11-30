@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SC_UI_HealthBar : MonoBehaviour
+public class SC_UI_HealthBar : MonoBehaviour, IObserver
 {
     
     
@@ -21,6 +21,7 @@ public class SC_UI_HealthBar : MonoBehaviour
     [ShowInInspector, ReadOnly] private TextMeshProUGUI tmpHP;
 
     public float anticipationSpeed;
+    private SC_PlayerStats playerStats;
 
     #endregion
 
@@ -32,7 +33,13 @@ public class SC_UI_HealthBar : MonoBehaviour
         if(!transform.GetChild(1).TryGetComponent(out anticipationSlider)) return;
         
         if(!transform.GetChild(3).TryGetComponent(out tmpHP)) return;
-        
+
+        playerStats = FindObjectOfType<SC_PlayerStats>();
+    }
+
+    private void Start()
+    {
+        AddSelfToSubjectList();
     }
 
     private void Update()
@@ -58,6 +65,22 @@ public class SC_UI_HealthBar : MonoBehaviour
         tmpHP.text = $"{currentHP} / {maxHP}";
 
     }
-    
-    
+
+    public void OnNotify()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnNotify(float newCurrentHP, float newMaxHP)
+    {
+        HealthUpdate(newCurrentHP,newMaxHP);
+    }
+
+    /// <summary>
+    /// Add this observer to the Subscribe list of the subject
+    /// </summary>
+    private void AddSelfToSubjectList()
+    {
+        playerStats.AddObserver(this);
+    }
 }
