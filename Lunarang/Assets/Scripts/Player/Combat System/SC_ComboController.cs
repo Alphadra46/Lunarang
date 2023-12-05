@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class SC_ComboController : MonoBehaviour
 {
@@ -64,7 +65,8 @@ public class SC_ComboController : MonoBehaviour
     
     public Animator _animator;
     private SC_PlayerController _controller;
-    
+    [SerializeField] private List<VisualEffect> vfxParameterList = new List<VisualEffect>();
+
     #endregion
 
     #region Init
@@ -94,7 +96,7 @@ public class SC_ComboController : MonoBehaviour
     #region Functions
     
     /// <summary>
-    /// Perform a attack and stack it in a combo counter.
+    /// Perform an attack and stack it in a combo counter.
     /// Update the animator and play the animation.
     /// Stock an input if already performing an attack.
     /// </summary>
@@ -103,6 +105,45 @@ public class SC_ComboController : MonoBehaviour
     {
         
         // if(_controller.isDashing) return;
+        
+        //Only spawn 1 VFX depending on the parameter of the hit
+        if (comboCounter<=1)
+        {
+            switch (usedWeapon.parameter)
+            {
+                case ParameterType.MultiHit:
+                    vfxParameterList[0].Play();
+                    break;
+                case ParameterType.AreaOfEffect:
+                    vfxParameterList[1].Play();
+                    break;
+                case ParameterType.Projectile:
+                    vfxParameterList[2].Play();
+                    break;
+                default:
+                    break;
+            }
+        }
+        else //Spawn VFX depending on the current combo parameters for the finisher
+        {
+            foreach (var comboParameter in currentComboParameters)
+            {
+                switch (comboParameter)
+                {
+                    case ParameterType.MultiHit:
+                        vfxParameterList[0].Play();
+                        break;
+                    case ParameterType.AreaOfEffect:
+                        vfxParameterList[1].Play();
+                        break;
+                    case ParameterType.Projectile:
+                        vfxParameterList[2].Play();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
         
         if (canPerformCombo)
         {
