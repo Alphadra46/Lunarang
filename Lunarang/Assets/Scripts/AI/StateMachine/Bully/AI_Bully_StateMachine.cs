@@ -48,6 +48,10 @@ public class AI_Bully_StateMachine : StateManager<AI_Bully_StateMachine.EnemySta
     [TabGroup("States", "Patrol")]
     [Range(1f, 100f), PropertySpace(SpaceBefore = 10)]
     public float patrolDelay = 1;
+    
+    [TabGroup("States", "Patrol")]
+    [Range(1f, 100f)]
+    public float patrolSpeed = 1;
 
     #endregion
 
@@ -56,6 +60,9 @@ public class AI_Bully_StateMachine : StateManager<AI_Bully_StateMachine.EnemySta
     [TabGroup("States", "Chase")]
     [Range(1f, 100f)]
     public float chaseAreaRadius = 1;
+    [TabGroup("States", "Chase")]
+    [Range(1f, 100f)]
+    public float chaseSpeed = 1;
 
     #endregion
 

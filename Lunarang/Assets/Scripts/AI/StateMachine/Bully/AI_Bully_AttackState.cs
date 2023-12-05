@@ -29,13 +29,14 @@ public class AI_Bully_AttackState : BaseState<AI_Bully_StateMachine.EnemyState>
 
     public override void UpdateState()
     {
+        
     }
 
     /// <summary>
     /// After a certain delay, deactivate the hurtbox and switch to Chase State.
     /// </summary>
     /// <param name="delay">Delay in seconds before switching state.</param>
-    public IEnumerator EndAttack(float delay)
+    private IEnumerator EndAttack(float delay)
     {
 
         yield return new WaitForSeconds(delay);

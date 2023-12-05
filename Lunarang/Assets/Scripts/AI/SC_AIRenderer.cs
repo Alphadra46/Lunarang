@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 public class SC_AIRenderer : MonoBehaviour
 {
-
+    
     #region Variables
     
     [BoxGroup("Damage Area")]
@@ -25,10 +26,19 @@ public class SC_AIRenderer : MonoBehaviour
     public TextMeshProUGUI debugUIWeaknesses;
     
     #endregion
-    
+
+
+    private Animator _animator;
+    [SerializeField] private NavMeshAgent _agent;
     
     #endregion
-    
+
+    private void Awake()
+    {
+        if(!transform.GetChild(0).TryGetComponent(out _animator)) return;
+    }
+
+
     #region Debug
 
     /// <summary>
@@ -48,8 +58,6 @@ public class SC_AIRenderer : MonoBehaviour
     }
 
     #endregion
-
-    
 
     #region Functions
 
@@ -83,7 +91,16 @@ public class SC_AIRenderer : MonoBehaviour
             }
         }    
     }
-    
+
+    private void Update()
+    {
+        if(_agent == null) return;
+        
+        _animator.SetBool("canMove", true);
+        _animator.SetBool("isMoving", _agent.velocity.magnitude > 1 ? true : false);
+
+    }
+
     #endregion
     
 }

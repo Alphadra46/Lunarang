@@ -789,13 +789,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1223937687}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -25, y: 25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 25, y: 25}
   m_SizeDelta: {x: 200, y: 200}
-  m_Pivot: {x: 1, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &587675970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1133,7 +1133,6 @@ MonoBehaviour:
     type: 3}
   currentUI: {fileID: 0}
   commandline: {fileID: 0}
-  commands: {fileID: 0}
   separators:
   - (
   - )
@@ -1902,8 +1901,8 @@ RectTransform:
   - {fileID: 1575921910}
   - {fileID: 1515153277}
   - {fileID: 1194319919}
-  - {fileID: 1646002892}
   - {fileID: 587675969}
+  - {fileID: 1646002892}
   m_Father: {fileID: 1392226965}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2921,22 +2920,7 @@ MonoBehaviour:
   - {fileID: 1753954169216546166, guid: 1c2d62af54507e84d87089c94c535b6a, type: 3}
   - {fileID: 75451546300128363, guid: a8e5ec8c9c8df5746b2216a22df4032c, type: 3}
   - {fileID: 6131542437344180460, guid: fefc79a653203a54982c8683d755be0b, type: 3}
-  commands:
-  - name: help
-    description: All commands avaibles.
-    aliases: []
-  - name: summon
-    description: Invoke an entity at a certain location.
-    aliases:
-    - sum
-  - name: kill
-    description: Obliterates an entity.
-    aliases:
-    - k
-  - name: godmode
-    description: Raises you to the rank of god.
-    aliases:
-    - gm
+  - {fileID: 6131542437344180460, guid: 603a47ceed2fbbd4e846f570324229a6, type: 3}
 --- !u!1 &1570262043
 GameObject:
   m_ObjectHideFlags: 0
@@ -3298,13 +3282,13 @@ RectTransform:
   - {fileID: 1570262044}
   - {fileID: 1590896627}
   m_Father: {fileID: 1223937687}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 50, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -50, y: 0}
   m_SizeDelta: {x: 300, y: 200}
-  m_Pivot: {x: 0, y: 0}
+  m_Pivot: {x: 1, y: 0}
 --- !u!114 &1646002893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3807,12 +3791,12 @@ PrefabInstance:
     - target: {fileID: 75451546859845270, guid: a8e5ec8c9c8df5746b2216a22df4032c,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 75451546859845270, guid: a8e5ec8c9c8df5746b2216a22df4032c,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 75451546859845270, guid: a8e5ec8c9c8df5746b2216a22df4032c,
         type: 3}
@@ -3832,7 +3816,7 @@ PrefabInstance:
     - target: {fileID: 75451546859845270, guid: a8e5ec8c9c8df5746b2216a22df4032c,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.123333335
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 75451546882395845, guid: a8e5ec8c9c8df5746b2216a22df4032c,
         type: 3}
@@ -3857,12 +3841,12 @@ PrefabInstance:
     - target: {fileID: 75451547096652091, guid: a8e5ec8c9c8df5746b2216a22df4032c,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 75451547096652091, guid: a8e5ec8c9c8df5746b2216a22df4032c,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 75451547096652091, guid: a8e5ec8c9c8df5746b2216a22df4032c,
         type: 3}
@@ -3882,7 +3866,7 @@ PrefabInstance:
     - target: {fileID: 75451547096652091, guid: a8e5ec8c9c8df5746b2216a22df4032c,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.62666667
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 75451547327611111, guid: a8e5ec8c9c8df5746b2216a22df4032c,
         type: 3}

@@ -29,6 +29,7 @@ public class AI_Warrior_PatrolState : BaseState<AI_Warrior_StateMachine.EnemySta
     {
         _agent = _aiStateMachine.agent;
         _agent.updateRotation = false;
+        _agent.speed = _aiStateMachine.patrolSpeed;
     }
 
     public override void ExitState()
