@@ -106,44 +106,7 @@ public class SC_ComboController : MonoBehaviour
         
         // if(_controller.isDashing) return;
         
-        //Only spawn 1 VFX depending on the parameter of the hit
-        if (comboCounter<=1)
-        {
-            switch (usedWeapon.parameter)
-            {
-                case ParameterType.MultiHit:
-                    vfxParameterList[0].Play();
-                    break;
-                case ParameterType.AreaOfEffect:
-                    vfxParameterList[1].Play();
-                    break;
-                case ParameterType.Projectile:
-                    vfxParameterList[2].Play();
-                    break;
-                default:
-                    break;
-            }
-        }
-        else //Spawn VFX depending on the current combo parameters for the finisher
-        {
-            foreach (var comboParameter in currentComboParameters)
-            {
-                switch (comboParameter)
-                {
-                    case ParameterType.MultiHit:
-                        vfxParameterList[0].Play();
-                        break;
-                    case ParameterType.AreaOfEffect:
-                        vfxParameterList[1].Play();
-                        break;
-                    case ParameterType.Projectile:
-                        vfxParameterList[2].Play();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
+        
         
         if (canPerformCombo)
         {
@@ -157,6 +120,8 @@ public class SC_ComboController : MonoBehaviour
         {
             InputBuffering(currentWeapon);
         }
+        
+        
         
     }
 
@@ -226,7 +191,50 @@ public class SC_ComboController : MonoBehaviour
         currentWeapon = newWeapon;
         currentType = newWeapon.type;
         currentComboWeaponTypes.Add(currentWeapon.type);
-        currentComboParameters.Add(currentWeapon.parameter);
+        if(comboCounter <= 2)
+            currentComboParameters.Add(currentWeapon.parameter);
+        
+        //Only spawn 1 VFX depending on the parameter of the hit
+        if (comboCounter<=2)
+        {
+            switch (newWeapon.parameter)
+            {
+                case ParameterType.MultiHit:
+                    vfxParameterList[0].Play();
+                    break;
+                case ParameterType.AreaOfEffect:
+                    vfxParameterList[1].Play();
+                    break;
+                case ParameterType.Projectile:
+                    vfxParameterList[2].Play();
+                    break;
+                default:
+                    break;
+            }
+        }
+        else //Spawn VFX depending on the current combo parameters for the finisher
+        {
+            foreach (var comboParameter in currentComboParameters)
+            {
+                switch (comboParameter)
+                {
+                    case ParameterType.MultiHit:
+                        vfxParameterList[0].Play();
+                        break;
+                    case ParameterType.AreaOfEffect:
+                        vfxParameterList[1].Play();
+                        break;
+                    case ParameterType.Projectile:
+                        vfxParameterList[2].Play();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        }
+        
+        
         
         // Debug Side
         print("Combo : " + comboCounter + " / Type : " + currentWeapon.type);
@@ -243,6 +251,7 @@ public class SC_ComboController : MonoBehaviour
     public void ResetCombo()
     {
         comboCounter = 0;
+        currentWeapon = null;
         currentType = WeaponType.Null;
         currentComboWeaponTypes.Clear();
         currentComboParameters.Clear();

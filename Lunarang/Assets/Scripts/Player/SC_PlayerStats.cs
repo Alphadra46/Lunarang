@@ -225,6 +225,10 @@ public class SC_PlayerStats : SC_Subject, IDamageable
         NotifyObservers(currentHealth, maxHealth);
     }
 
+    public void TakeDamage(float rawDamage, WeaponType weaponType)
+    {
+    }
+
     /// <summary>
     /// Heal the player by a certain amount
     /// </summary>

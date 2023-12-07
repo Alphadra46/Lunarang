@@ -256,58 +256,60 @@ public class SC_AIStats : MonoBehaviour, IDamageable
 
     #region Damage Part
 
-    /// <summary>
-    /// Apply a damage to the weaknesses.
-    /// </summary>
-    /// <param name="incomingType"></param>
-    private void TakeWeaknessDamage(WeaponType incomingType)
-    {
-
-        print("Incoming Type : " + incomingType);
-
-        if (currentWeakness[0] == incomingType)
-        {
-            currentWeakness.Remove(currentWeakness[0]);
-            _renderer.UpdateWeaknessBar(currentWeakness);
-        }
-        else
-        {
-            currentWeakness.Clear();
-            currentWeakness = previousWeakness.ToList();
-            _renderer.UpdateWeaknessBar(currentWeakness);
-        }
-
-        if (currentWeakness.Count != 0) return;
-        
-        isBreaked = true;
-        print("BREAKED");
-
-        if (canRegenShield)
-            StartCoroutine(RegenerateShield());
-
-    }
+    public void TakeDamage(float rawDamage){}
 
     /// <summary>
     /// Calculating real taken damage by the entity.
     /// Apply this amount to the entity.
     /// </summary>
     /// <param name="rawDamage">Amount of a non-crit damage</param>
-    public void TakeDamage(float rawDamage)
+    public void TakeDamage(float rawDamage, WeaponType pWeaponType)
     {
-        // Check if the damage is a Critical one and reduce damage by the current DEF of the entity.
-        var finalDamage = MathF.Round(rawDamage * defMultiplier);
-
-        // Apply damage to the entity. Check if doesn't go below 0.
-        currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;
-
-        // Debug Part
-        print("Dummy : -" + finalDamage + " HP");
-        print("Dummy : " + currentHealth + "/" + currentMaxHealth);
-
-        _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
-        _renderer.DebugDamage(finalDamage);
         
-        if(currentHealth == 0) Destroy(gameObject);
+        if (hasShield & !isBreaked)
+        {
+            print("Incoming Type : " + pWeaponType);
+
+            if (currentWeakness[0] == pWeaponType)
+            {
+                currentWeakness.Remove(currentWeakness[0]);
+                _renderer.UpdateWeaknessBar(currentWeakness);
+            }
+            else
+            {
+                currentWeakness.Clear();
+                currentWeakness = previousWeakness.ToList();
+                _renderer.UpdateWeaknessBar(currentWeakness);
+            }
+
+            if (currentWeakness.Count != 0) return;
+        
+            isBreaked = true;
+            print("BREAKED");
+
+            if (canRegenShield)
+                StartCoroutine(RegenerateShield());
+        }
+        else
+        {
+        
+            // Check if the damage is a Critical one and reduce damage by the current DEF of the entity.
+            var finalDamage = MathF.Round(rawDamage * defMultiplier);
+
+            // Apply damage to the entity. Check if doesn't go below 0.
+            currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;
+
+            // Debug Part
+            print("Dummy : -" + finalDamage + " HP");
+            print("Dummy : " + currentHealth + "/" + currentMaxHealth);
+
+            _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
+            _renderer.DebugDamage(finalDamage);
+            
+            if(currentHealth == 0) Destroy(gameObject);
+                
+        }
+        
     }
     
 
@@ -315,35 +317,35 @@ public class SC_AIStats : MonoBehaviour, IDamageable
     
     #region Collisions Part
 
-    /// <summary>
-    /// Detect collisions and if collide with Player's HurtBox, take damage or weakness break.
-    /// </summary>
-    /// <param name="col"></param>
-    private void OnTriggerEnter(Collider col)
-    {
-        if (!col.CompareTag("HurtBox_Player")) return;
-            
-        var player = col.transform.parent.gameObject;
-        var pCombo = player.GetComponent<SC_ComboController>();
-        var pStats = player.GetComponent<SC_PlayerStats>();
-
-        var isCritical = Random.value < pStats.critRate ? true : false;
-
-        var currentMV = pCombo.currentWeapon.MovesValues[pCombo.comboCounter-1];
-        
-        var rawDamage = currentMV * pStats.currentATK;
-        var rawCrit = rawDamage * (1 + pStats.critDMG);
-        
-        if (hasShield && !isBreaked)
-        {
-            TakeWeaknessDamage(pCombo.currentWeapon.type);
-        }
-        else
-        {
-            TakeDamage(rawDamage);
-        }
-
-    }
+    // /// <summary>
+    // /// Detect collisions and if collide with Player's HurtBox, take damage or weakness break.
+    // /// </summary>
+    // /// <param name="col"></param>
+    // private void OnTriggerEnter(Collider col)
+    // {
+    //     if (!col.CompareTag("HurtBox_Player")) return;
+    //         
+    //     var player = col.transform.parent.gameObject;
+    //     var pCombo = player.GetComponent<SC_ComboController>();
+    //     var pStats = player.GetComponent<SC_PlayerStats>();
+    //
+    //     var isCritical = Random.value < pStats.critRate ? true : false;
+    //
+    //     var currentMV = pCombo.currentWeapon.MovesValues[pCombo.comboCounter-1];
+    //     
+    //     var rawDamage = currentMV * pStats.currentATK;
+    //     var rawCrit = rawDamage * (1 + pStats.critDMG);
+    //     
+    //     if (hasShield && !isBreaked)
+    //     {
+    //         TakeDamage(rawDamage, pCombo.currentWeapon.type);
+    //     }
+    //     else
+    //     {
+    //         TakeDamage(rawDamage);
+    //     }
+    //
+    // }
 
     private void OnTriggerExit(Collider col)
     {
