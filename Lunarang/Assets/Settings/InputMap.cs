@@ -89,6 +89,15 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""92600180-f3f8-40cf-bd30-0c3454ea3bfe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -265,6 +274,28 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c4df99bd-c8bb-47b2-a23d-5f39f08000be"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""93080f12-ea11-40b6-bf61-cba78e5b4b49"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -881,6 +912,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_General_SkillB = m_General.FindAction("Skill B", throwIfNotFound: true);
         m_General_Move = m_General.FindAction("Move", throwIfNotFound: true);
         m_General_Dash = m_General.FindAction("Dash", throwIfNotFound: true);
+        m_General_Pause = m_General.FindAction("Pause", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -964,6 +996,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_General_SkillB;
     private readonly InputAction m_General_Move;
     private readonly InputAction m_General_Dash;
+    private readonly InputAction m_General_Pause;
     public struct GeneralActions
     {
         private @InputMap m_Wrapper;
@@ -975,6 +1008,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @SkillB => m_Wrapper.m_General_SkillB;
         public InputAction @Move => m_Wrapper.m_General_Move;
         public InputAction @Dash => m_Wrapper.m_General_Dash;
+        public InputAction @Pause => m_Wrapper.m_General_Pause;
         public InputActionMap Get() { return m_Wrapper.m_General; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1005,6 +1039,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IGeneralActions instance)
@@ -1030,6 +1067,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IGeneralActions instance)
@@ -1220,6 +1260,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnSkillB(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
