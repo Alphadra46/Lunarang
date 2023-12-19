@@ -8,6 +8,8 @@ public class SC_ComboController : MonoBehaviour
 {
     
     #region Variables
+
+    public static SC_ComboController instance;
     
     [Title("Settings")]
 
@@ -73,6 +75,9 @@ public class SC_ComboController : MonoBehaviour
 
     private void Awake()
     {
+        if(instance != null) Destroy(this);
+        instance = this;
+        
         if(!TryGetComponent(out _controller)) return;
     }
 
@@ -84,11 +89,18 @@ public class SC_ComboController : MonoBehaviour
     /// <summary>
     /// Attach inputs to functions
     /// </summary>
-    private void AttachInputToAttack()
+    public void AttachInputToAttack()
     {
         SC_InputManager.instance.weaponA.performed += _ => Attack(equippedWeapons[0]);
         SC_InputManager.instance.weaponB.performed += _ => Attack(equippedWeapons[1]);
         SC_InputManager.instance.weaponC.performed += _ => Attack(equippedWeapons[2]);
+    }
+    
+    public void DettachInputToAttack()
+    {
+        SC_InputManager.instance.weaponA.performed -= _ => Attack(equippedWeapons[0]);
+        SC_InputManager.instance.weaponB.performed -= _ => Attack(equippedWeapons[1]);
+        SC_InputManager.instance.weaponC.performed -= _ => Attack(equippedWeapons[2]);
     }
 
     #endregion
@@ -104,7 +116,7 @@ public class SC_ComboController : MonoBehaviour
     private void Attack(SC_Weapon usedWeapon)
     {
         
-        // if(_controller.isDashing) return;
+        if(SC_GameManager.instance.isPause) return;
         
         
         
@@ -191,8 +203,7 @@ public class SC_ComboController : MonoBehaviour
         currentWeapon = newWeapon;
         currentType = newWeapon.type;
         currentComboWeaponTypes.Add(currentWeapon.type);
-        if(comboCounter <= 2)
-            currentComboParameters.Add(currentWeapon.parameter);
+        currentComboParameters.Add(currentWeapon.parameter);
         
         //Only spawn 1 VFX depending on the parameter of the hit
         if (comboCounter<=2)

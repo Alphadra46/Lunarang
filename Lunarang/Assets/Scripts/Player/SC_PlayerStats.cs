@@ -96,7 +96,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     
     
     [TabGroup("Stats", "Crit",TextColor = "darkred"), ShowInInspector, ReadOnly]
-    public float critDMG => baseCritDMG + bonusCritDMG;
+    public float critDMG => (baseCritDMG + bonusCritDMG)/100;
     
     
     [PropertySpace(SpaceBefore = 10)]
@@ -147,10 +147,6 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            TakeDamage(5f);
-        }
     }
     
     #endregion

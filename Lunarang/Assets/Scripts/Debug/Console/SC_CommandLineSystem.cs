@@ -10,7 +10,9 @@ public static class SC_CommandLineSystem
         {"kill", new SC_KillCommand()},
         {"summon", new SC_SummonCommand()},
         {"help", new SC_HelpCommand()},
-        {"gm", new SC_GodmodeCommand()}
+        {"gm", new SC_GodmodeCommand()},
+        {"tp", new SC_TeleportCommand()},
+        {"rl", new SC_ReloadSceneCommand()}
     };
     
     /// <summary>

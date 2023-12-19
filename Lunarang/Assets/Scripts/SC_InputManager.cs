@@ -17,6 +17,7 @@ public class SC_InputManager : MonoBehaviour
     [HideInInspector] public InputAction skillB;
     [HideInInspector] public InputAction move;
     [HideInInspector] public InputAction dash;
+    [HideInInspector] public InputAction pause;
 
     [Header("UI")]
     [HideInInspector] public InputAction navigate;
@@ -116,6 +117,8 @@ public class SC_InputManager : MonoBehaviour
         
         move = playerInputActions.General.Move;
         dash = playerInputActions.General.Dash;
+
+        pause = playerInputActions.General.Pause;
     }
 
     /// <summary>
@@ -131,6 +134,8 @@ public class SC_InputManager : MonoBehaviour
         
         move.Enable();
         dash.Enable();
+        
+        pause.Enable();
     }
 
     /// <summary>
@@ -146,6 +151,8 @@ public class SC_InputManager : MonoBehaviour
         
         move.Disable();
         dash.Disable();
+        
+        pause.Disable();
     }
     
     /// <summary>
@@ -185,6 +192,8 @@ public class SC_InputManager : MonoBehaviour
 
         move.started += DetectDevice;
         dash.started += DetectDevice;
+
+        pause.started += DetectDevice;
     }
     
     /// <summary>
