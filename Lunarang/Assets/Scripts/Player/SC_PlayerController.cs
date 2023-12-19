@@ -92,24 +92,37 @@ public class SC_PlayerController : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        
-        SC_InputManager.instance.move.started += OnMove;
-        SC_InputManager.instance.move.performed += OnMove;
-        SC_InputManager.instance.move.canceled += OnMove;
-
-        SC_InputManager.instance.dash.started += Dash;
-        
+        InitControllerInputs();
     }
 
     #endregion
     
     #region Functions
+
+    public void InitControllerInputs()
+    {
+        SC_InputManager.instance.move.started += OnMove;
+        SC_InputManager.instance.move.performed += OnMove;
+        SC_InputManager.instance.move.canceled += OnMove;
+
+        SC_InputManager.instance.dash.started += Dash;
+    }
+
+    public void RemoveControllerInputs()
+    {
+        SC_InputManager.instance.move.started -= OnMove;
+        SC_InputManager.instance.move.performed -= OnMove;
+        SC_InputManager.instance.move.canceled -= OnMove;
+
+        SC_InputManager.instance.dash.started -= Dash;
+    }
     
     /// <summary>
     /// Launch the dash coroutine and change the bool value "isDashing"
     /// </summary>
     private void Dash(InputAction.CallbackContext context)
     {
+        if (SC_GameManager.instance.isPause) return;
         
         if(!canDash)
             return;
@@ -199,6 +212,8 @@ public class SC_PlayerController : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        if(SC_GameManager.instance.isPause) return;
+        
         isMovementInputPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0; // Set a boolean to check if the player is pressing the input
 
         _animator.SetBool("isMoving", isMovementInputPressed);
@@ -207,8 +222,11 @@ public class SC_PlayerController : MonoBehaviour
         if (!canMove) return;
             
         Gravity();
+        
         Rotate(); // Rotate the player
-        _characterController.Move((IsoVectorConvert(currentMovement) * SC_PlayerStats.instance.currentSpeed) * Time.deltaTime); // Move the player
+        
+        if(isMovementInputPressed)
+            _characterController.Move((IsoVectorConvert(currentMovement) * SC_PlayerStats.instance.currentSpeed) * Time.deltaTime); // Move the player
     }
 
     public void FreezeMovement(bool value)
@@ -223,6 +241,11 @@ public class SC_PlayerController : MonoBehaviour
         
         print(currentMovementInput);
 
+    }
+
+    public void Teleport(Vector3 loc)
+    {
+        transform.position = loc;
     }
 
     #endregion

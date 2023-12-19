@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SC_GameManager : MonoBehaviour
 {
@@ -12,6 +14,12 @@ public class SC_GameManager : MonoBehaviour
     [PropertySpace(SpaceBefore = 10)]
     public List<GameObject> prefabsEntities = new List<GameObject>();
 
+    public bool isPause = false;
+
+    public GameObject hud;
+    public GameObject pauseUIPrefab;
+    private GameObject pauseUI;
+
     #endregion
 
 
@@ -21,11 +29,10 @@ public class SC_GameManager : MonoBehaviour
         instance = this;
     }
 
-    //
-    // public bool FindEntity(string id, out GameObject entity)
-    // {
-    //     
-    // }
+    private void Start()
+    {
+        SC_InputManager.instance.pause.started += context => { SetPause(); };
+    }
 
     public bool CheckEntityType(string id)
     {
@@ -56,4 +63,37 @@ public class SC_GameManager : MonoBehaviour
     //
     //     return CheckEntity(uid) ? allEntities.Where(e => e.uid == int.Parse(uid)).ToList() : null;
     // }
+
+    
+    public void SetPause()
+    {
+        
+        isPause = !isPause;
+        Time.timeScale = isPause ? 0 : 1;
+
+        if (isPause)
+        {
+            pauseUI = Instantiate(pauseUIPrefab);
+            hud.SetActive(false);
+            
+            EventSystem.current.SetSelectedGameObject(pauseUI.transform.GetChild(1).gameObject);
+            
+        }
+        else
+        {
+            Destroy(pauseUI.gameObject);
+            hud.SetActive(true);
+        }
+
+    }
+
+    public void QuitGame()
+    {
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                Application.Quit();
+        #endif
+    }
+    
 }

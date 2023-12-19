@@ -55,7 +55,6 @@ public class SC_DebugConsole : MonoBehaviour
     /// <param name="ctx"></param>
     private void ShowConsole(InputAction.CallbackContext ctx)
     {
-        print(history.Count);
         if (currentUI != null)
         {
             Destroy(currentUI);
