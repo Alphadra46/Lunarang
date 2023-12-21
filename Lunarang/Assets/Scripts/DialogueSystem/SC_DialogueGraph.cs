@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using XNode;
 
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "Graph", menuName = "DialogueGraph")]
 public class SC_DialogueGraph : NodeGraph
 {
-	public Node_Base current;
+	public BaseNode current;
 }

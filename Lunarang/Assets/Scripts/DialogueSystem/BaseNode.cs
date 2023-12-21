@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using XNode;
 
-public class Node_Base : Node {
-
+[CreateNodeMenu("")]
+public class BaseNode : Node
+{
+	
 	public virtual string GetString()
 	{
 		return null;

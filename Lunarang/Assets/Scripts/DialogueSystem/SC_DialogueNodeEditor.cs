@@ -2,11 +2,11 @@
 using UnityEngine;
 using XNodeEditor;
 
-[CustomNodeEditor(typeof(Node_Base))]
+[CustomNodeEditor(typeof(BaseNode))]
 public class SC_DialogueNodeEditor : NodeEditor
 {
 
-    private Node_Base baseNode;
+    private BaseNode baseNod;
     private static GUIStyle editorLabelStyle;
 
     public override void OnBodyGUI()

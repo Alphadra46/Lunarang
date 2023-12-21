@@ -6,11 +6,11 @@ using XNode;
 [CreateNodeMenu("Dialogue")]
 [NodeTint("#08c764")]
 [NodeWidth(300)]
-public class Node_Dialogue : Node_Base
+public class Dialogue : BaseNode
 {
-
-	[Input] public int entry;
-	[Output] public int exit;
+	[Input(backingValue = ShowBackingValue.Never)] public BaseNode input;
+	[Output(backingValue = ShowBackingValue.Never)] public BaseNode output;
+	
 	public string speakerName;
 	[Multiline] public string dialogueLine;
 	public Sprite sprite;
