@@ -4,7 +4,6 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using XNode;
 
 public class SC_NodeParser : MonoBehaviour
 {
@@ -20,7 +19,7 @@ public class SC_NodeParser : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        foreach (var b in graph.nodes.Cast<Node_Base>().Where(b => b.GetString() == "Start"))
+        foreach (var b in graph.nodes.Cast<BaseNode>().Where(b => b.GetString() == "Start"))
         {
             graph.current = b;
             break;
@@ -49,10 +48,16 @@ public class SC_NodeParser : MonoBehaviour
                 
                 yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
                 yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
-                NextNode("exit");
+                NextNode("output");
                 break;
             case "Start":
-                NextNode("exit");
+                NextNode("output");
+                break;
+            case "Event":
+                (graph.current as Event)?.Trigger();
+                NextNode("output");
+                break;
+            default:
                 break;
         }
         
@@ -75,7 +80,7 @@ public class SC_NodeParser : MonoBehaviour
         {
             if (p.fieldName != fieldName) continue;
             
-            graph.current = p.Connection.node as Node_Base;
+            graph.current = p.Connection.node as BaseNode;
             break;
         }
 

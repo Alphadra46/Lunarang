@@ -106,6 +106,8 @@ public class SC_PlayerController : MonoBehaviour
         SC_InputManager.instance.move.canceled += OnMove;
 
         SC_InputManager.instance.dash.started += Dash;
+
+        SC_InputManager.instance.inventory.started += _ => SC_UIManager.instance.ShowInventory();
     }
 
     public void RemoveControllerInputs()

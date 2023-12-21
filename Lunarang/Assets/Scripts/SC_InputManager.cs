@@ -18,7 +18,8 @@ public class SC_InputManager : MonoBehaviour
     [HideInInspector] public InputAction move;
     [HideInInspector] public InputAction dash;
     [HideInInspector] public InputAction pause;
-
+    [HideInInspector] public InputAction inventory;
+    
     [Header("UI")]
     [HideInInspector] public InputAction navigate;
     [HideInInspector] public InputAction submit;
@@ -119,6 +120,7 @@ public class SC_InputManager : MonoBehaviour
         dash = playerInputActions.General.Dash;
 
         pause = playerInputActions.General.Pause;
+        inventory = playerInputActions.General.Inventory;
     }
 
     /// <summary>
@@ -136,6 +138,7 @@ public class SC_InputManager : MonoBehaviour
         dash.Enable();
         
         pause.Enable();
+        inventory.Enable();
     }
 
     /// <summary>
@@ -153,6 +156,7 @@ public class SC_InputManager : MonoBehaviour
         dash.Disable();
         
         pause.Disable();
+        inventory.Disable();
     }
     
     /// <summary>
@@ -194,6 +198,7 @@ public class SC_InputManager : MonoBehaviour
         dash.started += DetectDevice;
 
         pause.started += DetectDevice;
+        inventory.started += DetectDevice;
     }
     
     /// <summary>
