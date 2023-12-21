@@ -16,10 +16,6 @@ public class SC_GameManager : MonoBehaviour
 
     public bool isPause = false;
 
-    public GameObject hud;
-    public GameObject pauseUIPrefab;
-    private GameObject pauseUI;
-
     #endregion
 
 
@@ -70,20 +66,8 @@ public class SC_GameManager : MonoBehaviour
         
         isPause = !isPause;
         Time.timeScale = isPause ? 0 : 1;
-
-        if (isPause)
-        {
-            pauseUI = Instantiate(pauseUIPrefab);
-            hud.SetActive(false);
-            
-            EventSystem.current.SetSelectedGameObject(pauseUI.transform.GetChild(1).gameObject);
-            
-        }
-        else
-        {
-            Destroy(pauseUI.gameObject);
-            hud.SetActive(true);
-        }
+        
+        SC_UIManager.instance.ShowPauseMenu();
 
     }
 
@@ -94,6 +78,18 @@ public class SC_GameManager : MonoBehaviour
         #else
                 Application.Quit();
         #endif
+    }
+
+    public void OpenInventory()
+    {
+        SetPause();
+        SC_UIManager.instance.ShowInventory();
+    }
+
+    public void OpenForge()
+    {
+        SetPause();
+        SC_UIManager.instance.ShowForge();
     }
     
 }
