@@ -98,6 +98,15 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""c34e0664-6b0b-4830-8dec-5e202eaa9826"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -296,6 +305,28 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92fc1ff7-2e67-4b96-9ab4-d03163b23926"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""13047d44-4d32-4e45-9346-4ee1557f39ea"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -913,6 +944,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_General_Move = m_General.FindAction("Move", throwIfNotFound: true);
         m_General_Dash = m_General.FindAction("Dash", throwIfNotFound: true);
         m_General_Pause = m_General.FindAction("Pause", throwIfNotFound: true);
+        m_General_Inventory = m_General.FindAction("Inventory", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -997,6 +1029,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_General_Move;
     private readonly InputAction m_General_Dash;
     private readonly InputAction m_General_Pause;
+    private readonly InputAction m_General_Inventory;
     public struct GeneralActions
     {
         private @InputMap m_Wrapper;
@@ -1009,6 +1042,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_General_Move;
         public InputAction @Dash => m_Wrapper.m_General_Dash;
         public InputAction @Pause => m_Wrapper.m_General_Pause;
+        public InputAction @Inventory => m_Wrapper.m_General_Inventory;
         public InputActionMap Get() { return m_Wrapper.m_General; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1042,6 +1076,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @Inventory.started += instance.OnInventory;
+            @Inventory.performed += instance.OnInventory;
+            @Inventory.canceled += instance.OnInventory;
         }
 
         private void UnregisterCallbacks(IGeneralActions instance)
@@ -1070,6 +1107,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @Inventory.started -= instance.OnInventory;
+            @Inventory.performed -= instance.OnInventory;
+            @Inventory.canceled -= instance.OnInventory;
         }
 
         public void RemoveCallbacks(IGeneralActions instance)
@@ -1261,6 +1301,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
