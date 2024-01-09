@@ -55,24 +55,6 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Skill A"",
-                    ""type"": ""Button"",
-                    ""id"": ""4b945647-3d5c-4bbb-80db-c8dbeb9acbfa"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Skill B"",
-                    ""type"": ""Button"",
-                    ""id"": ""d5298a78-d77e-4797-9514-98e8d907be47"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Move"",
                     ""type"": ""Value"",
                     ""id"": ""04c9c71a-8a3d-4062-a3e0-70b2e6e1a1e6"",
@@ -103,6 +85,15 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""name"": ""Inventory"",
                     ""type"": ""Button"",
                     ""id"": ""c34e0664-6b0b-4830-8dec-5e202eaa9826"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interaction"",
+                    ""type"": ""Button"",
+                    ""id"": ""f73f076a-1ecc-4ec6-8eb2-398e8dbb05e3"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -173,28 +164,6 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Weapon C"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""11a44272-7c38-46c7-bfba-ebf627dce162"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Skill A"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""020d3c06-5367-4324-a342-41e0d8dd566e"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Skill B"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -327,6 +296,28 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""29b3792d-7a63-4182-bab9-63868c65298b"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""81c99b7c-dcb5-4249-a9f2-942e025d0a2e"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -939,12 +930,11 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_General_WeaponA = m_General.FindAction("Weapon A", throwIfNotFound: true);
         m_General_WeaponB = m_General.FindAction("Weapon B", throwIfNotFound: true);
         m_General_WeaponC = m_General.FindAction("Weapon C", throwIfNotFound: true);
-        m_General_SkillA = m_General.FindAction("Skill A", throwIfNotFound: true);
-        m_General_SkillB = m_General.FindAction("Skill B", throwIfNotFound: true);
         m_General_Move = m_General.FindAction("Move", throwIfNotFound: true);
         m_General_Dash = m_General.FindAction("Dash", throwIfNotFound: true);
         m_General_Pause = m_General.FindAction("Pause", throwIfNotFound: true);
         m_General_Inventory = m_General.FindAction("Inventory", throwIfNotFound: true);
+        m_General_Interaction = m_General.FindAction("Interaction", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1024,12 +1014,11 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_General_WeaponA;
     private readonly InputAction m_General_WeaponB;
     private readonly InputAction m_General_WeaponC;
-    private readonly InputAction m_General_SkillA;
-    private readonly InputAction m_General_SkillB;
     private readonly InputAction m_General_Move;
     private readonly InputAction m_General_Dash;
     private readonly InputAction m_General_Pause;
     private readonly InputAction m_General_Inventory;
+    private readonly InputAction m_General_Interaction;
     public struct GeneralActions
     {
         private @InputMap m_Wrapper;
@@ -1037,12 +1026,11 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @WeaponA => m_Wrapper.m_General_WeaponA;
         public InputAction @WeaponB => m_Wrapper.m_General_WeaponB;
         public InputAction @WeaponC => m_Wrapper.m_General_WeaponC;
-        public InputAction @SkillA => m_Wrapper.m_General_SkillA;
-        public InputAction @SkillB => m_Wrapper.m_General_SkillB;
         public InputAction @Move => m_Wrapper.m_General_Move;
         public InputAction @Dash => m_Wrapper.m_General_Dash;
         public InputAction @Pause => m_Wrapper.m_General_Pause;
         public InputAction @Inventory => m_Wrapper.m_General_Inventory;
+        public InputAction @Interaction => m_Wrapper.m_General_Interaction;
         public InputActionMap Get() { return m_Wrapper.m_General; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1061,12 +1049,6 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @WeaponC.started += instance.OnWeaponC;
             @WeaponC.performed += instance.OnWeaponC;
             @WeaponC.canceled += instance.OnWeaponC;
-            @SkillA.started += instance.OnSkillA;
-            @SkillA.performed += instance.OnSkillA;
-            @SkillA.canceled += instance.OnSkillA;
-            @SkillB.started += instance.OnSkillB;
-            @SkillB.performed += instance.OnSkillB;
-            @SkillB.canceled += instance.OnSkillB;
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
@@ -1079,6 +1061,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
+            @Interaction.started += instance.OnInteraction;
+            @Interaction.performed += instance.OnInteraction;
+            @Interaction.canceled += instance.OnInteraction;
         }
 
         private void UnregisterCallbacks(IGeneralActions instance)
@@ -1092,12 +1077,6 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @WeaponC.started -= instance.OnWeaponC;
             @WeaponC.performed -= instance.OnWeaponC;
             @WeaponC.canceled -= instance.OnWeaponC;
-            @SkillA.started -= instance.OnSkillA;
-            @SkillA.performed -= instance.OnSkillA;
-            @SkillA.canceled -= instance.OnSkillA;
-            @SkillB.started -= instance.OnSkillB;
-            @SkillB.performed -= instance.OnSkillB;
-            @SkillB.canceled -= instance.OnSkillB;
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
@@ -1110,6 +1089,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
+            @Interaction.started -= instance.OnInteraction;
+            @Interaction.performed -= instance.OnInteraction;
+            @Interaction.canceled -= instance.OnInteraction;
         }
 
         public void RemoveCallbacks(IGeneralActions instance)
@@ -1296,12 +1278,11 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnWeaponA(InputAction.CallbackContext context);
         void OnWeaponB(InputAction.CallbackContext context);
         void OnWeaponC(InputAction.CallbackContext context);
-        void OnSkillA(InputAction.CallbackContext context);
-        void OnSkillB(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
+        void OnInteraction(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
