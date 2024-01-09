@@ -2478,7 +2478,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2768583781316699107}
-  - component: {fileID: 8405705472188379745}
   - component: {fileID: 8111544451045180959}
   m_Layer: 31
   m_Name: Interactor_Component
@@ -2502,19 +2501,6 @@ Transform:
   m_Father: {fileID: 3353019030451939600}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &8405705472188379745
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8622139726178210009}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &8111544451045180959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2527,9 +2513,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f083a5d1e514d6b4ba7ad19c3ee45455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderRadius: 1
-  colliderCenter: {x: 0, y: 1, z: 0}
+  nearInteractableRange: 15
+  interactionRange: 2
   inInteraction: 0
+  nearestInteractable: {fileID: 0}
 --- !u!1 &8653840722499009300
 GameObject:
   m_ObjectHideFlags: 0

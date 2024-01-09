@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 public interface IInteractable
 {
-    public void Interact(SC_InteractorComponent interactor) {}
+
+    public void Interact(SC_InteractorComponent newInteractor) {}
     
 } 

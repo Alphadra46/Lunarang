@@ -13,9 +13,12 @@ public class SC_GameManager : MonoBehaviour
     [Title("Settings")]
     [PropertySpace(SpaceBefore = 10)]
     public List<GameObject> prefabsEntities = new List<GameObject>();
-
+    
     public bool isPause = false;
 
+    [Title("Settings")]
+    [ShowInInspector] public List<GameObject> allInteractables = new List<GameObject>();
+    
     #endregion
 
 

@@ -4,90 +4,98 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[RequireComponent(typeof(SphereCollider))]
 public class SC_InteractorComponent : MonoBehaviour
 {
     
     #region Variables
-    
+
+    [BoxGroup("Interaction")] public float nearInteractableRange = 15f;
+    [BoxGroup("Interaction")] public float interactionRange = 2f;
     [BoxGroup("Interaction")]
-    [ShowInInspector] private List<GameObject> interactablesInArea = new List<GameObject>();
-
-    [BoxGroup("Collider")]
-    [SerializeField] private float colliderRadius = 1;
-    [BoxGroup("Collider")]
-    [SerializeField] private Vector3 colliderCenter = new Vector3(0, 1, 0);
-    [BoxGroup("Collider")]
-    [SerializeField] private LayerMask colliderLayer;
-
-    [BoxGroup("Interaction")]
-    public bool inInteraction;
-
+    [ShowInInspector] private List<GameObject> nearInteractables = new List<GameObject>();
+    [BoxGroup("Interaction")] public bool inInteraction;
+    [BoxGroup("Interaction")] public GameObject nearestInteractable;
     #endregion
 
-    private void Reset()
+    private void Start()
     {
-        UpdateColliderSettings();
-    }
-    
-    [BoxGroup("Collider")]
-    [Button("Update Collider")]
-    public void UpdateColliderSettings()
-    {
-        var sphereCollider = GetComponent<SphereCollider>();
-        
-        sphereCollider.radius = colliderRadius;
-        sphereCollider.center = colliderCenter;
-        sphereCollider.isTrigger = true;
+        SC_InputManager.instance.interaction.started += _ => Interact();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        print(other.name);
-        if (other.TryGetComponent(out IInteractable interactable))
-        {
-            print(other.name);
-            interactablesInArea.Add(other.gameObject);
-        }
-        
-    }
-    
-    private void OnTriggerExit(Collider other)
+    public void Update()
     {
         
-        if(other.TryGetComponent(out IInteractable interactable))
-            interactablesInArea.Remove(other.gameObject);
+        SortInteractableByDistance();
+
+        nearestInteractable = FindClosestInteractable();
         
     }
 
-    public GameObject FindClosestInteractable()
+    private void SortInteractableByDistance()
     {
-        float nearestDistance = 1;
-        GameObject nearestInteractable = null;
-        
-        foreach (var interactable in interactablesInArea)
+        foreach (var interactable in SC_GameManager.instance.allInteractables)
         {
             var distance = Vector3.Distance(this.transform.position, interactable.transform.position);
-
-            if (!(distance < nearestDistance)) continue;
+            // print("near : " + distance);
             
-            nearestDistance = distance;
-            nearestInteractable = interactable;
+            if ((distance < nearInteractableRange))
+            {
+                if (nearInteractables.Contains(interactable)) continue;
+                
+                nearInteractables.Add(interactable);
+                interactable.SetActive(true);
+
+            }
+            else
+            {
+                if (!nearInteractables.Contains(interactable)) continue;
+                
+                nearInteractables.Remove(interactable);
+                interactable.SetActive(false);
+
+            }
+            
 
         }
+    }
+    
+    private GameObject FindClosestInteractable()
+    {
+        GameObject closestInteractable = null;
+        
+        foreach (var interactable in nearInteractables)
+        {
+            var distance = Vector3.Distance(this.transform.position, interactable.transform.position);
+            // print("closest : " + distance);
 
-        return nearestInteractable;
+            if ((!(distance < interactionRange))) continue;
+            
+            closestInteractable = interactable;
 
+        }
+        
+        return closestInteractable;
+        
     }
 
-    public void Interact()
+    private void Interact()
     {
         
         if(inInteraction) return;
 
         inInteraction = true;
-        FindClosestInteractable().GetComponent<IInteractable>().Interact(this);
+        if(nearestInteractable.TryGetComponent(out IInteractable i))
+        {
+            i.Interact(this);
+        }
         
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position + new Vector3(0, 1, 0), nearInteractableRange);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position + new Vector3(0, 1, 0), interactionRange);
+    }
 }
