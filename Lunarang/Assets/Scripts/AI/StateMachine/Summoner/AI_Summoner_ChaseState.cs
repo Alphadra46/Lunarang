@@ -5,17 +5,17 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
+public class AI_Summoner_ChaseState : BaseState<AI_StateMachine.EnemyState>
 {
     
-    public AI_Bully_ChaseState(AI_Bully_StateMachine.EnemyState key, AI_Bully_StateMachine manager) : base(key, manager)
+    public AI_Summoner_ChaseState(AI_StateMachine.EnemyState key, AI_Summoner_StateMachine manager) : base(key, manager)
     {
         _aiStateMachine = manager;
     }
     
     #region Variables
 
-    private readonly AI_Bully_StateMachine _aiStateMachine;
+    private readonly AI_Summoner_StateMachine _aiStateMachine;
     private NavMeshAgent _agent;
     private Transform _transform;
     
@@ -39,7 +39,6 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
         player = GameObject.FindWithTag("Player");
         _agent = _aiStateMachine.agent;
         _agent.updateRotation = false;
-        _agent.speed = _aiStateMachine.chaseSpeed;
         
     }
 
@@ -51,7 +50,7 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
         
         switch (_aiStateMachine.NextState)
         {
-            case AI_Bully_StateMachine.EnemyState.Attack:
+            case AI_StateMachine.EnemyState.Attack:
                 _aiStateMachine.StartCoroutine(AttackCooldown());
                 break;
         }
@@ -70,38 +69,35 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
     {
 
         var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
+        var playerPos = player.transform.position;
+        
+        
         
         if (distance <= _aiStateMachine.attackRange)
         {
-            
+            _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
             _agent.isStopped = true;
-            if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _aiStateMachine.centerPoint, _aiStateMachine.detectionAreaRadius, _aiStateMachine.layersAttackable))
+            if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform))
             {
-                _aiStateMachine.TransitionToState(AI_Bully_StateMachine.EnemyState.Attack);
+                _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Attack);
             }
-                
-        }
-        else if (distance <= _aiStateMachine.detectionAreaRadius)
-        {
             
+        } else if (distance <= _aiStateMachine.detectionAreaRadius) {
             _agent.isStopped = false;
             _agent.SetDestination(player.transform.position);
-            
+            _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
         }
         else
         {
-            _aiStateMachine.TransitionToState(AI_Bully_StateMachine.EnemyState.Patrol);
+            _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Patrol);
         }
-
-        var playerPos = player.transform.position;
-        _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
         
     }
     
 
-    public override AI_Bully_StateMachine.EnemyState GetNextState()
+    public override AI_StateMachine.EnemyState GetNextState()
     {
-        return AI_Bully_StateMachine.EnemyState.Chase;
+        return AI_StateMachine.EnemyState.Chase;
     }
     
     /// <summary>

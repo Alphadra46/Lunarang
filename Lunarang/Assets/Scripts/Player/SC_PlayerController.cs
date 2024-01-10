@@ -245,6 +245,12 @@ public class SC_PlayerController : MonoBehaviour
 
     }
 
+    public void TakeKnockback()
+    {
+        // TODO
+        print("KB");
+    }
+
     public void Teleport(Vector3 loc)
     {
         transform.position = loc;

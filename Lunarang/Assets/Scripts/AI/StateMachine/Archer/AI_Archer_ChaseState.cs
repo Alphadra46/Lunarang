@@ -49,10 +49,10 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
     {
         switch (_aiArcherStateMachine.NextState)
         {
-            case AI_Archer_StateMachine.EnemyState.Attack:
+            case AI_StateMachine.EnemyState.Attack:
                 _aiArcherStateMachine.StartCoroutine(AttackCooldown());
                 break;
-            case AI_Archer_StateMachine.EnemyState.Defense:
+            case AI_StateMachine.EnemyState.Defense:
                 _aiArcherStateMachine.StartCoroutine(DefenseCooldown());
                 break;
             default:
@@ -78,19 +78,19 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
             _agent.isStopped = true;
             if (canDefense)
             {
-                _aiArcherStateMachine.TransitionToState(AI_Archer_StateMachine.EnemyState.Defense);
+                _aiArcherStateMachine.TransitionToState(AI_StateMachine.EnemyState.Defense);
             }
         }
-        else if (distance <= _aiArcherStateMachine.chaseAreaRadius)
+        else if (distance <= _aiArcherStateMachine.attackRange)
         {
             _agent.isStopped = true;
             if (canAttack && _aiArcherStateMachine.hasLineOfSightTo(player.transform, _transform))
             {
-                _aiArcherStateMachine.TransitionToState(AI_Archer_StateMachine.EnemyState.Attack);
+                _aiArcherStateMachine.TransitionToState(AI_StateMachine.EnemyState.Attack);
             }
                 
         }
-        else
+        else if (distance <= _aiArcherStateMachine.detectionAreaRadius)
         {
             _agent.isStopped = false;
             _agent.SetDestination(player.transform.position);
@@ -101,9 +101,9 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
     }
     
     
-    public override AI_Archer_StateMachine.EnemyState GetNextState()
+    public override AI_StateMachine.EnemyState GetNextState()
     {
-        return AI_Archer_StateMachine.EnemyState.Chase;
+        return AI_StateMachine.EnemyState.Chase;
     }
     
     /// <summary>

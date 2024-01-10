@@ -40,14 +40,6 @@ public class SC_GameManager : MonoBehaviour
         return allEntities.Count(e => e.typeID == id) > 0;
     }
     
-    // public bool CheckEntity(string uid)
-    // {
-    //     var allEntities = FindObjectsOfType<SC_AIStats>().ToList();
-    //     print(allEntities.Count);
-    //
-    //     return allEntities.Count(e => e.uid == int.Parse(uid)) > 0;
-    // }
-    
     public List<SC_AIStats> FindEntityType(string id)
     {
         var allEntities = FindObjectsOfType<SC_AIStats>().ToList();
@@ -55,15 +47,7 @@ public class SC_GameManager : MonoBehaviour
         return CheckEntityType(id) ? allEntities.Where(e => e.typeID == id).ToList() : null;
     }
 
-    // public List<SC_AIStats> FindEntity(string uid)
-    // {
-    //     var allEntities = FindObjectsOfType<SC_AIStats>().ToList();
-    //     print(allEntities.Count);
-    //
-    //     return CheckEntity(uid) ? allEntities.Where(e => e.uid == int.Parse(uid)).ToList() : null;
-    // }
 
-    
     public void SetPause()
     {
         

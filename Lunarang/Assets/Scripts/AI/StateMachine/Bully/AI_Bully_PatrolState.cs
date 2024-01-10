@@ -43,7 +43,7 @@ public class AI_Bully_PatrolState : BaseState<AI_Bully_StateMachine.EnemyState>
     public override void UpdateState()
     {
         
-        objectsInArea = Physics.OverlapSphere(_aiStateMachine.centerPoint.position, _aiStateMachine.chaseAreaRadius);
+        objectsInArea = Physics.OverlapSphere(_aiStateMachine.centerPoint.position, _aiStateMachine.detectionAreaRadius);
         
         if (objectsInArea.Any(obj => obj.CompareTag("Player")))
         {
