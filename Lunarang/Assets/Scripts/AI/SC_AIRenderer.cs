@@ -77,7 +77,7 @@ public class SC_AIRenderer : MonoBehaviour
     /// <param name="currentWeakness">List of current Weaknesses</param>
     public void UpdateWeaknessBar(List<WeaponType> currentWeakness)
     {
-        debugUIWeaknesses.text = "";
+        debugUIWeaknesses.text = "-";
 
         for (var i = 0; i < currentWeakness.Count; i++)
         {

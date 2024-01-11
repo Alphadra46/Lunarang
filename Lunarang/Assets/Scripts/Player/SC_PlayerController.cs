@@ -106,6 +106,8 @@ public class SC_PlayerController : MonoBehaviour
         SC_InputManager.instance.move.canceled += OnMove;
 
         SC_InputManager.instance.dash.started += Dash;
+
+        SC_InputManager.instance.inventory.started += _ => SC_GameManager.instance.OpenInventory();
     }
 
     public void RemoveControllerInputs()
@@ -241,6 +243,12 @@ public class SC_PlayerController : MonoBehaviour
         
         print(currentMovementInput);
 
+    }
+
+    public void TakeKnockback()
+    {
+        // TODO
+        print("KB");
     }
 
     public void Teleport(Vector3 loc)

@@ -49,6 +49,10 @@ public class SC_ComboController : MonoBehaviour
     [TabGroup("Settings", "Weapon")]
     [PropertySpace(SpaceAfter = 5), ReadOnly]
     public List<ParameterType> currentComboParameters;
+    
+    [TabGroup("Settings", "Weapon")]
+    [PropertySpace(SpaceAfter = 5), ReadOnly]
+    public List<SC_Weapon> currentComboWeapons;
 
     #endregion
 
@@ -67,6 +71,7 @@ public class SC_ComboController : MonoBehaviour
     
     public Animator _animator;
     private SC_PlayerController _controller;
+    private SC_FinalATK_Builder _finalBuilder;
     [SerializeField] private List<VisualEffect> vfxParameterList = new List<VisualEffect>();
 
     #endregion
@@ -79,6 +84,7 @@ public class SC_ComboController : MonoBehaviour
         instance = this;
         
         if(!TryGetComponent(out _controller)) return;
+        if(!TryGetComponent(out _finalBuilder)) return;
     }
 
     private void Start()
@@ -196,6 +202,7 @@ public class SC_ComboController : MonoBehaviour
         if (comboCounter+1 > comboMaxLength)
         {
             ResetCombo();
+            _finalBuilder.Reset();
         }
         
         // Increment combo, switch the weapon type to current type and add this to a list.
@@ -204,6 +211,7 @@ public class SC_ComboController : MonoBehaviour
         currentType = newWeapon.type;
         currentComboWeaponTypes.Add(currentWeapon.type);
         currentComboParameters.Add(currentWeapon.parameter);
+        currentComboWeapons.Add(currentWeapon);
         
         //Only spawn 1 VFX depending on the parameter of the hit
         if (comboCounter<=2)
@@ -245,6 +253,7 @@ public class SC_ComboController : MonoBehaviour
 
         }
         
+        if(comboCounter == 3) _finalBuilder.GetInfosFromLastAttacks(currentComboWeapons);
         
         
         // Debug Side
@@ -266,6 +275,7 @@ public class SC_ComboController : MonoBehaviour
         currentType = WeaponType.Null;
         currentComboWeaponTypes.Clear();
         currentComboParameters.Clear();
+        currentComboWeapons.Clear();
         UpdateAnimator();
     }
 

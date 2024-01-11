@@ -28,7 +28,7 @@ public class SC_AIStats : MonoBehaviour, IDamageable
     
     [PropertySpace(SpaceAfter = 10)]
     [TabGroup("Settings/Stats/Subtabs", "HP", SdfIconType.HeartFill, TextColor = "green"),
-     ProgressBar(0, "maxHealthEffective", r: 0, g: 1, b: 0, Height = 20), ReadOnly]
+     ProgressBar(0, "currentMaxHealth", r: 0, g: 1, b: 0, Height = 20), ReadOnly]
     public float currentHealth;
     
     [TabGroup("Settings/Stats/Subtabs", "HP")]
@@ -140,6 +140,7 @@ public class SC_AIStats : MonoBehaviour, IDamageable
 
     private SC_AIRenderer _renderer;
     private NavMeshAgent _agent;
+    private AI_StateMachine _stateMachine;
     
     #endregion
 
@@ -150,6 +151,7 @@ public class SC_AIStats : MonoBehaviour, IDamageable
     {
         if(!TryGetComponent(out _renderer)) return;
         if(!TryGetComponent(out _agent)) return;
+        if(!TryGetComponent(out _stateMachine)) return;
     }
 
     /// <summary>
@@ -300,8 +302,8 @@ public class SC_AIStats : MonoBehaviour, IDamageable
             currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;
 
             // Debug Part
-            print("Dummy : -" + finalDamage + " HP");
-            print("Dummy : " + currentHealth + "/" + currentMaxHealth);
+            print(typeID + " : -" + finalDamage + " HP");
+            print(typeID + " : " + currentHealth + "/" + currentMaxHealth);
 
             _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
             _renderer.DebugDamage(finalDamage);
@@ -309,6 +311,8 @@ public class SC_AIStats : MonoBehaviour, IDamageable
             if(currentHealth == 0) Destroy(gameObject);
                 
         }
+        
+        _stateMachine.OnDamageTaken();
         
     }
     

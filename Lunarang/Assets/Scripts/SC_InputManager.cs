@@ -13,12 +13,12 @@ public class SC_InputManager : MonoBehaviour
     [HideInInspector] public InputAction weaponA;
     [HideInInspector] public InputAction weaponB;
     [HideInInspector] public InputAction weaponC;
-    [HideInInspector] public InputAction skillA;
-    [HideInInspector] public InputAction skillB;
     [HideInInspector] public InputAction move;
     [HideInInspector] public InputAction dash;
+    [HideInInspector] public InputAction interaction;
     [HideInInspector] public InputAction pause;
-
+    [HideInInspector] public InputAction inventory;
+    
     [Header("UI")]
     [HideInInspector] public InputAction navigate;
     [HideInInspector] public InputAction submit;
@@ -112,13 +112,14 @@ public class SC_InputManager : MonoBehaviour
         weaponA = playerInputActions.General.WeaponA;
         weaponB = playerInputActions.General.WeaponB;
         weaponC = playerInputActions.General.WeaponC;
-        skillA = playerInputActions.General.SkillA;
-        skillB = playerInputActions.General.SkillB;
-        
+
         move = playerInputActions.General.Move;
         dash = playerInputActions.General.Dash;
 
+        interaction = playerInputActions.General.Interaction;
+
         pause = playerInputActions.General.Pause;
+        inventory = playerInputActions.General.Inventory;
     }
 
     /// <summary>
@@ -129,13 +130,14 @@ public class SC_InputManager : MonoBehaviour
         weaponA.Enable();
         weaponB.Enable();
         weaponC.Enable();
-        skillA.Enable();
-        skillB.Enable();
-        
+
         move.Enable();
         dash.Enable();
         
+        interaction.Enable();
+        
         pause.Enable();
+        inventory.Enable();
     }
 
     /// <summary>
@@ -146,13 +148,14 @@ public class SC_InputManager : MonoBehaviour
         weaponA.Disable();
         weaponB.Disable();
         weaponC.Disable();
-        skillA.Disable();
-        skillB.Disable();
-        
+
         move.Disable();
         dash.Disable();
         
+        interaction.Disable();
+        
         pause.Disable();
+        inventory.Disable();
     }
     
     /// <summary>
@@ -187,13 +190,14 @@ public class SC_InputManager : MonoBehaviour
         weaponA.started += DetectDevice;
         weaponB.started += DetectDevice;
         weaponC.started += DetectDevice;
-        skillA.started += DetectDevice;
-        skillB.started += DetectDevice;
 
         move.started += DetectDevice;
         dash.started += DetectDevice;
 
+        interaction.started += DetectDevice;
+
         pause.started += DetectDevice;
+        inventory.started += DetectDevice;
     }
     
     /// <summary>

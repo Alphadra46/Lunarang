@@ -69,6 +69,7 @@ public class SC_AnimatorComboLinker : MonoBehaviour
             
             print(isCritical ? "CRIIIIIT "+rawCrit : rawDamage);
             entity.GetComponent<IDamageable>().TakeDamage(isCritical ? rawCrit : rawDamage, pComboController.currentWeapon.type);
+            
         }
     }
 
