@@ -10,7 +10,7 @@ using UnityEngine.AI;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class SC_AIStats : MonoBehaviour, IDamageable
+public class SC_AIStats : SC_Subject, IDamageable
 {
 
     #region Variables
@@ -307,8 +307,12 @@ public class SC_AIStats : MonoBehaviour, IDamageable
 
             _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
             _renderer.DebugDamage(finalDamage);
-            
-            if(currentHealth == 0) Destroy(gameObject);
+
+            if (currentHealth == 0)
+            {
+                NotifyObservers("enemyDeath");
+                Destroy(gameObject);
+            }
                 
         }
         

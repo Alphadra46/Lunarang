@@ -36,4 +36,27 @@ public class SC_Subject : MonoBehaviour
             observer.OnNotify(newCurrentHP,newMaxHP);
         });
     }
+    
+    
+    /// <summary>
+    /// Notify all observers the subject have subscribed to
+    /// </summary>
+    protected void NotifyObservers()
+    {
+        observers.ForEach((observer) =>
+        {
+            observer.OnNotify();
+        });
+    }
+    
+    /// <summary>
+    /// Notify all observers the subject have subscribed to
+    /// </summary>
+    protected void NotifyObservers(string context)
+    {
+        observers.ForEach((observer) =>
+        {
+            observer.OnNotify(context, this);
+        });
+    }
 }
