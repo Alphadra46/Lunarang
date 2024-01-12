@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 public class SC_UI_HealthBar : MonoBehaviour, IObserver
 {
@@ -67,6 +68,11 @@ public class SC_UI_HealthBar : MonoBehaviour, IObserver
     }
 
     public void OnNotify()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnNotify(string context, SC_Subject subjectReference)
     {
         throw new NotImplementedException();
     }

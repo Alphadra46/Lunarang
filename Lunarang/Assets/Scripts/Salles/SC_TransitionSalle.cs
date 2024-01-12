@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SC_TransitionSalle : MonoBehaviour
+public class SC_TransitionSalle : SC_Subject
 {
     [SerializeField] private GameObject nextRoomTP;
     [SerializeField] private GameObject cameraBounds;
@@ -34,6 +34,8 @@ public class SC_TransitionSalle : MonoBehaviour
             cc.enabled = false;
             
             other.transform.position = new Vector3(nextRoomTP.transform.position.x, other.transform.position.y, nextRoomTP.transform.position.z);
+            
+            NotifyObservers("enter");
 
             //TODO - Enable inputs instead of the component
             cc.enabled = true;

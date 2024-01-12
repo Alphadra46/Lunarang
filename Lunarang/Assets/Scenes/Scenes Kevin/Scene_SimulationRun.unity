@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 0887da7880f2560428797b6b63b346a8, type: 2}
 --- !u!1 &1306022
 GameObject:
   m_ObjectHideFlags: 0
@@ -9173,6 +9173,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1149375516}
+  - component: {fileID: 1149375517}
   m_Layer: 0
   m_Name: TrainingRoom(Clone)_1
   m_TagString: Untagged
@@ -9196,9 +9197,78 @@ Transform:
   - {fileID: 1990772316}
   - {fileID: 1381745639}
   - {fileID: 1989045853}
+  - {fileID: 1779225860}
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1149375517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149375515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 947686a520f51bc4ca406c0dded2095d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRoomCleared: 0
+  subjects:
+  - {fileID: 794892232}
+  roomDoors:
+  - {fileID: 1381745638}
+  numberOfEnemies: 2
+  possibleTypesOfEnemiesInRoom:
+  - {fileID: 6131542437344180460, guid: fefc79a653203a54982c8683d755be0b, type: 3}
+  - {fileID: 6131542437344180460, guid: fefc79a653203a54982c8683d755be0b, type: 3}
+  spawnArea: {fileID: 1779225859}
+  listOfEnemiesInRoom: []
+--- !u!1 &1153449814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1153449815}
+  - component: {fileID: 1153449816}
+  m_Layer: 0
+  m_Name: SpawnArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1153449815
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153449814}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 25, y: -4, z: 0}
+  m_LocalScale: {x: 40, y: 1, z: 40}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2036064855}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1153449816
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153449814}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1154889360
 GameObject:
   m_ObjectHideFlags: 0
@@ -13262,6 +13332,16 @@ MonoBehaviour:
   atkSpeed: 0
   hits: 1
   projectilesNumbers: 1
+  ennemiesInAoE: []
+  layerAttackable:
+    serializedVersion: 2
+    m_Bits: 0
+  ExampleMH: {fileID: 3860448568754977889, guid: 064a96c14e070ea47ba8daa6a7a43c6d,
+    type: 3}
+  ExampleP: {fileID: 3096304510089810979, guid: d52a3e56894ab254cac2e8c8423749df,
+    type: 3}
+  ExampleAoE: {fileID: 8812637048824289249, guid: d49eb4d62bf556b4b84e113bd953c231,
+    type: 3}
 --- !u!143 &1633826310
 CharacterController:
   m_ObjectHideFlags: 0
@@ -14998,6 +15078,51 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.000000029802322, y: -0.16446719, z: -0.007529661}
     m_Extent: {x: 0.90256643, y: 0.9460591, z: 0.17718437}
   m_DirtyAABB: 0
+--- !u!1 &1779225859
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1779225860}
+  - component: {fileID: 1779225861}
+  m_Layer: 0
+  m_Name: SpawnArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1779225860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779225859}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 25, y: -4, z: 0}
+  m_LocalScale: {x: 40, y: 1, z: 40}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1149375516}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1779225861
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779225859}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1783046547
 GameObject:
   m_ObjectHideFlags: 0
@@ -17057,6 +17182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2036064855}
+  - component: {fileID: 2036064856}
   m_Layer: 0
   m_Name: TrainingRoom(Clone)
   m_TagString: Untagged
@@ -17080,9 +17206,32 @@ Transform:
   - {fileID: 1960544882}
   - {fileID: 794892230}
   - {fileID: 1732764878}
+  - {fileID: 1153449815}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2036064856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036064854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 947686a520f51bc4ca406c0dded2095d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRoomCleared: 0
+  subjects:
+  - {fileID: 1381745640}
+  roomDoors:
+  - {fileID: 794892229}
+  numberOfEnemies: 1
+  possibleTypesOfEnemiesInRoom:
+  - {fileID: 1753954169216546166, guid: 1c2d62af54507e84d87089c94c535b6a, type: 3}
+  spawnArea: {fileID: 1153449814}
+  listOfEnemiesInRoom: []
 --- !u!1 &2047149312
 GameObject:
   m_ObjectHideFlags: 0
