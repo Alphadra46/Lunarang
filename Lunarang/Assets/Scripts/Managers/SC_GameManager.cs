@@ -4,12 +4,24 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+
+public enum GameState
+{
+    LOBBY,
+    RUN,
+    DEFEAT,
+    WIN
+}
 
 public class SC_GameManager : MonoBehaviour
 {
     public static SC_GameManager instance;
     
     #region Variables
+
+    public GameState state = GameState.LOBBY;
+    
     [Title("Settings")]
     [PropertySpace(SpaceBefore = 10)]
     public List<GameObject> prefabsEntities = new List<GameObject>();
@@ -20,8 +32,7 @@ public class SC_GameManager : MonoBehaviour
     [ShowInInspector] public List<GameObject> allInteractables = new List<GameObject>();
     
     #endregion
-
-
+    
     private void Awake()
     {
         if(instance != null) Destroy(this);
@@ -30,7 +41,8 @@ public class SC_GameManager : MonoBehaviour
 
     private void Start()
     {
-        SC_InputManager.instance.pause.started += context => { SetPause(); };
+        Debug.Log("Start");
+        SC_InputManager.instance.pause.started += context => { SetPause(); SC_UIManager.instance.ShowPauseMenu(); };
     }
 
     public bool CheckEntityType(string id)
@@ -53,9 +65,33 @@ public class SC_GameManager : MonoBehaviour
         
         isPause = !isPause;
         Time.timeScale = isPause ? 0 : 1;
-        
-        SC_UIManager.instance.ShowPauseMenu();
 
+    }
+
+    public void ChangeState(GameState newState)
+    {
+        state = newState;
+
+        switch (state)
+        {
+            case GameState.LOBBY:
+                if (isPause) SetPause();
+                SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+                SC_UIManager.instance.ShowHUD();
+                break;
+            case GameState.RUN:
+                break;
+            case GameState.DEFEAT:
+                if (!isPause) SetPause();
+                SC_UIManager.instance.ShowHUD();
+                SC_UIManager.instance.ShowGameOverUI();
+                break;
+            case GameState.WIN:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        
     }
 
     public void QuitGame()

@@ -13,6 +13,7 @@ public class SC_PauseMenu : MonoBehaviour
     public void ButtonReturn()
     {
         SC_GameManager.instance.SetPause();
+        SC_UIManager.instance.ShowPauseMenu();
     }
     
 }

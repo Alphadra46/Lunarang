@@ -117,8 +117,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     #endregion
 
     private SC_PlayerController _controller;
-    public GameObject mainHUD;
-    public SC_UI_HealthBar hpBar;
+    private SC_ComboController _comboController;
 
     #endregion
 
@@ -134,6 +133,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
         instance = this;
         
         if(!TryGetComponent(out _controller)) return;
+        if(!TryGetComponent(out _comboController)) return;
     }
     
     /// <summary>
@@ -141,12 +141,8 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     /// </summary>
     private void Start()
     {
-        currentHealth = maxHealth;
-        hpBar.HealthUpdate(currentHealth, maxHealth);
-    }
-
-    private void Update()
-    {
+        currentHealth = maxHealthEffective;
+        NotifyObservers(currentHealth, maxHealthEffective);
     }
     
     #endregion
@@ -193,15 +189,13 @@ public class SC_PlayerStats : SC_Subject, IDamageable
             print("Dummy : -" + finalDamage + " HP");
             print((duration+1) + " seconds reamining");
             
-            // _renderer.UpdateHealthBar(currentHealth, maxHealthEffective);
-            // _renderer.DebugDamage(finalDamage);
+            NotifyObservers(currentHealth, maxHealth);
             
             yield return new WaitForSeconds(tick);
         }
 
     }
     
-
     #endregion
 
     /// <summary>
@@ -216,14 +210,15 @@ public class SC_PlayerStats : SC_Subject, IDamageable
         var finalDamage = rawDamage - currentDEF;
         
         currentHealth = currentHealth - finalDamage < 0 ? 0 : currentHealth - finalDamage;
+        if (DeathCheck())
+        {
+            Death();
+        }
         
-        //hpBar.HealthUpdate(currentHealth, maxHealth);
-        NotifyObservers(currentHealth, maxHealth);
+        NotifyObservers(currentHealth, maxHealthEffective);
     }
 
-    public void TakeDamage(float rawDamage, WeaponType weaponType)
-    {
-    }
+    public void TakeDamage(float rawDamage, WeaponType weaponType){}
 
     /// <summary>
     /// Heal the player by a certain amount
@@ -234,9 +229,36 @@ public class SC_PlayerStats : SC_Subject, IDamageable
         // Check if the heal don't exceed the Max HP limit, if yes, set to max hp, else increment currentHP by healAmount.
         currentHealth = currentHealth + healAmount > maxHealth ? maxHealth : currentHealth + healAmount;
         
-        hpBar.HealthUpdate(currentHealth, maxHealth);
+        NotifyObservers(currentHealth, maxHealthEffective);
     }
 
+    public bool DeathCheck()
+    {
+        return currentHealth <= 0;
+    }
+    
+    public void Death()
+    {
+        // _controller.canMove = false;
+        // _comboController.canAttack = false;
+        
+        SC_GameManager.instance.ChangeState(GameState.DEFEAT);
+    }
+
+    public void ResetModifiers()
+    {
+        maxHealthModifier = 0;
+        speedModifier = 0;
+        atkModifier = 0;
+        defModifier = 0;
+        
+        bonusCritDMG = 0;
+        bonusCritRate = 0;
+        
+        currentHealth = maxHealthEffective;
+        currentDebuffs.Clear();
+    }
+    
     /// <summary>
     /// Detect Hurtbox collision, set up taking damage.
     /// </summary>
