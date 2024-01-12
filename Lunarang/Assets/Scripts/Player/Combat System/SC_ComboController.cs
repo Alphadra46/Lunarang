@@ -74,6 +74,8 @@ public class SC_ComboController : MonoBehaviour
     private SC_FinalATK_Builder _finalBuilder;
     [SerializeField] private List<VisualEffect> vfxParameterList = new List<VisualEffect>();
 
+    public bool canAttack = true;
+    
     #endregion
 
     #region Init
@@ -122,7 +124,7 @@ public class SC_ComboController : MonoBehaviour
     private void Attack(SC_Weapon usedWeapon)
     {
         
-        if(SC_GameManager.instance.isPause) return;
+        if(SC_GameManager.instance.isPause || !canAttack) return;
         
         
         

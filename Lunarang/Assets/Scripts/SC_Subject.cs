@@ -8,18 +8,6 @@ public class SC_Subject : MonoBehaviour
     [HideInInspector]
     public List<IObserver> observers = new List<IObserver>();
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
     /// <summary>
     /// Subscribe the subject to an observer
     /// </summary>

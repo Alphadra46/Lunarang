@@ -9,6 +9,7 @@ public class SC_UIManager : MonoBehaviour
     [SerializeField] private GameObject inventoryUIPrefab;
     [SerializeField] private GameObject HUD;
     [SerializeField] private GameObject pauseUIPrefab;
+    [SerializeField] private GameObject gameOverUIPrefab;
     
     [SerializeField] private GameObject forgeUIPrefab;
 
@@ -17,6 +18,7 @@ public class SC_UIManager : MonoBehaviour
     // Main
     private GameObject inventoryUI;
     private GameObject pauseUI;
+    private GameObject gameOverUI;
     
     // Buildings
     private GameObject forgeUI;
@@ -29,6 +31,11 @@ public class SC_UIManager : MonoBehaviour
         instance = this;
     }
 
+    public void ShowHUD()
+    {
+        HUD.SetActive(!HUD.activeInHierarchy);
+    }
+
     /// <summary>
     /// Instanciate Inventory Prefab, disabling the render of the HUD.
     /// </summary>
@@ -38,12 +45,12 @@ public class SC_UIManager : MonoBehaviour
         if (inventoryUI == null)
         {
             inventoryUI = Instantiate(inventoryUIPrefab);
-            HUD.SetActive(false);
+            ShowHUD();
         }
         else
         {
             Destroy(inventoryUI);
-            HUD.SetActive(true);
+            ShowHUD();
         }
         
     }
@@ -53,18 +60,17 @@ public class SC_UIManager : MonoBehaviour
     /// </summary>
     public void ShowPauseMenu()
     {
-        
         if (pauseUI == null)
         {
             pauseUI = Instantiate(pauseUIPrefab);
-            HUD.SetActive(false);
+            ShowHUD();
             
             EventSystem.current.SetSelectedGameObject(pauseUI.transform.GetChild(1).gameObject);
         }
         else
         {
-            Destroy(pauseUI.gameObject);
-            HUD.SetActive(true);
+            Destroy(pauseUI);
+            ShowHUD();
         }
         
     }
@@ -78,14 +84,28 @@ public class SC_UIManager : MonoBehaviour
         if (forgeUI == null)
         {
             forgeUI = Instantiate(forgeUIPrefab);
-            HUD.SetActive(false);
+            ShowHUD();
         }
         else
         {
             Destroy(forgeUI);
-            HUD.SetActive(true);
+            ShowHUD();
         }
         
+    }
+
+    public void ShowGameOverUI()
+    {
+        if (gameOverUI == null)
+        {
+            gameOverUI = Instantiate(gameOverUIPrefab);
+            ShowHUD();
+        }
+        else
+        {
+            Destroy(gameOverUI);
+            ShowHUD();
+        }
     }
     
 }

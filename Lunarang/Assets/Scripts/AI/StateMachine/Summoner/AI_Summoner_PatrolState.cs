@@ -16,7 +16,7 @@ public class AI_Summoner_PatrolState : BaseState<AI_StateMachine.EnemyState>
     private readonly AI_Summoner_StateMachine _aiStateMachine;
     private NavMeshAgent _agent;
 
-    private bool canMove = true;
+    // private bool canMove = true;
 
     private Collider[] objectsInArea;
 

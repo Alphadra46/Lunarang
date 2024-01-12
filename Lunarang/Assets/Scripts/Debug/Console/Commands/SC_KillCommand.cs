@@ -81,7 +81,7 @@ public class SC_KillCommand : SC_Command
             // Kill Player
             else if (arg.Contains("@p"))
             {
-                Object.Destroy(Object.FindObjectOfType<SC_PlayerController>().gameObject);
+                SC_PlayerStats.instance.Death();
                 SC_DebugConsole.instance.PrintLine("> <color=#42adf5>Player <color=white>has been killed.");
             }
             
