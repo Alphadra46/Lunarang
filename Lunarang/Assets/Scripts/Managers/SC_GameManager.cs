@@ -35,8 +35,10 @@ public class SC_GameManager : MonoBehaviour
     
     private void Awake()
     {
-        if(instance != null) Destroy(this);
+        if(instance != null) Destroy(this.gameObject);
         instance = this;
+        
+        DontDestroyOnLoad(this.gameObject);
     }
 
     private void Start()

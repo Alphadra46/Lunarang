@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
@@ -16,19 +17,21 @@ public class SC_UIManager : MonoBehaviour
     #region Temporary References
     
     // Main
-    private GameObject inventoryUI;
-    private GameObject pauseUI;
-    private GameObject gameOverUI;
+    [ShowInInspector] private GameObject inventoryUI;
+    [ShowInInspector] private GameObject pauseUI;
+    [ShowInInspector] private GameObject gameOverUI;
     
     // Buildings
-    private GameObject forgeUI;
+    [ShowInInspector] private GameObject forgeUI;
 
     #endregion
 
     private void Awake()
     {
-        if(instance != null) Destroy(this);
+        if(instance != null) Destroy(this.gameObject);
         instance = this;
+        
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public void ShowHUD()
@@ -60,6 +63,7 @@ public class SC_UIManager : MonoBehaviour
     /// </summary>
     public void ShowPauseMenu()
     {
+        print(pauseUI);
         if (pauseUI == null)
         {
             pauseUI = Instantiate(pauseUIPrefab);
