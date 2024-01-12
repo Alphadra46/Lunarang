@@ -95,7 +95,10 @@ public class AI_Summoner_StateMachine : AI_StateMachine
         
     }
 
-    public void Summon()
+    /// <summary>
+    /// Instantiate X number of summonGO in an arc in front of the entity.
+    /// </summary>
+    private void Summon()
     {
         for (var i = 0; i < numbersOfSummons; i++)
         {
@@ -118,8 +121,11 @@ public class AI_Summoner_StateMachine : AI_StateMachine
         StartCoroutine(SummonCooldown());
         print("Summoning");
     }
-    
-    public IEnumerator SpawnProjectile()
+
+    /// <summary>
+    /// Spawn X projectileGO in front of the entity
+    /// </summary>
+    private IEnumerator SpawnProjectile()
     {
         for (var i = 0; i < projectileNumbers; i++)
         {
@@ -135,7 +141,10 @@ public class AI_Summoner_StateMachine : AI_StateMachine
             yield return new WaitForSeconds(delayBetweenProjectiles);
         }
     }
-
+    
+    /// <summary>
+    /// Launch a cooldown of X seconds before regive the possibility to use Summon Function
+    /// </summary>
     private IEnumerator SummonCooldown()
     {
         canSummon = false;
@@ -145,6 +154,9 @@ public class AI_Summoner_StateMachine : AI_StateMachine
         canSummon = true;
     }
     
+    /// <summary>
+    /// After X hits, knock-back the attacker.
+    /// </summary>
     public override void OnDamageTaken()
     {
         base.OnDamageTaken();
@@ -161,14 +173,6 @@ public class AI_Summoner_StateMachine : AI_StateMachine
 
     }
 
-    private IEnumerator ResetKB(Rigidbody rb)
-    {
-        yield return new WaitForSeconds(0.15f);
-
-        rb.velocity = Vector3.zero;
-
-    }
-    
     /// <summary>
     /// Check if the target is in line of sight.
     /// </summary>
@@ -185,11 +189,15 @@ public class AI_Summoner_StateMachine : AI_StateMachine
             detectionAreaRadius, layersAttackable) && Hit.collider.CompareTag("Player");
     }
     
+    /// <summary>
+    /// When it called, transition to the Chase State.
+    /// </summary>
     public void Signal()
     {
         TransitionToState(EnemyState.Chase);
     }
 
+    
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
