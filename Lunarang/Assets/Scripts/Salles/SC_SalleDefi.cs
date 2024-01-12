@@ -47,7 +47,7 @@ public class SC_SalleDefi : SC_FonctionnementSalle, IObserver
                 new Vector3(Random.Range(-spawnAreaBounds.extents.x ,spawnAreaBounds.extents.x)+ spawnArea.transform.position.x, 
                     0,
                     Random.Range(-spawnAreaBounds.extents.z,spawnAreaBounds.extents.z)+ spawnArea.transform.position.z),
-                spawnArea.transform.rotation).GetComponent<SC_AIStats>();
+                Quaternion.identity).GetComponent<SC_AIStats>();
             
             listOfEnemiesInRoom.Add(enemy);
         }
