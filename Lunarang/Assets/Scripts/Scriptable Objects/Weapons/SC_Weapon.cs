@@ -16,5 +16,7 @@ public class SC_Weapon : ScriptableObject
     public float areaSize;
     public List<float> MovesValues = new List<float>();
     public float atkSpeed;
-    
+    public int hits;
+    public int projectilesNumbers;
+
 }

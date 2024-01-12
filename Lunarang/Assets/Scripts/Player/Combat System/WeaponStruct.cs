@@ -21,6 +21,7 @@ public enum ImpactPoint
 {
     
     Player,
-    Weapon
+    Weapon,
+    Hit
     
 }
