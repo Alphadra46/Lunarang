@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using Tymski;
+
+#if UNITY_EDITOR
 using UnityEditor.SceneManagement;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -110,3 +113,4 @@ public class SC_SceneDuplicator : MonoBehaviour
         return true;
     }
 }
+#endif

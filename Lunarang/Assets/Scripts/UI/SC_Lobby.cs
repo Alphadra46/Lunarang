@@ -7,11 +7,11 @@ public class SC_Lobby : MonoBehaviour
 {
     public void TrainingRoom()
     {
-        SceneManager.LoadSceneAsync(2, LoadSceneMode.Single);
+        SceneManager.LoadScene(2, LoadSceneMode.Single);
     }
 
     public void Temple()
     {
-        SceneManager.LoadSceneAsync(3, LoadSceneMode.Single);
+        SceneManager.LoadScene(3, LoadSceneMode.Single);
     }
 }
