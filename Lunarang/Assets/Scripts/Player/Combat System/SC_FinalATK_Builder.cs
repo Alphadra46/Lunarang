@@ -25,6 +25,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
     public int projectilesNumbers;
 
     public Collider[] ennemiesInAoE;
+    public Collider[] ennemiesHitByProjectile;
     public LayerMask layerAttackable;
 
     public GameObject ExampleMH;

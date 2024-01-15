@@ -233,9 +233,8 @@ public class SC_PlayerController : MonoBehaviour
 
     public void FreezeMovement(bool value)
     {
-        
+
         canMove = !value;
-        canDash = !value;
         currentMovementInput = value ? Vector2.zero : SC_InputManager.instance.move.ReadValue<Vector2>();
         currentMovement = value ? Vector3.zero : new Vector3(currentMovementInput.x, 0, currentMovementInput.y);
 
@@ -243,6 +242,11 @@ public class SC_PlayerController : MonoBehaviour
         
         print(currentMovementInput);
 
+    }
+
+    public void FreezeDash(bool value)
+    {
+        canDash = !value;
     }
 
     public void TakeKnockback()

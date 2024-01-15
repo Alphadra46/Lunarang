@@ -100,6 +100,7 @@ public class SC_SalleBoss : SC_FonctionnementSalle, IObserver
                     
                     SC_GameManager.instance.ChangeState(GameState.WIN);
                     SC_PlayerController.instance.FreezeMovement(true);
+                    SC_PlayerController.instance.FreezeDash(true);
                 }
                 break;
             default:
