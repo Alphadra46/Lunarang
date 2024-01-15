@@ -82,6 +82,9 @@ public class SC_GameManager : MonoBehaviour
                 SC_UIManager.instance.ResetTempReferences();
                 break;
             case GameState.RUN:
+                if (isPause) SetPause();
+                SC_PlayerController.instance.FreezeMovement(false);
+                SC_UIManager.instance.ResetTempReferences();
                 break;
             case GameState.DEFEAT:
                 if (!isPause) SetPause();
@@ -89,9 +92,10 @@ public class SC_GameManager : MonoBehaviour
                 SC_UIManager.instance.ShowGameOverUI();
                 break;
             case GameState.WIN:
+                if (!isPause) SetPause();
+                SC_UIManager.instance.ShowHUD();
+                SC_UIManager.instance.ShowWinUI();
                 break;
-            default:
-                throw new ArgumentOutOfRangeException();
         }
         
     }

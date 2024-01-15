@@ -132,8 +132,6 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 case ParameterType.MultiHit:
                     switch (previousEffect)
                     {
-                        case ParameterType.MultiHit:
-                            break;
                         case ParameterType.AreaOfEffect:
                             impactPoint = ImpactPoint.Hit;
 
@@ -146,6 +144,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                             
                             break;
                         case ParameterType.Projectile:
+                            
                             break;
                         default:
                             for (var h = 0; h < hits; h++)
@@ -153,6 +152,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                                 var mhSettings = Instantiate(ExampleMH);
                         
                                 mhSettings.transform.position = pos + (transform.forward * 2);
+                                mhSettings.transform.localScale = new Vector3(areaSize, areaSize, areaSize);
                             }
                             break;
                     }
@@ -163,7 +163,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                     aoeSettings.transform.position = pos + (transform.forward * 2);
 
                     ennemiesInAoE = Physics.OverlapSphere((pos + (transform.forward * 2)), areaSize/2, layerAttackable);
-                    
+
                     break;
                 case ParameterType.Projectile:
                     for (var p = 0; p < projectilesNumbers; p++)
