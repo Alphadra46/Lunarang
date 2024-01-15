@@ -21,6 +21,8 @@ public class SC_UIManager : MonoBehaviour
     [BoxGroup("Prefabs References")]
     [SerializeField] private GameObject gameOverUIPrefab;
     [BoxGroup("Prefabs References")]
+    [SerializeField] private GameObject winUIPrefab;
+    [BoxGroup("Prefabs References")]
     [SerializeField] private GameObject forgeUIPrefab;
 
     #region Temporary References
@@ -34,6 +36,8 @@ public class SC_UIManager : MonoBehaviour
     [ShowInInspector] private GameObject pauseUI;
     [BoxGroup("Temporary References")]
     [ShowInInspector] private GameObject gameOverUI;
+    [BoxGroup("Temporary References")]
+    [ShowInInspector] private GameObject winUI;
     
     // Buildings
     [BoxGroup("Temporary References")]
@@ -156,7 +160,21 @@ public class SC_UIManager : MonoBehaviour
         }
     }
 
-
+    public void ShowWinUI()
+    {
+        if (winUI == null)
+        {
+            winUI = Instantiate(winUIPrefab, UIParent.transform);
+            winUI.name = "GameOverUI";
+            ShowHUD();
+        }
+        else
+        {
+            Destroy(winUI);
+            ShowHUD();
+        }
+    }
+    
     public void ResetTempReferences()
     {
         // UIParent = null;
