@@ -36,10 +36,6 @@ public class SC_UI_HealthBar : MonoBehaviour, IObserver
         if(!transform.GetChild(3).TryGetComponent(out tmpHP)) return;
 
         playerStats = FindObjectOfType<SC_PlayerStats>();
-    }
-
-    private void Start()
-    {
         AddSelfToSubjectList();
     }
 

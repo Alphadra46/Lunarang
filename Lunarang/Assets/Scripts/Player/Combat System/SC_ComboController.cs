@@ -127,7 +127,6 @@ public class SC_ComboController : MonoBehaviour
         if(SC_GameManager.instance.isPause || !canAttack) return;
         
         
-        
         if (canPerformCombo)
         {
             IncrementCombo(usedWeapon);

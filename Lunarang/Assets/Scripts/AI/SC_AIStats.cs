@@ -310,14 +310,19 @@ public class SC_AIStats : SC_Subject, IDamageable
 
             if (currentHealth == 0)
             {
-                NotifyObservers("enemyDeath");
-                Destroy(gameObject);
+                Death();
             }
                 
         }
         
         _stateMachine.OnDamageTaken();
         
+    }
+
+    public void Death()
+    {
+        NotifyObservers("enemyDeath");
+        Destroy(gameObject);
     }
     
 

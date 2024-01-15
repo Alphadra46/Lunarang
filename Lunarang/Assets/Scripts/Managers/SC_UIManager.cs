@@ -1,42 +1,82 @@
-﻿using Sirenix.OdinInspector;
+﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public class SC_UIManager : MonoBehaviour
 {
     public static SC_UIManager instance;
 
-    [SerializeField] private GameObject inventoryUIPrefab;
-    [SerializeField] private GameObject HUD;
-    [SerializeField] private GameObject pauseUIPrefab;
-    [SerializeField] private GameObject gameOverUIPrefab;
+    #region Variables
+
+    public GameObject UIParent;
     
+    [BoxGroup("Prefabs References")]
+    [SerializeField] private GameObject inventoryUIPrefab;
+    [BoxGroup("Prefabs References")]
+    [SerializeField] private GameObject HUD;
+    [BoxGroup("Prefabs References")]
+    [SerializeField] private GameObject pauseUIPrefab;
+    [BoxGroup("Prefabs References")]
+    [SerializeField] private GameObject gameOverUIPrefab;
+    [BoxGroup("Prefabs References")]
     [SerializeField] private GameObject forgeUIPrefab;
 
     #region Temporary References
     
     // Main
+    [BoxGroup("Temporary References")]
+    [ShowInInspector] private GameObject hudUI;
+    [BoxGroup("Temporary References")]
     [ShowInInspector] private GameObject inventoryUI;
+    [BoxGroup("Temporary References")]
     [ShowInInspector] private GameObject pauseUI;
+    [BoxGroup("Temporary References")]
     [ShowInInspector] private GameObject gameOverUI;
     
     // Buildings
+    [BoxGroup("Temporary References")]
     [ShowInInspector] private GameObject forgeUI;
+
+#endregion
 
     #endregion
 
     private void Awake()
     {
-        if(instance != null) Destroy(this.gameObject);
+        if(instance != null) Destroy(this);
         instance = this;
         
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(this);
+
+        if (UIParent == null)
+        {
+            UIParent = GameObject.FindWithTag("UIParent");
+        }
+
+        if (SceneManager.GetActiveScene().buildIndex != 2 && SceneManager.GetActiveScene().buildIndex != 3) return;
+        
+        ResetTempReferences();
+        InstantiateHUD();
     }
 
+    private void InstantiateHUD()
+    {
+        if (hudUI == null)
+        {
+            hudUI = Instantiate(HUD, UIParent.transform);
+            hudUI.name = "HUD";
+        }
+        else
+        {
+            Destroy(hudUI);
+        }
+    }
+    
     public void ShowHUD()
     {
-        HUD.SetActive(!HUD.activeInHierarchy);
+        hudUI.SetActive(!hudUI.activeInHierarchy);
     }
 
     /// <summary>
@@ -47,7 +87,8 @@ public class SC_UIManager : MonoBehaviour
         
         if (inventoryUI == null)
         {
-            inventoryUI = Instantiate(inventoryUIPrefab);
+            inventoryUI = Instantiate(inventoryUIPrefab, UIParent.transform);
+            inventoryUI.name = "InventoryUI";
             ShowHUD();
         }
         else
@@ -66,7 +107,8 @@ public class SC_UIManager : MonoBehaviour
         print(pauseUI);
         if (pauseUI == null)
         {
-            pauseUI = Instantiate(pauseUIPrefab);
+            pauseUI = Instantiate(pauseUIPrefab, UIParent.transform);
+            pauseUI.name = "PauseUI";
             ShowHUD();
             
             EventSystem.current.SetSelectedGameObject(pauseUI.transform.GetChild(1).gameObject);
@@ -87,7 +129,8 @@ public class SC_UIManager : MonoBehaviour
         
         if (forgeUI == null)
         {
-            forgeUI = Instantiate(forgeUIPrefab);
+            forgeUI = Instantiate(forgeUIPrefab, UIParent.transform);
+            forgeUI.name = "ForgeUI";
             ShowHUD();
         }
         else
@@ -102,7 +145,8 @@ public class SC_UIManager : MonoBehaviour
     {
         if (gameOverUI == null)
         {
-            gameOverUI = Instantiate(gameOverUIPrefab);
+            gameOverUI = Instantiate(gameOverUIPrefab, UIParent.transform);
+            gameOverUI.name = "GameOverUI";
             ShowHUD();
         }
         else
@@ -111,5 +155,16 @@ public class SC_UIManager : MonoBehaviour
             ShowHUD();
         }
     }
-    
+
+
+    public void ResetTempReferences()
+    {
+        // UIParent = null;
+        
+        hudUI = null;
+        inventoryUI = null;
+        pauseUI = null;
+        gameOverUI = null;
+        forgeUI = null;
+    }
 }

@@ -47,7 +47,7 @@ public class SC_GameManager : MonoBehaviour
         SC_InputManager.instance.pause.started += context => { SetPause(); SC_UIManager.instance.ShowPauseMenu(); };
     }
 
-    public bool CheckEntityType(string id)
+    private bool CheckEntityType(string id)
     {
         var allEntities = FindObjectsOfType<SC_AIStats>().ToList();
 
@@ -78,8 +78,8 @@ public class SC_GameManager : MonoBehaviour
         {
             case GameState.LOBBY:
                 if (isPause) SetPause();
-                SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
-                SC_UIManager.instance.ShowHUD();
+                SceneManager.LoadScene(1, LoadSceneMode.Single);
+                SC_UIManager.instance.ResetTempReferences();
                 break;
             case GameState.RUN:
                 break;

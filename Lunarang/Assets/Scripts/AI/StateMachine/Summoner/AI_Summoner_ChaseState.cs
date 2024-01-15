@@ -39,6 +39,7 @@ public class AI_Summoner_ChaseState : BaseState<AI_StateMachine.EnemyState>
         player = GameObject.FindWithTag("Player");
         _agent = _aiStateMachine.agent;
         _agent.updateRotation = false;
+        _agent.speed = _aiStateMachine.patrolSpeed;
         
     }
 

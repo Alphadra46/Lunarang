@@ -38,6 +38,7 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
         player = GameObject.FindWithTag("Player");
         _agent = _aiArcherStateMachine.agent;
         _agent.updateRotation = false;
+        _agent.speed = _aiArcherStateMachine.chaseSpeed;
         
     }
 

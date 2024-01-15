@@ -29,6 +29,7 @@ public class AI_Archer_PatrolState : BaseState<AI_Archer_StateMachine.EnemyState
     {
         _agent = _aiArcherStateMachine.agent;
         _agent.updateRotation = false;
+        _agent.speed = _aiArcherStateMachine.patrolSpeed;
     }
 
     public override void ExitState()
