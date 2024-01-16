@@ -139,6 +139,10 @@ public class SC_PlayerController : MonoBehaviour
             SC_ComboController.instance.CancelAttack();
             print("Cancel");
         }
+        else if(SC_ComboController.instance.canPerformCombo)
+        {
+            SC_ComboController.instance.canPerformCombo = true;
+        }
         StartCoroutine(DashCoroutine());
         
     }

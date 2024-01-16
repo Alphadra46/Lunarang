@@ -308,7 +308,7 @@ public class SC_AIStats : SC_Subject, IDamageable
             _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
             _renderer.DebugDamage(finalDamage, isCrit);
 
-            if (currentHealth == 0)
+            if (currentHealth <= 0)
             {
                 Death();
             }
