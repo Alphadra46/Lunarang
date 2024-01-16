@@ -52,7 +52,7 @@ public class SC_InputManager : MonoBehaviour
 
         AttachToDeviceDetection();
         
-        DontDestroyOnLoad(this.gameObject);
+        // DontDestroyOnLoad(this.gameObject);
     }
 
     /// <summary>

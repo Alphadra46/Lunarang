@@ -280,7 +280,12 @@ public class SC_PlayerController : MonoBehaviour
         currentMovementInput = ctx.ReadValue<Vector2>(); // Read the input value
         currentMovement.x = currentMovementInput.x; // Set the current movement vector x with the input value
         currentMovement.z = currentMovementInput.y; // Set the current movement vector y with the input value
+
+        if (SC_ComboController.instance.canAttack) return;
         
+        SC_ComboController.instance.ResetCombo();
+        SC_ComboController.instance.CanPerformCombo();
+
     }
     
     #endregion
