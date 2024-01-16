@@ -157,6 +157,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     #region Status
     
+    
     public void ApplyBuffToSelf(String newBuff, float modifier)
     {
 
