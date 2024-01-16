@@ -35,10 +35,10 @@ public class SC_GameManager : MonoBehaviour
     
     private void Awake()
     {
-        if(instance != null) Destroy(this.gameObject);
+        if(instance != null) Destroy(this);
         instance = this;
         
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(this);
     }
 
     private void Start()
@@ -83,8 +83,11 @@ public class SC_GameManager : MonoBehaviour
                 break;
             case GameState.RUN:
                 if (isPause) SetPause();
-                SC_PlayerController.instance.FreezeMovement(false);
-                SC_PlayerController.instance.FreezeDash(false);
+                if (SC_PlayerController.instance != null)
+                {
+                    SC_PlayerController.instance.FreezeMovement(false);
+                    SC_PlayerController.instance.FreezeDash(false);
+                }
                 SC_UIManager.instance.ResetTempReferences();
                 break;
             case GameState.DEFEAT:
