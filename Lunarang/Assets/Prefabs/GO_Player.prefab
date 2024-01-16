@@ -741,6 +741,11 @@ MonoBehaviour:
   atkSpeed: 0
   hits: 0
   projectilesNumbers: 0
+  ennemiesInAoE: []
+  ennemiesHitByProjectile: []
+  layerAttackable:
+    serializedVersion: 2
+    m_Bits: 0
   ExampleMH: {fileID: 0}
   ExampleP: {fileID: 0}
   ExampleAoE: {fileID: 0}
@@ -774,6 +779,7 @@ MonoBehaviour:
   - {fileID: 188854431405586836}
   - {fileID: 7896687887167944282}
   - {fileID: 1827680345675204534}
+  canAttack: 1
 --- !u!114 &3353019030451939604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -824,8 +830,6 @@ MonoBehaviour:
   bonusCritDMG: 0
   currentDebuffs: 
   isGod: 0
-  mainHUD: {fileID: 0}
-  hpBar: {fileID: 0}
 --- !u!1 &3353019030740982348
 GameObject:
   m_ObjectHideFlags: 0
