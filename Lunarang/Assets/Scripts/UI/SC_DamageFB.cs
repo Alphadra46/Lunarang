@@ -6,6 +6,9 @@ using UnityEngine;
 public class SC_DamageFB : MonoBehaviour
 {
     public Animator _animator;
+
+    public bool isCrit;
+    
     
     private void Awake()
     {
