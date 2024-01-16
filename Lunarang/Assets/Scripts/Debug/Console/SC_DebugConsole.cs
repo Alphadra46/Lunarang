@@ -39,6 +39,8 @@ public class SC_DebugConsole : MonoBehaviour
     {
         if(instance != null) Destroy(this);
         instance = this;
+        
+        // DontDestroyOnLoad(this.gameObject);
     }
 
     /// <summary>
@@ -47,8 +49,14 @@ public class SC_DebugConsole : MonoBehaviour
     private void Start()
     {
         SC_InputManager.instance.console.started += ShowConsole;
+        
     }
-    
+
+    private void OnDisable()
+    {
+        SC_InputManager.instance.console.started -= ShowConsole;
+    }
+
     /// <summary>
     /// Open the command text box and an command line log.
     /// </summary>

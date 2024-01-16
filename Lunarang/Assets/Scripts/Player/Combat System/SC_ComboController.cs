@@ -65,7 +65,7 @@ public class SC_ComboController : MonoBehaviour
     
     [TabGroup("Settings", "Combo")]
     [SerializeField]private bool canPerformCombo = true;
-    private bool isInputBufferingOn = false;
+    // private bool isInputBufferingOn = false;
 
     #endregion
     
@@ -291,7 +291,7 @@ public class SC_ComboController : MonoBehaviour
     /// </summary>
     public void ActivateInputBuffering()
     {
-        isInputBufferingOn = true;
+        // isInputBufferingOn = true;
         print("Buffering On");
     }
     
@@ -300,7 +300,7 @@ public class SC_ComboController : MonoBehaviour
     /// </summary>
     public void DeactivateInputBuffering()
     {
-        isInputBufferingOn = false;
+        // isInputBufferingOn = false;
         print("Buffering Off");
     }
     
