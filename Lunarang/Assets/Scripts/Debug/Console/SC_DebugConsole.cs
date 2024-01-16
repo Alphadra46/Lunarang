@@ -23,6 +23,8 @@ public class SC_DebugConsole : MonoBehaviour
     private VerticalLayoutGroup textLinesPanel;
     public TMP_InputField commandline;
 
+    public GameObject StatsUI;
+    
     [ShowInInspector] private List<string> history = new List<string>();
     
     public string[] separators = {" "};

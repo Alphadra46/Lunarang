@@ -50,7 +50,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     public float currentATK => atkBase * (1 + atkModifier);
     
     [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("Stats", "ATK"), ShowInInspector] private int atkBase = 5;
+    [TabGroup("Stats", "ATK"), ShowInInspector] public int atkBase = 5;
     [TabGroup("Stats", "ATK")] public float atkModifier;
 
     #endregion
@@ -62,7 +62,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     public float currentSpeed => baseSpeed * (1 + speedModifier);
     
     [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("Stats", "SPD"), SerializeField] private int baseSpeed = 7;
+    [TabGroup("Stats", "SPD"), SerializeField] public int baseSpeed = 7;
     [TabGroup("Stats", "SPD")] public float speedModifier;
 
     #endregion
@@ -96,7 +96,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     
     
     [TabGroup("Stats", "Crit",TextColor = "darkred"), ShowInInspector, ReadOnly]
-    public float critDMG => (baseCritDMG + bonusCritDMG)/100;
+    public float critDMG => (baseCritDMG + bonusCritDMG);
     
     
     [PropertySpace(SpaceBefore = 10)]
@@ -104,7 +104,13 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     public float critValue => critDMG + (critRate * 2);
 
     #endregion
-    
+
+    #region DMG
+
+    [TabGroup("Stats", "DMG")]
+    public float damageBonus = 0;
+
+    #endregion
 
     #region Status
     
@@ -118,6 +124,8 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     private SC_PlayerController _controller;
     private SC_ComboController _comboController;
+
+    public SC_StatsDebug statsDebug = null;
 
     #endregion
 
@@ -148,6 +156,35 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     #endregion
 
     #region Status
+    
+    public void ApplyBuffToSelf(String newBuff, float modifier)
+    {
+
+        switch (newBuff)
+        {
+            case "ATK":
+                atkModifier += modifier;
+                break;
+            case "DEF":
+                defModifier += modifier;
+                break;
+            case "DMG":
+                damageBonus += modifier;
+                break;
+            case "CD":
+                bonusCritDMG += modifier;
+                break;
+            case "CR":
+                bonusCritRate += modifier;
+                break;
+        }
+
+        if (statsDebug != null)
+        {
+            statsDebug.RefreshStats();
+        }
+        
+    }
     
     /// <summary>
     /// Apply a debuff to self with a certain type, a certain activation cooldown and a duration.
@@ -218,7 +255,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
         NotifyObservers(currentHealth, maxHealthEffective);
     }
 
-    public void TakeDamage(float rawDamage, WeaponType weaponType){}
+    public void TakeDamage(float rawDamage, WeaponType weaponType, bool isCrit){}
 
     /// <summary>
     /// Heal the player by a certain amount
