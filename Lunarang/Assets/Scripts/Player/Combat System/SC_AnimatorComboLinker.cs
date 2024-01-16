@@ -65,10 +65,11 @@ public class SC_AnimatorComboLinker : MonoBehaviour
             var currentMV = pComboController.currentWeapon.MovesValues[pComboController.comboCounter-1];
             
             var rawDamage = currentMV * pStats.currentATK;
-            var rawCrit = rawDamage * (1 + pStats.critDMG);
+            var effDamage = rawDamage * (1 + (pStats.damageBonus/100));
+            var effCrit = effDamage * (1 + (pStats.critDMG/100));
             
-            print(isCritical ? "CRIIIIIT "+rawCrit : rawDamage);
-            entity.GetComponent<IDamageable>().TakeDamage(isCritical ? rawCrit : rawDamage, pComboController.currentWeapon.type);
+            print(isCritical ? "CRIIIIIT "+ effCrit : effDamage);
+            entity.GetComponent<IDamageable>().TakeDamage(isCritical ? effCrit : effDamage, pComboController.currentWeapon.type, isCritical);
             
         }
     }

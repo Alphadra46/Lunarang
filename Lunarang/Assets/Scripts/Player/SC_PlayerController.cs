@@ -134,10 +134,10 @@ public class SC_PlayerController : MonoBehaviour
         isDashing = true;
         
         _animator.SetBool("isDashing", true);
-        if (!SC_ComboController.instance.canAttack)
+        if (!SC_ComboController.instance.canAttack && !SC_ComboController.instance.canPerformCombo)
         {
-            SC_ComboController.instance.ResetCombo();
-            SC_ComboController.instance.CanPerformCombo();
+            SC_ComboController.instance.CancelAttack();
+            print("Cancel");
         }
         StartCoroutine(DashCoroutine());
         
@@ -246,7 +246,7 @@ public class SC_PlayerController : MonoBehaviour
 
         if (value) return;
         
-        print(currentMovementInput);
+        // print(currentMovementInput);
 
     }
 
@@ -283,7 +283,6 @@ public class SC_PlayerController : MonoBehaviour
 
         if (SC_ComboController.instance.canAttack) return;
         
-        SC_ComboController.instance.ResetCombo();
         SC_ComboController.instance.CanPerformCombo();
 
     }
