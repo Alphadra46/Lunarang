@@ -129,16 +129,17 @@ public class SC_ComboController : MonoBehaviour
         
         if (canPerformCombo)
         {
+            canAttack = false;
             IncrementCombo(usedWeapon);
             UpdateAnimator();
             
             _controller.FreezeMovement(true);
 
         }
-        else if(isInputBufferingOn)
-        {
-            InputBuffering(currentWeapon);
-        }
+        // else if(isInputBufferingOn)
+        // {
+        //     InputBuffering(currentWeapon);
+        // }
         
         
         
@@ -173,12 +174,13 @@ public class SC_ComboController : MonoBehaviour
     /// </summary>
     public void CanPerformCombo()
     {
+        canAttack = true;
         canPerformCombo = true;
 
-        if (inputBufferedWeapon == null) return;
-        
-        Attack(inputBufferedWeapon);
-        inputBufferedWeapon = null;
+        // if (inputBufferedWeapon == null) return;
+        //
+        // Attack(inputBufferedWeapon);
+        // inputBufferedWeapon = null;
 
     }
     
@@ -203,7 +205,7 @@ public class SC_ComboController : MonoBehaviour
         if (comboCounter+1 > comboMaxLength)
         {
             ResetCombo();
-            _finalBuilder.Reset();
+            // _finalBuilder.Reset();
         }
         
         // Increment combo, switch the weapon type to current type and add this to a list.
@@ -254,7 +256,7 @@ public class SC_ComboController : MonoBehaviour
 
         }
         
-        if(comboCounter == 3) _finalBuilder.GetInfosFromLastAttacks(currentComboWeapons);
+        // if(comboCounter == 3) _finalBuilder.GetInfosFromLastAttacks(currentComboWeapons);
         
         
         // Debug Side

@@ -76,10 +76,12 @@ public class SC_AnimatorComboLinker : MonoBehaviour
     public void FreezeMovement()
     {
         pController.FreezeMovement(true);
+        pController.FreezeDash(true);
     }
     public void UnfreezeMovement()
     {
         pController.FreezeMovement(false);
+        pController.FreezeDash(false);
     }
     
 }

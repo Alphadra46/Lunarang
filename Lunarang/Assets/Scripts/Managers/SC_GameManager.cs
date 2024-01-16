@@ -84,6 +84,7 @@ public class SC_GameManager : MonoBehaviour
             case GameState.RUN:
                 if (isPause) SetPause();
                 SC_PlayerController.instance.FreezeMovement(false);
+                SC_PlayerController.instance.FreezeDash(false);
                 SC_UIManager.instance.ResetTempReferences();
                 break;
             case GameState.DEFEAT:
