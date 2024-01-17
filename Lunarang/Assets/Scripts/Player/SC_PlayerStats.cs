@@ -50,7 +50,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     public float currentATK => atkBase * (1 + atkModifier);
     
     [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("Stats", "ATK"), ShowInInspector] private int atkBase = 5;
+    [TabGroup("Stats", "ATK"), ShowInInspector] public int atkBase = 5;
     [TabGroup("Stats", "ATK")] public float atkModifier;
 
     #endregion
@@ -62,7 +62,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     public float currentSpeed => baseSpeed * (1 + speedModifier);
     
     [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("Stats", "SPD"), SerializeField] private int baseSpeed = 7;
+    [TabGroup("Stats", "SPD"), SerializeField] public int baseSpeed = 7;
     [TabGroup("Stats", "SPD")] public float speedModifier;
 
     #endregion
@@ -96,7 +96,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     
     
     [TabGroup("Stats", "Crit",TextColor = "darkred"), ShowInInspector, ReadOnly]
-    public float critDMG => (baseCritDMG + bonusCritDMG)/100;
+    public float critDMG => (baseCritDMG + bonusCritDMG);
     
     
     [PropertySpace(SpaceBefore = 10)]
@@ -104,7 +104,13 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     public float critValue => critDMG + (critRate * 2);
 
     #endregion
-    
+
+    #region DMG
+
+    [TabGroup("Stats", "DMG")]
+    public float damageBonus = 0;
+
+    #endregion
 
     #region Status
     
@@ -117,8 +123,9 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     #endregion
 
     private SC_PlayerController _controller;
-    public GameObject mainHUD;
-    public SC_UI_HealthBar hpBar;
+    private SC_ComboController _comboController;
+
+    public SC_StatsDebug statsDebug = null;
 
     #endregion
 
@@ -134,6 +141,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
         instance = this;
         
         if(!TryGetComponent(out _controller)) return;
+        if(!TryGetComponent(out _comboController)) return;
     }
     
     /// <summary>
@@ -141,17 +149,43 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     /// </summary>
     private void Start()
     {
-        currentHealth = maxHealth;
-        hpBar.HealthUpdate(currentHealth, maxHealth);
-    }
-
-    private void Update()
-    {
+        currentHealth = maxHealthEffective;
+        NotifyObservers(currentHealth, maxHealthEffective);
     }
     
     #endregion
 
     #region Status
+    
+    
+    public void ApplyBuffToSelf(String newBuff, float modifier)
+    {
+
+        switch (newBuff)
+        {
+            case "ATK":
+                atkModifier += modifier;
+                break;
+            case "DEF":
+                defModifier += modifier;
+                break;
+            case "DMG":
+                damageBonus += modifier;
+                break;
+            case "CD":
+                bonusCritDMG += modifier;
+                break;
+            case "CR":
+                bonusCritRate += modifier;
+                break;
+        }
+
+        if (statsDebug != null)
+        {
+            statsDebug.RefreshStats();
+        }
+        
+    }
     
     /// <summary>
     /// Apply a debuff to self with a certain type, a certain activation cooldown and a duration.
@@ -193,15 +227,13 @@ public class SC_PlayerStats : SC_Subject, IDamageable
             print("Dummy : -" + finalDamage + " HP");
             print((duration+1) + " seconds reamining");
             
-            // _renderer.UpdateHealthBar(currentHealth, maxHealthEffective);
-            // _renderer.DebugDamage(finalDamage);
+            NotifyObservers(currentHealth, maxHealth);
             
             yield return new WaitForSeconds(tick);
         }
 
     }
     
-
     #endregion
 
     /// <summary>
@@ -216,14 +248,15 @@ public class SC_PlayerStats : SC_Subject, IDamageable
         var finalDamage = rawDamage - currentDEF;
         
         currentHealth = currentHealth - finalDamage < 0 ? 0 : currentHealth - finalDamage;
+        if (DeathCheck())
+        {
+            Death();
+        }
         
-        //hpBar.HealthUpdate(currentHealth, maxHealth);
-        NotifyObservers(currentHealth, maxHealth);
+        NotifyObservers(currentHealth, maxHealthEffective);
     }
 
-    public void TakeDamage(float rawDamage, WeaponType weaponType)
-    {
-    }
+    public void TakeDamage(float rawDamage, WeaponType weaponType, bool isCrit){}
 
     /// <summary>
     /// Heal the player by a certain amount
@@ -234,9 +267,36 @@ public class SC_PlayerStats : SC_Subject, IDamageable
         // Check if the heal don't exceed the Max HP limit, if yes, set to max hp, else increment currentHP by healAmount.
         currentHealth = currentHealth + healAmount > maxHealth ? maxHealth : currentHealth + healAmount;
         
-        hpBar.HealthUpdate(currentHealth, maxHealth);
+        NotifyObservers(currentHealth, maxHealthEffective);
     }
 
+    public bool DeathCheck()
+    {
+        return currentHealth <= 0;
+    }
+    
+    public void Death()
+    {
+        // _controller.canMove = false;
+        // _comboController.canAttack = false;
+        
+        SC_GameManager.instance.ChangeState(GameState.DEFEAT);
+    }
+
+    public void ResetModifiers()
+    {
+        maxHealthModifier = 0;
+        speedModifier = 0;
+        atkModifier = 0;
+        defModifier = 0;
+        
+        bonusCritDMG = 0;
+        bonusCritRate = 0;
+        
+        currentHealth = maxHealthEffective;
+        currentDebuffs.Clear();
+    }
+    
     /// <summary>
     /// Detect Hurtbox collision, set up taking damage.
     /// </summary>

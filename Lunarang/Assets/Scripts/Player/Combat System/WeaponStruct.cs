@@ -16,3 +16,12 @@ public enum ParameterType
     Projectile
 
 }
+
+public enum ImpactPoint
+{
+    
+    Player,
+    Weapon,
+    Hit
+    
+}

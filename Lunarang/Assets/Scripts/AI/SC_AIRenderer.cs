@@ -45,7 +45,8 @@ public class SC_AIRenderer : MonoBehaviour
     /// Render the amount of damage taken by the Entity.
     /// </summary>
     /// <param name="damageTaken">Amount of damage taken.</param>
-    public void DebugDamage(float damageTaken)
+    /// <param name="isCrit"></param>
+    public void DebugDamage(float damageTaken, bool isCrit)
     {
         if(DamageUIArea.transform.childCount > 0) Destroy(DamageUIArea.transform.GetChild(0).gameObject);
         
@@ -53,8 +54,11 @@ public class SC_AIRenderer : MonoBehaviour
         
         if(text.TryGetComponent(out RectTransform rect)) rect.anchoredPosition =
             new Vector3(Random.Range(-0.55f, 0.55f), Random.Range(-0.55f, 0.55f));
+
+        if (!text.TryGetComponent(out TextMeshProUGUI textMeshProUGUI)) return;
         
-        if(text.TryGetComponent(out TextMeshProUGUI textMeshProUGUI)) textMeshProUGUI.text = damageTaken.ToString();
+        textMeshProUGUI.text = damageTaken.ToString();
+        textMeshProUGUI.color = isCrit ?new Color32(235, 56, 56, 255) : new Color32(232, 232, 232, 255);
     }
 
     #endregion
@@ -77,7 +81,7 @@ public class SC_AIRenderer : MonoBehaviour
     /// <param name="currentWeakness">List of current Weaknesses</param>
     public void UpdateWeaknessBar(List<WeaponType> currentWeakness)
     {
-        debugUIWeaknesses.text = "";
+        debugUIWeaknesses.text = "-";
 
         for (var i = 0; i < currentWeakness.Count; i++)
         {

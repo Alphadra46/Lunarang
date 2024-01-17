@@ -37,6 +37,7 @@ public class SC_InputManager : MonoBehaviour
 
     private void Awake()
     {
+        if(instance != null) Destroy(this.gameObject);
         instance = this;
         playerInputActions = new InputMap();
         
@@ -50,6 +51,8 @@ public class SC_InputManager : MonoBehaviour
         EnableDebugInputs();
 
         AttachToDeviceDetection();
+        
+        // DontDestroyOnLoad(this.gameObject);
     }
 
     /// <summary>

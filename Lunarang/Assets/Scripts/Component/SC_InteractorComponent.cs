@@ -93,9 +93,9 @@ public class SC_InteractorComponent : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position + new Vector3(0, 1, 0), nearInteractableRange);
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position + new Vector3(0, 1, 0), interactionRange);
+        // Gizmos.color = Color.blue;
+        // Gizmos.DrawWireSphere(transform.position + new Vector3(0, 1, 0), nearInteractableRange);
+        // Gizmos.color = Color.green;
+        // Gizmos.DrawWireSphere(transform.position + new Vector3(0, 1, 0), interactionRange);
     }
 }

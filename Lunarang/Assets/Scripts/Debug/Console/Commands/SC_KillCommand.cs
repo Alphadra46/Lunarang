@@ -19,16 +19,18 @@ public class SC_KillCommand : SC_Command
             var screenPos = Input.mousePosition;
                 
             var ray = Camera.main!.ScreenPointToRay(screenPos);
+
+            if (!Physics.Raycast(ray, out var hitData)) return;
             
-            if (Physics.Raycast(ray, out var hitData)) {
-                    
-                if (hitData.collider.CompareTag("Entity") || hitData.collider.CompareTag("Player"))
-                {
-                    Object.Destroy(hitData.collider.gameObject);
-                }
-                    
+            if (hitData.collider.CompareTag("Entity") && hitData.collider.TryGetComponent(out SC_AIStats _ai))
+            {
+                _ai.Death();
             }
-                
+            else if(hitData.collider.CompareTag("Player") && hitData.collider.TryGetComponent(out SC_PlayerStats _p))
+            {
+                _p.Death();
+            }
+            
             SC_DebugConsole.instance.PrintLine("<color=#42adf5>"+ hitData.collider.name + " <color=white>has been killed.");
             
         }
@@ -56,7 +58,7 @@ public class SC_KillCommand : SC_Command
                 
                     foreach (var entity in entities)
                     {
-                        Object.Destroy(entity.gameObject);
+                        entity.Death();
                     }
             
                     SC_DebugConsole.instance.PrintLine(" <color=white>All entities of type : " + "<color=#42adf5>"+ id + " <color=white>has been killed.");
@@ -69,7 +71,7 @@ public class SC_KillCommand : SC_Command
                     var entities = Object.FindObjectsOfType<SC_AIStats>().ToList();
                     foreach (var entity in entities)
                     {
-                        Object.Destroy(entity.gameObject);
+                        entity.Death();
                     }
                     
                     SC_DebugConsole.instance.PrintLine(" <color=white>All entities has been killed.");
@@ -81,7 +83,7 @@ public class SC_KillCommand : SC_Command
             // Kill Player
             else if (arg.Contains("@p"))
             {
-                Object.Destroy(Object.FindObjectOfType<SC_PlayerController>().gameObject);
+                SC_PlayerStats.instance.Death();
                 SC_DebugConsole.instance.PrintLine("> <color=#42adf5>Player <color=white>has been killed.");
             }
             

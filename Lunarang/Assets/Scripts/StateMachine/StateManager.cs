@@ -5,7 +5,6 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
-
 public abstract class StateManager<EState> : MonoBehaviour where EState : System.Enum
 {
     protected Dictionary<EState, BaseState<EState>> States = new Dictionary<EState, BaseState<EState>>();
@@ -14,7 +13,7 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : System
     [ShowInInspector, PropertySpace(SpaceAfter = 10)] public EState NextState;
     
     protected bool IsTransitionState = false;
-
+    
     /// <summary>
     /// Call current state start function.
     /// </summary>

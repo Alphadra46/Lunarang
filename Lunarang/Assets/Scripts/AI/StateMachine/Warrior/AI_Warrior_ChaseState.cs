@@ -69,14 +69,14 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
         {
             
             _agent.isStopped = true;
-            if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform, _aiStateMachine.chaseAreaRadius, _aiStateMachine.layersAttackable))
+            if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform, _aiStateMachine.detectionAreaRadius, _aiStateMachine.layersAttackable))
             {
                 Debug.Log("DIEEE");
-                _aiStateMachine.TransitionToState(AI_Warrior_StateMachine.EnemyState.Attack);
+                _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Attack);
             }
                 
         }
-        else if (distance <= _aiStateMachine.chaseAreaRadius)
+        else if (distance <= _aiStateMachine.detectionAreaRadius)
         {
             
             _agent.isStopped = false;
@@ -85,7 +85,7 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
         }
         else
         {
-            _aiStateMachine.TransitionToState(AI_Warrior_StateMachine.EnemyState.Patrol);
+            _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Patrol);
         }
         
         _aiStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiStateMachine.centerPoint.position.y, player.transform.position.z));

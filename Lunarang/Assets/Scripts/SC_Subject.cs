@@ -8,18 +8,6 @@ public class SC_Subject : MonoBehaviour
     [HideInInspector]
     public List<IObserver> observers = new List<IObserver>();
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
     /// <summary>
     /// Subscribe the subject to an observer
     /// </summary>
@@ -46,6 +34,29 @@ public class SC_Subject : MonoBehaviour
         observers.ForEach((observer) =>
         {
             observer.OnNotify(newCurrentHP,newMaxHP);
+        });
+    }
+    
+    
+    /// <summary>
+    /// Notify all observers the subject have subscribed to
+    /// </summary>
+    protected void NotifyObservers()
+    {
+        observers.ForEach((observer) =>
+        {
+            observer.OnNotify();
+        });
+    }
+    
+    /// <summary>
+    /// Notify all observers the subject have subscribed to
+    /// </summary>
+    protected void NotifyObservers(string context)
+    {
+        observers.ForEach((observer) =>
+        {
+            observer.OnNotify(context, this);
         });
     }
 }

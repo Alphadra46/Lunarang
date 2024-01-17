@@ -7,6 +7,6 @@ public interface IDamageable
 
     void TakeDamage(float rawDamage);
 
-    void TakeDamage(float rawDamage, WeaponType pWeaponType);
+    void TakeDamage(float rawDamage, WeaponType pWeaponType, bool isCrit);
 
 }

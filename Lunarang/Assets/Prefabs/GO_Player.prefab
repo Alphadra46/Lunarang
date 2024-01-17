@@ -670,6 +670,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3353019030451939600}
   - component: {fileID: 3353019030451939607}
+  - component: {fileID: 6076503305452258390}
   - component: {fileID: 3353019030451939601}
   - component: {fileID: 3353019030451939604}
   - component: {fileID: 3353019030451939605}
@@ -719,6 +720,35 @@ CharacterController:
   m_SkinWidth: 0.05
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &6076503305452258390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3353019030451939603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ea0756224c823547bd15b92dab5a2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comboWeapons: []
+  type: 0
+  impactPoint: 0
+  areaRadius: 0
+  areaSize: 0
+  moveValue: 0
+  atkSpeed: 0
+  hits: 0
+  projectilesNumbers: 0
+  ennemiesInAoE: []
+  ennemiesHitByProjectile: []
+  layerAttackable:
+    serializedVersion: 2
+    m_Bits: 0
+  ExampleMH: {fileID: 0}
+  ExampleP: {fileID: 0}
+  ExampleAoE: {fileID: 0}
 --- !u!114 &3353019030451939601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -741,6 +771,7 @@ MonoBehaviour:
   currentType: 0
   currentComboWeaponTypes: 
   currentComboParameters: 
+  currentComboWeapons: []
   inputBufferedWeapon: {fileID: 0}
   canPerformCombo: 1
   _animator: {fileID: 213652838424530088}
@@ -748,6 +779,7 @@ MonoBehaviour:
   - {fileID: 188854431405586836}
   - {fileID: 7896687887167944282}
   - {fileID: 1827680345675204534}
+  canAttack: 1
 --- !u!114 &3353019030451939604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -798,8 +830,6 @@ MonoBehaviour:
   bonusCritDMG: 0
   currentDebuffs: 
   isGod: 0
-  mainHUD: {fileID: 0}
-  hpBar: {fileID: 0}
 --- !u!1 &3353019030740982348
 GameObject:
   m_ObjectHideFlags: 0
@@ -2479,7 +2509,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2768583781316699107}
   - component: {fileID: 8111544451045180959}
-  m_Layer: 31
+  m_Layer: 16
   m_Name: Interactor_Component
   m_TagString: Untagged
   m_Icon: {fileID: 0}

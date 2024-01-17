@@ -12,7 +12,8 @@ public static class SC_CommandLineSystem
         {"help", new SC_HelpCommand()},
         {"gm", new SC_GodmodeCommand()},
         {"tp", new SC_TeleportCommand()},
-        {"rl", new SC_ReloadSceneCommand()}
+        {"rl", new SC_ReloadSceneCommand()},
+        {"stats", new SC_StatsDebugCommand()}
     };
     
     /// <summary>

@@ -29,6 +29,7 @@ public class AI_Archer_PatrolState : BaseState<AI_Archer_StateMachine.EnemyState
     {
         _agent = _aiArcherStateMachine.agent;
         _agent.updateRotation = false;
+        _agent.speed = _aiArcherStateMachine.patrolSpeed;
     }
 
     public override void ExitState()
@@ -42,7 +43,7 @@ public class AI_Archer_PatrolState : BaseState<AI_Archer_StateMachine.EnemyState
     public override void UpdateState()
     {
         
-        objectsInArea = Physics.OverlapSphere(_aiArcherStateMachine.centerPoint.position, _aiArcherStateMachine.chaseAreaRadius);
+        objectsInArea = Physics.OverlapSphere(_aiArcherStateMachine.centerPoint.position, _aiArcherStateMachine.detectionAreaRadius);
         
         if (objectsInArea.Any(obj => obj.CompareTag("Player")))
         {

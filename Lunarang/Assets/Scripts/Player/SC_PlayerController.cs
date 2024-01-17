@@ -134,6 +134,15 @@ public class SC_PlayerController : MonoBehaviour
         isDashing = true;
         
         _animator.SetBool("isDashing", true);
+        if (!SC_ComboController.instance.canAttack && !SC_ComboController.instance.canPerformCombo)
+        {
+            SC_ComboController.instance.CancelAttack();
+            print("Cancel");
+        }
+        else if(SC_ComboController.instance.canPerformCombo)
+        {
+            SC_ComboController.instance.canPerformCombo = true;
+        }
         StartCoroutine(DashCoroutine());
         
     }
@@ -220,6 +229,7 @@ public class SC_PlayerController : MonoBehaviour
 
         _animator.SetBool("isMoving", isMovementInputPressed);
         _animator.SetBool("canMove", canMove);
+        _animator.SetBool("canDash", canDash);
 
         if (!canMove) return;
             
@@ -233,16 +243,26 @@ public class SC_PlayerController : MonoBehaviour
 
     public void FreezeMovement(bool value)
     {
-        
+
         canMove = !value;
-        canDash = !value;
         currentMovementInput = value ? Vector2.zero : SC_InputManager.instance.move.ReadValue<Vector2>();
         currentMovement = value ? Vector3.zero : new Vector3(currentMovementInput.x, 0, currentMovementInput.y);
 
         if (value) return;
         
-        print(currentMovementInput);
+        // print(currentMovementInput);
 
+    }
+
+    public void FreezeDash(bool value)
+    {
+        canDash = !value;
+    }
+
+    public void TakeKnockback()
+    {
+        // TODO
+        print("KB");
     }
 
     public void Teleport(Vector3 loc)
@@ -264,7 +284,11 @@ public class SC_PlayerController : MonoBehaviour
         currentMovementInput = ctx.ReadValue<Vector2>(); // Read the input value
         currentMovement.x = currentMovementInput.x; // Set the current movement vector x with the input value
         currentMovement.z = currentMovementInput.y; // Set the current movement vector y with the input value
+
+        if (SC_ComboController.instance.canAttack) return;
         
+        SC_ComboController.instance.CanPerformCombo();
+
     }
     
     #endregion

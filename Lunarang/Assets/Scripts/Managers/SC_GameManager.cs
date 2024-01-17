@@ -4,12 +4,24 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+
+public enum GameState
+{
+    LOBBY,
+    RUN,
+    DEFEAT,
+    WIN
+}
 
 public class SC_GameManager : MonoBehaviour
 {
     public static SC_GameManager instance;
     
     #region Variables
+
+    public GameState state = GameState.LOBBY;
+    
     [Title("Settings")]
     [PropertySpace(SpaceBefore = 10)]
     public List<GameObject> prefabsEntities = new List<GameObject>();
@@ -20,33 +32,27 @@ public class SC_GameManager : MonoBehaviour
     [ShowInInspector] public List<GameObject> allInteractables = new List<GameObject>();
     
     #endregion
-
-
+    
     private void Awake()
     {
         if(instance != null) Destroy(this);
         instance = this;
+        
+        DontDestroyOnLoad(this);
     }
 
     private void Start()
     {
-        SC_InputManager.instance.pause.started += context => { SetPause(); };
+        Debug.Log("Start");
+        SC_InputManager.instance.pause.started += context => { SetPause(); SC_UIManager.instance.ShowPauseMenu(); };
     }
 
-    public bool CheckEntityType(string id)
+    private bool CheckEntityType(string id)
     {
         var allEntities = FindObjectsOfType<SC_AIStats>().ToList();
 
         return allEntities.Count(e => e.typeID == id) > 0;
     }
-    
-    // public bool CheckEntity(string uid)
-    // {
-    //     var allEntities = FindObjectsOfType<SC_AIStats>().ToList();
-    //     print(allEntities.Count);
-    //
-    //     return allEntities.Count(e => e.uid == int.Parse(uid)) > 0;
-    // }
     
     public List<SC_AIStats> FindEntityType(string id)
     {
@@ -55,23 +61,47 @@ public class SC_GameManager : MonoBehaviour
         return CheckEntityType(id) ? allEntities.Where(e => e.typeID == id).ToList() : null;
     }
 
-    // public List<SC_AIStats> FindEntity(string uid)
-    // {
-    //     var allEntities = FindObjectsOfType<SC_AIStats>().ToList();
-    //     print(allEntities.Count);
-    //
-    //     return CheckEntity(uid) ? allEntities.Where(e => e.uid == int.Parse(uid)).ToList() : null;
-    // }
 
-    
     public void SetPause()
     {
         
         isPause = !isPause;
         Time.timeScale = isPause ? 0 : 1;
-        
-        SC_UIManager.instance.ShowPauseMenu();
 
+    }
+
+    public void ChangeState(GameState newState)
+    {
+        state = newState;
+
+        switch (state)
+        {
+            case GameState.LOBBY:
+                if (isPause) SetPause();
+                SceneManager.LoadScene(1, LoadSceneMode.Single);
+                SC_UIManager.instance.ResetTempReferences();
+                break;
+            case GameState.RUN:
+                if (isPause) SetPause();
+                if (SC_PlayerController.instance != null)
+                {
+                    SC_PlayerController.instance.FreezeMovement(false);
+                    SC_PlayerController.instance.FreezeDash(false);
+                }
+                SC_UIManager.instance.ResetTempReferences();
+                break;
+            case GameState.DEFEAT:
+                if (!isPause) SetPause();
+                SC_UIManager.instance.ShowHUD();
+                SC_UIManager.instance.ShowGameOverUI();
+                break;
+            case GameState.WIN:
+                if (!isPause) SetPause();
+                SC_UIManager.instance.ShowHUD();
+                SC_UIManager.instance.ShowWinUI();
+                break;
+        }
+        
     }
 
     public void QuitGame()

@@ -1,6 +1,9 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using XNodeEditor;
+
+using UnityEngine;
+
 
 [CustomNodeEditor(typeof(BaseNode))]
 public class SC_DialogueNodeEditor : NodeEditor
@@ -19,3 +22,4 @@ public class SC_DialogueNodeEditor : NodeEditor
 
     }
 }
+#endif
