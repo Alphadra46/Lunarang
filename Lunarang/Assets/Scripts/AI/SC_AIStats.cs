@@ -247,7 +247,7 @@ public class SC_AIStats : SC_Subject, IDamageable
             // print((duration+1) + " seconds reamining");
             
             _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
-            _renderer.DebugDamage(finalDamage);
+            _renderer.DebugDamage(finalDamage, false);
             
             yield return new WaitForSeconds(tick);
         }
@@ -265,7 +265,7 @@ public class SC_AIStats : SC_Subject, IDamageable
     /// Apply this amount to the entity.
     /// </summary>
     /// <param name="rawDamage">Amount of a non-crit damage</param>
-    public void TakeDamage(float rawDamage, WeaponType pWeaponType)
+    public void TakeDamage(float rawDamage, WeaponType pWeaponType, bool isCrit)
     {
         
         if (hasShield & !isBreaked)
@@ -306,14 +306,16 @@ public class SC_AIStats : SC_Subject, IDamageable
             print(typeID + " : " + currentHealth + "/" + currentMaxHealth);
 
             _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
-            _renderer.DebugDamage(finalDamage);
+            _renderer.DebugDamage(finalDamage, isCrit);
 
-            if (currentHealth == 0)
+            if (currentHealth <= 0)
             {
                 Death();
             }
                 
         }
+        
+        if(_stateMachine == null) return;
         
         _stateMachine.OnDamageTaken();
         

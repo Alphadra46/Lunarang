@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -48,11 +49,21 @@ public class SC_ComboController : MonoBehaviour
     
     [TabGroup("Settings", "Weapon")]
     [PropertySpace(SpaceAfter = 5), ReadOnly]
+    public List<WeaponType> lastComboWeaponTypes = new List<WeaponType>();
+    
+    [TabGroup("Settings", "Weapon")]
+    [PropertySpace(SpaceAfter = 5), ReadOnly]
     public List<ParameterType> currentComboParameters;
+    [TabGroup("Settings", "Weapon")]
+    [PropertySpace(SpaceAfter = 5), ReadOnly]
+    public List<ParameterType> lastComboParameters;
     
     [TabGroup("Settings", "Weapon")]
     [PropertySpace(SpaceAfter = 5), ReadOnly]
     public List<SC_Weapon> currentComboWeapons;
+    [TabGroup("Settings", "Weapon")]
+    [PropertySpace(SpaceAfter = 5), ReadOnly]
+    public List<SC_Weapon> lastComboWeapons;
 
     #endregion
 
@@ -61,10 +72,10 @@ public class SC_ComboController : MonoBehaviour
 
     [TabGroup("Settings", "Combo")]
     [PropertySpace(SpaceBefore = 5, SpaceAfter = 5)]
-    public SC_Weapon inputBufferedWeapon;
+    // public SC_Weapon inputBufferedWeapon;
     
     [TabGroup("Settings", "Combo")]
-    [SerializeField]private bool canPerformCombo = true;
+    [SerializeField]public bool canPerformCombo = true;
     // private bool isInputBufferingOn = false;
 
     #endregion
@@ -130,6 +141,11 @@ public class SC_ComboController : MonoBehaviour
         if (canPerformCombo)
         {
             canAttack = false;
+            
+            lastComboWeapons = currentComboWeapons.ToArray().ToList();
+            lastComboParameters = currentComboParameters.ToArray().ToList();
+            lastComboWeaponTypes = currentComboWeaponTypes.ToArray().ToList();
+            
             IncrementCombo(usedWeapon);
             UpdateAnimator();
             
@@ -192,6 +208,25 @@ public class SC_ComboController : MonoBehaviour
         canPerformCombo = false;
     }
 
+    public void CancelAttack()
+    {
+        var lastCounter = comboCounter-1;
+        
+        comboCounter = lastCounter;
+        currentWeapon = null;
+        currentType = WeaponType.Null;
+        
+        currentComboWeapons = lastComboWeapons.ToArray().ToList();
+        currentComboParameters = lastComboParameters.ToArray().ToList();
+        currentComboWeaponTypes = lastComboWeaponTypes.ToArray().ToList();
+        
+        lastComboWeapons.Clear();
+        lastComboParameters.Clear();
+        lastComboWeaponTypes.Clear();
+        
+        CanPerformCombo();
+    }
+
     /// <summary>
     /// Check if the current combo reach its max length.
     /// Else increment combo, switch the weapon type to current type and add this to a list.
@@ -205,6 +240,11 @@ public class SC_ComboController : MonoBehaviour
         if (comboCounter+1 > comboMaxLength)
         {
             ResetCombo();
+            
+            //Reset save of last Incrementation of the combo
+            lastComboWeapons.Clear();
+            lastComboParameters.Clear();
+            lastComboWeaponTypes.Clear();
             // _finalBuilder.Reset();
         }
         
@@ -212,6 +252,7 @@ public class SC_ComboController : MonoBehaviour
         comboCounter++;
         currentWeapon = newWeapon;
         currentType = newWeapon.type;
+        
         currentComboWeaponTypes.Add(currentWeapon.type);
         currentComboParameters.Add(currentWeapon.parameter);
         currentComboWeapons.Add(currentWeapon);
@@ -304,16 +345,16 @@ public class SC_ComboController : MonoBehaviour
         print("Buffering Off");
     }
     
-    /// <summary>
-    /// Do the stocked input.
-    /// </summary>
-    private void InputBuffering(SC_Weapon nextWeapon)
-    {
-        if (inputBufferedWeapon == null) return;
-        
-        inputBufferedWeapon = nextWeapon;
-        print("Buffered : " + inputBufferedWeapon);
-    }
+    // /// <summary>
+    // /// Do the stocked input.
+    // /// </summary>
+    // private void InputBuffering(SC_Weapon nextWeapon)
+    // {
+    //     if (inputBufferedWeapon == null) return;
+    //     
+    //     inputBufferedWeapon = nextWeapon;
+    //     print("Buffered : " + inputBufferedWeapon);
+    // }
     
     #endregion
     
