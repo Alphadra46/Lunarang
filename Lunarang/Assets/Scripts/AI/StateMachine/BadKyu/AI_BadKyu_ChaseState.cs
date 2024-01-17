@@ -5,17 +5,17 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
+public class AI_BadKyu_ChaseState : BaseState<AI_StateMachine.EnemyState>
 {
     
-    public AI_Archer_ChaseState(AI_StateMachine.EnemyState key, AI_Archer_StateMachine manager) : base(key, manager)
+    public AI_BadKyu_ChaseState(AI_StateMachine.EnemyState key, AI_BadKyu_StateMachine manager) : base(key, manager)
     {
         _aiStateMachine = manager;
     }
     
     #region Variables
 
-    private readonly AI_Archer_StateMachine _aiStateMachine;
+    private readonly AI_BadKyu_StateMachine _aiStateMachine;
     private NavMeshAgent _agent;
     private Transform _transform;
     
@@ -74,15 +74,7 @@ public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
 
         var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
         
-        if (distance <= _aiStateMachine.defenseAreaRadius)
-        {
-            _agent.isStopped = true;
-            if (canDefense)
-            {
-                _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Defense);
-            }
-        }
-        else if (distance <= _aiStateMachine.attackRange)
+        if (distance <= _aiStateMachine.attackRange)
         {
             _agent.isStopped = true;
             if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform))
@@ -97,7 +89,7 @@ public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
             _agent.SetDestination(player.transform.position);
         }
         
-        _aiStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiStateMachine.centerPoint.position.y, player.transform.position.z));
+        _aiStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiStateMachine.centerPoint.position.y + _aiStateMachine.ProjectileSpawnOffset.y, player.transform.position.z));
         
     }
     

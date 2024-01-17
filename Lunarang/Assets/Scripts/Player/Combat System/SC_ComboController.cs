@@ -245,7 +245,7 @@ public class SC_ComboController : MonoBehaviour
             lastComboWeapons.Clear();
             lastComboParameters.Clear();
             lastComboWeaponTypes.Clear();
-            // _finalBuilder.Reset();
+            _finalBuilder.Reset();
         }
         
         // Increment combo, switch the weapon type to current type and add this to a list.
@@ -297,14 +297,14 @@ public class SC_ComboController : MonoBehaviour
 
         }
         
-        // if(comboCounter == 3) _finalBuilder.GetInfosFromLastAttacks(currentComboWeapons);
+        if(comboCounter == 3) _finalBuilder.GetInfosFromLastAttacks(currentComboWeapons);
         
         
         // Debug Side
         print("Combo : " + comboCounter + " / Type : " + currentWeapon.type);
         foreach (var lasttype in currentComboWeaponTypes)
         {
-            print(lasttype);
+            // print(lasttype);
         }
         
     }

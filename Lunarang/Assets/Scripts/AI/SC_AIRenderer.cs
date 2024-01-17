@@ -99,6 +99,7 @@ public class SC_AIRenderer : MonoBehaviour
     private void Update()
     {
         if(_agent == null) return;
+        if(_animator == null) return;
         
         _animator.SetBool("canMove", true);
         _animator.SetBool("isMoving", _agent.velocity.magnitude > 1 ? true : false);
