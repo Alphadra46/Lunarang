@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 public class SC_FinalATK_Builder : MonoBehaviour
 {
 
-    public List<SC_Weapon> comboWeapons = new List<SC_Weapon>();
+    public SC_ComboController comboController;
     
     public WeaponType type;
     [ShowInInspector] public Dictionary<string, int> parametersLevel = new Dictionary<string, int>();
@@ -28,21 +28,24 @@ public class SC_FinalATK_Builder : MonoBehaviour
     public float moveValue;
     public float atkSpeed;
 
-    public int hits;
+    public int additionnalHits;
+    
     public int projectilesNumbers;
+    public float projectilesSpeed;
 
     public Collider[] ennemiesInAoE;
     public Collider[] ennemiesHitByProjectile;
+    
     public LayerMask layerAttackable;
 
     public GameObject ExampleMH;
     public GameObject ExampleP;
     public GameObject ExampleAoE;
     
-    public void GetInfosFromLastAttacks(List<SC_Weapon> weapons)
+    public void GetInfosFromLastAttacks(List<SC_Weapon> weapons, SC_ComboController newComboController)
     {
-        
-        comboWeapons = weapons;
+
+        comboController = newComboController;
         
         foreach (var w in weapons)
         {
@@ -74,8 +77,9 @@ public class SC_FinalATK_Builder : MonoBehaviour
         moveValue = weapons[^1].MovesValues[^1];
         atkSpeed = weapons[^1].atkSpeed;
 
-        hits = weapons[^1].hits;
+        additionnalHits = weapons[^1].hits;
         projectilesNumbers = weapons[^1].projectilesNumbers;
+        projectilesSpeed = weapons[^1].projectileSpeed;
 
         // Set parameters
         paramatersWithoutLast = paramatersString.Split(";", StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -99,7 +103,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
             {
             
                 case "M":
-                    hits += (currentLevel * currentStrength);
+                    additionnalHits += (currentLevel * currentStrength);
                     break;
                 case "A":
                     areaSize += (currentLevel * currentStrength);
@@ -118,8 +122,25 @@ public class SC_FinalATK_Builder : MonoBehaviour
 
     private void InstantiateCubes()
     {
-        var pos = new Vector3(transform.position.x, 0.4f, transform.position.z);
-        var parametersWithoutLastString = String.Join("", paramatersWithoutLast);
+        var pos = Vector3.zero;
+        var currentWeaponGO = comboController.equippedWeaponsGO[comboController.currentWeapon.id];
+        var weaponImpactPoint = currentWeaponGO.transform.Find("ImpactPoint");
+        
+        switch (impactPoint)
+        {
+            case ImpactPoint.Player:
+                pos = new Vector3(transform.position.x, 0.4f, transform.position.z) + (transform.forward * 2);
+                break;
+            case ImpactPoint.Weapon:
+                pos = weaponImpactPoint.position;
+                break;
+            case ImpactPoint.Hit:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        
+        var parametersWithoutLastString = string.Join("", paramatersWithoutLast);
 
         switch (parametersWithoutLastString)
         {
@@ -128,6 +149,19 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 switch (lastParameter)
                 {
                     case "M":
+
+                        foreach (var e in comboController.currentEnemiesHitted)
+                        {
+                            
+                            for (var i = 0; i < additionnalHits; i++)
+                            {
+                                var mhSettings = Instantiate(ExampleMH);
+
+                                mhSettings.transform.localScale *= areaSize;
+                                mhSettings.transform.position = new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z);
+                            }
+                            
+                        }
                         
                         break;
                     case "A":
@@ -135,6 +169,14 @@ public class SC_FinalATK_Builder : MonoBehaviour
                         break;
                     
                     case "P":
+                        comboController.CreateProjectile(comboController.currentWeapon.projectilePrefab, 
+                            projectilesNumbers,
+                            areaSize,
+                            additionnalHits, 
+                            10f, 
+                            projectilesSpeed, 
+                            0f, 
+                            transform.GetChild(1).forward);
                         
                         break;
                 }
@@ -298,7 +340,8 @@ public class SC_FinalATK_Builder : MonoBehaviour
         paramatersString = "";
         lastParameter = "";
     }
-    
-    
-    
+
+    private void OnDrawGizmos()
+    {
+    }
 }

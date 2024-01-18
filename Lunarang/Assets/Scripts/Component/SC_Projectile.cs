@@ -6,12 +6,24 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class SC_Projectile : MonoBehaviour
 {
+    
     #region Variables
 
     public float autoDestroyTime = 5f;
     public float speed = 1f;
-    public int damage;
-    public Rigidbody _rb;
+    
+    public float distanceMax;
+    
+    public float damage;
+    
+    public float areaSize;
+    public int hitNumber;
+
+    public Vector3 direction;
+    
+    public GameObject sender;
+    
+    private Rigidbody _rb;
 
     private const string DESTROY_METHOD_NAME = "Destroy";
     
@@ -24,7 +36,15 @@ public class SC_Projectile : MonoBehaviour
     private void Awake()
     {
         if (!TryGetComponent(out _rb)) return;
+        
+        
+        
         Invoke(DESTROY_METHOD_NAME, autoDestroyTime);
+    }
+
+    private void Start()
+    {
+        _rb.AddForce(direction * speed, ForceMode.VelocityChange);
     }
 
     /// <summary>
@@ -33,11 +53,14 @@ public class SC_Projectile : MonoBehaviour
     /// <param name="col"></param>
     private void OnTriggerEnter(Collider col)
     {
-        if (col.CompareTag("Player"))
-        {
-            col.GetComponent<SC_PlayerStats>().TakeDamage(damage);
-        }
+        if (!col.TryGetComponent(out IDamageable damageable)) return;
+        if (col.gameObject == sender) return;
         
+        for (var i = 0; i < hitNumber; i++)
+        {
+            damageable.TakeDamage(damage);
+        }
+
     }
 
     /// <summary>
@@ -51,5 +74,9 @@ public class SC_Projectile : MonoBehaviour
         _rb.velocity = Vector3.zero;
         Destroy(gameObject);
     }
-    
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(transform.position,direction);
+    }
 }

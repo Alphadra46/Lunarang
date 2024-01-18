@@ -136,7 +136,6 @@ public class AI_Summoner_StateMachine : AI_StateMachine
         
             projectile.speed = projectileSpeed;
             projectile.damage = (int)Mathf.Round(((projectileDamage/100) * _stats.currentATK));
-            projectile._rb.AddForce(centerPoint.transform.forward * projectile.speed, ForceMode.VelocityChange);
             
             yield return new WaitForSeconds(delayBetweenProjectiles);
         }
