@@ -12,8 +12,15 @@ public class SC_FinalATK_Builder : MonoBehaviour
     public List<SC_Weapon> comboWeapons = new List<SC_Weapon>();
     
     public WeaponType type;
-    [ShowInInspector] public Dictionary<ParameterType, int> parameters = new Dictionary<ParameterType, int>();
-    [ShowInInspector] public Dictionary<ParameterType, int> typesStrengths = new Dictionary<ParameterType, int>();
+    [ShowInInspector] public Dictionary<string, int> parametersLevel = new Dictionary<string, int>();
+    
+    public string paramatersString = "";
+    
+    private List<string> paramatersWithoutLast;
+        
+    private string lastParameter;
+    
+    [ShowInInspector] public Dictionary<string, int> typesStrengths = new Dictionary<string, int>();
     public ImpactPoint impactPoint;
     // public Transform
     [Range(0, 360)] public float areaRadius;
@@ -39,17 +46,25 @@ public class SC_FinalATK_Builder : MonoBehaviour
         
         foreach (var w in weapons)
         {
-            var index = weapons.IndexOf(w);
-            print(index);
-            
-            if (parameters.ContainsKey(w.parameter))
+            var currentParameter = w.parameter switch
             {
-                parameters[w.parameter] += 1;
-                // typesStrengths[w.parameter] += w.TypeStrength;
-            }else{
-                parameters.Add(w.parameter, 1);
-                typesStrengths.Add(w.parameter, w.TypeStrength);
+                ParameterType.MultiHit => "M",
+                ParameterType.AreaOfEffect => "A",
+                ParameterType.Projectile => "P",
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            
+            if (paramatersString.Contains(currentParameter))
+            {
+                parametersLevel[currentParameter] += 1;
             }
+            else{
+                parametersLevel.Add(currentParameter, 1);
+                typesStrengths.Add(currentParameter, w.TypeStrength);
+            }
+
+            paramatersString += currentParameter + ";";
+            
         }
 
         impactPoint = weapons[^1].impactPoint;
@@ -61,53 +76,35 @@ public class SC_FinalATK_Builder : MonoBehaviour
 
         hits = weapons[^1].hits;
         projectilesNumbers = weapons[^1].projectilesNumbers;
+
+        // Set parameters
+        paramatersWithoutLast = paramatersString.Split(";", StringSplitOptions.RemoveEmptyEntries).ToList();
+
+        lastParameter = paramatersWithoutLast[^1];
+        paramatersWithoutLast.Remove(paramatersWithoutLast[^1]);
         
         Combine();
     }
 
     private void Combine()
     {
-        var tempParameters = parameters.ToDictionary(
-            entry => entry.Key, entry => entry.Value);
 
-        var lastWeapon = comboWeapons[^1];
-        var mainEffect = lastWeapon.parameter;
-        var mainEffectLevel = tempParameters[lastWeapon.parameter];
-        var mainEffectStrength = typesStrengths[lastWeapon.parameter];
-
-        switch (mainEffect)
-        {
-            
-            case ParameterType.MultiHit:
-                hits += (mainEffectLevel * mainEffectStrength);
-                break;
-            case ParameterType.AreaOfEffect:
-                areaSize += (mainEffectLevel * mainEffectStrength);
-                break;
-            case ParameterType.Projectile:
-                projectilesNumbers += (mainEffectLevel * mainEffectStrength);
-                break;
-            
-        }
-
-        tempParameters.Remove(mainEffect);
-
-        foreach (var (key, currentLevel) in tempParameters)
+        foreach (var parameter in parametersLevel)
         {
 
-            var currentStrength = typesStrengths[key];
-            print(key + " : " + currentLevel + " / " + currentStrength);
+            var currentStrength = typesStrengths[parameter.Key];
+            var currentLevel = parametersLevel[parameter.Key];
             
-            switch (key)
+            switch (parameter.Key)
             {
             
-                case ParameterType.MultiHit:
+                case "M":
                     hits += (currentLevel * currentStrength);
                     break;
-                case ParameterType.AreaOfEffect:
+                case "A":
                     areaSize += (currentLevel * currentStrength);
                     break;
-                case ParameterType.Projectile:
+                case "P":
                     projectilesNumbers += (currentLevel * currentStrength);
                     print("Added Projectiles");
                     break;
@@ -122,82 +119,186 @@ public class SC_FinalATK_Builder : MonoBehaviour
     private void InstantiateCubes()
     {
         var pos = new Vector3(transform.position.x, 0.4f, transform.position.z);
-        ParameterType? previousEffect = null;
-        
-        foreach (var effect in parameters)
+        var parametersWithoutLastString = String.Join("", paramatersWithoutLast);
+
+        switch (parametersWithoutLastString)
         {
+            case "MM":
 
-            print(effect.Key);
-            switch (effect.Key)
-            {
-                case ParameterType.MultiHit:
-                    switch (previousEffect)
-                    {
-                        case ParameterType.AreaOfEffect:
-                            impactPoint = ImpactPoint.Hit;
-
-                            foreach (var e in ennemiesInAoE)
-                            {
-                                var mhSettings = Instantiate(ExampleMH);
+                switch (lastParameter)
+                {
+                    case "M":
                         
-                                mhSettings.transform.position = e.transform.position;
-                            }
-                            
-                            break;
-                        case ParameterType.Projectile:
-                            
-                            break;
-                        default:
-                            for (var h = 0; h < hits; h++)
-                            {
-                                var mhSettings = Instantiate(ExampleMH);
+                        break;
+                    case "A":
                         
-                                mhSettings.transform.position = pos + (transform.forward * 2);
-                                mhSettings.transform.localScale = new Vector3(areaSize, areaSize, areaSize);
-                            }
-                            break;
-                    }
-                    break;
-                case ParameterType.AreaOfEffect:
-                    var aoeSettings = Instantiate(ExampleAoE);
-                    aoeSettings.transform.localScale *= areaSize;
-                    aoeSettings.transform.position = pos + (transform.forward * 2);
-
-                    ennemiesInAoE = Physics.OverlapSphere((pos + (transform.forward * 2)), areaSize/2, layerAttackable);
-
-                    break;
-                case ParameterType.Projectile:
-                    for (var p = 0; p < projectilesNumbers; p++)
-                    {
-                        var projectile = Instantiate(ExampleP);
-                        var angle = Mathf.PI * (p+1) / (projectilesNumbers+1);
-                        print(angle);
+                        break;
+                    
+                    case "P":
+                        
+                        break;
+                }
                 
-                        var x = Mathf.Sin(angle) * 2;
-                        var z = Mathf.Cos(angle) * 2;
-                        var posProj = new Vector3(x, 0.4f, z);
+                break;
             
-                        var centerDirection = Quaternion.LookRotation(-transform.right, transform.up);
-            
-                        posProj = centerDirection * posProj;
-            
-                        projectile.transform.position = transform.position + posProj;
-            
-                    }
-                    break;
+            case "MA":
                 
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            previousEffect = effect.Key;
+                switch (lastParameter)
+                {
+                    case "M":
+                        
+                        break;
+                    case "A":
+                        
+                        break;
+                    
+                    case "P":
+                        
+                        break;
+                }
+                
+                break;
+            
+            case "MP":
+                
+                switch (lastParameter)
+                {
+                    case "M":
+                        
+                        break;
+                    case "A":
+                        
+                        break;
+                    
+                    case "P":
+                        
+                        break;
+                }
+                
+                break;
+            
+            
+            case "AA":
+                
+                switch (lastParameter)
+                {
+                    case "M":
+                        
+                        break;
+                    case "A":
+                        
+                        break;
+                    
+                    case "P":
+                        
+                        break;
+                }
+                
+                break;
+            
+            case "AM":
+                
+                switch (lastParameter)
+                {
+                    case "M":
+                        
+                        break;
+                    case "A":
+                        
+                        break;
+                    
+                    case "P":
+                        
+                        break;
+                }
+                
+                break;
+            
+            case "AP":
+                
+                switch (lastParameter)
+                {
+                    case "M":
+                        
+                        break;
+                    case "A":
+                        
+                        break;
+                    
+                    case "P":
+                        
+                        break;
+                }
+                
+                break;
+            
+            
+            case "PP":
+                
+                switch (lastParameter)
+                {
+                    case "M":
+                        
+                        break;
+                    case "A":
+                        
+                        break;
+                    
+                    case "P":
+                        
+                        break;
+                }
+                
+                break;
+            
+            case "PA":
+                
+                switch (lastParameter)
+                {
+                    case "M":
+                        
+                        break;
+                    case "A":
+                        
+                        break;
+                    
+                    case "P":
+                        
+                        break;
+                }
+                
+                break;
+            
+            case "PM":
+                
+                switch (lastParameter)
+                {
+                    case "M":
+                        
+                        break;
+                    case "A":
+                        
+                        break;
+                    
+                    case "P":
+                        
+                        break;
+                }
+                
+                break;
         }
+        
     }
 
     public void Reset()
     {
-        parameters.Clear();
+        parametersLevel.Clear();
         typesStrengths.Clear();
+        paramatersWithoutLast.Clear();
+        paramatersString = "";
+        lastParameter = "";
     }
+    
+    
     
 }

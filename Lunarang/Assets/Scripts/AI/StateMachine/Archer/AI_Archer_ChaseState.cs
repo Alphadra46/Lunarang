@@ -5,17 +5,17 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
+public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
 {
     
-    public AI_Archer_ChaseState(AI_Archer_StateMachine.EnemyState key, AI_Archer_StateMachine manager) : base(key, manager)
+    public AI_Archer_ChaseState(AI_StateMachine.EnemyState key, AI_Archer_StateMachine manager) : base(key, manager)
     {
-        _aiArcherStateMachine = manager;
+        _aiStateMachine = manager;
     }
     
     #region Variables
 
-    private readonly AI_Archer_StateMachine _aiArcherStateMachine;
+    private readonly AI_Archer_StateMachine _aiStateMachine;
     private NavMeshAgent _agent;
     private Transform _transform;
     
@@ -34,11 +34,11 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
     public override void EnterState()
     {
         
-        _transform = _aiArcherStateMachine.centerPoint;
+        _transform = _aiStateMachine.centerPoint;
         player = GameObject.FindWithTag("Player");
-        _agent = _aiArcherStateMachine.agent;
+        _agent = _aiStateMachine.agent;
         _agent.updateRotation = false;
-        _agent.speed = _aiArcherStateMachine.chaseSpeed;
+        _agent.speed = _aiStateMachine.chaseSpeed;
         
     }
 
@@ -48,13 +48,13 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
     /// </summary>
     public override void ExitState()
     {
-        switch (_aiArcherStateMachine.NextState)
+        switch (_aiStateMachine.NextState)
         {
             case AI_StateMachine.EnemyState.Attack:
-                _aiArcherStateMachine.StartCoroutine(AttackCooldown());
+                _aiStateMachine.StartCoroutine(AttackCooldown());
                 break;
             case AI_StateMachine.EnemyState.Defense:
-                _aiArcherStateMachine.StartCoroutine(DefenseCooldown());
+                _aiStateMachine.StartCoroutine(DefenseCooldown());
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -72,32 +72,32 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
     public override void UpdateState()
     {
 
-        var distance = Vector3.Distance(_aiArcherStateMachine.transform.position, player.transform.position);
+        var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
         
-        if (distance <= _aiArcherStateMachine.defenseAreaRadius)
+        if (distance <= _aiStateMachine.defenseAreaRadius)
         {
             _agent.isStopped = true;
             if (canDefense)
             {
-                _aiArcherStateMachine.TransitionToState(AI_StateMachine.EnemyState.Defense);
+                _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Defense);
             }
         }
-        else if (distance <= _aiArcherStateMachine.attackRange)
+        else if (distance <= _aiStateMachine.attackRange)
         {
             _agent.isStopped = true;
-            if (canAttack && _aiArcherStateMachine.hasLineOfSightTo(player.transform, _transform))
+            if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform))
             {
-                _aiArcherStateMachine.TransitionToState(AI_StateMachine.EnemyState.Attack);
+                _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Attack);
             }
                 
         }
-        else if (distance <= _aiArcherStateMachine.detectionAreaRadius)
+        else if (distance <= _aiStateMachine.detectionAreaRadius)
         {
             _agent.isStopped = false;
             _agent.SetDestination(player.transform.position);
         }
         
-        _aiArcherStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiArcherStateMachine.centerPoint.position.y, player.transform.position.z));
+        _aiStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiStateMachine.centerPoint.position.y, player.transform.position.z));
         
     }
     
@@ -113,7 +113,7 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
     public IEnumerator AttackCooldown()
     {
         canAttack = false;
-        yield return new WaitForSeconds(_aiArcherStateMachine.atkCDBase);
+        yield return new WaitForSeconds(_aiStateMachine.atkCDBase);
         canAttack = true;
 
     }
@@ -124,7 +124,7 @@ public class AI_Archer_ChaseState : BaseState<AI_Archer_StateMachine.EnemyState>
     public IEnumerator DefenseCooldown()
     {
         canDefense = false;
-        yield return new WaitForSeconds(_aiArcherStateMachine.defenseCDBase);
+        yield return new WaitForSeconds(_aiStateMachine.defenseCDBase);
         canDefense = true;
 
     }
