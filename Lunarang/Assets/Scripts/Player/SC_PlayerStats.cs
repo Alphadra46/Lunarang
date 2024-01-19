@@ -47,7 +47,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "ATK",TextColor = "red"), ShowInInspector, ReadOnly]
-    public float currentATK => atkBase * (1 + atkModifier);
+    public float currentATK => atkBase * (1 + (atkModifier/100));
     
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "ATK"), ShowInInspector] public int atkBase = 5;

@@ -5,11 +5,13 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class SC_FinalATK_Builder : MonoBehaviour
 {
 
-    public List<SC_Weapon> comboWeapons = new List<SC_Weapon>();
+    public SC_ComboController _comboController;
+    public SC_PlayerStats _stats;
     
     public WeaponType type;
     [ShowInInspector] public Dictionary<string, int> parametersLevel = new Dictionary<string, int>();
@@ -28,21 +30,30 @@ public class SC_FinalATK_Builder : MonoBehaviour
     public float moveValue;
     public float atkSpeed;
 
-    public int hits;
+    public int additionnalHits;
+    
     public int projectilesNumbers;
+    public float projectilesSpeed;
 
     public Collider[] ennemiesInAoE;
     public Collider[] ennemiesHitByProjectile;
+    
     public LayerMask layerAttackable;
 
     public GameObject ExampleMH;
     public GameObject ExampleP;
     public GameObject ExampleAoE;
-    
-    public void GetInfosFromLastAttacks(List<SC_Weapon> weapons)
+
+    private void Awake()
     {
-        
-        comboWeapons = weapons;
+        if(!TryGetComponent(out _stats)) return;
+        if(!TryGetComponent(out _comboController)) return;
+    }
+
+    public void GetInfosFromLastAttacks(List<SC_Weapon> weapons, SC_ComboController newComboController)
+    {
+
+        _comboController = newComboController;
         
         foreach (var w in weapons)
         {
@@ -74,8 +85,9 @@ public class SC_FinalATK_Builder : MonoBehaviour
         moveValue = weapons[^1].MovesValues[^1];
         atkSpeed = weapons[^1].atkSpeed;
 
-        hits = weapons[^1].hits;
+        additionnalHits = weapons[^1].hits;
         projectilesNumbers = weapons[^1].projectilesNumbers;
+        projectilesSpeed = weapons[^1].projectileSpeed;
 
         // Set parameters
         paramatersWithoutLast = paramatersString.Split(";", StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -99,7 +111,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
             {
             
                 case "M":
-                    hits += (currentLevel * currentStrength);
+                    additionnalHits += (currentLevel * currentStrength);
                     break;
                 case "A":
                     areaSize += (currentLevel * currentStrength);
@@ -118,8 +130,32 @@ public class SC_FinalATK_Builder : MonoBehaviour
 
     private void InstantiateCubes()
     {
-        var pos = new Vector3(transform.position.x, 0.4f, transform.position.z);
-        var parametersWithoutLastString = String.Join("", paramatersWithoutLast);
+        var pos = Vector3.zero;
+        var currentWeaponGO = _comboController.equippedWeaponsGO[_comboController.currentWeapon.id];
+        var weaponImpactPoint = currentWeaponGO.transform.Find("ImpactPoint");
+        
+        var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+        var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter-1]/100);
+            
+        var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
+        var effDamage = rawDamage * (1 + (_stats.damageBonus/100));
+        var effCrit = effDamage * (1 + (_stats.critDMG/100));
+        
+        switch (impactPoint)
+        {
+            case ImpactPoint.Player:
+                pos = new Vector3(transform.position.x, 0.4f, transform.position.z) + (transform.forward * 2);
+                break;
+            case ImpactPoint.Weapon:
+                pos = weaponImpactPoint.position;
+                break;
+            case ImpactPoint.Hit:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        
+        var parametersWithoutLastString = string.Join("", paramatersWithoutLast);
 
         switch (parametersWithoutLastString)
         {
@@ -128,13 +164,55 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 switch (lastParameter)
                 {
                     case "M":
+
+                        foreach (var e in _comboController.currentEnemiesHitted)
+                        {
+                            
+                            for (var i = 0; i < additionnalHits; i++)
+                            {
+                                var mhSettings = Instantiate(ExampleMH);
+
+                                mhSettings.transform.localScale *= areaSize;
+                                mhSettings.transform.position = new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z);
+                            }
+                            
+                        }
                         
                         break;
                     case "A":
                         
+                        var aoeSettings = Instantiate(ExampleAoE);
+                        aoeSettings.transform.localScale *= areaSize;
+                        aoeSettings.transform.position = pos + (transform.forward);
+
+                        ennemiesInAoE = Physics.OverlapSphere((pos + (transform.forward)), areaSize/2, layerAttackable); //TODO : Replace Pos by Weapon Hit Pos
+
+                        foreach (var e in ennemiesInAoE)
+                        {
+                            if (!e.TryGetComponent(out IDamageable damageable)) continue;
+
+                            damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type, isCritical);
+                            
+                            for (var i = 0; i < additionnalHits; i++)
+                            {
+                                var mhSettings = Instantiate(ExampleMH);
+                                mhSettings.transform.position = e.transform.position;
+                                damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type, isCritical);
+                            }
+
+                        }
+                        
                         break;
                     
                     case "P":
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab, 
+                            projectilesNumbers,
+                            areaSize,
+                            additionnalHits+1, 
+                            10f, 
+                            projectilesSpeed, 
+                            0f, 
+                            transform.GetChild(1).forward);
                         
                         break;
                 }
@@ -298,7 +376,8 @@ public class SC_FinalATK_Builder : MonoBehaviour
         paramatersString = "";
         lastParameter = "";
     }
-    
-    
-    
+
+    private void OnDrawGizmos()
+    {
+    }
 }

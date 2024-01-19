@@ -4,6 +4,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.VFX;
+using Random = UnityEngine.Random;
 
 public class SC_ComboController : MonoBehaviour
 {
@@ -27,13 +28,20 @@ public class SC_ComboController : MonoBehaviour
 
 
     #region Weapons
+    [PropertySpace(SpaceAfter = 5)]
+    [TabGroup("Settings", "Weapon")]
+    public List<Transform> weaponSockets = new List<Transform>();
+    
+    [TabGroup("Settings", "Weapon"), ShowInInspector, ReadOnly]
+    public readonly Dictionary<string ,GameObject> equippedWeaponsGO = new Dictionary<string, GameObject>();
     
     [TabGroup("Settings", "Weapon")]
-    public List<SC_Weapon> equippedWeapons;
+    public List<SC_Weapon> equippedWeapons = new List<SC_Weapon>();
     [PropertySpace(SpaceAfter = 5)]
+    
     [TabGroup("Settings", "Weapon"), ShowInInspector, ReadOnly]
     public SC_Weapon currentWeapon;
-
+    
     #endregion
 
 
@@ -79,9 +87,12 @@ public class SC_ComboController : MonoBehaviour
     // private bool isInputBufferingOn = false;
 
     #endregion
+
+    public Collider[] currentEnemiesHitted;
     
     public Animator _animator;
     private SC_PlayerController _controller;
+    private SC_PlayerStats _stats;
     private SC_FinalATK_Builder _finalBuilder;
     [SerializeField] private List<VisualEffect> vfxParameterList = new List<VisualEffect>();
 
@@ -98,11 +109,17 @@ public class SC_ComboController : MonoBehaviour
         
         if(!TryGetComponent(out _controller)) return;
         if(!TryGetComponent(out _finalBuilder)) return;
+        if(!TryGetComponent(out _stats)) return;
     }
 
     private void Start()
     {
         AttachInputToAttack();
+        if (equippedWeapons.Count == 3)
+        {
+            AttachWeaponsToSocket();
+        }
+        
     }
     
     /// <summary>
@@ -121,7 +138,7 @@ public class SC_ComboController : MonoBehaviour
         SC_InputManager.instance.weaponB.performed -= _ => Attack(equippedWeapons[1]);
         SC_InputManager.instance.weaponC.performed -= _ => Attack(equippedWeapons[2]);
     }
-
+    
     #endregion
 
     #region Functions
@@ -136,22 +153,20 @@ public class SC_ComboController : MonoBehaviour
     {
         
         if(SC_GameManager.instance.isPause || !canAttack) return;
-        
-        
-        if (canPerformCombo)
-        {
-            canAttack = false;
-            
-            lastComboWeapons = currentComboWeapons.ToArray().ToList();
-            lastComboParameters = currentComboParameters.ToArray().ToList();
-            lastComboWeaponTypes = currentComboWeaponTypes.ToArray().ToList();
-            
-            IncrementCombo(usedWeapon);
-            UpdateAnimator();
-            
-            _controller.FreezeMovement(true);
 
-        }
+
+        if (!canPerformCombo) return;
+        
+        canAttack = false;
+            
+        lastComboWeapons = currentComboWeapons.ToArray().ToList();
+        lastComboParameters = currentComboParameters.ToArray().ToList();
+        lastComboWeaponTypes = currentComboWeaponTypes.ToArray().ToList();
+        
+        IncrementCombo(usedWeapon);
+        UpdateAnimator();
+            
+        _controller.FreezeMovement(true);
         // else if(isInputBufferingOn)
         // {
         //     InputBuffering(currentWeapon);
@@ -183,6 +198,92 @@ public class SC_ComboController : MonoBehaviour
         
     }
 
+    private void AttachWeaponsToSocket()
+    {
+        for (var i = 0; i < equippedWeapons.Count; i++)
+        {
+            var weapon = equippedWeapons[i];
+            var go = Instantiate(weapon.weaponPrefab, weaponSockets[i]);
+            
+            equippedWeaponsGO.Add(weapon.id,go);
+        }
+    }
+
+    public void CreateHitBox(SO_HitBox hb)
+    {
+        // print(hb.name);
+        var hits = hb.type switch
+        {
+            HitBoxType.Box => Physics.OverlapBox((transform.GetChild(1).position) + hb.center, hb.halfExtents,
+                transform.GetChild(1).rotation, hb.layer),
+            HitBoxType.Sphere => Physics.OverlapSphere(hb.pos, hb.radiusSphere, hb.layer),
+            HitBoxType.Capsule => Physics.OverlapCapsule(hb.point0, hb.point1, hb.radiusCapsule, hb.layer),
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+        foreach (var entity in hits)
+        {
+            
+            var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+            
+            var currentMV = (currentWeapon.MovesValues[comboCounter-1]/100);
+            
+            var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
+            var effDamage = rawDamage * (1 + (_stats.damageBonus/100));
+            var effCrit = effDamage * (1 + (_stats.critDMG/100));
+            
+            // print(isCritical ? "CRIIIIIT "+ effCrit : effDamage);
+            entity.GetComponent<IDamageable>().TakeDamage(isCritical ? effCrit : effDamage, currentWeapon.type, isCritical);
+            
+        }
+
+        currentEnemiesHitted = hits;
+
+    }
+
+    /// <summary>
+    /// Create a fully customizable projectile.
+    /// </summary>
+    /// <param name="projectilePrefab">Prefab of the projectile that we create</param>
+    /// <param name="number">How many projectile</param>
+    /// <param name="areaSize">Size of the projectile</param>
+    /// <param name="hitNumber">How many hits he made.</param>
+    /// <param name="moveValue">% of the attack</param>
+    /// <param name="speed">Speed of the projectile</param>
+    /// <param name="distanceMax">Maximum distance that can be covered before self-destruction</param>
+    /// <param name="direction">Direction of the projectile</param>
+    public void CreateProjectile(GameObject projectilePrefab, int number, float areaSize, int hitNumber, float moveValue, float speed, float distanceMax, Vector3 direction)
+    {
+
+        for (var i = 0; i < number; i++)
+        {
+            var p = Instantiate(projectilePrefab).GetComponent<SC_Projectile>();
+            p.transform.position = transform.GetChild(1).position + transform.GetChild(1).forward/2;
+            
+            p.hitNumber = hitNumber;
+            
+            p.areaSize = areaSize;
+            
+            var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+            
+            var rawDamage = MathF.Round((moveValue/100) * _stats.currentATK, MidpointRounding.AwayFromZero);
+            var effDamage = rawDamage * (1 + (_stats.damageBonus/100));
+            var effCrit = effDamage * (1 + (_stats.critDMG/100));
+            
+            p.damage = isCritical ? effCrit : effDamage;
+            p.isCrit = isCritical;
+            p.weaponType = currentWeapon.type;
+            
+            p.sender = gameObject;
+            
+            p.speed = speed;
+            p.distanceMax = distanceMax;
+            p.direction = direction;
+
+        }
+        
+    }
+    
     #region Combo Part
     
     /// <summary>
@@ -297,7 +398,7 @@ public class SC_ComboController : MonoBehaviour
 
         }
         
-        if(comboCounter == 3) _finalBuilder.GetInfosFromLastAttacks(currentComboWeapons);
+        if(comboCounter == 3) _finalBuilder.GetInfosFromLastAttacks(currentComboWeapons, this);
         
         
         // Debug Side
@@ -357,7 +458,12 @@ public class SC_ComboController : MonoBehaviour
     // }
     
     #endregion
-    
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(transform.position,transform.GetChild(1).forward);
+    }
+
     #endregion
     
 }
