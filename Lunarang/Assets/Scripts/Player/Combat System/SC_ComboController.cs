@@ -198,7 +198,7 @@ public class SC_ComboController : MonoBehaviour
         
     }
 
-    public void AttachWeaponsToSocket()
+    private void AttachWeaponsToSocket()
     {
         for (var i = 0; i < equippedWeapons.Count; i++)
         {
@@ -266,11 +266,13 @@ public class SC_ComboController : MonoBehaviour
             
             var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
             
-            var rawDamage = MathF.Round(moveValue * _stats.currentATK, MidpointRounding.AwayFromZero);
+            var rawDamage = MathF.Round((moveValue/100) * _stats.currentATK, MidpointRounding.AwayFromZero);
             var effDamage = rawDamage * (1 + (_stats.damageBonus/100));
             var effCrit = effDamage * (1 + (_stats.critDMG/100));
             
             p.damage = isCritical ? effCrit : effDamage;
+            p.isCrit = isCritical;
+            p.weaponType = currentWeapon.type;
             
             p.sender = gameObject;
             

@@ -15,6 +15,8 @@ public class SC_Projectile : MonoBehaviour
     public float distanceMax;
     
     public float damage;
+    public bool isCrit;
+    public WeaponType weaponType;
     
     public float areaSize;
     public int hitNumber;
@@ -36,9 +38,7 @@ public class SC_Projectile : MonoBehaviour
     private void Awake()
     {
         if (!TryGetComponent(out _rb)) return;
-        
-        
-        
+
         Invoke(DESTROY_METHOD_NAME, autoDestroyTime);
     }
 
@@ -53,12 +53,16 @@ public class SC_Projectile : MonoBehaviour
     /// <param name="col"></param>
     private void OnTriggerEnter(Collider col)
     {
+        
         if (!col.TryGetComponent(out IDamageable damageable)) return;
         if (col.gameObject == sender) return;
         
         for (var i = 0; i < hitNumber; i++)
         {
-            damageable.TakeDamage(damage);
+            if(col.CompareTag("Entity"))
+                damageable.TakeDamage(damage, weaponType,isCrit);
+            else damageable.TakeDamage(damage);
+
         }
 
     }
