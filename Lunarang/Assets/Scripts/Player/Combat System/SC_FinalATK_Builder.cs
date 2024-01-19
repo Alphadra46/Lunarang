@@ -5,11 +5,13 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class SC_FinalATK_Builder : MonoBehaviour
 {
 
-    public SC_ComboController comboController;
+    public SC_ComboController _comboController;
+    public SC_PlayerStats _stats;
     
     public WeaponType type;
     [ShowInInspector] public Dictionary<string, int> parametersLevel = new Dictionary<string, int>();
@@ -41,11 +43,17 @@ public class SC_FinalATK_Builder : MonoBehaviour
     public GameObject ExampleMH;
     public GameObject ExampleP;
     public GameObject ExampleAoE;
-    
+
+    private void Awake()
+    {
+        if(!TryGetComponent(out _stats)) return;
+        if(!TryGetComponent(out _comboController)) return;
+    }
+
     public void GetInfosFromLastAttacks(List<SC_Weapon> weapons, SC_ComboController newComboController)
     {
 
-        comboController = newComboController;
+        _comboController = newComboController;
         
         foreach (var w in weapons)
         {
@@ -123,8 +131,15 @@ public class SC_FinalATK_Builder : MonoBehaviour
     private void InstantiateCubes()
     {
         var pos = Vector3.zero;
-        var currentWeaponGO = comboController.equippedWeaponsGO[comboController.currentWeapon.id];
+        var currentWeaponGO = _comboController.equippedWeaponsGO[_comboController.currentWeapon.id];
         var weaponImpactPoint = currentWeaponGO.transform.Find("ImpactPoint");
+        
+        var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+        var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter-1]/100);
+            
+        var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
+        var effDamage = rawDamage * (1 + (_stats.damageBonus/100));
+        var effCrit = effDamage * (1 + (_stats.critDMG/100));
         
         switch (impactPoint)
         {
@@ -150,7 +165,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 {
                     case "M":
 
-                        foreach (var e in comboController.currentEnemiesHitted)
+                        foreach (var e in _comboController.currentEnemiesHitted)
                         {
                             
                             for (var i = 0; i < additionnalHits; i++)
@@ -166,13 +181,34 @@ public class SC_FinalATK_Builder : MonoBehaviour
                         break;
                     case "A":
                         
+                        var aoeSettings = Instantiate(ExampleAoE);
+                        aoeSettings.transform.localScale *= areaSize;
+                        aoeSettings.transform.position = pos + (transform.forward);
+
+                        ennemiesInAoE = Physics.OverlapSphere((pos + (transform.forward)), areaSize/2, layerAttackable); //TODO : Replace Pos by Weapon Hit Pos
+
+                        foreach (var e in ennemiesInAoE)
+                        {
+                            if (!e.TryGetComponent(out IDamageable damageable)) continue;
+
+                            damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type, isCritical);
+                            
+                            for (var i = 0; i < additionnalHits; i++)
+                            {
+                                var mhSettings = Instantiate(ExampleMH);
+                                mhSettings.transform.position = e.transform.position;
+                                damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type, isCritical);
+                            }
+
+                        }
+                        
                         break;
                     
                     case "P":
-                        comboController.CreateProjectile(comboController.currentWeapon.projectilePrefab, 
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab, 
                             projectilesNumbers,
                             areaSize,
-                            additionnalHits, 
+                            additionnalHits+1, 
                             10f, 
                             projectilesSpeed, 
                             0f, 
