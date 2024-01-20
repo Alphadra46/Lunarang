@@ -8,11 +8,12 @@ using UnityEngine;
 public class SC_PathCreator : MonoBehaviour
 {
     public GameObject pathPrefab_TEMP;
+    public GameObject doorPrefab_TEMP;
 
     [Header("General setting")]
-    [TabGroup("Settings", "Generation values")]public bool setSeed;
-    [TabGroup("Settings", "Generation values"), ShowIf("setSeed")]public int customSeed;
-    [TabGroup("Settings", "Generation values"), ShowInInspector, ReadOnly]private int seed;
+    [TabGroup("Settings", "Generation values")] public bool setSeed;
+    [TabGroup("Settings", "Generation values"), ShowIf("setSeed")] public int customSeed;
+    [TabGroup("Settings", "Generation values"), ShowInInspector, ReadOnly] private int seed;
 
     [Header("Normal room prefabs lists")]
     [TabGroup("Settings", "Prefabs")] public List<GameObject> easyRoomList = new List<GameObject>();
@@ -27,7 +28,7 @@ public class SC_PathCreator : MonoBehaviour
     [TabGroup("Settings", "Prefabs")] public List<GameObject> spawnRoomList = new List<GameObject>();
 
     [Space(10), Header("Spawn room parameters")]
-    [TabGroup("Settings", "Generation values")]public bool useRandomOnSpawnLocation;
+    [TabGroup("Settings", "Generation values")] public bool useRandomOnSpawnLocation;
     [Range(0,99)]
     [TabGroup("Settings", "Generation values"), HideIf("useRandomOnSpawnLocation")] public int spawnNodeIndex;
     
@@ -59,6 +60,8 @@ public class SC_PathCreator : MonoBehaviour
     
     private int bossRoomIndex;
     private int chestRoomIndex;
+
+    private List<Vector3> doorsPositions = new List<Vector3>();
 
     // Start is called before the first frame update
     void Start()
@@ -101,6 +104,7 @@ public class SC_PathCreator : MonoBehaviour
             //Next is the chest room
             var chestRoom = chestRoomList[Random.Range(0, chestRoomList.Count - 1)];
             Destroy(Instantiate(chestRoom, (Vector3)AstarPath.active.data.gridGraph.nodes[chestRoomIndex].position, chestRoom.transform.rotation), 3f);
+            
 
             //Finally the path between each room
             //Spawn to Boss
@@ -115,6 +119,9 @@ public class SC_PathCreator : MonoBehaviour
             //Spawn to Chest
             foreach (var node in spawnToChestPath.path)
             {
+                if (spawnToBossPath.path.Contains(node))
+                    continue;
+                
                 if (AstarPath.active.data.gridGraph.nodes.ToList().IndexOf((GridNode)node) == spawnNodeIndex || AstarPath.active.data.gridGraph.nodes.ToList().IndexOf((GridNode)node) == chestRoomIndex)
                     continue;
                 
@@ -124,6 +131,9 @@ public class SC_PathCreator : MonoBehaviour
             //Boss to Chest
             foreach (var node in bossToChestPath.path)
             {
+                if (spawnToBossPath.path.Contains(node) || spawnToChestPath.path.Contains(node))
+                    continue;
+                
                 if (AstarPath.active.data.gridGraph.nodes.ToList().IndexOf((GridNode)node) == bossRoomIndex || AstarPath.active.data.gridGraph.nodes.ToList().IndexOf((GridNode)node) == chestRoomIndex)
                     continue;
                 
@@ -189,6 +199,13 @@ public class SC_PathCreator : MonoBehaviour
             nodesInRange.Add(node); //If so add it to the "real" nodes in range
         }
         
+        //Remove the nodes used for the main path so that the chest room have to spawn somewhere else, preventing the map to look like a straight line.
+        foreach (var node in spawnToBossPath.path)
+        {
+            if (nodesInRange.Contains(node))
+                nodesInRange.Remove((GridNode)node);
+        }
+        
         //First the path from the spawn to the chest room
         start = (Vector3)AstarPath.active.data.gridGraph.nodes[spawnNodeIndex].position;
         end = (Vector3)AstarPath.active.data.gridGraph.nodes[nodesInRange[Random.Range(0, nodesInRange.Count)].NodeInGridIndex].position;
@@ -210,6 +227,8 @@ public class SC_PathCreator : MonoBehaviour
         {
             
         } //Used to wait for the path to be done TODO - Maybe use async function or IEnumerator
+        
+        CreateDoors();
         
         isInit = true;
     }
@@ -243,7 +262,7 @@ public class SC_PathCreator : MonoBehaviour
 
                 if ((startNodeIndex - Y + X >= (startNodeIndex - startNodeIndex%10)-(i)*10) && startNodeIndex - Y + X < startNodeIndex - startNodeIndex%10 - (i-1)*10 && startNodeIndex - Y + X >=0) //Mirror on Y
                 {
-                    if (!nodesInRange.Contains(AstarPath.active.data.gridGraph.nodes[startNodeIndex - Y + X]))  
+                    if (!nodesInRange.Contains(AstarPath.active.data.gridGraph.nodes[startNodeIndex - Y + X]))
                         nodesInRange.Add(AstarPath.active.data.gridGraph.nodes[startNodeIndex - Y + X]);
                 }
 
@@ -255,4 +274,128 @@ public class SC_PathCreator : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Display all of the doors
+    /// </summary>
+    private void DisplayDoors()
+    {
+        foreach (var doorPosition in doorsPositions)
+        {
+            Destroy(Instantiate(doorPrefab_TEMP, doorPosition, doorPrefab_TEMP.transform.rotation),3f);
+        }
+    }
+    
+    /// <summary>
+    /// Create all the doors between rooms so that we can actually change room.
+    /// </summary>
+    private void CreateDoors()
+    {
+        doorsPositions.Clear();
+        
+        //First the main path between spawn and boss room in one direction
+        for (int i = 0; i < spawnToBossPath.path.Count-1; i++)
+        {
+            //Take point A position
+            var A = (Vector3)spawnToBossPath.path[i].position;
+            //Then point B position
+            var B = (Vector3)spawnToBossPath.path[i + 1].position;
+            //And get the direction
+            var dir = B - A;
+            dir.Normalize(); //Normalize to get a direction 
+
+            if (!doorsPositions.Contains((Vector3)spawnToBossPath.path[i].position + 10*dir))
+            {
+                doorsPositions.Add((Vector3)spawnToBossPath.path[i].position + 10*dir);
+            }
+        }
+        
+        //Then go back to do the rest of the doors for the main path
+        for (int i = spawnToBossPath.path.Count-1; i > 0; i--)
+        {
+            //Take point A position
+            var A = (Vector3)spawnToBossPath.path[i].position;
+            //Then point B position
+            var B = (Vector3)spawnToBossPath.path[i - 1].position;
+            //And get the direction
+            var dir = B - A;
+            dir.Normalize(); //Normalize to get a direction 
+            
+            if (!doorsPositions.Contains((Vector3)spawnToBossPath.path[i].position + 10*dir))
+            {
+                doorsPositions.Add((Vector3)spawnToBossPath.path[i].position + 10*dir);
+            }
+        }
+        
+        //And the same goes for the path between spawn and chest room
+        for (int i = 0; i < spawnToChestPath.path.Count-1; i++)
+        {
+            //Take point A position
+            var A = (Vector3)spawnToChestPath.path[i].position;
+            //Then point B position
+            var B = (Vector3)spawnToChestPath.path[i + 1].position;
+            //And get the direction
+            var dir = B - A;
+            dir.Normalize(); //Normalize to get a direction 
+            
+            if (!doorsPositions.Contains((Vector3)spawnToChestPath.path[i].position + 10*dir))
+            {
+                doorsPositions.Add((Vector3)spawnToChestPath.path[i].position + 10*dir);
+            }
+        }
+        
+        for (int i = spawnToChestPath.path.Count-1; i > 0; i--)
+        {
+            //Take point A position
+            var A = (Vector3)spawnToChestPath.path[i].position;
+            //Then point B position
+            var B = (Vector3)spawnToChestPath.path[i - 1].position;
+            //And get the direction
+            var dir = B - A;
+            dir.Normalize(); //Normalize to get a direction 
+            
+            if (!doorsPositions.Contains((Vector3)spawnToChestPath.path[i].position + 10*dir))
+            {
+                doorsPositions.Add((Vector3)spawnToChestPath.path[i].position + 10*dir);
+            }
+        }
+        
+        //And for the path between boss and chest room
+        for (int i = 0; i < bossToChestPath.path.Count-1; i++)
+        {
+            //Take point A position
+            var A = (Vector3)bossToChestPath.path[i].position;
+            //Then point B position
+            var B = (Vector3)bossToChestPath.path[i + 1].position;
+            //And get the direction
+            var dir = B - A;
+            dir.Normalize(); //Normalize to get a direction 
+            
+            if (!doorsPositions.Contains((Vector3)bossToChestPath.path[i].position + 10*dir))
+            {
+                doorsPositions.Add((Vector3)bossToChestPath.path[i].position + 10*dir);
+            }
+        }
+        
+        for (int i = bossToChestPath.path.Count-1; i > 0; i--)
+        {
+            //Take point A position
+            var A = (Vector3)bossToChestPath.path[i].position;
+            //Then point B position
+            var B = (Vector3)bossToChestPath.path[i - 1].position;
+            //And get the direction
+            var dir = B - A;
+            dir.Normalize(); //Normalize to get a direction 
+            
+            if (!doorsPositions.Contains((Vector3)bossToChestPath.path[i].position + 10*dir))
+            {
+                doorsPositions.Add((Vector3)bossToChestPath.path[i].position + 10*dir);
+            }
+        }
+        
+        DisplayPath();
+        DisplayDoors();
+        
+    }
+    
 }
