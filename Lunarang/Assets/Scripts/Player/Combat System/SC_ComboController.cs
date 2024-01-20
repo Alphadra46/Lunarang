@@ -252,7 +252,8 @@ public class SC_ComboController : MonoBehaviour
     /// <param name="speed">Speed of the projectile</param>
     /// <param name="distanceMax">Maximum distance that can be covered before self-destruction</param>
     /// <param name="direction">Direction of the projectile</param>
-    public void CreateProjectile(GameObject projectilePrefab, int number, float areaSize, int hitNumber, float moveValue, float speed, float distanceMax, Vector3 direction)
+    /// <param name="isAoE"></param>
+    public void CreateProjectile(GameObject projectilePrefab, int number, float areaSize, int hitNumber, float moveValue, float speed, float distanceMax, Vector3 direction, bool isAoE = false)
     {
 
         for (var i = 0; i < number; i++)
@@ -263,6 +264,7 @@ public class SC_ComboController : MonoBehaviour
             p.hitNumber = hitNumber;
             
             p.areaSize = areaSize;
+            p.isAoE = isAoE;
             
             var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
             

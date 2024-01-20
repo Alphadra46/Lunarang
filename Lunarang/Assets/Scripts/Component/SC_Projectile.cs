@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody))]
 public class SC_Projectile : MonoBehaviour
@@ -17,6 +18,8 @@ public class SC_Projectile : MonoBehaviour
     public float damage;
     public bool isCrit;
     public WeaponType weaponType;
+
+    public bool isAoE;
     
     public float areaSize;
     public int hitNumber;
@@ -56,15 +59,38 @@ public class SC_Projectile : MonoBehaviour
         
         if (!col.TryGetComponent(out IDamageable damageable)) return;
         if (col.gameObject == sender) return;
-        
-        for (var i = 0; i < hitNumber; i++)
+
+        if (isAoE)
         {
-            if(col.CompareTag("Entity"))
-                damageable.TakeDamage(damage, weaponType,isCrit);
-            else damageable.TakeDamage(damage);
+            var ennemiesInAoE =
+                Physics.OverlapSphere(transform.position, areaSize, LayerMask.GetMask("Player", "IA")); //TODO : Replace Pos by Weapon Hit Pos
 
+            foreach (var e in ennemiesInAoE)
+            {
+                if (!e.TryGetComponent(out IDamageable aoeHitted)) continue;
+                aoeHitted.TakeDamage(damage, weaponType, isCrit);
+
+                if (hitNumber <= 1) continue;
+                
+                for (var i = 0; i < hitNumber-1; i++)
+                {
+                    aoeHitted.TakeDamage(damage, weaponType, isCrit);
+                }
+
+            }
         }
+        
+        else
+        {
+            for (var i = 0; i < hitNumber; i++)
+            {
+                if(col.CompareTag("Entity"))
+                    damageable.TakeDamage(damage, weaponType,isCrit);
+                else damageable.TakeDamage(damage);
 
+            }
+        }
+        
     }
 
     /// <summary>

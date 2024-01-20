@@ -53,7 +53,7 @@ public class SC_AIRenderer : MonoBehaviour
         var text = Instantiate(TextDamageUI, DamageUIArea.transform);
         
         if(text.TryGetComponent(out RectTransform rect)) rect.anchoredPosition =
-            new Vector3(Random.Range(-0.55f, 0.55f), Random.Range(-0.55f, 0.55f));
+            new Vector3(Random.Range(-40f, 40f), Random.Range(-35f, 35f));
 
         if (!text.TryGetComponent(out TextMeshProUGUI textMeshProUGUI)) return;
         

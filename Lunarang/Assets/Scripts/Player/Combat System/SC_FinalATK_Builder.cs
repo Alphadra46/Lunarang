@@ -117,7 +117,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                     areaSize += (currentLevel * currentStrength);
                     break;
                 case "P":
-                    projectilesNumbers += (currentLevel * currentStrength);
+                    projectilesNumbers = (currentLevel * currentStrength);
                     print("Added Projectiles");
                     break;
             }
@@ -133,14 +133,13 @@ public class SC_FinalATK_Builder : MonoBehaviour
         var pos = Vector3.zero;
         var currentWeaponGO = _comboController.equippedWeaponsGO[_comboController.currentWeapon.id];
         var weaponImpactPoint = currentWeaponGO.transform.Find("ImpactPoint");
-        
-        var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
-        var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter-1]/100);
-            
+
+        var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100);
+
         var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
-        var effDamage = rawDamage * (1 + (_stats.damageBonus/100));
-        var effCrit = effDamage * (1 + (_stats.critDMG/100));
-        
+        var effDamage = rawDamage * (1 + (_stats.damageBonus / 100));
+        var effCrit = effDamage * (1 + (_stats.critDMG / 100));
+
         switch (impactPoint)
         {
             case ImpactPoint.Player:
@@ -154,7 +153,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
+
         var parametersWithoutLastString = string.Join("", paramatersWithoutLast);
 
         switch (parametersWithoutLastString)
@@ -165,209 +164,212 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 {
                     case "M":
 
-                        foreach (var e in _comboController.currentEnemiesHitted)
-                        {
-                            
-                            for (var i = 0; i < additionnalHits; i++)
-                            {
-                                var mhSettings = Instantiate(ExampleMH);
+                        Multihit();
 
-                                mhSettings.transform.localScale *= areaSize;
-                                mhSettings.transform.position = new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z);
-                            }
-                            
-                        }
-                        
                         break;
+
                     case "A":
-                        
-                        var aoeSettings = Instantiate(ExampleAoE);
-                        aoeSettings.transform.localScale *= areaSize;
-                        aoeSettings.transform.position = pos + (transform.forward);
 
-                        ennemiesInAoE = Physics.OverlapSphere((pos + (transform.forward)), areaSize/2, layerAttackable); //TODO : Replace Pos by Weapon Hit Pos
-
-                        foreach (var e in ennemiesInAoE)
-                        {
-                            if (!e.TryGetComponent(out IDamageable damageable)) continue;
-
-                            damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type, isCritical);
-                            
-                            for (var i = 0; i < additionnalHits; i++)
-                            {
-                                var mhSettings = Instantiate(ExampleMH);
-                                mhSettings.transform.position = e.transform.position;
-                                damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type, isCritical);
-                            }
-
-                        }
+                        CreateAoE(pos + (transform.forward), true);
                         
                         break;
-                    
+
                     case "P":
-                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab, 
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                             projectilesNumbers,
                             areaSize,
-                            additionnalHits+1, 
-                            10f, 
-                            projectilesSpeed, 
-                            0f, 
+                            additionnalHits + 1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
                             transform.GetChild(1).forward);
+
+                        break;
+                }
+
+                break;
+
+            case "MA" or "AM":
+
+                switch (lastParameter)
+                {
+                    case "M":
+                        
+                        Multihit();
+                        foreach (var e in _comboController.currentEnemiesHitted)
+                        {
+                            CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z));
+                        }
+                        
+                        break;
+                    case "A":
+                        
+                        CreateAoE(pos + (transform.forward), true);
+
+                        break;
+
+                    case "P":
+                        print(projectilesNumbers);
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            additionnalHits + 1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            true);
                         
                         break;
                 }
-                
+
                 break;
-            
-            case "MA":
-                
+
+            case "MP" or "PM":
+
                 switch (lastParameter)
                 {
                     case "M":
                         
                         break;
                     case "A":
-                        
+
                         break;
-                    
+
                     case "P":
-                        
+
                         break;
                 }
-                
+
                 break;
-            
-            case "MP":
-                
-                switch (lastParameter)
-                {
-                    case "M":
-                        
-                        break;
-                    case "A":
-                        
-                        break;
-                    
-                    case "P":
-                        
-                        break;
-                }
-                
-                break;
-            
-            
+
             case "AA":
-                
+
                 switch (lastParameter)
                 {
                     case "M":
-                        
+
                         break;
                     case "A":
                         
                         break;
-                    
+
                     case "P":
-                        
+
                         break;
                 }
-                
+
                 break;
-            
-            case "AM":
-                
+
+            case "AP" or "PA":
+
                 switch (lastParameter)
                 {
                     case "M":
-                        
+
                         break;
                     case "A":
-                        
+
                         break;
-                    
+
                     case "P":
-                        
+
                         break;
                 }
-                
+
                 break;
-            
-            case "AP":
-                
-                switch (lastParameter)
-                {
-                    case "M":
-                        
-                        break;
-                    case "A":
-                        
-                        break;
-                    
-                    case "P":
-                        
-                        break;
-                }
-                
-                break;
-            
-            
+
             case "PP":
-                
+
                 switch (lastParameter)
                 {
                     case "M":
-                        
+
                         break;
                     case "A":
-                        
+
                         break;
-                    
+
                     case "P":
-                        
+
                         break;
                 }
-                
+
                 break;
-            
-            case "PA":
-                
-                switch (lastParameter)
-                {
-                    case "M":
-                        
-                        break;
-                    case "A":
-                        
-                        break;
-                    
-                    case "P":
-                        
-                        break;
-                }
-                
-                break;
-            
-            case "PM":
-                
-                switch (lastParameter)
-                {
-                    case "M":
-                        
-                        break;
-                    case "A":
-                        
-                        break;
-                    
-                    case "P":
-                        
-                        break;
-                }
-                
-                break;
+
+        }
+    }
+
+    private void Multihit()
+    {
+        
+        var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100);
+
+        var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
+        var effDamage = rawDamage * (1 + (_stats.damageBonus / 100));
+        var effCrit = effDamage * (1 + (_stats.critDMG / 100));
+        
+        foreach (var e in _comboController.currentEnemiesHitted)
+        {
+            if (!e.TryGetComponent(out IDamageable damageable)) continue;
+                            
+            for (var i = 0; i < additionnalHits; i++)
+            {
+                var mhSettings = Instantiate(ExampleMH);
+
+                mhSettings.transform.localScale *= areaSize;
+                mhSettings.transform.position = new Vector3(e.transform.position.x,
+                    e.transform.localScale.y, e.transform.position.z);
+                Destroy(mhSettings, 2f);
+                                
+                var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+                damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type,
+                    isCritical);
+            }
+
         }
         
     }
 
+    private void CreateAoE(Vector3 pos, bool hasAdditionnalHits = false)
+    {
+
+        var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100);
+
+        var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
+        var effDamage = rawDamage * (1 + (_stats.damageBonus / 100));
+        var effCrit = effDamage * (1 + (_stats.critDMG / 100));
+        
+        var aoeSettings = Instantiate(ExampleAoE);
+        aoeSettings.transform.localScale *= areaSize;
+        aoeSettings.transform.position = pos;
+        Destroy(aoeSettings, 2f);
+
+        ennemiesInAoE =
+            Physics.OverlapSphere((pos), areaSize,
+                layerAttackable); //TODO : Replace Pos by Weapon Hit Pos
+
+        foreach (var e in ennemiesInAoE)
+        {
+            if (!e.TryGetComponent(out IDamageable damageable)) continue;
+            var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+            damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type,
+                isCritical);
+
+            if(!hasAdditionnalHits) continue;
+            for (var i = 0; i < additionnalHits; i++)
+            {
+                var mhSettings = Instantiate(ExampleMH);
+                mhSettings.transform.position = e.transform.position;
+                Destroy(mhSettings, 2f);
+                                
+                isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+                damageable.TakeDamage(isCritical ? effCrit : effDamage,
+                    _comboController.currentWeapon.type, isCritical);
+            }
+
+        }
+    }
     public void Reset()
     {
         parametersLevel.Clear();
