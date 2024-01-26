@@ -229,16 +229,49 @@ public class SC_FinalATK_Builder : MonoBehaviour
 
                 switch (lastParameter)
                 {
+                    
                     case "M":
+                        Multihit();
                         
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward);
                         break;
+                    
                     case "A":
-
+                        CreateAoE(pos + (transform.forward), true);
+                        
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            false);
+                        
                         break;
 
                     case "P":
 
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            additionnalHits + 1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            false);
+                        
                         break;
+                    
                 }
 
                 break;
@@ -248,14 +281,32 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 switch (lastParameter)
                 {
                     case "M":
+                        
+                        Multihit();
+                        foreach (var e in _comboController.currentEnemiesHitted)
+                        {
+                            CreateAoE(pos + (transform.forward));
+                        }
 
                         break;
                     case "A":
+                        
+                        CreateAoE(pos + (transform.forward));
                         
                         break;
 
                     case "P":
 
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                             1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            true);
+                        
                         break;
                 }
 
@@ -265,16 +316,55 @@ public class SC_FinalATK_Builder : MonoBehaviour
 
                 switch (lastParameter)
                 {
+                    
                     case "M":
-
+                        Multihit();
+                        
+                        foreach (var e in _comboController.currentEnemiesHitted)
+                        {
+                            CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z));
+                            _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                                projectilesNumbers,
+                                areaSize,
+                                1,
+                                10f,
+                                projectilesSpeed,
+                                0f,
+                                transform.GetChild(1).forward,
+                                false);
+                        }
+                        
                         break;
+                    
                     case "A":
-
+                        
+                        CreateAoE(pos + (transform.forward));
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            false);
+                        
                         break;
 
                     case "P":
 
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            true);
+                        
                         break;
+                    
                 }
 
                 break;
@@ -285,13 +375,45 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 {
                     case "M":
 
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            false);
+                        
                         break;
+                    
                     case "A":
-
+                        
+                        CreateAoE(pos + (transform.forward));
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            false);
+                        
                         break;
 
                     case "P":
 
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            false);
+                        
                         break;
                 }
 

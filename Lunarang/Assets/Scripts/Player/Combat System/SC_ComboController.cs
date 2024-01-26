@@ -259,7 +259,19 @@ public class SC_ComboController : MonoBehaviour
         for (var i = 0; i < number; i++)
         {
             var p = Instantiate(projectilePrefab).GetComponent<SC_Projectile>();
-            p.transform.position = transform.GetChild(1).position + transform.GetChild(1).forward/2;
+            var angle = Mathf.PI * (i+1) / (number+1);
+            print(angle);
+                
+            var x = Mathf.Sin(angle) * 2;
+            var z = Mathf.Cos(angle) * 2;
+            var pos = new Vector3(x, 0, z);
+            
+            var centerDirection = Quaternion.LookRotation(-transform.GetChild(1).right, transform.GetChild(1).up);
+
+            pos = centerDirection * pos;
+            
+            
+            p.transform.position = transform.position + new Vector3(pos.x, transform.localScale.y, pos.z);
             
             p.hitNumber = hitNumber;
             
@@ -280,7 +292,7 @@ public class SC_ComboController : MonoBehaviour
             
             p.speed = speed;
             p.distanceMax = distanceMax;
-            p.direction = direction;
+            p.direction = pos;
 
         }
         
