@@ -265,6 +265,8 @@ public class SC_AIStats : SC_Subject, IDamageable
     /// Apply this amount to the entity.
     /// </summary>
     /// <param name="rawDamage">Amount of a non-crit damage</param>
+    /// <param name="pWeaponType"></param>
+    /// <param name="isCrit"></param>
     public void TakeDamage(float rawDamage, WeaponType pWeaponType, bool isCrit)
     {
         

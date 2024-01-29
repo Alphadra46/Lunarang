@@ -74,7 +74,6 @@ public class AI_Archer_StateMachine : AI_StateMachine
         
         projectile.speed = atkSpdBase;
         projectile.damage = (int)Mathf.Round((_stats.moveValues[_stats.moveValueIndex] * _stats.currentATK));
-        projectile._rb.AddForce(centerPoint.transform.forward * projectile.speed, ForceMode.VelocityChange);
 
     }
 
