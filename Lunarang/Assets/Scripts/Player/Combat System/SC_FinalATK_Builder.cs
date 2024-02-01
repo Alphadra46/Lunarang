@@ -10,6 +10,8 @@ using Random = UnityEngine.Random;
 public class SC_FinalATK_Builder : MonoBehaviour
 {
 
+    #region Variables
+
     public SC_ComboController _comboController;
     public SC_PlayerStats _stats;
     
@@ -44,12 +46,20 @@ public class SC_FinalATK_Builder : MonoBehaviour
     public GameObject ExampleP;
     public GameObject ExampleAoE;
 
+    #endregion
+
     private void Awake()
     {
         if(!TryGetComponent(out _stats)) return;
         if(!TryGetComponent(out _comboController)) return;
     }
 
+    /// <summary>
+    /// Get all informations from last attacks.
+    /// Create a String from the types parameters.
+    /// </summary>
+    /// <param name="weapons">All weapons used in the last attacks.</param>
+    /// <param name="newComboController">Get the player combo controller.</param>
     public void GetInfosFromLastAttacks(List<SC_Weapon> weapons, SC_ComboController newComboController)
     {
 
@@ -97,7 +107,10 @@ public class SC_FinalATK_Builder : MonoBehaviour
         
         Combine();
     }
-
+    
+    /// <summary>
+    /// Look at each of the previous attack types and modify the final attack parameters according to them.
+    /// </summary>
     private void Combine()
     {
 
@@ -124,11 +137,14 @@ public class SC_FinalATK_Builder : MonoBehaviour
 
         }
         
-        InstantiateCubes();
+        Result();
 
     }
 
-    private void InstantiateCubes()
+    /// <summary>
+    /// Create the Result of the combinaison.
+    /// </summary>
+    private void Result()
     {
         var pos = Vector3.zero;
         var currentWeaponGO = _comboController.equippedWeaponsGO[_comboController.currentWeapon.id];
@@ -137,8 +153,6 @@ public class SC_FinalATK_Builder : MonoBehaviour
         var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100);
 
         var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
-        var effDamage = rawDamage * (1 + (_stats.damageBonus / 100));
-        var effCrit = effDamage * (1 + (_stats.critDMG / 100));
 
         switch (impactPoint)
         {
@@ -422,6 +436,9 @@ public class SC_FinalATK_Builder : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Create multiples hits.
+    /// </summary>
     private void Multihit()
     {
         
@@ -453,6 +470,11 @@ public class SC_FinalATK_Builder : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Create an area of effect at a certain pos.
+    /// </summary>
+    /// <param name="pos">Center of the AoE</param>
+    /// <param name="hasAdditionnalHits">Is the AoE has additionnal hits ?</param>
     private void CreateAoE(Vector3 pos, bool hasAdditionnalHits = false)
     {
 
@@ -492,6 +514,10 @@ public class SC_FinalATK_Builder : MonoBehaviour
 
         }
     }
+    
+    /// <summary>
+    /// Reset all paramaters.
+    /// </summary>
     public void Reset()
     {
         parametersLevel.Clear();
@@ -501,7 +527,4 @@ public class SC_FinalATK_Builder : MonoBehaviour
         lastParameter = "";
     }
 
-    private void OnDrawGizmos()
-    {
-    }
 }

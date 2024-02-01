@@ -56,6 +56,7 @@ public class AI_Archer_StateMachine : AI_StateMachine
         States.Add(EnemyState.Chase, new AI_Archer_ChaseState(EnemyState.Chase, this));
         States.Add(EnemyState.Attack, new AI_Archer_AttackState(EnemyState.Attack, this));
         States.Add(EnemyState.Defense, new AI_Archer_DefenseState(EnemyState.Defense, this));
+        States.Add(EnemyState.Death, new AI_DeathState(EnemyState.Death, this));
         
         CurrentState = States[EnemyState.Idle];
     }
@@ -69,8 +70,13 @@ public class AI_Archer_StateMachine : AI_StateMachine
         
         var projectile = Instantiate(projectileGO).GetComponent<SC_Projectile>();
 
+        projectile.sender = gameObject;
+        
         projectile.transform.position = centerPoint.position + ProjectileSpawnOffset;
         projectile.transform.forward = centerPoint.forward;
+
+        projectile.direction = centerPoint.forward;
+        projectile.hitNumber = 1;
         
         projectile.speed = atkSpdBase;
         projectile.damage = (int)Mathf.Round((_stats.moveValues[_stats.moveValueIndex] * _stats.currentATK));

@@ -412,9 +412,6 @@ public class SC_ComboController : MonoBehaviour
 
         }
         
-        if(comboCounter == 3) _finalBuilder.GetInfosFromLastAttacks(currentComboWeapons, this);
-        
-        
         // Debug Side
         print("Combo : " + comboCounter + " / Type : " + currentWeapon.type);
         foreach (var lasttype in currentComboWeaponTypes)

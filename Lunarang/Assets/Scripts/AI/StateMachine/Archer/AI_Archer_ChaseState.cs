@@ -56,8 +56,6 @@ public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
             case AI_StateMachine.EnemyState.Defense:
                 _aiStateMachine.StartCoroutine(DefenseCooldown());
                 break;
-            default:
-                throw new ArgumentOutOfRangeException();
         }
         
     }

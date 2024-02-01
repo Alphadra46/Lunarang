@@ -175,6 +175,8 @@ namespace BgTools.CastVisualizer
                 case "CapsuleCollider":
                     {
                         CapsuleCollider capsuleCollider = collider as CapsuleCollider;
+                        
+                        if(capsuleCollider == null) return;
                         Vector3 lScale = capsuleCollider.transform.lossyScale;
                         Matrix4x4 matrix = Matrix4x4.TRS(capsuleCollider.transform.position, capsuleCollider.transform.rotation, Vector3.one);
                         Vector3 centerHalfScale = new Vector3(capsuleCollider.center.x * lScale.x, capsuleCollider.center.y * lScale.y, capsuleCollider.center.z * lScale.z);
@@ -203,6 +205,8 @@ namespace BgTools.CastVisualizer
                 case "MeshCollider":
                     {
                         MeshCollider meshCollider = collider as MeshCollider;
+                        
+                        if (meshCollider == null) return;
                         Color orgGizmosColor = Gizmos.color;
                         Matrix4x4 orgMatrix = Gizmos.matrix;
 
