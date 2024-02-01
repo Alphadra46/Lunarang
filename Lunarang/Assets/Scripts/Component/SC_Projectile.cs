@@ -84,9 +84,13 @@ public class SC_Projectile : MonoBehaviour
         {
             for (var i = 0; i < hitNumber; i++)
             {
+                
                 if(col.CompareTag("Entity"))
                     damageable.TakeDamage(damage, weaponType,isCrit);
-                else damageable.TakeDamage(damage);
+                else if (col.CompareTag("Player"))
+                {
+                    damageable.TakeDamage(damage);
+                }
 
             }
         }
