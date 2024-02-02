@@ -66,6 +66,7 @@ public class AI_BadKyu_StateMachine : AI_StateMachine
         States.Add(EnemyState.Chase, new AI_BadKyu_ChaseState(EnemyState.Chase, this));
         States.Add(EnemyState.Attack, new AI_BadKyu_AttackState(EnemyState.Attack, this));
         States.Add(EnemyState.Defense, new AI_BadKyu_DefenseState(EnemyState.Defense, this));
+        States.Add(EnemyState.Death, new AI_DeathState(EnemyState.Death, this));
         
         CurrentState = States[EnemyState.Idle];
     }
