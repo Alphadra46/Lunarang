@@ -7,8 +7,7 @@ using UnityEngine;
 
 public class SC_PathCreator : MonoBehaviour
 {
-    public GameObject pathPrefab_TEMP;
-    public GameObject doorPrefab_TEMP;
+    //public GameObject doorPrefab_TEMP;
 
     [Header("General setting")]
     [TabGroup("Settings", "Generation values")] public bool setSeed;
@@ -16,9 +15,9 @@ public class SC_PathCreator : MonoBehaviour
     [TabGroup("Settings", "Generation values"), ShowInInspector, ReadOnly] private int seed;
 
     [Header("Normal room prefabs lists")]
-    [TabGroup("Settings", "Prefabs")] public List<GameObject> easyRoomList = new List<GameObject>();
+    [TabGroup("Settings", "Prefabs")] public List<GameObject> smallRoomList = new List<GameObject>();
     [TabGroup("Settings", "Prefabs")] public List<GameObject> mediumRoomList = new List<GameObject>();
-    [TabGroup("Settings", "Prefabs")] public List<GameObject> hardRoomList = new List<GameObject>();
+    [TabGroup("Settings", "Prefabs")] public List<GameObject> bigRoomList = new List<GameObject>();
 
     [Header("Chest room prefabs lists")] 
     [TabGroup("Settings", "Prefabs")] public List<GameObject> chestRoomList = new List<GameObject>();
@@ -27,6 +26,11 @@ public class SC_PathCreator : MonoBehaviour
     [Header("Spawn room prefabs lists")]
     [TabGroup("Settings", "Prefabs")] public List<GameObject> spawnRoomList = new List<GameObject>();
 
+    [Space(10), Header("Challenge room parameters")] 
+    [TabGroup("Settings", "Generation values")] public int smallRoomSpawnRate = 20;
+    [TabGroup("Settings", "Generation values")] public int mediumRoomSpawnRate = 50;
+    [TabGroup("Settings", "Generation values")] public int bigRoomSpawnRate = 30;
+    
     [Space(10), Header("Spawn room parameters")]
     [TabGroup("Settings", "Generation values")] public bool useRandomOnSpawnLocation;
     [Range(0,99)]
@@ -49,8 +53,12 @@ public class SC_PathCreator : MonoBehaviour
     [TabGroup("Settings", "Generation values")] public int chestRoomSpawnMaxRangeFromBoss;
     
     private ABPath spawnToBossPath;
+    private List<GameObject> spawnToBossRooms = new List<GameObject>();
     private ABPath spawnToChestPath;
+    private List<GameObject> spawnToChestRooms = new List<GameObject>();
     private ABPath bossToChestPath;
+    private List<GameObject> bossToChestRooms = new List<GameObject>();
+
 
     private int originalSpawnNodeIndex;
     
@@ -88,57 +96,90 @@ public class SC_PathCreator : MonoBehaviour
         }
     }
 
+    public GameObject GetChallengeRoom()
+    {
+        var r = Random.Range(0, 100);
+
+        return r < smallRoomSpawnRate
+            ? smallRoomList[Random.Range(0, smallRoomList.Count)]
+            :
+            (r >= smallRoomSpawnRate && r < smallRoomSpawnRate + mediumRoomSpawnRate)
+                ?
+                mediumRoomList[Random.Range(0, mediumRoomList.Count)]
+                : bigRoomList[Random.Range(0, bigRoomList.Count)];
+    }
+    
     /// <summary>
     /// Display paths and spacial rooms 
     /// </summary>
     private void DisplayPath()
     {
-        //Create a spawn room
-            var spawnRoom = spawnRoomList[Random.Range(0, spawnRoomList.Count - 1)];
-            Destroy(Instantiate(spawnRoom, (Vector3)AstarPath.active.data.gridGraph.nodes[spawnNodeIndex].position, spawnRoom.transform.rotation), 3f);
+            //Create a spawn room
+            var spawnRoom = spawnRoomList[Random.Range(0, spawnRoomList.Count)];
+            var s = Instantiate(spawnRoom, (Vector3)AstarPath.active.data.gridGraph.nodes[spawnNodeIndex].position, spawnRoom.transform.rotation);
+            spawnToBossRooms.Add(s);
+            spawnToChestRooms.Add(s); //TODO - Broken
             
             //Then the boss room
-            var bossRoom = bossRoomList[Random.Range(0, bossRoomList.Count - 1)];
-            Destroy(Instantiate(bossRoom, (Vector3)AstarPath.active.data.gridGraph.nodes[bossRoomIndex].position, bossRoom.transform.rotation), 3f);
+            var bossRoom = bossRoomList[Random.Range(0, bossRoomList.Count)];
+            var b = Instantiate(bossRoom, (Vector3)AstarPath.active.data.gridGraph.nodes[bossRoomIndex].position, bossRoom.transform.rotation);
+            bossToChestRooms.Add(b); //TODO - Broken
 
             //Next is the chest room
-            var chestRoom = chestRoomList[Random.Range(0, chestRoomList.Count - 1)];
-            Destroy(Instantiate(chestRoom, (Vector3)AstarPath.active.data.gridGraph.nodes[chestRoomIndex].position, chestRoom.transform.rotation), 3f);
+            var chestRoom = chestRoomList[Random.Range(0, chestRoomList.Count)];
+            var c = Instantiate(chestRoom, (Vector3)AstarPath.active.data.gridGraph.nodes[chestRoomIndex].position, chestRoom.transform.rotation);
             
 
             //Finally the path between each room
             //Spawn to Boss
             foreach (var node in spawnToBossPath.path)
             {
+                //TODO - Remove this condition for each path because it will not be the actual "end" room (spawn, boss, chest, etc...)
                 if (AstarPath.active.data.gridGraph.nodes.ToList().IndexOf((GridNode)node) == spawnNodeIndex || AstarPath.active.data.gridGraph.nodes.ToList().IndexOf((GridNode)node) == bossRoomIndex)
                     continue;
                 
-                Destroy(Instantiate(pathPrefab_TEMP, (Vector3)node.position, pathPrefab_TEMP.transform.rotation),3f);
+                var room = GetChallengeRoom();
+                spawnToBossRooms.Add(Instantiate(room, (Vector3)node.position, room.transform.rotation));
             }
-
+            spawnToBossRooms.Add(b);
+            
             //Spawn to Chest
             foreach (var node in spawnToChestPath.path)
             {
-                if (spawnToBossPath.path.Contains(node))
-                    continue;
-                
                 if (AstarPath.active.data.gridGraph.nodes.ToList().IndexOf((GridNode)node) == spawnNodeIndex || AstarPath.active.data.gridGraph.nodes.ToList().IndexOf((GridNode)node) == chestRoomIndex)
                     continue;
                 
-                Destroy(Instantiate(pathPrefab_TEMP, (Vector3)node.position, pathPrefab_TEMP.transform.rotation),3f);
+                if (spawnToBossPath.path.Contains(node))
+                {
+                    spawnToChestRooms.Add(spawnToBossRooms[spawnToBossPath.path.IndexOf(node)]);
+                    continue;
+                }
+                
+                var room = GetChallengeRoom();
+                spawnToChestRooms.Add(Instantiate(room, (Vector3)node.position, room.transform.rotation));
             }
+            spawnToChestRooms.Add(c);
 
             //Boss to Chest
             foreach (var node in bossToChestPath.path)
             {
-                if (spawnToBossPath.path.Contains(node) || spawnToChestPath.path.Contains(node))
-                    continue;
-                
                 if (AstarPath.active.data.gridGraph.nodes.ToList().IndexOf((GridNode)node) == bossRoomIndex || AstarPath.active.data.gridGraph.nodes.ToList().IndexOf((GridNode)node) == chestRoomIndex)
                     continue;
                 
-                Destroy(Instantiate(pathPrefab_TEMP, (Vector3)node.position, pathPrefab_TEMP.transform.rotation),3f);
+                if (spawnToBossPath.path.Contains(node) || spawnToChestPath.path.Contains(node))
+                {
+                    bossToChestRooms.Add(spawnToBossPath.path.Contains(node)
+                        ? spawnToBossRooms[spawnToBossPath.path.IndexOf(node)]
+                        : spawnToChestRooms[spawnToChestPath.path.IndexOf(node)]);
+                    continue;
+                }
+                
+                var room = GetChallengeRoom();
+                bossToChestRooms.Add(Instantiate(room, (Vector3)node.position, room.transform.rotation));
             }
+            bossToChestRooms.Add(c);
+            
+            CreateDoors();
     }
     
     /// <summary>
@@ -228,7 +269,8 @@ public class SC_PathCreator : MonoBehaviour
             
         } //Used to wait for the path to be done TODO - Maybe use async function or IEnumerator
         
-        CreateDoors();
+        //DisplayPath();
+        CreateFloor();
         
         isInit = true;
     }
@@ -282,7 +324,23 @@ public class SC_PathCreator : MonoBehaviour
     {
         foreach (var doorPosition in doorsPositions)
         {
-            Destroy(Instantiate(doorPrefab_TEMP, doorPosition, doorPrefab_TEMP.transform.rotation),3f);
+            // if (doorPosition.normalized == Vector3.forward)
+            // {
+            //     Debug.Log("North !");
+            // }
+            // else if (doorPosition.normalized == Vector3.back)
+            // {
+            //     Debug.Log("South !");
+            // }
+            // else if (doorPosition.normalized == Vector3.right)
+            // {
+            //     Debug.Log("East !");
+            // }
+            // else if (doorPosition.normalized == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+            // {
+            //     Debug.Log("West !");
+            // }
+            //Destroy(Instantiate(doorPrefab_TEMP, doorPosition, doorPrefab_TEMP.transform.rotation),3f); //TODO - Remove Destroy
         }
     }
     
@@ -304,9 +362,26 @@ public class SC_PathCreator : MonoBehaviour
             var dir = B - A;
             dir.Normalize(); //Normalize to get a direction 
 
-            if (!doorsPositions.Contains((Vector3)spawnToBossPath.path[i].position + 10*dir))
+            if (!doorsPositions.Contains((Vector3)spawnToBossPath.path[i].position + 10 * dir))
             {
-                doorsPositions.Add((Vector3)spawnToBossPath.path[i].position + 10*dir);
+                doorsPositions.Add((Vector3)spawnToBossPath.path[i].position + 10 * dir);
+                
+                 if (dir == Vector3.forward)
+                 {
+                     spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                 }
+                 else if (dir == Vector3.back)
+                 {
+                     spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                 }
+                 else if (dir == Vector3.right)
+                 {
+                     spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                 }
+                 else if (dir == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                 {
+                     spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                 }
             }
         }
         
@@ -324,6 +399,23 @@ public class SC_PathCreator : MonoBehaviour
             if (!doorsPositions.Contains((Vector3)spawnToBossPath.path[i].position + 10*dir))
             {
                 doorsPositions.Add((Vector3)spawnToBossPath.path[i].position + 10*dir);
+                
+                if (dir == Vector3.forward)
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dir == Vector3.back)
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dir == Vector3.right)
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dir == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
             }
         }
         
@@ -341,6 +433,25 @@ public class SC_PathCreator : MonoBehaviour
             if (!doorsPositions.Contains((Vector3)spawnToChestPath.path[i].position + 10*dir))
             {
                 doorsPositions.Add((Vector3)spawnToChestPath.path[i].position + 10*dir);
+                
+                //TODO - Broken
+                
+                if (dir == Vector3.forward)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dir == Vector3.back)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dir == Vector3.right)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dir == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
             }
         }
         
@@ -357,6 +468,25 @@ public class SC_PathCreator : MonoBehaviour
             if (!doorsPositions.Contains((Vector3)spawnToChestPath.path[i].position + 10*dir))
             {
                 doorsPositions.Add((Vector3)spawnToChestPath.path[i].position + 10*dir);
+                
+                //TODO - Broken
+                
+                if (dir == Vector3.forward)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dir == Vector3.back)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dir == Vector3.right)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dir == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
             }
         }
         
@@ -374,6 +504,25 @@ public class SC_PathCreator : MonoBehaviour
             if (!doorsPositions.Contains((Vector3)bossToChestPath.path[i].position + 10*dir))
             {
                 doorsPositions.Add((Vector3)bossToChestPath.path[i].position + 10*dir);
+                
+                //TODO - Broken
+                
+                if (dir == Vector3.forward)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dir == Vector3.back)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dir == Vector3.right)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dir == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
             }
         }
         
@@ -390,12 +539,417 @@ public class SC_PathCreator : MonoBehaviour
             if (!doorsPositions.Contains((Vector3)bossToChestPath.path[i].position + 10*dir))
             {
                 doorsPositions.Add((Vector3)bossToChestPath.path[i].position + 10*dir);
+                
+                //TODO - Broken
+                
+                if (dir == Vector3.forward)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dir == Vector3.back)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dir == Vector3.right)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dir == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
             }
         }
         
-        DisplayPath();
-        DisplayDoors();
+        //DisplayPath();
+        //DisplayDoors();
         
+    }
+
+    private void CreateFloor()
+    {
+        foreach (var node in spawnToBossPath.path)
+        {
+            var i = spawnToBossPath.path.IndexOf(node);
+        
+            var A = Vector3.zero;
+            var B = Vector3.zero;
+            var C = Vector3.zero;
+            var dirNext = Vector3.zero;
+            var dirPrevious = Vector3.zero;
+        
+            if (i==0)
+            {
+                var room = GetChallengeRoom();
+                var preSpawnRoom = Instantiate(room, (Vector3)node.position, room.transform.rotation);
+        
+                room = GetChallengeRoom();
+                var nextRoom = Instantiate(room, (Vector3)spawnToBossPath.path[i+1].position, room.transform.rotation);
+                
+                spawnToBossRooms.Add(preSpawnRoom);
+                spawnToBossRooms.Add(nextRoom);
+                
+                A = (Vector3)node.position;
+                B = (Vector3)spawnToBossPath.path[i + 1].position;
+                dirNext = B - A;
+                dirNext.Normalize();
+        
+                //Check for the next room
+                if (dirNext == Vector3.forward)
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.back)
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.right)
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
+            }
+            else if (i==spawnToBossPath.path.Count-1)
+            {
+                A = (Vector3)node.position;
+                C = (Vector3)spawnToBossPath.path[i - 1].position;
+                dirPrevious = C - A;
+                dirPrevious.Normalize();
+        
+                //Check for the previous room
+                if (dirPrevious == Vector3.forward)
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.back)
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.right)
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                var room = GetChallengeRoom();
+                var nextRoom = Instantiate(room, (Vector3)spawnToBossPath.path[i+1].position, room.transform.rotation);
+                
+                spawnToBossRooms.Add(nextRoom);
+                
+                A = (Vector3)node.position;
+                B = (Vector3)spawnToBossPath.path[i + 1].position;
+                C = (Vector3)spawnToBossPath.path[i - 1].position;
+                dirNext = B - A;
+                dirNext.Normalize();
+                dirPrevious = C - A;
+                dirPrevious.Normalize();
+        
+                //Check for the next room
+                if (dirNext == Vector3.forward)
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.back)
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.right)
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
+                
+                //Check for the previous room
+                if (dirPrevious == Vector3.forward)
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.back)
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.right)
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    spawnToBossRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
+                
+            }
+            
+        }
+        
+        foreach (var node in spawnToChestPath.path)
+        {
+            var i = spawnToChestPath.path.IndexOf(node);
+        
+            var A = Vector3.zero;
+            var B = Vector3.zero;
+            var C = Vector3.zero;
+            var dirNext = Vector3.zero;
+            var dirPrevious = Vector3.zero;
+        
+            if (i==0)
+            {
+                
+                var room = GetChallengeRoom();
+                var nextRoom = spawnToBossPath.path.Contains(spawnToChestPath.path[i + 1])
+                    ? spawnToBossRooms[spawnToBossPath.path.IndexOf(spawnToChestPath.path[i + 1])]
+                    : Instantiate(room, (Vector3)spawnToChestPath.path[i + 1].position, room.transform.rotation);
+                
+                spawnToChestRooms.Add(spawnToBossRooms[0]);
+                spawnToChestRooms.Add(nextRoom);
+                
+                A = (Vector3)node.position;
+                B = (Vector3)spawnToChestPath.path[i + 1].position;
+                dirNext = B - A;
+                dirNext.Normalize();
+        
+                //Check for the next room
+                if (dirNext == Vector3.forward)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.back)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.right)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
+            }
+            else if (i==spawnToChestPath.path.Count-1)
+            {
+                A = (Vector3)node.position;
+                C = (Vector3)spawnToChestPath.path[i - 1].position;
+                dirPrevious = C - A;
+                dirPrevious.Normalize();
+        
+                //Check for the previous room
+                if (dirPrevious == Vector3.forward)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.back)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.right)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                var room = GetChallengeRoom();
+                var nextRoom = spawnToBossPath.path.Contains(spawnToChestPath.path[i + 1])
+                    ? spawnToBossRooms[spawnToBossPath.path.IndexOf(spawnToChestPath.path[i + 1])]
+                    : Instantiate(room, (Vector3)spawnToChestPath.path[i + 1].position, room.transform.rotation);
+                
+                spawnToChestRooms.Add(nextRoom);
+                
+                A = (Vector3)node.position;
+                B = (Vector3)spawnToChestPath.path[i + 1].position;
+                C = (Vector3)spawnToChestPath.path[i - 1].position;
+                dirNext = B - A;
+                dirNext.Normalize();
+                dirPrevious = C - A;
+                dirPrevious.Normalize();
+        
+                //Check for the next room
+                if (dirNext == Vector3.forward)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.back)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.right)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
+                
+                //Check for the previous room
+                if (dirPrevious == Vector3.forward)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.back)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.right)
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    spawnToChestRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
+                
+            }
+            
+        }
+        
+        foreach (var node in bossToChestPath.path)
+        {
+        
+            var i = bossToChestPath.path.IndexOf(node);
+        
+            var A = Vector3.zero;
+            var B = Vector3.zero;
+            var C = Vector3.zero;
+            var dirNext = Vector3.zero;
+            var dirPrevious = Vector3.zero;
+        
+            if (i==0)
+            {
+                var room = GetChallengeRoom();
+                var nextRoom = (spawnToBossPath.path.Contains(bossToChestPath.path[i + 1]) || spawnToChestPath.path.Contains(bossToChestPath.path[i + 1])
+                    ? spawnToBossPath.path.Contains(bossToChestPath.path[i + 1])
+                        ? spawnToBossRooms[spawnToBossPath.path.IndexOf(bossToChestPath.path[i + 1])]
+                        : spawnToChestRooms[spawnToChestPath.path.IndexOf(bossToChestPath.path[i + 1])]
+                    : Instantiate(room, (Vector3)bossToChestPath.path[i + 1].position, room.transform.rotation));
+                
+                bossToChestRooms.Add(spawnToBossRooms[^1]);
+                bossToChestRooms.Add(nextRoom);
+                
+                A = (Vector3)node.position;
+                B = (Vector3)bossToChestPath.path[i + 1].position;
+                dirNext = B - A;
+                dirNext.Normalize();
+        
+                //Check for the next room
+                if (dirNext == Vector3.forward)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.back)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.right)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
+            }
+            else if (i==bossToChestPath.path.Count-1)
+            {
+                //bossToChestRooms.Add(spawnToChestRooms[^1]);
+                Debug.LogWarning(bossToChestRooms[^1]);
+                
+                A = (Vector3)node.position;
+                C = (Vector3)bossToChestPath.path[i - 1].position;
+                dirPrevious = C - A;
+                dirPrevious.Normalize();
+        
+                //Check for the previous room
+                if (dirPrevious == Vector3.forward)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.back)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.right)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                var room = GetChallengeRoom();
+                var nextRoom = (spawnToBossPath.path.Contains(bossToChestPath.path[i + 1]) || spawnToChestPath.path.Contains(bossToChestPath.path[i + 1])
+                    ? spawnToBossPath.path.Contains(bossToChestPath.path[i + 1])
+                        ? spawnToBossRooms[spawnToBossPath.path.IndexOf(bossToChestPath.path[i + 1])]
+                        : spawnToChestRooms[spawnToChestPath.path.IndexOf(bossToChestPath.path[i + 1])]
+                    : Instantiate(room, (Vector3)bossToChestPath.path[i + 1].position, room.transform.rotation));
+                
+                bossToChestRooms.Add(nextRoom);
+                
+                A = (Vector3)node.position;
+                B = (Vector3)bossToChestPath.path[i + 1].position;
+                C = (Vector3)bossToChestPath.path[i - 1].position;
+                dirNext = B - A;
+                dirNext.Normalize();
+                dirPrevious = C - A;
+                dirPrevious.Normalize();
+        
+                //Check for the next room
+                if (dirNext == Vector3.forward)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.back)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.right)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dirNext == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
+                
+                //Check for the previous room
+                if (dirPrevious == Vector3.forward)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorNorth.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.back)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorSouth.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.right)
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorEast.gameObject.SetActive(true);
+                }
+                else if (dirPrevious == Vector3.left) //Not necessary but it's just in case the doorPosition behave weirdly
+                {
+                    bossToChestRooms[i].GetComponent<SC_RoomManager>().doorWest.gameObject.SetActive(true);
+                }
+                
+            }
+            
+        }
     }
     
 }

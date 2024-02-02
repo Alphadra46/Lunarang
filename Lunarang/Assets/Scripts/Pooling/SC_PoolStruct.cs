@@ -13,7 +13,7 @@ public class SC_PoolStruct
 {
     [Tooltip("Name of the pool, used to search for the pool when needed")]
     public string poolName;
-    [Tooltip("The list of the prefabs that can be instantiated in this pool")] //TODO - Remove ShowInInspector and do a Custom Editor Script
+    [Tooltip("The list of the prefabs that can be instantiated in this pool")] 
     public SerializedDictionary<GameObject, int> prefabsList = new SerializedDictionary<GameObject, int>();
 
     [HideInInspector] public List<SC_SubPool> subPoolsList = new List<SC_SubPool>();
