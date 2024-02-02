@@ -1,26 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [CreateAssetMenu(menuName = "Middle-Men/Resources Inventory")]
 public class SC_ResourcesInventory : ScriptableObject
 {
-    public List<SC_Resources> resourceInventory = new List<SC_Resources>();
+    public SerializedDictionary<SC_Ressource, int> resourceInventory = new SerializedDictionary<SC_Ressource, int>();
 
-    public void AddResource(SC_Resources resource)
+    public void AddResource(SC_Ressource resource, int amount)
     {
-        if (resourceInventory.Contains(resource))
+        if (resourceInventory.ContainsKey(resource))
         {
-            resource.quantity += resource.amount;
+            resourceInventory[resource] += amount;
         }
         else
         {
-            resourceInventory.Add(resource);
-            resource.quantity += resource.amount;
+            resourceInventory.Add(resource, amount);
         }
         
     }
 
-
-
+    public void RemoveResource(SC_Ressource resource, int amount)
+    {
+        if (resourceInventory[resource] - amount < 0)
+        {
+            return;
+        }
+        
+        resourceInventory[resource] -= amount;
+    }
+    
 }
