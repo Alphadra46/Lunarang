@@ -5,11 +5,15 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class SC_FinalATK_Builder : MonoBehaviour
 {
 
-    public List<SC_Weapon> comboWeapons = new List<SC_Weapon>();
+    #region Variables
+
+    public SC_ComboController _comboController;
+    public SC_PlayerStats _stats;
     
     public WeaponType type;
     [ShowInInspector] public Dictionary<string, int> parametersLevel = new Dictionary<string, int>();
@@ -28,21 +32,38 @@ public class SC_FinalATK_Builder : MonoBehaviour
     public float moveValue;
     public float atkSpeed;
 
-    public int hits;
+    public int additionnalHits;
+    
     public int projectilesNumbers;
+    public float projectilesSpeed;
 
     public Collider[] ennemiesInAoE;
     public Collider[] ennemiesHitByProjectile;
+    
     public LayerMask layerAttackable;
 
     public GameObject ExampleMH;
     public GameObject ExampleP;
     public GameObject ExampleAoE;
-    
-    public void GetInfosFromLastAttacks(List<SC_Weapon> weapons)
+
+    #endregion
+
+    private void Awake()
     {
-        
-        comboWeapons = weapons;
+        if(!TryGetComponent(out _stats)) return;
+        if(!TryGetComponent(out _comboController)) return;
+    }
+
+    /// <summary>
+    /// Get all informations from last attacks.
+    /// Create a String from the types parameters.
+    /// </summary>
+    /// <param name="weapons">All weapons used in the last attacks.</param>
+    /// <param name="newComboController">Get the player combo controller.</param>
+    public void GetInfosFromLastAttacks(List<SC_Weapon> weapons, SC_ComboController newComboController)
+    {
+
+        _comboController = newComboController;
         
         foreach (var w in weapons)
         {
@@ -74,8 +95,9 @@ public class SC_FinalATK_Builder : MonoBehaviour
         moveValue = weapons[^1].MovesValues[^1];
         atkSpeed = weapons[^1].atkSpeed;
 
-        hits = weapons[^1].hits;
+        additionnalHits = weapons[^1].hits;
         projectilesNumbers = weapons[^1].projectilesNumbers;
+        projectilesSpeed = weapons[^1].projectileSpeed;
 
         // Set parameters
         paramatersWithoutLast = paramatersString.Split(";", StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -85,7 +107,10 @@ public class SC_FinalATK_Builder : MonoBehaviour
         
         Combine();
     }
-
+    
+    /// <summary>
+    /// Look at each of the previous attack types and modify the final attack parameters according to them.
+    /// </summary>
     private void Combine()
     {
 
@@ -99,27 +124,51 @@ public class SC_FinalATK_Builder : MonoBehaviour
             {
             
                 case "M":
-                    hits += (currentLevel * currentStrength);
+                    additionnalHits += (currentLevel * currentStrength);
                     break;
                 case "A":
                     areaSize += (currentLevel * currentStrength);
                     break;
                 case "P":
-                    projectilesNumbers += (currentLevel * currentStrength);
+                    projectilesNumbers = (currentLevel * currentStrength);
                     print("Added Projectiles");
                     break;
             }
 
         }
         
-        InstantiateCubes();
+        Result();
 
     }
 
-    private void InstantiateCubes()
+    /// <summary>
+    /// Create the Result of the combinaison.
+    /// </summary>
+    private void Result()
     {
-        var pos = new Vector3(transform.position.x, 0.4f, transform.position.z);
-        var parametersWithoutLastString = String.Join("", paramatersWithoutLast);
+        var pos = Vector3.zero;
+        var currentWeaponGO = _comboController.equippedWeaponsGO[_comboController.currentWeapon.id];
+        var weaponImpactPoint = currentWeaponGO.transform.Find("ImpactPoint");
+
+        var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100);
+
+        var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
+
+        switch (impactPoint)
+        {
+            case ImpactPoint.Player:
+                pos = new Vector3(transform.position.x, 0.4f, transform.position.z) + (transform.forward * 2);
+                break;
+            case ImpactPoint.Weapon:
+                pos = weaponImpactPoint.position;
+                break;
+            case ImpactPoint.Hit:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+        var parametersWithoutLastString = string.Join("", paramatersWithoutLast);
 
         switch (parametersWithoutLastString)
         {
@@ -128,168 +177,347 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 switch (lastParameter)
                 {
                     case "M":
-                        
+
+                        Multihit();
+
                         break;
+
                     case "A":
+
+                        CreateAoE(pos + (transform.forward), true);
                         
                         break;
-                    
+
                     case "P":
-                        
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            additionnalHits + 1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward);
+
                         break;
                 }
-                
+
                 break;
-            
-            case "MA":
-                
+
+            case "MA" or "AM":
+
                 switch (lastParameter)
                 {
                     case "M":
                         
+                        Multihit();
+                        foreach (var e in _comboController.currentEnemiesHitted)
+                        {
+                            CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z));
+                        }
+                        
                         break;
                     case "A":
                         
+                        CreateAoE(pos + (transform.forward), true);
+
                         break;
-                    
+
                     case "P":
+                        print(projectilesNumbers);
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            additionnalHits + 1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            true);
                         
                         break;
                 }
-                
+
                 break;
-            
-            case "MP":
-                
+
+            case "MP" or "PM":
+
                 switch (lastParameter)
                 {
+                    
                     case "M":
+                        Multihit();
+                        
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward);
+                        break;
+                    
+                    case "A":
+                        CreateAoE(pos + (transform.forward), true);
+                        
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            false);
                         
                         break;
-                    case "A":
+
+                    case "P":
+
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            additionnalHits + 1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            false);
                         
                         break;
                     
-                    case "P":
-                        
-                        break;
                 }
-                
+
                 break;
-            
-            
+
             case "AA":
-                
+
                 switch (lastParameter)
                 {
                     case "M":
                         
+                        Multihit();
+                        foreach (var e in _comboController.currentEnemiesHitted)
+                        {
+                            CreateAoE(pos + (transform.forward));
+                        }
+
                         break;
                     case "A":
                         
+                        CreateAoE(pos + (transform.forward));
+                        
                         break;
-                    
+
                     case "P":
+
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                             1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            true);
                         
                         break;
                 }
-                
+
                 break;
-            
-            case "AM":
-                
+
+            case "AP" or "PA":
+
                 switch (lastParameter)
                 {
+                    
                     case "M":
+                        Multihit();
                         
-                        break;
-                    case "A":
+                        foreach (var e in _comboController.currentEnemiesHitted)
+                        {
+                            CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z));
+                            _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                                projectilesNumbers,
+                                areaSize,
+                                1,
+                                10f,
+                                projectilesSpeed,
+                                0f,
+                                transform.GetChild(1).forward,
+                                false);
+                        }
                         
                         break;
                     
-                    case "P":
-                        
-                        break;
-                }
-                
-                break;
-            
-            case "AP":
-                
-                switch (lastParameter)
-                {
-                    case "M":
-                        
-                        break;
                     case "A":
+                        
+                        CreateAoE(pos + (transform.forward));
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            false);
+                        
+                        break;
+
+                    case "P":
+
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            true);
                         
                         break;
                     
-                    case "P":
-                        
-                        break;
                 }
-                
+
                 break;
-            
-            
+
             case "PP":
-                
+
                 switch (lastParameter)
                 {
                     case "M":
-                        
-                        break;
-                    case "A":
-                        
-                        break;
-                    
-                    case "P":
-                        
-                        break;
-                }
-                
-                break;
-            
-            case "PA":
-                
-                switch (lastParameter)
-                {
-                    case "M":
-                        
-                        break;
-                    case "A":
+
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            false);
                         
                         break;
                     
-                    case "P":
-                        
-                        break;
-                }
-                
-                break;
-            
-            case "PM":
-                
-                switch (lastParameter)
-                {
-                    case "M":
-                        
-                        break;
                     case "A":
                         
+                        CreateAoE(pos + (transform.forward));
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            false);
+                        
                         break;
-                    
+
                     case "P":
+
+                        _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
+                            projectilesNumbers,
+                            areaSize,
+                            1,
+                            10f,
+                            projectilesSpeed,
+                            0f,
+                            transform.GetChild(1).forward,
+                            false);
                         
                         break;
                 }
-                
+
                 break;
+
+        }
+    }
+
+    /// <summary>
+    /// Create multiples hits.
+    /// </summary>
+    private void Multihit()
+    {
+        
+        var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100);
+
+        var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
+        var effDamage = rawDamage * (1 + (_stats.damageBonus / 100));
+        var effCrit = effDamage * (1 + (_stats.critDMG / 100));
+        
+        foreach (var e in _comboController.currentEnemiesHitted)
+        {
+            if (!e.TryGetComponent(out IDamageable damageable)) continue;
+                            
+            for (var i = 0; i < additionnalHits; i++)
+            {
+                var mhSettings = Instantiate(ExampleMH);
+
+                mhSettings.transform.localScale *= areaSize;
+                mhSettings.transform.position = new Vector3(e.transform.position.x,
+                    e.transform.localScale.y, e.transform.position.z);
+                Destroy(mhSettings, 2f);
+                                
+                var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+                damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type,
+                    isCritical);
+            }
+
         }
         
     }
 
+    /// <summary>
+    /// Create an area of effect at a certain pos.
+    /// </summary>
+    /// <param name="pos">Center of the AoE</param>
+    /// <param name="hasAdditionnalHits">Is the AoE has additionnal hits ?</param>
+    private void CreateAoE(Vector3 pos, bool hasAdditionnalHits = false)
+    {
+
+        var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100);
+
+        var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
+        var effDamage = rawDamage * (1 + (_stats.damageBonus / 100));
+        var effCrit = effDamage * (1 + (_stats.critDMG / 100));
+        
+        var aoeSettings = Instantiate(ExampleAoE);
+        aoeSettings.transform.localScale *= areaSize;
+        aoeSettings.transform.position = pos;
+        Destroy(aoeSettings, 2f);
+
+        ennemiesInAoE =
+            Physics.OverlapSphere((pos), areaSize,
+                layerAttackable); //TODO : Replace Pos by Weapon Hit Pos
+
+        foreach (var e in ennemiesInAoE)
+        {
+            if (!e.TryGetComponent(out IDamageable damageable)) continue;
+            var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+            damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type,
+                isCritical);
+
+            if(!hasAdditionnalHits) continue;
+            for (var i = 0; i < additionnalHits; i++)
+            {
+                var mhSettings = Instantiate(ExampleMH);
+                mhSettings.transform.position = e.transform.position;
+                Destroy(mhSettings, 2f);
+                                
+                isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+                damageable.TakeDamage(isCritical ? effCrit : effDamage,
+                    _comboController.currentWeapon.type, isCritical);
+            }
+
+        }
+    }
+    
+    /// <summary>
+    /// Reset all paramaters.
+    /// </summary>
     public void Reset()
     {
         parametersLevel.Clear();
@@ -298,7 +526,5 @@ public class SC_FinalATK_Builder : MonoBehaviour
         paramatersString = "";
         lastParameter = "";
     }
-    
-    
-    
+
 }

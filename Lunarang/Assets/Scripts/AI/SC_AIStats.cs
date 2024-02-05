@@ -30,10 +30,11 @@ public class SC_AIStats : SC_Subject, IDamageable
     [TabGroup("Settings/Stats/Subtabs", "HP", SdfIconType.HeartFill, TextColor = "green"),
      ProgressBar(0, "currentMaxHealth", r: 0, g: 1, b: 0, Height = 20), ReadOnly]
     public float currentHealth;
-    
+
     [TabGroup("Settings/Stats/Subtabs", "HP")]
     [FoldoutGroup("Settings/Stats/Subtabs/HP/Max HP")]
-    [Tooltip("Current base MaxHP of the enemy")] public float maxHealthBase = 15;
+    [Tooltip("Current base MaxHP of the enemy"), ShowInInspector]
+    public float maxHealthBase = 15;
     
     [TabGroup("Settings/Stats/Subtabs", "HP")]
     [FoldoutGroup("Settings/Stats/Subtabs/HP/Max HP")]
@@ -161,13 +162,20 @@ public class SC_AIStats : SC_Subject, IDamageable
     private void Start()
     {
         
-        currentHealth = currentMaxHealth;
+        UpdateStats();
         InitWeaknessShield();
         
         _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
         _renderer.UpdateWeaknessBar(currentWeakness);
         
         if(_agent != null) _agent.speed = currentSPD;
+        
+    }
+
+    private void UpdateStats()
+    {
+        
+        currentHealth = currentMaxHealth;
         
     }
     
@@ -265,6 +273,8 @@ public class SC_AIStats : SC_Subject, IDamageable
     /// Apply this amount to the entity.
     /// </summary>
     /// <param name="rawDamage">Amount of a non-crit damage</param>
+    /// <param name="pWeaponType"></param>
+    /// <param name="isCrit"></param>
     public void TakeDamage(float rawDamage, WeaponType pWeaponType, bool isCrit)
     {
         
@@ -310,7 +320,13 @@ public class SC_AIStats : SC_Subject, IDamageable
 
             if (currentHealth <= 0)
             {
-                Death();
+                if (_stateMachine == null)
+                {
+                    Destroy(gameObject, 1);
+                    return;
+                }
+                
+                _stateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
             }
                 
         }
@@ -327,45 +343,6 @@ public class SC_AIStats : SC_Subject, IDamageable
         Destroy(gameObject);
     }
     
-
-    #endregion
-    
-    #region Collisions Part
-
-    // /// <summary>
-    // /// Detect collisions and if collide with Player's HurtBox, take damage or weakness break.
-    // /// </summary>
-    // /// <param name="col"></param>
-    // private void OnTriggerEnter(Collider col)
-    // {
-    //     if (!col.CompareTag("HurtBox_Player")) return;
-    //         
-    //     var player = col.transform.parent.gameObject;
-    //     var pCombo = player.GetComponent<SC_ComboController>();
-    //     var pStats = player.GetComponent<SC_PlayerStats>();
-    //
-    //     var isCritical = Random.value < pStats.critRate ? true : false;
-    //
-    //     var currentMV = pCombo.currentWeapon.MovesValues[pCombo.comboCounter-1];
-    //     
-    //     var rawDamage = currentMV * pStats.currentATK;
-    //     var rawCrit = rawDamage * (1 + pStats.critDMG);
-    //     
-    //     if (hasShield && !isBreaked)
-    //     {
-    //         TakeDamage(rawDamage, pCombo.currentWeapon.type);
-    //     }
-    //     else
-    //     {
-    //         TakeDamage(rawDamage);
-    //     }
-    //
-    // }
-
-    private void OnTriggerExit(Collider col)
-    {
-        
-    }
 
     #endregion
     

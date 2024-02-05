@@ -26,7 +26,6 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     public float maxHealthModifier = 0f;
     [TabGroup("Stats", "HP")] private float maxHealthEffective => maxHealth * (1 + maxHealthModifier);
     
-
     #endregion
 
     #region DEF
@@ -47,23 +46,11 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "ATK",TextColor = "red"), ShowInInspector, ReadOnly]
-    public float currentATK => atkBase * (1 + atkModifier);
+    public float currentATK => atkBase * (1 + (atkModifier/100));
     
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "ATK"), ShowInInspector] public int atkBase = 5;
     [TabGroup("Stats", "ATK")] public float atkModifier;
-
-    #endregion
-
-    #region SPD
-
-    [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("Stats", "SPD", SdfIconType.Speedometer, TextColor = "purple"), ShowInInspector]
-    public float currentSpeed => baseSpeed * (1 + speedModifier);
-    
-    [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("Stats", "SPD"), SerializeField] public int baseSpeed = 7;
-    [TabGroup("Stats", "SPD")] public float speedModifier;
 
     #endregion
 
@@ -107,11 +94,84 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     #region DMG
 
+    [TabGroup("Stats", "DMG"), PropertySpace(SpaceAfter = 5f)]
+    public float damageReduction = 0;
+    
+    #region Taken
+    
+    [TabGroup("Stats", "DMG",TextColor = "darkred")]
+    [FoldoutGroup("Stats/DMG/Taken")]
+    public float damageTaken = 0;
+    
     [TabGroup("Stats", "DMG")]
-    public float damageBonus = 0;
+    [FoldoutGroup("Stats/DMG/Taken")]
+    public float dotDamageTaken = 0;
 
     #endregion
+    
+    #region Bonus
 
+    [TabGroup("Stats", "DMG")]
+    [FoldoutGroup("Stats/DMG/Bonus")]
+    public float damageBonus = 0;
+
+    [TabGroup("Stats", "DMG")]
+    [FoldoutGroup("Stats/DMG/Bonus")]
+    public float mhDamageBonus = 0;
+    
+    [TabGroup("Stats", "DMG")]
+    [FoldoutGroup("Stats/DMG/Bonus")]
+    public float aoeDamageBonus = 0;
+    
+    [TabGroup("Stats", "DMG")]
+    [FoldoutGroup("Stats/DMG/Bonus")]
+    public float projectileDamageBonus = 0;
+    
+    [TabGroup("Stats", "DMG")]
+    [FoldoutGroup("Stats/DMG/Bonus")]
+    public float dotDamageBonus = 0;
+
+    #endregion
+    
+    #endregion
+
+    #region Hit Rate
+
+    [TabGroup("Stats", "Hit Rates"), MaxValue(100f), MinValue(0f)]
+    public float poisonHitRate = 0f;
+
+    #endregion
+    
+    #region SPD
+
+    [PropertySpace(SpaceBefore = 10)]
+    [TabGroup("Stats", "SPD", SdfIconType.Speedometer, TextColor = "purple"), ShowInInspector]
+    public float currentSpeed => baseSpeed * (1 + speedModifier);
+    
+    [PropertySpace(SpaceBefore = 10)]
+    [TabGroup("Stats", "SPD"), SerializeField] public int baseSpeed = 7;
+    [TabGroup("Stats", "SPD")] public float speedModifier;
+
+    [PropertySpace(SpaceBefore = 10)]
+    [TabGroup("Stats", "SPD", SdfIconType.Speedometer, TextColor = "purple"), ShowInInspector]
+    public float currentATKSpeed => baseATKSpeed * (1 + atkSpeedModifier);
+    
+    [PropertySpace(SpaceBefore = 10)]
+    [TabGroup("Stats", "SPD"), SerializeField] public int baseATKSpeed = 7;
+    [TabGroup("Stats", "SPD")] public float atkSpeedModifier;
+    
+    #endregion
+
+    #region Others
+
+    [TabGroup("Stats", "Others")]
+    public float healingBonus = 0f;
+
+    [TabGroup("Stats", "Others")]
+    public float dishesEffectBonus = 0f;
+    
+    #endregion
+    
     #region Status
     
     [TabGroup("Status", "Debuffs")]
@@ -122,6 +182,10 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     
     #endregion
 
+
+    public List<SC_BaseSkill> allSkills;
+    
+    
     private SC_PlayerController _controller;
     private SC_ComboController _comboController;
 

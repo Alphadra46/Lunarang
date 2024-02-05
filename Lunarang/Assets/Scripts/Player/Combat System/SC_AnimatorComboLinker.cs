@@ -11,7 +11,7 @@ public class SC_AnimatorComboLinker : MonoBehaviour
 
     public SC_ComboController pComboController;
     public SC_PlayerController pController;
-    public SC_PlayerStats pStats;
+    public SC_FinalATK_Builder pFABuilder;
 
     // All functions here are just to link the Animator from the Mesh to the ComboController
     
@@ -40,6 +40,10 @@ public class SC_AnimatorComboLinker : MonoBehaviour
         pComboController.CantPerformCombo();
     }
 
+    public void FinalAttack()
+    {
+        pFABuilder.GetInfosFromLastAttacks(pComboController.currentComboWeapons, pComboController);
+    }
     
     /// <summary>
     /// Called to create a hitbox at a certain timing in an animation.
@@ -48,30 +52,7 @@ public class SC_AnimatorComboLinker : MonoBehaviour
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public void CreateHitBox(SO_HitBox hb)
     {
-        var hits = hb.type switch
-        {
-            HitBoxType.Box => Physics.OverlapBox((transform.parent.GetChild(1).position) + hb.center, hb.halfExtents,
-                transform.parent.rotation, hb.layer),
-            HitBoxType.Sphere => Physics.OverlapSphere(hb.pos, hb.radiusSphere, hb.layer),
-            HitBoxType.Capsule => Physics.OverlapCapsule(hb.point0, hb.point1, hb.radiusCapsule, hb.layer),
-            _ => throw new ArgumentOutOfRangeException()
-        };
-
-        foreach (var entity in hits)
-        {
-            
-            var isCritical = Random.Range(0, 100) < pStats.critRate ? true : false;
-            
-            var currentMV = pComboController.currentWeapon.MovesValues[pComboController.comboCounter-1];
-            
-            var rawDamage = currentMV * pStats.currentATK;
-            var effDamage = rawDamage * (1 + (pStats.damageBonus/100));
-            var effCrit = effDamage * (1 + (pStats.critDMG/100));
-            
-            print(isCritical ? "CRIIIIIT "+ effCrit : effDamage);
-            entity.GetComponent<IDamageable>().TakeDamage(isCritical ? effCrit : effDamage, pComboController.currentWeapon.type, isCritical);
-            
-        }
+        pComboController.CreateHitBox(hb);
     }
 
     public void FreezeMovement()

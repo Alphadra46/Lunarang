@@ -14,7 +14,8 @@ public class AI_StateMachine : StateManager<AI_StateMachine.EnemyState>
         Chase,
         Attack,
         Stun,
-        Defense
+        Defense,
+        Death
         
     }
     

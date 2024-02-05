@@ -51,8 +51,6 @@ public class SC_UIManager : MonoBehaviour
     {
         if(instance != null) Destroy(this);
         instance = this;
-        
-        DontDestroyOnLoad(this);
 
         if (UIParent == null)
         {
@@ -63,6 +61,11 @@ public class SC_UIManager : MonoBehaviour
         
         ResetTempReferences();
         InstantiateHUD();
+    }
+
+    private void OnDestroy()
+    {
+        ResetTempReferences();
     }
 
     private void InstantiateHUD()
@@ -120,6 +123,7 @@ public class SC_UIManager : MonoBehaviour
         else
         {
             Destroy(pauseUI);
+            pauseUI = null;
             ShowHUD();
         }
         
@@ -152,6 +156,8 @@ public class SC_UIManager : MonoBehaviour
             gameOverUI = Instantiate(gameOverUIPrefab, UIParent.transform);
             gameOverUI.name = "GameOverUI";
             ShowHUD();
+            
+            EventSystem.current.SetSelectedGameObject(gameOverUI.transform.GetChild(0).GetChild(2).GetChild(0).gameObject);
         }
         else
         {
@@ -167,6 +173,8 @@ public class SC_UIManager : MonoBehaviour
             winUI = Instantiate(winUIPrefab, UIParent.transform);
             winUI.name = "GameOverUI";
             ShowHUD();
+            
+            EventSystem.current.SetSelectedGameObject(winUI.transform.GetChild(0).GetChild(2).GetChild(0).gameObject);
         }
         else
         {

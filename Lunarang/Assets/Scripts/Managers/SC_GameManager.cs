@@ -4,6 +4,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public enum GameState
@@ -37,14 +38,18 @@ public class SC_GameManager : MonoBehaviour
     {
         if(instance != null) Destroy(this);
         instance = this;
-        
-        DontDestroyOnLoad(this);
     }
 
     private void Start()
     {
-        Debug.Log("Start");
-        SC_InputManager.instance.pause.started += context => { SetPause(); SC_UIManager.instance.ShowPauseMenu(); };
+        SC_InputManager.instance.pause.started += OnPauseKey;
+    }
+
+    
+
+    private void OnDisable()
+    {
+        SC_InputManager.instance.pause.started -= OnPauseKey;
     }
 
     private bool CheckEntityType(string id)
@@ -69,7 +74,7 @@ public class SC_GameManager : MonoBehaviour
         Time.timeScale = isPause ? 0 : 1;
 
     }
-
+    
     public void ChangeState(GameState newState)
     {
         state = newState;
@@ -123,6 +128,12 @@ public class SC_GameManager : MonoBehaviour
     {
         SetPause();
         SC_UIManager.instance.ShowForge();
+    }
+    
+    private void OnPauseKey(InputAction.CallbackContext obj)
+    {
+        SetPause();
+        SC_UIManager.instance.ShowPauseMenu();
     }
     
 }

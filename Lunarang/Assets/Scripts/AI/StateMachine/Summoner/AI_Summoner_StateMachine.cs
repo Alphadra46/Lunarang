@@ -70,7 +70,8 @@ public class AI_Summoner_StateMachine : AI_StateMachine
         States.Add(EnemyState.Patrol, new AI_Summoner_PatrolState(EnemyState.Patrol, this));
         States.Add(EnemyState.Chase, new AI_Summoner_ChaseState(EnemyState.Chase, this));
         States.Add(EnemyState.Attack, new AI_Summoner_AttackState(EnemyState.Attack, this));
-
+        States.Add(EnemyState.Death, new AI_DeathState(EnemyState.Death, this));
+        
         CurrentState = States[EnemyState.Idle];
         
         player = GameObject.FindWithTag("Player");
@@ -131,12 +132,17 @@ public class AI_Summoner_StateMachine : AI_StateMachine
         {
             var projectile = Instantiate(projectileGO).GetComponent<SC_Projectile>();
 
+            projectile.sender = gameObject;
+            
             projectile.transform.position = centerPoint.position + ProjectileSpawnOffset;
             projectile.transform.forward = centerPoint.forward;
+
+            projectile.direction = centerPoint.forward;
+
+            projectile.hitNumber = 1;
         
             projectile.speed = projectileSpeed;
             projectile.damage = (int)Mathf.Round(((projectileDamage/100) * _stats.currentATK));
-            projectile._rb.AddForce(centerPoint.transform.forward * projectile.speed, ForceMode.VelocityChange);
             
             yield return new WaitForSeconds(delayBetweenProjectiles);
         }
