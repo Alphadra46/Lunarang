@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Enum;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -232,8 +233,12 @@ public class SC_ComboController : MonoBehaviour
             var effDamage = rawDamage * (1 + (_stats.damageBonus/100));
             var effCrit = effDamage * (1 + (_stats.critDMG/100));
             
-            // print(isCritical ? "CRIIIIIT "+ effCrit : effDamage);
             entity.GetComponent<IDamageable>().TakeDamage(isCritical ? effCrit : effDamage, currentWeapon.type, isCritical);
+            
+            if(Random.Range(1, 100) < _stats.poisonHitRate)
+            {
+                entity.GetComponent<IDamageable>().ApplyDebuffToSelf(Enum_Debuff.Poison);
+            }
             
         }
 

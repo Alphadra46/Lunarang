@@ -2,6 +2,10 @@
 {
     public enum Enum_Debuff
     {
-        Poison
+        Poison,
+        Bleed,
+        Burn,
+        Freeze,
+        Slowdown
     }
 }

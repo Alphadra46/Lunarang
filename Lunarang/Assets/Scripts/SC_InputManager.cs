@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class SC_InputManager : MonoBehaviour
 {
     public static SC_InputManager instance;
+
+    public static Action<string> newControllerUsed;
 
     private InputMap playerInputActions;
 
@@ -208,9 +211,10 @@ public class SC_InputManager : MonoBehaviour
     /// </summary>
     private void DetectDevice(InputAction.CallbackContext context)
     {
-        // Debug.Log(context.action.activeControl.device.name);
+        Debug.Log(context.action.activeControl.device.name);
         // print(context.action.name);
 
         lastDeviceUsed = context.action.activeControl.device.name;
+        newControllerUsed?.Invoke(lastDeviceUsed);
     }
 }
