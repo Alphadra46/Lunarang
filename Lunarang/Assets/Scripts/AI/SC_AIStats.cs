@@ -226,7 +226,7 @@ public class SC_AIStats : SC_Subject, IDamageable
 
     #region Status
 
-    private void ApplyDebuffToSelf(Enum_Debuff newDebuff, float tick=1, float duration=5)
+    public void ApplyDebuffToSelf(Enum_Debuff newDebuff)
     {
         
         currentDebuffs.Add(newDebuff);
@@ -234,8 +234,18 @@ public class SC_AIStats : SC_Subject, IDamageable
         switch (newDebuff)
         {
             case Enum_Debuff.Poison:
-                StartCoroutine(PoisonDoT((currentMaxHealth * 0.1f), tick, duration));
+                StartCoroutine(PoisonDoT((currentMaxHealth * 0.1f), 1, 2));
                 break;
+            case Enum_Debuff.Bleed:
+                break;
+            case Enum_Debuff.Burn:
+                break;
+            case Enum_Debuff.Freeze:
+                break;
+            case Enum_Debuff.Slowdown:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(newDebuff), newDebuff, null);
         }
         
     }

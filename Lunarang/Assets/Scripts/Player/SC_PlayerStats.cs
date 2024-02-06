@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Enum;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class SC_PlayerStats : SC_Subject, IDamageable
 {
@@ -135,11 +134,23 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     
     #endregion
 
-    #region Hit Rate
+    #region Debuffs
 
     [TabGroup("Stats", "Hit Rates"), MaxValue(100f), MinValue(0f)]
     public float poisonHitRate = 0f;
-
+    
+    [TabGroup("Stats", "Hit Rates"), MaxValue(4), MinValue(0)]
+    public int poisonStackByHit = 1;
+    [TabGroup("Stats", "Hit Rates"), MaxValue(4), MinValue(3)]
+    public int poisonMaxStack = 3;
+    [TabGroup("Stats", "Hit Rates"), MaxValue("poisonMaxStack"), MinValue(0)]
+    public int poisonCurrentStacks = 3;
+    [TabGroup("Stats", "Hit Rates"), MaxValue(2f), MinValue(0.25f)]
+    public float poisonTick = 2f;
+    [TabGroup("Stats", "Hit Rates"), MaxValue(120f), MinValue(0.25f)]
+    public float poisonDuration = 1;
+    
+    
     #endregion
     
     #region SPD
@@ -175,16 +186,15 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     #region Status
     
     [TabGroup("Status", "Debuffs")]
+    public List<Enum_Buff> currentBuffs;
+    [TabGroup("Status", "Debuffs")]
     public List<Enum_Debuff> currentDebuffs;
+    
     [TabGroup("Status", "Debugs")]
     public bool isGod;
     
     
     #endregion
-
-
-    public List<SC_BaseSkill> allSkills;
-    
     
     private SC_PlayerController _controller;
     private SC_ComboController _comboController;
@@ -222,28 +232,65 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     #region Status
     
     
-    public void ApplyBuffToSelf(String newBuff, float modifier)
+    public void ApplyBuffToSelf(Enum_Buff newBuff)
     {
 
+        if(currentBuffs.Contains(newBuff)) return;
+        
         switch (newBuff)
         {
-            case "ATK":
-                atkModifier += modifier;
+            case Enum_Buff.Armor:
                 break;
-            case "DEF":
-                defModifier += modifier;
+            case Enum_Buff.SecondChance:
                 break;
-            case "DMG":
-                damageBonus += modifier;
+            case Enum_Buff.Thorns:
                 break;
-            case "CD":
-                bonusCritDMG += modifier;
+            case Enum_Buff.God:
+
+                atkModifier += 1000;
+                bonusCritDMG += 200;
+                bonusCritRate += 95;
+                
                 break;
-            case "CR":
-                bonusCritRate += modifier;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(newBuff), newBuff, null);
+        }
+        
+        currentBuffs.Add(newBuff);
+
+        if (statsDebug != null)
+        {
+            statsDebug.RefreshStats();
+        }
+        
+    }
+    
+    public void RemoveBuffFromSelf(Enum_Buff newBuff)
+    {
+
+        if(!currentBuffs.Contains(newBuff)) return;
+        
+        switch (newBuff)
+        {
+            case Enum_Buff.Armor:
                 break;
+            case Enum_Buff.SecondChance:
+                break;
+            case Enum_Buff.Thorns:
+                break;
+            case Enum_Buff.God:
+                
+                atkModifier -= 1000;
+                bonusCritDMG -= 200;
+                bonusCritRate -= 95;
+                
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(newBuff), newBuff, null);
         }
 
+        currentBuffs.Remove(newBuff);
+        
         if (statsDebug != null)
         {
             statsDebug.RefreshStats();
@@ -255,19 +302,39 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     /// Apply a debuff to self with a certain type, a certain activation cooldown and a duration.
     /// </summary>
     /// <param name="newDebuff">Debuff to apply</param>
-    /// <param name="tick">Cooldown between to activation</param>
-    /// <param name="duration">Duration before debuff expire</param>
-    private void ApplyDebuffToSelf(Enum_Debuff newDebuff, float tick=1, float duration=5)
+    public void ApplyDebuffToSelf(Enum_Debuff newDebuff)
     {
         
-        currentDebuffs.Add(newDebuff);
 
         switch (newDebuff)
         {
+            
             case Enum_Debuff.Poison:
-                StartCoroutine(PoisonDoT((maxHealthEffective * 0.1f), tick, duration));
+                
+                if (currentDebuffs.Contains(Enum_Debuff.Poison))
+                {
+                    
+                }
+                else
+                {
+                    StartCoroutine(PoisonDoT((maxHealthEffective * 0.1f), poisonTick, poisonDuration));
+                }
+                
                 break;
+            
+            case Enum_Debuff.Bleed:
+                break;
+            case Enum_Debuff.Burn:
+                break;
+            case Enum_Debuff.Freeze:
+                break;
+            case Enum_Debuff.Slowdown:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(newDebuff), newDebuff, null);
         }
+        
+        currentDebuffs.Add(newDebuff);
         
     }
     
@@ -284,12 +351,11 @@ public class SC_PlayerStats : SC_Subject, IDamageable
         
         while (duration != 0)
         {
-            currentHealth -= finalDamage;
+            for (int i = 0; i < poisonMaxStack; i++)
+            {
+                TakeDamage(finalDamage);
+            }
             duration -= tick;
-            
-            // Debug Part
-            print("Dummy : -" + finalDamage + " HP");
-            print((duration+1) + " seconds reamining");
             
             NotifyObservers(currentHealth, maxHealth);
             
