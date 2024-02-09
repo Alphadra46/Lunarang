@@ -20,7 +20,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
     
     public string paramatersString = "";
     
-    private List<string> paramatersWithoutLast;
+    private List<string> paramatersWithoutLast = new List<string>();
         
     private string lastParameter;
     

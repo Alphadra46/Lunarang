@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Enum;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -23,7 +20,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     public int maxHealth = 30;
     [TabGroup("Stats", "HP")]
     public float maxHealthModifier = 0f;
-    [TabGroup("Stats", "HP")] private float maxHealthEffective => maxHealth * (1 + maxHealthModifier);
+    [TabGroup("Stats", "HP")] public float currentMaxHealth => maxHealth * (1 + maxHealthModifier);
     
     #endregion
 
@@ -134,22 +131,10 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     
     #endregion
 
-    #region Debuffs
+    #region Hit Rates
 
     [TabGroup("Stats", "Hit Rates"), MaxValue(100f), MinValue(0f)]
     public float poisonHitRate = 0f;
-    
-    [TabGroup("Stats", "Hit Rates"), MaxValue(4), MinValue(0)]
-    public int poisonStackByHit = 1;
-    [TabGroup("Stats", "Hit Rates"), MaxValue(4), MinValue(3)]
-    public int poisonMaxStack = 3;
-    [TabGroup("Stats", "Hit Rates"), MaxValue("poisonMaxStack"), MinValue(0)]
-    public int poisonCurrentStacks = 3;
-    [TabGroup("Stats", "Hit Rates"), MaxValue(2f), MinValue(0.25f)]
-    public float poisonTick = 2f;
-    [TabGroup("Stats", "Hit Rates"), MaxValue(120f), MinValue(0.25f)]
-    public float poisonDuration = 1;
-    
     
     #endregion
     
@@ -174,25 +159,15 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     #endregion
 
     #region Others
-
+    
+    [TabGroup("Status", "Debugs")]
+    public bool isGod;
+    
     [TabGroup("Stats", "Others")]
     public float healingBonus = 0f;
 
     [TabGroup("Stats", "Others")]
     public float dishesEffectBonus = 0f;
-    
-    #endregion
-    
-    #region Status
-    
-    [TabGroup("Status", "Debuffs")]
-    public List<Enum_Buff> currentBuffs;
-    [TabGroup("Status", "Debuffs")]
-    public List<Enum_Debuff> currentDebuffs;
-    
-    [TabGroup("Status", "Debugs")]
-    public bool isGod;
-    
     
     #endregion
     
@@ -202,7 +177,6 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     public SC_StatsDebug statsDebug = null;
 
     #endregion
-
 
     #region Init
 
@@ -223,145 +197,8 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     /// </summary>
     private void Start()
     {
-        currentHealth = maxHealthEffective;
-        NotifyObservers(currentHealth, maxHealthEffective);
-    }
-    
-    #endregion
-
-    #region Status
-    
-    
-    public void ApplyBuffToSelf(Enum_Buff newBuff)
-    {
-
-        if(currentBuffs.Contains(newBuff)) return;
-        
-        switch (newBuff)
-        {
-            case Enum_Buff.Armor:
-                break;
-            case Enum_Buff.SecondChance:
-                break;
-            case Enum_Buff.Thorns:
-                break;
-            case Enum_Buff.God:
-
-                atkModifier += 1000;
-                bonusCritDMG += 200;
-                bonusCritRate += 95;
-                
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(newBuff), newBuff, null);
-        }
-        
-        currentBuffs.Add(newBuff);
-
-        if (statsDebug != null)
-        {
-            statsDebug.RefreshStats();
-        }
-        
-    }
-    
-    public void RemoveBuffFromSelf(Enum_Buff newBuff)
-    {
-
-        if(!currentBuffs.Contains(newBuff)) return;
-        
-        switch (newBuff)
-        {
-            case Enum_Buff.Armor:
-                break;
-            case Enum_Buff.SecondChance:
-                break;
-            case Enum_Buff.Thorns:
-                break;
-            case Enum_Buff.God:
-                
-                atkModifier -= 1000;
-                bonusCritDMG -= 200;
-                bonusCritRate -= 95;
-                
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(newBuff), newBuff, null);
-        }
-
-        currentBuffs.Remove(newBuff);
-        
-        if (statsDebug != null)
-        {
-            statsDebug.RefreshStats();
-        }
-        
-    }
-    
-    /// <summary>
-    /// Apply a debuff to self with a certain type, a certain activation cooldown and a duration.
-    /// </summary>
-    /// <param name="newDebuff">Debuff to apply</param>
-    public void ApplyDebuffToSelf(Enum_Debuff newDebuff)
-    {
-        
-
-        switch (newDebuff)
-        {
-            
-            case Enum_Debuff.Poison:
-                
-                if (currentDebuffs.Contains(Enum_Debuff.Poison))
-                {
-                    
-                }
-                else
-                {
-                    StartCoroutine(PoisonDoT((maxHealthEffective * 0.1f), poisonTick, poisonDuration));
-                }
-                
-                break;
-            
-            case Enum_Debuff.Bleed:
-                break;
-            case Enum_Debuff.Burn:
-                break;
-            case Enum_Debuff.Freeze:
-                break;
-            case Enum_Debuff.Slowdown:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(newDebuff), newDebuff, null);
-        }
-        
-        currentDebuffs.Add(newDebuff);
-        
-    }
-    
-    /// <summary>
-    /// Coroutine for the poison debuff, apply damage every ticks during a certain duration.
-    /// </summary>
-    /// <param name="incomingDamage">Damage before Damage Reduction</param>
-    /// <param name="tick">Cooldown between to damage</param>
-    /// <param name="duration">Duration before poison expire</param>
-    /// <returns></returns>
-    private IEnumerator PoisonDoT(float incomingDamage, float tick, float duration)
-    {
-        var finalDamage = incomingDamage; // TO-DO : Place Defense here
-        
-        while (duration != 0)
-        {
-            for (int i = 0; i < poisonMaxStack; i++)
-            {
-                TakeDamage(finalDamage);
-            }
-            duration -= tick;
-            
-            NotifyObservers(currentHealth, maxHealth);
-            
-            yield return new WaitForSeconds(tick);
-        }
-
+        currentHealth = currentMaxHealth;
+        NotifyObservers(currentHealth, currentMaxHealth);
     }
     
     #endregion
@@ -383,10 +220,24 @@ public class SC_PlayerStats : SC_Subject, IDamageable
             Death();
         }
         
-        NotifyObservers(currentHealth, maxHealthEffective);
+        NotifyObservers(currentHealth, currentMaxHealth);
     }
 
     public void TakeDamage(float rawDamage, WeaponType weaponType, bool isCrit){}
+    public void TakeDoTDamage(float rawDamage, bool isCrit, Enum_Debuff dotType)
+    {
+        if(_controller.isDashing || isGod) return;
+            
+        var finalDamage = rawDamage - currentDEF;
+        
+        currentHealth = currentHealth - finalDamage < 0 ? 0 : currentHealth - finalDamage;
+        if (DeathCheck())
+        {
+            Death();
+        }
+        
+        NotifyObservers(currentHealth, currentMaxHealth);
+    }
 
     /// <summary>
     /// Heal the player by a certain amount
@@ -397,7 +248,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
         // Check if the heal don't exceed the Max HP limit, if yes, set to max hp, else increment currentHP by healAmount.
         currentHealth = currentHealth + healAmount > maxHealth ? maxHealth : currentHealth + healAmount;
         
-        NotifyObservers(currentHealth, maxHealthEffective);
+        NotifyObservers(currentHealth, currentMaxHealth);
     }
 
     public bool DeathCheck()
@@ -423,8 +274,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
         bonusCritDMG = 0;
         bonusCritRate = 0;
         
-        currentHealth = maxHealthEffective;
-        currentDebuffs.Clear();
+        currentHealth = currentMaxHealth;
     }
     
     /// <summary>

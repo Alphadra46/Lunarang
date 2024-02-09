@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -19,6 +20,8 @@ public class SC_UIManager : MonoBehaviour
     [BoxGroup("Prefabs References")]
     [SerializeField] private GameObject pauseUIPrefab;
     [BoxGroup("Prefabs References")]
+    [SerializeField] private GameObject rewardUIPrefab;
+    [BoxGroup("Prefabs References")]
     [SerializeField] private GameObject gameOverUIPrefab;
     [BoxGroup("Prefabs References")]
     [SerializeField] private GameObject winUIPrefab;
@@ -34,6 +37,8 @@ public class SC_UIManager : MonoBehaviour
     [ShowInInspector] private GameObject inventoryUI;
     [BoxGroup("Temporary References")]
     [ShowInInspector] private GameObject pauseUI;
+    [BoxGroup("Temporary References")]
+    [ShowInInspector] private GameObject rewardUI;
     [BoxGroup("Temporary References")]
     [ShowInInspector] private GameObject gameOverUI;
     [BoxGroup("Temporary References")]
@@ -111,7 +116,7 @@ public class SC_UIManager : MonoBehaviour
     /// </summary>
     public void ShowPauseMenu()
     {
-        print(pauseUI);
+        
         if (pauseUI == null)
         {
             pauseUI = Instantiate(pauseUIPrefab, UIParent.transform);
@@ -124,6 +129,31 @@ public class SC_UIManager : MonoBehaviour
         {
             Destroy(pauseUI);
             pauseUI = null;
+            ShowHUD();
+        }
+        
+    }
+    
+    /// <summary>
+    /// Instanciate Reward Menu Prefab, disabling the render of the HUD.
+    /// </summary>
+    public void ShowRewardMenu()
+    {
+        // print("Reward");
+        if (rewardUI == null)
+        {
+            rewardUI = Instantiate(rewardUIPrefab, UIParent.transform);
+            rewardUI.name = "RewardUI";
+            
+            SC_InputManager.instance.submit.Disable();
+            ShowHUD();
+            
+            // EventSystem.current.SetSelectedGameObject(rewardUI.transform.GetChild(1).gameObject);
+        }
+        else
+        {
+            Destroy(rewardUI);
+            rewardUI = null;
             ShowHUD();
         }
         
@@ -193,4 +223,6 @@ public class SC_UIManager : MonoBehaviour
         gameOverUI = null;
         forgeUI = null;
     }
+    
+    
 }

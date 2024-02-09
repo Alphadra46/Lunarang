@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 75451546300128365}
   - component: {fileID: 75451546300128367}
   - component: {fileID: 75451546300128366}
+  - component: {fileID: 5482220217696511350}
   - component: {fileID: 75451546300128144}
   m_Layer: 10
   m_Name: GO_Dummy
@@ -100,6 +101,25 @@ MonoBehaviour:
   previousWeakness: 
   isBreaked: 0
   currentDebuffs: 
+--- !u!114 &5482220217696511350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75451546300128363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5bc4ba44f66e3f4cb628b754663c1e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentBuffs: 
+  currentDebuffs: 
+  poisonStackByHit: 1
+  poisonMaxStack: 3
+  poisonCurrentStacks: 0
+  poisonTick: 2
+  poisonDuration: 1
 --- !u!114 &75451546300128144
 MonoBehaviour:
   m_ObjectHideFlags: 0

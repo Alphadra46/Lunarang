@@ -223,56 +223,7 @@ public class SC_AIStats : SC_Subject, IDamageable
     
 
     #endregion
-
-    #region Status
-
-    public void ApplyDebuffToSelf(Enum_Debuff newDebuff)
-    {
-        
-        currentDebuffs.Add(newDebuff);
-
-        switch (newDebuff)
-        {
-            case Enum_Debuff.Poison:
-                StartCoroutine(PoisonDoT((currentMaxHealth * 0.1f), 1, 2));
-                break;
-            case Enum_Debuff.Bleed:
-                break;
-            case Enum_Debuff.Burn:
-                break;
-            case Enum_Debuff.Freeze:
-                break;
-            case Enum_Debuff.Slowdown:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(newDebuff), newDebuff, null);
-        }
-        
-    }
-
-    private IEnumerator PoisonDoT(float incomingDamage, float tick, float duration)
-    {
-        var finalDamage = incomingDamage - currentDEF;
-        
-        
-        while (duration != 0)
-        {
-            currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;
-            duration -= tick;
-            
-            // // Debug Part
-            // print("Dummy : -" + finalDamage + " HP");
-            // print((duration+1) + " seconds reamining");
-            
-            _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
-            _renderer.DebugDamage(finalDamage, false);
-            
-            yield return new WaitForSeconds(tick);
-        }
-
-    }
-
-    #endregion
+    
 
     #region Damage Part
 
@@ -345,6 +296,32 @@ public class SC_AIStats : SC_Subject, IDamageable
         
         _stateMachine.OnDamageTaken();
         
+    }
+    
+    public void TakeDoTDamage(float rawDamage, bool isCrit, Enum_Debuff dotType)
+    {
+        // Check if the damage is a Critical one and reduce damage by the current DEF of the entity.
+        var finalDamage = MathF.Round(rawDamage * defMultiplier);
+
+        // Apply damage to the entity. Check if doesn't go below 0.
+        currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;
+
+        // Debug Part
+        print(typeID + " : -" + finalDamage + " HP");
+        print(typeID + " : " + currentHealth + "/" + currentMaxHealth);
+
+        _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
+        _renderer.DebugDamage(finalDamage, isCrit, dotType);
+
+        if (!(currentHealth <= 0)) return;
+        
+        if (_stateMachine == null)
+        {
+            Destroy(gameObject, 1);
+            return;
+        }
+                
+        _stateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
     }
 
     public void Death()
