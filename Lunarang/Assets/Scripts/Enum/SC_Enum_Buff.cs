@@ -6,7 +6,8 @@
         Armor,
         SecondChance,
         Thorns,
-        RelentlessTorment
-        
+        RelentlessTorment,
+        ManaFury
+
     }
 }

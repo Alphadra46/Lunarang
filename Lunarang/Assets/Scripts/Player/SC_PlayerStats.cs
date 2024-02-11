@@ -1,6 +1,10 @@
+using System;
+using System.Collections;
 using Enum;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class SC_PlayerStats : SC_Subject, IDamageable
 {
@@ -20,7 +24,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     public int maxHealth = 30;
     [TabGroup("Stats", "HP")]
     public float maxHealthModifier = 0f;
-    [TabGroup("Stats", "HP")] public float currentMaxHealth => maxHealth * (1 + maxHealthModifier);
+    [TabGroup("Stats", "HP")] public float currentMaxHealth => maxHealth * (1 + (maxHealthModifier/100));
     
     #endregion
 
@@ -35,6 +39,9 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     [TabGroup("Stats", "DEF")]
     public float defModifier = 0f;
     
+    [TabGroup("Stats", "DEF")]
+    [Tooltip("DEF Stat used to reduce damage taken"), ShowInInspector, ReadOnly]
+    public float defMultiplier => (100 / (100 + currentDEF));
 
     #endregion
 
@@ -142,7 +149,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "SPD", SdfIconType.Speedometer, TextColor = "purple"), ShowInInspector]
-    public float currentSpeed => baseSpeed * (1 + speedModifier);
+    public float currentSpeed => baseSpeed * (1 + (speedModifier/100));
     
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "SPD"), SerializeField] public int baseSpeed = 7;
@@ -150,7 +157,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "SPD", SdfIconType.Speedometer, TextColor = "purple"), ShowInInspector]
-    public float currentATKSpeed => baseATKSpeed * (1 + atkSpeedModifier);
+    public float currentATKSpeed => baseATKSpeed * (1 + (atkSpeedModifier/100));
     
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "SPD"), SerializeField] public int baseATKSpeed = 7;
@@ -169,10 +176,36 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     [TabGroup("Stats", "Others")]
     public float dishesEffectBonus = 0f;
     
+
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload")]
+    public int manaOverloadStack = 0;
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload")]
+    public int manaOverloadMaxStack = 2;
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload")]
+    public float manaOverloadDamageBoost = 20;
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload")]
+    public float manaOverloadTick = 0.5f;
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload")]
+    public float manaOverloadDuration = 5f;
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload")]
+    public float manaOverloadDamage = 5f;
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload"),ShowInInspector]
+    private bool inManaOverload;
+    private Coroutine manaOverload;
+    
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Fury")]
+    public float manaFuryMaxHPGate = 25;
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Fury")]
+    public bool inManaFury = false;
+    
+    public SO_Event onDeathEvent;
+    public SO_Event onManaFuryEnableEvent;
+    public SO_Event onManaFuryDisableEvent;
     #endregion
     
     private SC_PlayerController _controller;
     private SC_ComboController _comboController;
+    [HideInInspector] public SC_DebuffsBuffsComponent debuffsBuffsComponent;
 
     public SC_StatsDebug statsDebug = null;
 
@@ -184,14 +217,15 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     /// Set this code into a Singleton
     /// Get the PlayerController
     /// </summary>
-    void Awake()
+    private void Awake()
     {
         instance = this;
         
         if(!TryGetComponent(out _controller)) return;
         if(!TryGetComponent(out _comboController)) return;
+        if(!TryGetComponent(out debuffsBuffsComponent)) return;
     }
-    
+
     /// <summary>
     /// At the start, set currentHP to the maxHP
     /// </summary>
@@ -200,26 +234,50 @@ public class SC_PlayerStats : SC_Subject, IDamageable
         currentHealth = currentMaxHealth;
         NotifyObservers(currentHealth, currentMaxHealth);
     }
-    
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Keypad9)) TakeDamage(5, true);
+        if(Input.GetKeyDown(KeyCode.Keypad8)) Heal(10);
+    }
+
+
+    private void OnEnable()
+    {
+        SC_AIStats.onDeath += onEnemyKilled;
+    }
+
+    private void OnDisable()
+    {
+        SC_AIStats.onDeath -= onEnemyKilled;
+    }
+
     #endregion
 
     /// <summary>
     /// Apply Damage to the Player.
     /// </summary>
     /// <param name="rawDamage">Damage before Damage Reduction</param>
-    public void TakeDamage(float rawDamage)
+    public void TakeDamage(float rawDamage, bool trueDamage = false)
     {
         
         if(_controller.isDashing || isGod) return;
-            
-        var finalDamage = rawDamage - currentDEF;
+
+        var damageTakenMultiplier = (1 + (damageTaken/100));
+        
+        var damageReductionMultiplier = (1 - (damageReduction/100));
+        
+        var finalDamage = !trueDamage ? Mathf.Round((rawDamage * defMultiplier) * damageTakenMultiplier * damageReductionMultiplier) : rawDamage;
         
         currentHealth = currentHealth - finalDamage < 0 ? 0 : currentHealth - finalDamage;
+
+        HealthCheck();
+        
         if (DeathCheck())
         {
             Death();
         }
-        
+
         NotifyObservers(currentHealth, currentMaxHealth);
     }
 
@@ -228,9 +286,16 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     {
         if(_controller.isDashing || isGod) return;
             
-        var finalDamage = rawDamage - currentDEF;
+        var damageTakenMultiplier = (1 * (1 + (dotDamageTaken/100)));
+        
+        var damageReductionMultiplier = (1 * (1 - (damageReduction/100)));
+        
+        var finalDamage = (rawDamage * defMultiplier) * damageTakenMultiplier * damageReductionMultiplier;
         
         currentHealth = currentHealth - finalDamage < 0 ? 0 : currentHealth - finalDamage;
+        
+        HealthCheck();
+        
         if (DeathCheck())
         {
             Death();
@@ -243,27 +308,119 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     /// Heal the player by a certain amount
     /// </summary>
     /// <param name="healAmount"></param>
-    public void Heal(int healAmount)
+    private void Heal(float healAmount)
     {
         // Check if the heal don't exceed the Max HP limit, if yes, set to max hp, else increment currentHP by healAmount.
         currentHealth = currentHealth + healAmount > maxHealth ? maxHealth : currentHealth + healAmount;
+
+        HealthCheck();
         
         NotifyObservers(currentHealth, currentMaxHealth);
     }
 
-    public bool DeathCheck()
+    
+    private bool DeathCheck()
     {
         return currentHealth <= 0;
     }
+
+    public void HealthCheck()
+    {
+        if (currentHealth < (currentMaxHealth * (manaFuryMaxHPGate / 100)) && !inManaFury)
+        {
+            inManaFury = true;
+            onManaFuryEnableEvent?.RaiseEvent();
+        }
+        else if (currentHealth > (currentMaxHealth * (manaFuryMaxHPGate / 100)) && inManaFury)
+        {
+            inManaFury = false;
+            onManaFuryDisableEvent?.RaiseEvent();
+        }
+    }
+    
     
     public void Death()
     {
-        // _controller.canMove = false;
-        // _comboController.canAttack = false;
-        
+        onDeathEvent.RaiseEvent();
+
+        if (SC_SkillManager.instance.CheckHasSkillByName("Souffle de Résurrection"))
+        {
+            SC_SkillManager.instance.allEquippedSkills.Remove(SC_SkillManager.instance.FindSkillByName("Souffle de Résurrection"));
+            return;
+        }
+
         SC_GameManager.instance.ChangeState(GameState.DEFEAT);
     }
+    
+    private void onEnemyKilled()
+    {
 
+        print("Enemy Killed");
+        
+        if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_3_Berserk") && debuffsBuffsComponent.CheckHasBuff(Enum_Buff.SecondChance))
+        {
+
+            if(Random.Range(0, 2) == 1) return;
+            
+            Heal(Mathf.Round(currentMaxHealth * (float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_3_Berserk").buffsParentEffect["healAmount"])/100)));
+
+        }
+
+        if (SC_SkillManager.instance.CheckHasSkillByName("Surcharge d'Essence"))
+        {
+            GainManaOverloadStack();
+
+            if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_2_Berserk") && manaOverloadStack >= 2)
+            {
+                
+                Heal(Mathf.Round(currentMaxHealth * (float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_2_Berserk").buffsParentEffect["healAmount"])/100)));
+                
+            }
+            
+        }
+        
+        
+    }
+
+    private void GainManaOverloadStack()
+    {
+        
+        if(manaOverloadStack >= manaOverloadMaxStack) return;
+
+        manaOverloadStack++;
+        
+        if (inManaOverload && manaOverload != null)
+        {
+            StopCoroutine(manaOverload);
+            damageBonus -= (manaOverloadDamageBoost * (manaOverloadStack - 1));
+            manaOverload = null;
+        }
+        
+        manaOverload = StartCoroutine(ManaOverloadBoost());
+
+    }
+
+    private IEnumerator ManaOverloadBoost()
+    {
+        inManaOverload = true;
+        
+        var duration = manaOverloadDuration;
+        var tempStacks = manaOverloadStack;
+        
+        damageBonus += (manaOverloadDamageBoost * tempStacks);
+
+        while (duration > 0)
+        {
+            TakeDamage(currentMaxHealth * (manaOverloadDamage/100));
+            
+            yield return new WaitForSeconds(manaOverloadTick);
+            duration -= manaOverloadTick;
+        }
+        
+        damageBonus -= (manaOverloadDamageBoost * tempStacks);
+        inManaOverload = false;
+    }
+    
     public void ResetModifiers()
     {
         maxHealthModifier = 0;

@@ -139,9 +139,11 @@ public class SC_UIManager : MonoBehaviour
     /// </summary>
     public void ShowRewardMenu()
     {
-        // print("Reward");
+
         if (rewardUI == null)
         {
+            if(SC_SkillManager.instance.allCurrentRunSkills.Count < 1) return;
+            
             rewardUI = Instantiate(rewardUIPrefab, UIParent.transform);
             rewardUI.name = "RewardUI";
             

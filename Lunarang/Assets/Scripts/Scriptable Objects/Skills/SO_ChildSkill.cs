@@ -13,7 +13,7 @@ public class SO_ChildSkill : SO_BaseSkill
     {
         base.Init();
         
-        // TODO Add children skills.
+        SC_SkillManager.instance.allCurrentRunSkills.Remove(this);
     }
     
 }

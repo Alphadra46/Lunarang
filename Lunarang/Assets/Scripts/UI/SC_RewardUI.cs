@@ -29,18 +29,24 @@ public class SC_RewardUI : MonoBehaviour
         rewardSkills = skills;
     }
 
-    public void RandomSkillReward()
+    private void RandomSkillReward()
     {
-        for (var i = 0; i < 3; i++)
+        var i = 0;
+        var length = SC_SkillManager.instance.allCurrentRunSkills.Count > 2
+            ? 3
+            : SC_SkillManager.instance.allCurrentRunSkills.Count;
+        
+        while (i < length)
         {
-            
-            var index = Random.Range(0, SC_SkillManager.instance.allSkills.Count);
+            var index = Random.Range(0, SC_SkillManager.instance.allCurrentRunSkills.Count);
 
-            if (!rewardSkills.Contains(SC_SkillManager.instance.allSkills[index]))
+            if (rewardSkills.Contains(SC_SkillManager.instance.allCurrentRunSkills[index]))
             {
-                rewardSkills.Add(SC_SkillManager.instance.allSkills[index]);
+                continue;
             }
             
+            rewardSkills.Add(SC_SkillManager.instance.allCurrentRunSkills[index]);
+            i++;
         }
         
         print(rewardSkills.Count);
@@ -48,9 +54,10 @@ public class SC_RewardUI : MonoBehaviour
 
     private void Awake()
     {
+
         RandomSkillReward();
         Init();
-        
+
         EventSystem.current.SetSelectedGameObject(rewards[0]);
     }
 

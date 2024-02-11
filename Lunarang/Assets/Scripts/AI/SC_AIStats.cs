@@ -139,6 +139,8 @@ public class SC_AIStats : SC_Subject, IDamageable
     
     #endregion
 
+    public static Action onDeath;
+    
     private SC_AIRenderer _renderer;
     private NavMeshAgent _agent;
     private AI_StateMachine _stateMachine;
@@ -227,7 +229,7 @@ public class SC_AIStats : SC_Subject, IDamageable
 
     #region Damage Part
 
-    public void TakeDamage(float rawDamage){}
+    public void TakeDamage(float rawDamage, bool trueDamage = false){}
 
     /// <summary>
     /// Calculating real taken damage by the entity.
@@ -274,7 +276,7 @@ public class SC_AIStats : SC_Subject, IDamageable
 
             // Debug Part
             print(typeID + " : -" + finalDamage + " HP");
-            print(typeID + " : " + currentHealth + "/" + currentMaxHealth);
+            // print(typeID + " : " + currentHealth + "/" + currentMaxHealth);
 
             _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
             _renderer.DebugDamage(finalDamage, isCrit);
@@ -283,7 +285,7 @@ public class SC_AIStats : SC_Subject, IDamageable
             {
                 if (_stateMachine == null)
                 {
-                    Destroy(gameObject, 1);
+                    Death();
                     return;
                 }
                 
@@ -307,8 +309,8 @@ public class SC_AIStats : SC_Subject, IDamageable
         currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;
 
         // Debug Part
-        print(typeID + " : -" + finalDamage + " HP");
-        print(typeID + " : " + currentHealth + "/" + currentMaxHealth);
+        print(isCrit ? typeID + " : -" + finalDamage + " CRIIIIT HP" : typeID + " : -" + finalDamage + " HP");
+        // print(typeID + " : " + currentHealth + "/" + currentMaxHealth);
 
         _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
         _renderer.DebugDamage(finalDamage, isCrit, dotType);
@@ -317,7 +319,7 @@ public class SC_AIStats : SC_Subject, IDamageable
         
         if (_stateMachine == null)
         {
-            Destroy(gameObject, 1);
+            Death();
             return;
         }
                 
@@ -327,6 +329,7 @@ public class SC_AIStats : SC_Subject, IDamageable
     public void Death()
     {
         NotifyObservers("enemyDeath");
+        onDeath?.Invoke();
         Destroy(gameObject);
     }
     

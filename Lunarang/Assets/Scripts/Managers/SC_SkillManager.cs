@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Enum;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -16,23 +17,11 @@ public class SC_SkillManager : MonoBehaviour
     {
         if(instance != null) Destroy(this);
         instance = this;
-    }
 
-    private void Update()
-    {
-        
-        if (Input.GetKeyDown(KeyCode.K))
+        foreach (var skill in allSkills.Where(skill => skill.GetType() == typeof(SO_ParentSkill)))
         {
-            AddSkillsToSkillsList(FindSkillByName("Viper's Bite"));
+            allCurrentRunSkills.Add(skill);
         }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            AddSkillsToSkillsList(FindSkillByName("Powerful venom"));
-            AddSkillsToSkillsList(FindSkillByName("Quick Death"));
-            AddSkillsToSkillsList(FindSkillByName("Unbearable pain"));
-            AddSkillsToSkillsList(FindSkillByName("More Infected"));
-        }
-        
     }
 
     public bool CheckHasSkillByName(string skillName)
@@ -59,9 +48,20 @@ public class SC_SkillManager : MonoBehaviour
     {
         if(allEquippedSkills.Contains(newSkill) && newSkill.constellation != ConstellationName.Lunar) return;
         
-       allEquippedSkills.Add(newSkill);
-       newSkill.Init();
+        if (newSkill.skillName == "ChildSkill_3_4_Berserk" && SC_PlayerStats.instance.inManaFury)
+        {
+            SC_PlayerStats.instance.debuffsBuffsComponent.RemoveBuff(Enum_Buff.ManaFury);
+            allEquippedSkills.Add(newSkill);
+            newSkill.Init();
+            SC_PlayerStats.instance.debuffsBuffsComponent.ApplyBuff(Enum_Buff.ManaFury);
+            return;
+        }
         
+        allEquippedSkills.Add(newSkill);
+        newSkill.Init();
+
+       
+       
     }
     
 }

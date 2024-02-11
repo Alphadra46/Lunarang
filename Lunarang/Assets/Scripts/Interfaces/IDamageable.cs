@@ -7,7 +7,7 @@ using Enum;
 public interface IDamageable
 {
 
-    void TakeDamage(float rawDamage);
+    void TakeDamage(float rawDamage, bool trueDamage = false);
 
     void TakeDamage(float rawDamage, WeaponType pWeaponType, bool isCrit);
 

@@ -50,7 +50,33 @@ public enum Stats
     PoisonMaxStack,
     PoisonTick,
     PoisonDuration,
-    PoisonDMG
+    PoisonDMG,
+    
+    BleedHitRate,
+    BleedStackByHit,
+    BleedMaxStack,
+    BleedTick,
+    BleedDuration,
+    BleedDMG,
+    
+    BurnHitRate,
+    BurnAoESize,
+    BurnTick,
+    BurnMaxDuration,
+    BurnAoEHitRate,
+    BurnDMG,
+    
+    FreezeHitRate,
+    FreezeDuration,
+    UnfreezeAoESize,
+    UnfreezeAoEMV,
+    UnfreezeAoEHitRate,
+    
+    ManaOverloadMaxStack,
+    ManaOverloadDamageTick,
+    ManaOverloadDuration,
+    
+    ManaFuryMaxHP
     
 }
 
@@ -94,7 +120,6 @@ public class SO_BaseSkill : SerializedScriptableObject
 
     public void OnEvent()
     {
-        Debug.Log("Eventtttttt");
         SaveStatsBeforeEvent(statsChangedOnEvent);
         
         StatsChanges(statsChangedOnEvent);
@@ -103,8 +128,6 @@ public class SO_BaseSkill : SerializedScriptableObject
     
     public void OnEventEnd()
     {
-        Debug.Log("Eventtttttt ENDO");
-        
         LoadStatsBeforeEvent();
         RemoveBuffs(buffsAppliedOnEvent);
     }
@@ -118,9 +141,8 @@ public class SO_BaseSkill : SerializedScriptableObject
             var value = 0f;
             
             if(stat.Value.Contains("+") || stat.Value.Contains("-")) {
-                var subs = stat.Value.Split('+', '-');
+                var subs = stat.Value.Split('+', '-', '%');
                 value = float.Parse(subs[1]);
-                Debug.Log(value);
             }
             else
             {
@@ -264,6 +286,73 @@ public class SO_BaseSkill : SerializedScriptableObject
                             : stat.Value.Contains("-") ?
                                 debuffsBuffsComponent.dotDurationBonus-value 
                                 : value);
+                    break;
+
+                case Stats.BleedHitRate:
+                    break;
+                case Stats.BleedStackByHit:
+                    break;
+                case Stats.BleedMaxStack:
+                    break;
+                case Stats.BleedTick:
+                    break;
+                case Stats.BleedDuration:
+                    break;
+                case Stats.BleedDMG:
+                    break;
+                
+                case Stats.BurnHitRate:
+                    break;
+                case Stats.BurnAoESize:
+                    break;
+                case Stats.BurnTick:
+                    break;
+                case Stats.BurnMaxDuration:
+                    break;
+                case Stats.BurnAoEHitRate:
+                    break;
+                case Stats.BurnDMG:
+                    break;
+                
+                case Stats.FreezeHitRate:
+                    break;
+                case Stats.FreezeDuration:
+                    break;
+                case Stats.UnfreezeAoESize:
+                    break;
+                case Stats.UnfreezeAoEMV:
+                    break;
+                case Stats.UnfreezeAoEHitRate:
+                    break;
+                
+                case Stats.ManaOverloadMaxStack:
+                    SC_PlayerStats.instance.manaOverloadMaxStack = 
+                        (int) (stat.Value.Contains("+") ? SC_PlayerStats.instance.manaOverloadMaxStack+value 
+                            : stat.Value.Contains("-") ? 
+                                SC_PlayerStats.instance.manaOverloadMaxStack-value 
+                                : value);
+                    break;
+                case Stats.ManaOverloadDamageTick:
+                    SC_PlayerStats.instance.manaOverloadTick = 
+                        stat.Value.Contains("+") && stat.Value.Contains("%")? SC_PlayerStats.instance.manaOverloadTick*(1+(value/100))
+                            : stat.Value.Contains("-") && stat.Value.Contains("%") ? 
+                                SC_PlayerStats.instance.manaOverloadTick*(1-(value/100))
+                                : value;
+                    break;
+                case Stats.ManaOverloadDuration:
+                    SC_PlayerStats.instance.manaOverloadDuration = 
+                        stat.Value.Contains("+") && stat.Value.Contains("%")? SC_PlayerStats.instance.manaOverloadDuration*(1+(value/100))
+                            : stat.Value.Contains("-") && stat.Value.Contains("%") ? 
+                                SC_PlayerStats.instance.manaOverloadDuration*(1-(value/100))
+                                : value;
+                    break;
+
+                case Stats.ManaFuryMaxHP:
+                    SC_PlayerStats.instance.manaFuryMaxHPGate = 
+                        stat.Value.Contains("+")? SC_PlayerStats.instance.manaFuryMaxHPGate+value
+                            : stat.Value.Contains("-") ? 
+                                SC_PlayerStats.instance.manaFuryMaxHPGate-value
+                                : value;
                     break;
                 
                 default:

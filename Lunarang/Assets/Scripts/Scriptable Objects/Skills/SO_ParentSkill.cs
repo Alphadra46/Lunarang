@@ -13,12 +13,12 @@ public class SO_ParentSkill : SO_BaseSkill
     {
         base.Init();
 
-        foreach (var child in childrenSkills.Where(child => !SC_SkillManager.instance.allSkills.Contains(child)))
+        foreach (var child in childrenSkills.Where(child => !SC_SkillManager.instance.allCurrentRunSkills.Contains(child)))
         {
-            SC_SkillManager.instance.allSkills.Add(child);
+            SC_SkillManager.instance.allCurrentRunSkills.Add(child);
         }
 
-        SC_SkillManager.instance.allSkills.Remove(this);
+        SC_SkillManager.instance.allCurrentRunSkills.Remove(this);
     }
     
 }

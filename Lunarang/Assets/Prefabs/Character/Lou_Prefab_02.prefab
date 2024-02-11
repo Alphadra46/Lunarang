@@ -290,7 +290,7 @@ MonoBehaviour:
   currentHealth: 0
   maxHealth: 30
   maxHealthModifier: 0
-  defBase: 1
+  defBase: 10
   defModifier: 0
   atkBase: 25
   atkModifier: 0
@@ -314,6 +314,19 @@ MonoBehaviour:
   isGod: 0
   healingBonus: 0
   dishesEffectBonus: 0
+  manaOverloadStack: 0
+  manaOverloadMaxStack: 2
+  manaOverloadDamageBoost: 20
+  manaOverloadTick: 0.5
+  manaOverloadDuration: 5
+  manaOverloadDamage: 5
+  manaFuryMaxHPGate: 25
+  inManaFury: 0
+  onDeathEvent: {fileID: 11400000, guid: f837962aa1e7a73469b5b0aa065d14a9, type: 2}
+  onManaFuryEnableEvent: {fileID: 11400000, guid: b8ff692fc196aa94ab808ab57117e1b0,
+    type: 2}
+  onManaFuryDisableEvent: {fileID: 11400000, guid: d01cccfa4720d4a45800a3f72941745d,
+    type: 2}
   statsDebug: {fileID: 0}
 --- !u!114 &8708257057910886998
 MonoBehaviour:
@@ -333,7 +346,7 @@ MonoBehaviour:
   poisonStackByHit: 1
   poisonMaxStack: 3
   poisonTick: 2
-  poisonDuration: 1
+  poisonDuration: 10
   poisonDMGBonus: 0
   dotCritDamage: 0
   dotCritRate: 0
