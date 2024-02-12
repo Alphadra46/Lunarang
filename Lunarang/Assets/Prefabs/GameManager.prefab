@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3926022923171039171}
   - component: {fileID: 3926022923171039170}
   - component: {fileID: 3926022923171039169}
+  - component: {fileID: 1391319097674820928}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -258,9 +259,55 @@ MonoBehaviour:
   HUD: {fileID: 8238878915276631935, guid: c27b43478ff3748499d455bc735243b1, type: 3}
   pauseUIPrefab: {fileID: 286761438099523665, guid: 5564a033d5800034882bac3edcd2f80d,
     type: 3}
+  rewardUIPrefab: {fileID: 0}
   gameOverUIPrefab: {fileID: 550541376098313035, guid: 1b0bfc26a7e92f844a7796403fa3ae2d,
     type: 3}
   winUIPrefab: {fileID: 550541376098313035, guid: ce8cb22521b285146bf61787a3f54532,
     type: 3}
   forgeUIPrefab: {fileID: 1495012855393593570, guid: 931edb6bb69bd6042b1f1c6d1b33fc87,
     type: 3}
+--- !u!114 &1391319097674820928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3926022923171039173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 533e90da509e4b36b351e8dd9a2dfef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allSkills:
+  - {fileID: 11400000, guid: f5a100cc77550a94195785e68dfab25d, type: 2}
+  - {fileID: 11400000, guid: 2cd60f8ee806d6744b0be0ce02e5d666, type: 2}
+  - {fileID: 11400000, guid: 0bd24308abeae914585e54a47cc1e497, type: 2}
+  - {fileID: 11400000, guid: ecbca56137aaf0e4186db168b0fb0de7, type: 2}
+  - {fileID: 11400000, guid: 62afe527ab533694fb4311ca0d43ec48, type: 2}
+  - {fileID: 11400000, guid: eb84521358f74f64b816403e4c61a772, type: 2}
+  - {fileID: 11400000, guid: b6ef6e4ac68a0da4f9c5b3b03f01a295, type: 2}
+  - {fileID: 11400000, guid: f8a7387cf400e0f4fa607ffcc42f8ae9, type: 2}
+  - {fileID: 11400000, guid: ca5fec3a0a8ce3a40b703d2f9f53c7af, type: 2}
+  - {fileID: 11400000, guid: dc8b4095cf368d748943acac3a50a792, type: 2}
+  - {fileID: 11400000, guid: 1c8ecdb13df4f664ea6eb95f4c384890, type: 2}
+  - {fileID: 11400000, guid: 7be53a0c7bd318148899089e8ad8923e, type: 2}
+  - {fileID: 11400000, guid: 1fc8b75f8bd1b9041a08c3036b7148da, type: 2}
+  - {fileID: 11400000, guid: 82e0bfda3f3fbab4ba6a7a4320184f7f, type: 2}
+  - {fileID: 11400000, guid: 59872b3b345ffcb41aecf64b3bcd97aa, type: 2}
+  - {fileID: 11400000, guid: 1ea6cba67945cd04d82bafa5ec3a512c, type: 2}
+  - {fileID: 11400000, guid: 823fd5e355914f241ab56384b8ae109e, type: 2}
+  - {fileID: 11400000, guid: 366517f09b0529e46b82b3ecadc1789c, type: 2}
+  - {fileID: 11400000, guid: 0535130397f79a94ebb8bbff691d0d09, type: 2}
+  - {fileID: 11400000, guid: 2779097a85419384ebbf0ae53005f603, type: 2}
+  - {fileID: 11400000, guid: 4a7fc95c2e92bd14ab3fdf17821206b5, type: 2}
+  - {fileID: 11400000, guid: 0c5812258251c8a4aa1ade5abf3ff26c, type: 2}
+  - {fileID: 11400000, guid: b96f8f5cda5932b4198062fa636d1bc2, type: 2}
+  - {fileID: 11400000, guid: 13c73e7bcc14e984ab62106641a97782, type: 2}
+  - {fileID: 11400000, guid: 98365f93a49c09c4882d6e6936bde9f6, type: 2}
+  - {fileID: 11400000, guid: 34ef749acafaf76409db293f2b90636f, type: 2}
+  - {fileID: 11400000, guid: 7e073ea7556a8a94987cead643ab836a, type: 2}
+  - {fileID: 11400000, guid: 055a98dfe611c92448654c45db4ce9e9, type: 2}
+  - {fileID: 11400000, guid: 10f7d670b5bb7d747b992d611a4572fc, type: 2}
+  - {fileID: 11400000, guid: 428c9f6b6cfdec04dafaf212b39b0037, type: 2}
+  allCurrentRunSkills: []
+  allEquippedSkills: []

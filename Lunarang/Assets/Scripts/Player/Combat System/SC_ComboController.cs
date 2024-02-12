@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Enum;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -75,7 +76,13 @@ public class SC_ComboController : MonoBehaviour
 
     #endregion
 
+    #region Events
 
+    [TabGroup("Settings", "Events")]
+    public SO_Event onLastAttack;
+
+    #endregion
+    
     #region Input Buffering
 
     [TabGroup("Settings", "Combo")]
@@ -167,12 +174,6 @@ public class SC_ComboController : MonoBehaviour
         UpdateAnimator();
             
         _controller.FreezeMovement(true);
-        // else if(isInputBufferingOn)
-        // {
-        //     InputBuffering(currentWeapon);
-        // }
-        
-        
         
     }
 
@@ -232,8 +233,12 @@ public class SC_ComboController : MonoBehaviour
             var effDamage = rawDamage * (1 + (_stats.damageBonus/100));
             var effCrit = effDamage * (1 + (_stats.critDMG/100));
             
-            // print(isCritical ? "CRIIIIIT "+ effCrit : effDamage);
             entity.GetComponent<IDamageable>().TakeDamage(isCritical ? effCrit : effDamage, currentWeapon.type, isCritical);
+            
+            if(Random.Range(1, 100) < _stats.poisonHitRate)
+            {
+                entity.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
+            }
             
         }
 
@@ -260,7 +265,7 @@ public class SC_ComboController : MonoBehaviour
         {
             var p = Instantiate(projectilePrefab).GetComponent<SC_Projectile>();
             var angle = Mathf.PI * (i+1) / (number+1);
-            print(angle);
+            // print(angle);
                 
             var x = Mathf.Sin(angle) * 2;
             var z = Mathf.Cos(angle) * 2;
@@ -411,6 +416,8 @@ public class SC_ComboController : MonoBehaviour
             }
 
         }
+        
+        if(comboCounter == comboMaxLength) onLastAttack.RaiseEvent();
         
         // Debug Side
         print("Combo : " + comboCounter + " / Type : " + currentWeapon.type);

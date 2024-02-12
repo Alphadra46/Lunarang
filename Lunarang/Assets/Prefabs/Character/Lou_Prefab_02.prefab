@@ -129,6 +129,7 @@ GameObject:
   - component: {fileID: 3353019030451939601}
   - component: {fileID: 3353019030451939604}
   - component: {fileID: 3353019030451939605}
+  - component: {fileID: 8708257057910886998}
   m_Layer: 31
   m_Name: Lou_Prefab_02
   m_TagString: Player
@@ -241,6 +242,7 @@ MonoBehaviour:
   lastComboParameters: 
   currentComboWeapons: []
   lastComboWeapons: []
+  onLastAttack: {fileID: 11400000, guid: 357009ac74cee5241b32602177b3b39e, type: 2}
   canPerformCombo: 1
   currentEnemiesHitted: []
   _animator: {fileID: 967730642558520258}
@@ -288,20 +290,67 @@ MonoBehaviour:
   currentHealth: 0
   maxHealth: 30
   maxHealthModifier: 0
-  defBase: 1
+  defBase: 10
   defModifier: 0
   atkBase: 25
   atkModifier: 0
-  baseSpeed: 7
-  speedModifier: 0
   baseCritRate: 5
   bonusCritRate: 0
   baseCritDMG: 50
   bonusCritDMG: 0
+  damageReduction: 0
+  damageTaken: 0
+  dotDamageTaken: 0
   damageBonus: 0
-  currentDebuffs: 
+  mhDamageBonus: 0
+  aoeDamageBonus: 0
+  projectileDamageBonus: 0
+  dotDamageBonus: 0
+  poisonHitRate: 0
+  baseSpeed: 7
+  speedModifier: 0
+  baseATKSpeed: 7
+  atkSpeedModifier: 0
   isGod: 0
+  healingBonus: 0
+  dishesEffectBonus: 0
+  manaOverloadStack: 0
+  manaOverloadMaxStack: 2
+  manaOverloadDamageBoost: 20
+  manaOverloadTick: 0.5
+  manaOverloadDuration: 5
+  manaOverloadDamage: 5
+  manaFuryMaxHPGate: 25
+  inManaFury: 0
+  onDeathEvent: {fileID: 11400000, guid: f837962aa1e7a73469b5b0aa065d14a9, type: 2}
+  onManaFuryEnableEvent: {fileID: 11400000, guid: b8ff692fc196aa94ab808ab57117e1b0,
+    type: 2}
+  onManaFuryDisableEvent: {fileID: 11400000, guid: d01cccfa4720d4a45800a3f72941745d,
+    type: 2}
   statsDebug: {fileID: 0}
+--- !u!114 &8708257057910886998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3353019030451939603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5bc4ba44f66e3f4cb628b754663c1e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentBuffs: 
+  currentDebuffs: 
+  poisonCurrentStacks: 0
+  poisonStackByHit: 1
+  poisonMaxStack: 3
+  poisonTick: 2
+  poisonDuration: 10
+  poisonDMGBonus: 0
+  dotCritDamage: 0
+  dotCritRate: 0
+  dotDurationBonus: 0
 --- !u!1 &3353019030740982348
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,17 +795,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 0be476ea3c8edbb46be7d2bbd245d33a,
         type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'Moonset_MAY_PersonnagePrincipal_Rigging_01:sk_streak_R_00'\n\tTransform
-        'Moonset_MAY_PersonnagePrincipal_Rigging_01:sk_shoulder_L'\n\tTransform 'Moonset_MAY_PersonnagePrincipal_Rigging_01:sk_spine'\n\tTransform
-        'Moonset_MAY_PersonnagePrincipal_Rigging_01:sk_shoulder_R'\n\tTransform 'Moonset_MAY_PersonnagePrincipal_Rigging_01:sk_pelvis'\n\tTransform
-        'Moonset_MAY_PersonnagePrincipal_Rigging_01:sk_hip_L'\n\tTransform 'Moonset_MAY_PersonnagePrincipal_Rigging_01:sk_streak_R_00'\n\tTransform
-        'Moonset_MAY_PersonnagePrincipal_Rigging_01:sk_shoulder_L'\n\tTransform 'Moonset_MAY_PersonnagePrincipal_Rigging_01:sk_shoulders'\n\tTransform
-        'Moonset_MAY_PersonnagePrincipal_Rigging_01:sk_fingers_R_01'\n\tand more
-        ...\n\tFrom animation clip 'Anim_Lou_Run_02'\n\tFrom animation clip 'Anim_Lou_DashStart'\n\tFrom
-        animation clip 'Anim_Lou_MarteauCoup1'\n\tFrom animation clip 'Anim_Lou_MarteauCoup1'\n\tFrom
-        animation clip 'Anim_Lou_MarteauCoup1'"
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 0be476ea3c8edbb46be7d2bbd245d33a,
         type: 3}

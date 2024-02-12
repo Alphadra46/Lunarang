@@ -139,6 +139,8 @@ public class SC_AIStats : SC_Subject, IDamageable
     
     #endregion
 
+    public static Action onDeath;
+    
     private SC_AIRenderer _renderer;
     private NavMeshAgent _agent;
     private AI_StateMachine _stateMachine;
@@ -223,50 +225,11 @@ public class SC_AIStats : SC_Subject, IDamageable
     
 
     #endregion
-
-    #region Status
-
-    private void ApplyDebuffToSelf(Enum_Debuff newDebuff, float tick=1, float duration=5)
-    {
-        
-        currentDebuffs.Add(newDebuff);
-
-        switch (newDebuff)
-        {
-            case Enum_Debuff.Poison:
-                StartCoroutine(PoisonDoT((currentMaxHealth * 0.1f), tick, duration));
-                break;
-        }
-        
-    }
-
-    private IEnumerator PoisonDoT(float incomingDamage, float tick, float duration)
-    {
-        var finalDamage = incomingDamage - currentDEF;
-        
-        
-        while (duration != 0)
-        {
-            currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;
-            duration -= tick;
-            
-            // // Debug Part
-            // print("Dummy : -" + finalDamage + " HP");
-            // print((duration+1) + " seconds reamining");
-            
-            _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
-            _renderer.DebugDamage(finalDamage, false);
-            
-            yield return new WaitForSeconds(tick);
-        }
-
-    }
-
-    #endregion
+    
 
     #region Damage Part
 
-    public void TakeDamage(float rawDamage){}
+    public void TakeDamage(float rawDamage, bool trueDamage = false){}
 
     /// <summary>
     /// Calculating real taken damage by the entity.
@@ -313,7 +276,7 @@ public class SC_AIStats : SC_Subject, IDamageable
 
             // Debug Part
             print(typeID + " : -" + finalDamage + " HP");
-            print(typeID + " : " + currentHealth + "/" + currentMaxHealth);
+            // print(typeID + " : " + currentHealth + "/" + currentMaxHealth);
 
             _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
             _renderer.DebugDamage(finalDamage, isCrit);
@@ -322,7 +285,7 @@ public class SC_AIStats : SC_Subject, IDamageable
             {
                 if (_stateMachine == null)
                 {
-                    Destroy(gameObject, 1);
+                    Death();
                     return;
                 }
                 
@@ -336,10 +299,37 @@ public class SC_AIStats : SC_Subject, IDamageable
         _stateMachine.OnDamageTaken();
         
     }
+    
+    public void TakeDoTDamage(float rawDamage, bool isCrit, Enum_Debuff dotType)
+    {
+        // Check if the damage is a Critical one and reduce damage by the current DEF of the entity.
+        var finalDamage = MathF.Round(rawDamage * defMultiplier);
+
+        // Apply damage to the entity. Check if doesn't go below 0.
+        currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;
+
+        // Debug Part
+        print(isCrit ? typeID + " : -" + finalDamage + " CRIIIIT HP" : typeID + " : -" + finalDamage + " HP");
+        // print(typeID + " : " + currentHealth + "/" + currentMaxHealth);
+
+        _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
+        _renderer.DebugDamage(finalDamage, isCrit, dotType);
+
+        if (!(currentHealth <= 0)) return;
+        
+        if (_stateMachine == null)
+        {
+            Death();
+            return;
+        }
+                
+        _stateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
+    }
 
     public void Death()
     {
         NotifyObservers("enemyDeath");
+        onDeath?.Invoke();
         Destroy(gameObject);
     }
     
