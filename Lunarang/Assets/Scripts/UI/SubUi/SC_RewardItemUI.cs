@@ -13,7 +13,8 @@ public class SC_RewardItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public Button button;
     private VerticalLayoutGroup _layoutGroupComponent;
-    
+
+    public Image background;
     public Image image;
     public TextMeshProUGUI title;
     public TextMeshProUGUI description;
@@ -41,28 +42,21 @@ public class SC_RewardItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void OnPointerEnter(PointerEventData eventData)
     {
         transform.localScale = new Vector3(1.05f,1.05f,1.05f);
-        // LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform.parent);
     }
     
     public void OnPointerExit(PointerEventData eventData)
     {
         transform.localScale = new Vector3(1f,1f,1f);
-        // description.gameObject.SetActive(false);
-        // LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform.parent);
     }
     
     public void OnSelect(BaseEventData eventData)
     {
         transform.localScale = new Vector3(1.05f,1.05f,1.05f);
-        // description.gameObject.SetActive(true);
-        // LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform.parent);
     }
 
     public void OnDeselect(BaseEventData eventData)
     {
         transform.localScale = new Vector3(1f,1f,1f);
-        // description.gameObject.SetActive(false);
-        // LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform.parent);
     }
     
     
@@ -79,6 +73,29 @@ public class SC_RewardItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void SetDescription(string newDescription)
     {
         description.text = newDescription;
+    }
+
+    public void SetColor(ConstellationName constellationName)
+    {
+        switch (constellationName)
+        {
+            case ConstellationName.Lunar:
+                background.color = new Color32(113, 52, 235, 255);
+                break;
+            case ConstellationName.DoT:
+                background.color = new Color32(75, 204, 78, 255);
+                break;
+            case ConstellationName.Berserker:
+                background.color = new Color32(204, 75, 75, 255);
+                break;
+            case ConstellationName.Tank:
+                break;
+            case ConstellationName.Freeze:
+                break;
+            default:
+                background.color = new Color32(100, 100, 100, 255);
+                break;
+        }
     }
  
     IEnumerator DelayInput()

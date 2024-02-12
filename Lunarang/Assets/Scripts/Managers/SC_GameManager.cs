@@ -130,11 +130,30 @@ public class SC_GameManager : MonoBehaviour
         SC_UIManager.instance.ShowForge();
     }
     
-    private void OnPauseKey(InputAction.CallbackContext obj)
+    public void OpenRewardChest()
     {
+        if(SC_SkillManager.instance.allCurrentRunSkills.Count < 1) return;
+        
+        SetPause();
+        SC_UIManager.instance.ShowRewardMenu();
+    }
+    
+    public void OnPauseKey(InputAction.CallbackContext obj)
+    {
+        if (SC_UIManager.instance.inventoryUI != null || SC_UIManager.instance.rewardUI != null ||
+            SC_UIManager.instance.winUI != null || SC_UIManager.instance.gameOverUI != null) return;
         SetPause();
         SC_UIManager.instance.ShowPauseMenu();
     }
+    
+    // public void OnEscapeUI(GameObject uiToLeave)
+    // {
+    //     SetPause();
+    //     
+    //     Destroy(uiToLeave);
+    //     uiToLeave = null;
+    //     SC_UIManager.instance.ShowHUD();
+    // }
     
     
 }
