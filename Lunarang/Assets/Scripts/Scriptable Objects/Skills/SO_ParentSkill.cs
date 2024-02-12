@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/ParentSkills", fileName = "ParentSkill")]
@@ -11,8 +12,13 @@ public class SO_ParentSkill : SO_BaseSkill
     public override void Init()
     {
         base.Init();
-        
-        // TODO Add children skills.
+
+        foreach (var child in childrenSkills.Where(child => !SC_SkillManager.instance.allCurrentRunSkills.Contains(child)))
+        {
+            SC_SkillManager.instance.allCurrentRunSkills.Add(child);
+        }
+
+        SC_SkillManager.instance.allCurrentRunSkills.Remove(this);
     }
     
 }

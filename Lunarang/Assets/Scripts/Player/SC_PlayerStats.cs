@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Enum;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class SC_PlayerStats : SC_Subject, IDamageable
 {
@@ -23,7 +24,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     public int maxHealth = 30;
     [TabGroup("Stats", "HP")]
     public float maxHealthModifier = 0f;
-    [TabGroup("Stats", "HP")] private float maxHealthEffective => maxHealth * (1 + maxHealthModifier);
+    [TabGroup("Stats", "HP")] public float currentMaxHealth => maxHealth * (1 + (maxHealthModifier/100));
     
     #endregion
 
@@ -38,6 +39,9 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     [TabGroup("Stats", "DEF")]
     public float defModifier = 0f;
     
+    [TabGroup("Stats", "DEF")]
+    [Tooltip("DEF Stat used to reduce damage taken"), ShowInInspector, ReadOnly]
+    public float defMultiplier => (100 / (100 + currentDEF));
 
     #endregion
 
@@ -134,22 +138,10 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     
     #endregion
 
-    #region Debuffs
+    #region Hit Rates
 
     [TabGroup("Stats", "Hit Rates"), MaxValue(100f), MinValue(0f)]
     public float poisonHitRate = 0f;
-    
-    [TabGroup("Stats", "Hit Rates"), MaxValue(4), MinValue(0)]
-    public int poisonStackByHit = 1;
-    [TabGroup("Stats", "Hit Rates"), MaxValue(4), MinValue(3)]
-    public int poisonMaxStack = 3;
-    [TabGroup("Stats", "Hit Rates"), MaxValue("poisonMaxStack"), MinValue(0)]
-    public int poisonCurrentStacks = 3;
-    [TabGroup("Stats", "Hit Rates"), MaxValue(2f), MinValue(0.25f)]
-    public float poisonTick = 2f;
-    [TabGroup("Stats", "Hit Rates"), MaxValue(120f), MinValue(0.25f)]
-    public float poisonDuration = 1;
-    
     
     #endregion
     
@@ -157,7 +149,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "SPD", SdfIconType.Speedometer, TextColor = "purple"), ShowInInspector]
-    public float currentSpeed => baseSpeed * (1 + speedModifier);
+    public float currentSpeed => baseSpeed * (1 + (speedModifier/100));
     
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "SPD"), SerializeField] public int baseSpeed = 7;
@@ -165,7 +157,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "SPD", SdfIconType.Speedometer, TextColor = "purple"), ShowInInspector]
-    public float currentATKSpeed => baseATKSpeed * (1 + atkSpeedModifier);
+    public float currentATKSpeed => baseATKSpeed * (1 + (atkSpeedModifier/100));
     
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "SPD"), SerializeField] public int baseATKSpeed = 7;
@@ -174,35 +166,50 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     #endregion
 
     #region Others
-
+    
+    [TabGroup("Status", "Debugs")]
+    public bool isGod;
+    
     [TabGroup("Stats", "Others")]
     public float healingBonus = 0f;
 
     [TabGroup("Stats", "Others")]
     public float dishesEffectBonus = 0f;
     
-    #endregion
+
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload")]
+    public int manaOverloadStack = 0;
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload")]
+    public int manaOverloadMaxStack = 2;
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload")]
+    public float manaOverloadDamageBoost = 20;
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload")]
+    public float manaOverloadTick = 0.5f;
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload")]
+    public float manaOverloadDuration = 5f;
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload")]
+    public float manaOverloadDamage = 5f;
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload"),ShowInInspector]
+    private bool inManaOverload;
+    private Coroutine manaOverload;
     
-    #region Status
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Fury")]
+    public float manaFuryMaxHPGate = 25;
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Fury")]
+    public bool inManaFury = false;
     
-    [TabGroup("Status", "Debuffs")]
-    public List<Enum_Buff> currentBuffs;
-    [TabGroup("Status", "Debuffs")]
-    public List<Enum_Debuff> currentDebuffs;
-    
-    [TabGroup("Status", "Debugs")]
-    public bool isGod;
-    
-    
+    public SO_Event onDeathEvent;
+    public SO_Event onManaFuryEnableEvent;
+    public SO_Event onManaFuryDisableEvent;
     #endregion
     
     private SC_PlayerController _controller;
     private SC_ComboController _comboController;
+    [HideInInspector] public SC_DebuffsBuffsComponent debuffsBuffsComponent;
 
     public SC_StatsDebug statsDebug = null;
 
     #endregion
-
 
     #region Init
 
@@ -210,209 +217,210 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     /// Set this code into a Singleton
     /// Get the PlayerController
     /// </summary>
-    void Awake()
+    private void Awake()
     {
         instance = this;
         
         if(!TryGetComponent(out _controller)) return;
         if(!TryGetComponent(out _comboController)) return;
+        if(!TryGetComponent(out debuffsBuffsComponent)) return;
     }
-    
+
     /// <summary>
     /// At the start, set currentHP to the maxHP
     /// </summary>
     private void Start()
     {
-        currentHealth = maxHealthEffective;
-        NotifyObservers(currentHealth, maxHealthEffective);
+        currentHealth = currentMaxHealth;
+        NotifyObservers(currentHealth, currentMaxHealth);
     }
-    
-    #endregion
 
-    #region Status
-    
-    
-    public void ApplyBuffToSelf(Enum_Buff newBuff)
+    private void Update()
     {
-
-        if(currentBuffs.Contains(newBuff)) return;
-        
-        switch (newBuff)
-        {
-            case Enum_Buff.Armor:
-                break;
-            case Enum_Buff.SecondChance:
-                break;
-            case Enum_Buff.Thorns:
-                break;
-            case Enum_Buff.God:
-
-                atkModifier += 1000;
-                bonusCritDMG += 200;
-                bonusCritRate += 95;
-                
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(newBuff), newBuff, null);
-        }
-        
-        currentBuffs.Add(newBuff);
-
-        if (statsDebug != null)
-        {
-            statsDebug.RefreshStats();
-        }
-        
+        if(Input.GetKeyDown(KeyCode.Keypad9)) TakeDamage(5, true);
+        if(Input.GetKeyDown(KeyCode.Keypad8)) Heal(10);
     }
-    
-    public void RemoveBuffFromSelf(Enum_Buff newBuff)
+
+
+    private void OnEnable()
     {
-
-        if(!currentBuffs.Contains(newBuff)) return;
-        
-        switch (newBuff)
-        {
-            case Enum_Buff.Armor:
-                break;
-            case Enum_Buff.SecondChance:
-                break;
-            case Enum_Buff.Thorns:
-                break;
-            case Enum_Buff.God:
-                
-                atkModifier -= 1000;
-                bonusCritDMG -= 200;
-                bonusCritRate -= 95;
-                
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(newBuff), newBuff, null);
-        }
-
-        currentBuffs.Remove(newBuff);
-        
-        if (statsDebug != null)
-        {
-            statsDebug.RefreshStats();
-        }
-        
+        SC_AIStats.onDeath += onEnemyKilled;
     }
-    
-    /// <summary>
-    /// Apply a debuff to self with a certain type, a certain activation cooldown and a duration.
-    /// </summary>
-    /// <param name="newDebuff">Debuff to apply</param>
-    public void ApplyDebuffToSelf(Enum_Debuff newDebuff)
+
+    private void OnDisable()
     {
-        
-
-        switch (newDebuff)
-        {
-            
-            case Enum_Debuff.Poison:
-                
-                if (currentDebuffs.Contains(Enum_Debuff.Poison))
-                {
-                    
-                }
-                else
-                {
-                    StartCoroutine(PoisonDoT((maxHealthEffective * 0.1f), poisonTick, poisonDuration));
-                }
-                
-                break;
-            
-            case Enum_Debuff.Bleed:
-                break;
-            case Enum_Debuff.Burn:
-                break;
-            case Enum_Debuff.Freeze:
-                break;
-            case Enum_Debuff.Slowdown:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(newDebuff), newDebuff, null);
-        }
-        
-        currentDebuffs.Add(newDebuff);
-        
+        SC_AIStats.onDeath -= onEnemyKilled;
     }
-    
-    /// <summary>
-    /// Coroutine for the poison debuff, apply damage every ticks during a certain duration.
-    /// </summary>
-    /// <param name="incomingDamage">Damage before Damage Reduction</param>
-    /// <param name="tick">Cooldown between to damage</param>
-    /// <param name="duration">Duration before poison expire</param>
-    /// <returns></returns>
-    private IEnumerator PoisonDoT(float incomingDamage, float tick, float duration)
-    {
-        var finalDamage = incomingDamage; // TO-DO : Place Defense here
-        
-        while (duration != 0)
-        {
-            for (int i = 0; i < poisonMaxStack; i++)
-            {
-                TakeDamage(finalDamage);
-            }
-            duration -= tick;
-            
-            NotifyObservers(currentHealth, maxHealth);
-            
-            yield return new WaitForSeconds(tick);
-        }
 
-    }
-    
     #endregion
 
     /// <summary>
     /// Apply Damage to the Player.
     /// </summary>
     /// <param name="rawDamage">Damage before Damage Reduction</param>
-    public void TakeDamage(float rawDamage)
+    public void TakeDamage(float rawDamage, bool trueDamage = false)
     {
         
         if(_controller.isDashing || isGod) return;
-            
-        var finalDamage = rawDamage - currentDEF;
+
+        var damageTakenMultiplier = (1 + (damageTaken/100));
+        
+        var damageReductionMultiplier = (1 - (damageReduction/100));
+        
+        var finalDamage = !trueDamage ? Mathf.Round((rawDamage * defMultiplier) * damageTakenMultiplier * damageReductionMultiplier) : rawDamage;
         
         currentHealth = currentHealth - finalDamage < 0 ? 0 : currentHealth - finalDamage;
+
+        HealthCheck();
+        
+        if (DeathCheck())
+        {
+            Death();
+        }
+
+        NotifyObservers(currentHealth, currentMaxHealth);
+    }
+
+    public void TakeDamage(float rawDamage, WeaponType weaponType, bool isCrit){}
+    public void TakeDoTDamage(float rawDamage, bool isCrit, Enum_Debuff dotType)
+    {
+        if(_controller.isDashing || isGod) return;
+            
+        var damageTakenMultiplier = (1 * (1 + (dotDamageTaken/100)));
+        
+        var damageReductionMultiplier = (1 * (1 - (damageReduction/100)));
+        
+        var finalDamage = (rawDamage * defMultiplier) * damageTakenMultiplier * damageReductionMultiplier;
+        
+        currentHealth = currentHealth - finalDamage < 0 ? 0 : currentHealth - finalDamage;
+        
+        HealthCheck();
+        
         if (DeathCheck())
         {
             Death();
         }
         
-        NotifyObservers(currentHealth, maxHealthEffective);
+        NotifyObservers(currentHealth, currentMaxHealth);
     }
-
-    public void TakeDamage(float rawDamage, WeaponType weaponType, bool isCrit){}
 
     /// <summary>
     /// Heal the player by a certain amount
     /// </summary>
     /// <param name="healAmount"></param>
-    public void Heal(int healAmount)
+    private void Heal(float healAmount)
     {
         // Check if the heal don't exceed the Max HP limit, if yes, set to max hp, else increment currentHP by healAmount.
         currentHealth = currentHealth + healAmount > maxHealth ? maxHealth : currentHealth + healAmount;
+
+        HealthCheck();
         
-        NotifyObservers(currentHealth, maxHealthEffective);
+        NotifyObservers(currentHealth, currentMaxHealth);
     }
 
-    public bool DeathCheck()
+    
+    private bool DeathCheck()
     {
         return currentHealth <= 0;
     }
+
+    public void HealthCheck()
+    {
+        if (currentHealth < (currentMaxHealth * (manaFuryMaxHPGate / 100)) && !inManaFury)
+        {
+            inManaFury = true;
+            onManaFuryEnableEvent?.RaiseEvent();
+        }
+        else if (currentHealth > (currentMaxHealth * (manaFuryMaxHPGate / 100)) && inManaFury)
+        {
+            inManaFury = false;
+            onManaFuryDisableEvent?.RaiseEvent();
+        }
+    }
+    
     
     public void Death()
     {
-        // _controller.canMove = false;
-        // _comboController.canAttack = false;
-        
+        onDeathEvent.RaiseEvent();
+
+        if (SC_SkillManager.instance.CheckHasSkillByName("Souffle de Résurrection"))
+        {
+            SC_SkillManager.instance.allEquippedSkills.Remove(SC_SkillManager.instance.FindSkillByName("Souffle de Résurrection"));
+            return;
+        }
+
         SC_GameManager.instance.ChangeState(GameState.DEFEAT);
     }
+    
+    private void onEnemyKilled()
+    {
 
+        print("Enemy Killed");
+        
+        if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_3_Berserk") && debuffsBuffsComponent.CheckHasBuff(Enum_Buff.SecondChance))
+        {
+
+            if(Random.Range(0, 2) == 1) return;
+            
+            Heal(Mathf.Round(currentMaxHealth * (float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_3_Berserk").buffsParentEffect["healAmount"])/100)));
+
+        }
+
+        if (SC_SkillManager.instance.CheckHasSkillByName("Surcharge d'Essence"))
+        {
+            GainManaOverloadStack();
+
+            if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_2_Berserk") && manaOverloadStack >= 2)
+            {
+                
+                Heal(Mathf.Round(currentMaxHealth * (float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_2_Berserk").buffsParentEffect["healAmount"])/100)));
+                
+            }
+            
+        }
+        
+        
+    }
+
+    private void GainManaOverloadStack()
+    {
+        
+        if(manaOverloadStack >= manaOverloadMaxStack) return;
+
+        manaOverloadStack++;
+        
+        if (inManaOverload && manaOverload != null)
+        {
+            StopCoroutine(manaOverload);
+            damageBonus -= (manaOverloadDamageBoost * (manaOverloadStack - 1));
+            manaOverload = null;
+        }
+        
+        manaOverload = StartCoroutine(ManaOverloadBoost());
+
+    }
+
+    private IEnumerator ManaOverloadBoost()
+    {
+        inManaOverload = true;
+        
+        var duration = manaOverloadDuration;
+        var tempStacks = manaOverloadStack;
+        
+        damageBonus += (manaOverloadDamageBoost * tempStacks);
+
+        while (duration > 0)
+        {
+            TakeDamage(currentMaxHealth * (manaOverloadDamage/100));
+            
+            yield return new WaitForSeconds(manaOverloadTick);
+            duration -= manaOverloadTick;
+        }
+        
+        damageBonus -= (manaOverloadDamageBoost * tempStacks);
+        inManaOverload = false;
+    }
+    
     public void ResetModifiers()
     {
         maxHealthModifier = 0;
@@ -423,8 +431,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
         bonusCritDMG = 0;
         bonusCritRate = 0;
         
-        currentHealth = maxHealthEffective;
-        currentDebuffs.Clear();
+        currentHealth = currentMaxHealth;
     }
     
     /// <summary>

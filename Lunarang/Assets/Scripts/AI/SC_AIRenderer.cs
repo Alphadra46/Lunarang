@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enum;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -57,8 +58,41 @@ public class SC_AIRenderer : MonoBehaviour
 
         if (!text.TryGetComponent(out TextMeshProUGUI textMeshProUGUI)) return;
         
-        textMeshProUGUI.text = damageTaken.ToString();
+        textMeshProUGUI.text = damageTaken + (isCrit ? "!!" : "");
         textMeshProUGUI.color = isCrit ?new Color32(235, 56, 56, 255) : new Color32(232, 232, 232, 255);
+    }
+
+    public void DebugDamage(float damageTaken, bool isCrit, Enum_Debuff dotType)
+    {
+        if(DamageUIArea.transform.childCount > 0) Destroy(DamageUIArea.transform.GetChild(0).gameObject);
+        
+        var text = Instantiate(TextDamageUI, DamageUIArea.transform);
+        
+        if(text.TryGetComponent(out RectTransform rect)) rect.anchoredPosition =
+            new Vector3(Random.Range(-40f, 40f), Random.Range(-35f, 35f));
+
+        if (!text.TryGetComponent(out TextMeshProUGUI textMeshProUGUI)) return;
+        
+        textMeshProUGUI.text = damageTaken + (isCrit ? "!!" : "");
+        
+        switch (dotType)
+        {
+            case Enum_Debuff.Poison:
+                textMeshProUGUI.color = isCrit ?new Color32(25, 108, 49, 255) : new Color32(50, 168, 82, 255);
+                break;
+            case Enum_Debuff.Bleed:
+                break;
+            case Enum_Debuff.Burn:
+                break;
+            case Enum_Debuff.Freeze:
+                break;
+            case Enum_Debuff.Slowdown:
+                break;
+            default:
+                textMeshProUGUI.color = isCrit ?new Color32(235, 56, 56, 255) : new Color32(232, 232, 232, 255);
+                break;
+        }
+        
     }
 
     #endregion

@@ -10,7 +10,7 @@ public class SC_InteractableBase : MonoBehaviour, IInteractable
     [SerializeField] private List<UnityEvent> events = new List<UnityEvent>();
 
     private SC_InteractorComponent interactor;
-    private bool isInteractionEnded;
+    public bool isInteractionEnded;
 
     public void Start()
     {

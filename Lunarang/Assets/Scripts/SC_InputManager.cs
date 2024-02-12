@@ -211,7 +211,7 @@ public class SC_InputManager : MonoBehaviour
     /// </summary>
     private void DetectDevice(InputAction.CallbackContext context)
     {
-        Debug.Log(context.action.activeControl.device.name);
+        // Debug.Log(context.action.activeControl.device.name);
         // print(context.action.name);
 
         lastDeviceUsed = context.action.activeControl.device.name;

@@ -5,6 +5,9 @@
         God,
         Armor,
         SecondChance,
-        Thorns
+        Thorns,
+        RelentlessTorment,
+        ManaFury
+
     }
 }

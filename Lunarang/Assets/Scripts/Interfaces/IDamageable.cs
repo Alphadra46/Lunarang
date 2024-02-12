@@ -7,10 +7,10 @@ using Enum;
 public interface IDamageable
 {
 
-    void TakeDamage(float rawDamage);
+    void TakeDamage(float rawDamage, bool trueDamage = false);
 
     void TakeDamage(float rawDamage, WeaponType pWeaponType, bool isCrit);
 
-    void ApplyDebuffToSelf(Enum_Debuff newDebuff);
+    void TakeDoTDamage(float rawDamage, bool isCrit, Enum_Debuff dotType);
 
 }

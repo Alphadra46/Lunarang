@@ -39,6 +39,38 @@ public class SC_InputPrompt : MonoBehaviour
 
     public void Init(string controllerName)
     {
+        if (controllerName == "SwitchProControllerHID" && promptPlaystationImages.Length < 2 && promptSwitchImages.Length < 2 && promptXboxImages.Length < 2)
+        {
+            
+            foreach (var image in images)
+            {
+                if(image != null)
+                    image.gameObject.SetActive(false);
+            }
+            
+            if(images[0] != null){
+                
+                images[0].gameObject.SetActive(true);
+                
+                images[0].sprite = controllerName switch
+                {
+                    "SwitchProControllerHID" => promptSwitchImages[0],
+                    "Keyboard" => promptKeyboardImages[0],
+                    _ => promptKeyboardImages[0]
+                };
+                return;
+            }
+            
+        }
+        else
+        {
+            foreach (var image in images)
+            {
+                if(image != null)
+                    image.gameObject.SetActive(true);
+            }
+        }
+        
         for (var i = 0; i < images.Length; i++)
         {
             if(images[i] != null)

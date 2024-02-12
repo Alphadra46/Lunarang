@@ -820,6 +820,7 @@ GameObject:
   - component: {fileID: 3353019030451939601}
   - component: {fileID: 3353019030451939604}
   - component: {fileID: 3353019030451939605}
+  - component: {fileID: 158719942959658587}
   m_Layer: 31
   m_Name: GO_Player
   m_TagString: Player
@@ -983,16 +984,46 @@ MonoBehaviour:
   defModifier: 0
   atkBase: 25
   atkModifier: 0
-  baseSpeed: 7
-  speedModifier: 0
   baseCritRate: 5
   bonusCritRate: 0
   baseCritDMG: 50
   bonusCritDMG: 0
+  damageReduction: 0
+  damageTaken: 0
+  dotDamageTaken: 0
   damageBonus: 0
-  currentDebuffs: 
+  mhDamageBonus: 0
+  aoeDamageBonus: 0
+  projectileDamageBonus: 0
+  dotDamageBonus: 0
+  poisonHitRate: 0
+  baseSpeed: 7
+  speedModifier: 0
+  baseATKSpeed: 7
+  atkSpeedModifier: 0
   isGod: 0
+  healingBonus: 0
+  dishesEffectBonus: 0
   statsDebug: {fileID: 0}
+--- !u!114 &158719942959658587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3353019030451939603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5bc4ba44f66e3f4cb628b754663c1e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentBuffs: 
+  currentDebuffs: 
+  poisonStackByHit: 1
+  poisonMaxStack: 3
+  poisonCurrentStacks: 3
+  poisonTick: 2
+  poisonDuration: 1
 --- !u!1 &3353019030740982348
 GameObject:
   m_ObjectHideFlags: 0
