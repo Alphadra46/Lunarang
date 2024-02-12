@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum InventoryCategories
 {
@@ -20,21 +22,26 @@ public class SC_InventoryUI : MonoBehaviour
 {
     public GameObject ItemPrefab;
     public Transform contentParent;
-
-
-    private InventoryCategories category = InventoryCategories.All;
-    private List<GameObject> SkillsGO = new List<GameObject>();
     
-    private List<SO_BaseSkill> skillsVisible = new List<SO_BaseSkill>();
+    public Scrollbar scrollbar;
+    private GridLayout _gridLayout;
 
-    private List<SO_ParentSkill> _parentSkills = new List<SO_ParentSkill>();
+
+    [ShowInInspector] private InventoryCategories category = InventoryCategories.All;
+    [ShowInInspector] private List<GameObject> skillsGO = new List<GameObject>();
     
-    private List<SO_BaseSkill> _dotSkills = new List<SO_BaseSkill>();
-    private List<SO_BaseSkill> _berserkSkills = new List<SO_BaseSkill>();
+    [ShowInInspector] private List<SO_BaseSkill> skillsVisible = new List<SO_BaseSkill>();
+
+    [ShowInInspector] private List<SO_ParentSkill> _parentSkills = new List<SO_ParentSkill>();
+    
+    [ShowInInspector] private List<SO_BaseSkill> _dotSkills = new List<SO_BaseSkill>();
+    [ShowInInspector] private List<SO_BaseSkill> _berserkSkills = new List<SO_BaseSkill>();
 
     private void Awake()
     {
         Init();
+        
+        scrollbar.Select();
     }
 
     private void Init()
@@ -58,22 +65,26 @@ public class SC_InventoryUI : MonoBehaviour
         
         
         CreateItems();
+        ChangeCategory((int) InventoryCategories.All);
         
     }
 
-    public void ChangeCategory(InventoryCategories newCategory)
+    public void ChangeCategory(int newCategory)
     {
+        skillsVisible.Clear();
+        
+        category = (InventoryCategories)newCategory;
         
         switch (category)
         {
             case InventoryCategories.All:
-                skillsVisible = SC_SkillManager.instance.allEquippedSkills;
+                skillsVisible = SC_SkillManager.instance.allEquippedSkills.ToList();
                 break;
             case InventoryCategories.DoT:
-                skillsVisible = _dotSkills;
+                skillsVisible = _dotSkills.ToList();
                 break;
             case InventoryCategories.Berserker:
-                skillsVisible = _berserkSkills;
+                skillsVisible = _berserkSkills.ToList();
                 break;
             case InventoryCategories.Tank:
                 break;
@@ -83,27 +94,34 @@ public class SC_InventoryUI : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
         
+        CreateItems();
     }
 
     private void CreateItems()
     {
         
-        if(SkillsGO.Count > 0) ClearItems();
+        if(skillsGO.Count > 0) ClearItems();
         
         foreach (var skill in skillsVisible)
         {
-            var skillGO = Instantiate(ItemPrefab, contentParent).GetComponent<SC_InventoryItemUI>();
+            var skillGO = Instantiate(ItemPrefab, contentParent).GetComponent<SC_RewardItemUI>();
             skillGO.SetTitle(skill.skillName);
             skillGO.SetDescription(skill.shortDescription);
+            skillGO.SetColor(skill.constellation);
                 
-            SkillsGO.Add(skillGO.gameObject);
+            skillsGO.Add(skillGO.gameObject);
         }
         
     }
 
     private void ClearItems()
     {
-        SkillsGO.Clear();
+        foreach (var go in skillsGO)
+        {
+            Destroy(go);
+        }
+        
+        skillsGO.Clear();
     }
 
 }
