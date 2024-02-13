@@ -372,6 +372,7 @@ Transform:
   - {fileID: 1660569206769695633}
   - {fileID: 1660569207660458433}
   - {fileID: 1660569207267538845}
+  - {fileID: 6133761834455583488}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -387,10 +388,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2327fe9fcd8289d4ca85f209489228da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorNorth: {fileID: 1660569207532556727}
-  doorSouth: {fileID: 1660569207532556727}
-  doorWest: {fileID: 1660569207532556727}
-  doorEast: {fileID: 1660569207532556727}
+  isSpecialRoom: 1
+  roomSize: 0
+  roomDifficulty: 0
+  doorNorth: {fileID: 1524589123875724195}
+  doorSouth: {fileID: 1524589123875724195}
+  doorWest: {fileID: 1524589123875724195}
+  doorEast: {fileID: 1524589123875724195}
+  globalSpawnArea: []
+  eliteSpawnArea: []
+  minNumberOfEnemiesEasy: 0
+  maxNumberOfEnemiesEasy: 0
+  minNumberOfEnemiesMedium: 0
+  maxNumberOfEnemiesMedium: 0
+  minNumberOfEnemiesHard: 0
+  maxNumberOfEnemiesHard: 0
+  minNumberOfEnemiesHell: 0
+  maxNumberOfEnemiesHell: 0
+  colliderConfiner: {fileID: 0}
 --- !u!1 &1660569206975816563
 GameObject:
   m_ObjectHideFlags: 0
@@ -1392,6 +1407,7 @@ GameObject:
   - component: {fileID: 1660569207532556730}
   - component: {fileID: 1660569207532556731}
   - component: {fileID: 1660569207532556728}
+  - component: {fileID: 1524589123875724195}
   m_Layer: 0
   m_Name: PolyShape
   m_TagString: Untagged
@@ -1716,6 +1732,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &1524589123875724195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660569207532556729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d2cb3198759e14180cf5288bfd370a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorRenderer: {fileID: 0}
+  doorCollider: {fileID: 0}
+  doorToConnect: {fileID: 0}
+  doorSpawnPoint: {fileID: 0}
 --- !u!1 &1660569207660458443
 GameObject:
   m_ObjectHideFlags: 0
@@ -2054,3 +2086,87 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1 &3320292743227482293
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6133761834455583488}
+  - component: {fileID: 5543249619166559793}
+  m_Layer: 0
+  m_Name: MapIcon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6133761834455583488
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3320292743227482293}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 4.5, y: 10, z: -4.5}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1660569206860243596}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!212 &5543249619166559793
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3320292743227482293}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: e4ea42795d8b6af48ada836a7353ca81, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 5.12, y: 5.12}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0

@@ -9,7 +9,6 @@ public class SC_Pooling : MonoBehaviour
     [Tooltip("The list of every pool needed")]
     public List<SC_PoolStruct> poolList = new List<SC_PoolStruct>();
 
-    private GameObject TEMP;
 
     // Start is called before the first frame update
     void Awake()
@@ -25,17 +24,6 @@ public class SC_Pooling : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            TEMP = GetItemFromPool("Ressources", "Door_TEMP");
-            TEMP.SetActive(true);
-        }
-
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            ReturnItemToPool("Ressources", TEMP);
-            TEMP.SetActive(false);
-        }
     }
 
     private void Initiate()
