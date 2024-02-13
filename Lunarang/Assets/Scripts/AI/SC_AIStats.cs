@@ -330,8 +330,16 @@ public class SC_AIStats : SC_Subject, IDamageable
     {
         NotifyObservers("enemyDeath");
         onDeath?.Invoke();
-        SC_Pooling.instance.ReturnItemToPool("Ennemis", gameObject);
-        gameObject.SetActive(false);
+        
+        if(SC_Pooling.instance != null) {
+            SC_Pooling.instance.ReturnItemToPool("Ennemis", gameObject);
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Destroy(gameObject, 1);    
+        }
+        
     }
     
 
