@@ -72,6 +72,7 @@ public class SC_RewardUI : MonoBehaviour
                 var reward = Instantiate(rewardItemPrefab, rewardParent).GetComponent<SC_RewardItemUI>();
                 reward.SetTitle(skill.skillName);
                 reward.SetDescription(skill.shortDescription);
+                reward.SetColor(skill.constellation);
                 
                 rewards.Add(reward.gameObject);
             }

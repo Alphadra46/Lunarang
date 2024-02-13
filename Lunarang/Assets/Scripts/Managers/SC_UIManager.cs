@@ -32,17 +32,17 @@ public class SC_UIManager : MonoBehaviour
     
     // Main
     [BoxGroup("Temporary References")]
-    [ShowInInspector] private GameObject hudUI;
+    [ShowInInspector] public GameObject hudUI;
     [BoxGroup("Temporary References")]
-    [ShowInInspector] private GameObject inventoryUI;
+    [ShowInInspector] public GameObject inventoryUI;
     [BoxGroup("Temporary References")]
-    [ShowInInspector] private GameObject pauseUI;
+    [ShowInInspector] public GameObject pauseUI;
     [BoxGroup("Temporary References")]
-    [ShowInInspector] private GameObject rewardUI;
+    [ShowInInspector] public GameObject rewardUI;
     [BoxGroup("Temporary References")]
-    [ShowInInspector] private GameObject gameOverUI;
+    [ShowInInspector] public GameObject gameOverUI;
     [BoxGroup("Temporary References")]
-    [ShowInInspector] private GameObject winUI;
+    [ShowInInspector] public GameObject winUI;
     
     // Buildings
     [BoxGroup("Temporary References")]
@@ -119,14 +119,18 @@ public class SC_UIManager : MonoBehaviour
         
         if (pauseUI == null)
         {
+            
+            
             pauseUI = Instantiate(pauseUIPrefab, UIParent.transform);
             pauseUI.name = "PauseUI";
             ShowHUD();
             
             EventSystem.current.SetSelectedGameObject(pauseUI.transform.GetChild(1).gameObject);
+            
         }
         else
         {
+            
             Destroy(pauseUI);
             pauseUI = null;
             ShowHUD();
@@ -142,8 +146,6 @@ public class SC_UIManager : MonoBehaviour
 
         if (rewardUI == null)
         {
-            if(SC_SkillManager.instance.allCurrentRunSkills.Count < 1) return;
-            
             rewardUI = Instantiate(rewardUIPrefab, UIParent.transform);
             rewardUI.name = "RewardUI";
             
@@ -154,6 +156,7 @@ public class SC_UIManager : MonoBehaviour
         }
         else
         {
+            
             Destroy(rewardUI);
             rewardUI = null;
             ShowHUD();

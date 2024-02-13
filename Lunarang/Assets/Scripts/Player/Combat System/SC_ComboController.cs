@@ -78,6 +78,8 @@ public class SC_ComboController : MonoBehaviour
 
     #region Events
 
+    public static Action<int, int> ComboUpdated;
+
     [TabGroup("Settings", "Events")]
     public SO_Event onLastAttack;
 
@@ -421,10 +423,7 @@ public class SC_ComboController : MonoBehaviour
         
         // Debug Side
         print("Combo : " + comboCounter + " / Type : " + currentWeapon.type);
-        foreach (var lasttype in currentComboWeaponTypes)
-        {
-            // print(lasttype);
-        }
+        ComboUpdated?.Invoke(comboCounter == comboMaxLength ? 0 : comboCounter, comboMaxLength);
         
     }
 
@@ -463,17 +462,6 @@ public class SC_ComboController : MonoBehaviour
         // isInputBufferingOn = false;
         print("Buffering Off");
     }
-    
-    // /// <summary>
-    // /// Do the stocked input.
-    // /// </summary>
-    // private void InputBuffering(SC_Weapon nextWeapon)
-    // {
-    //     if (inputBufferedWeapon == null) return;
-    //     
-    //     inputBufferedWeapon = nextWeapon;
-    //     print("Buffered : " + inputBufferedWeapon);
-    // }
     
     #endregion
 

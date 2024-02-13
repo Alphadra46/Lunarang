@@ -2126,6 +2126,7 @@ GameObject:
   - component: {fileID: 7205860742146450974}
   - component: {fileID: 7205860742146450975}
   - component: {fileID: 7205860742146450972}
+  - component: {fileID: 4146342128805756238}
   m_Layer: 0
   m_Name: PolyShape
   m_TagString: Untagged
@@ -2450,6 +2451,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &4146342128805756238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7205860742146450973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d2cb3198759e14180cf5288bfd370a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorRenderer: {fileID: 0}
+  doorCollider: {fileID: 0}
+  doorToConnect: {fileID: 0}
+  doorSpawnPoint: {fileID: 0}
 --- !u!1 &7205860742175656088
 GameObject:
   m_ObjectHideFlags: 0
@@ -2464,6 +2481,7 @@ GameObject:
   - component: {fileID: 7205860742175656085}
   - component: {fileID: 7205860742175656090}
   - component: {fileID: 7205860742175656091}
+  - component: {fileID: 2844832218765135688}
   m_Layer: 0
   m_Name: PolyShape_1
   m_TagString: Untagged
@@ -2788,6 +2806,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &2844832218765135688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7205860742175656088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d2cb3198759e14180cf5288bfd370a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorRenderer: {fileID: 0}
+  doorCollider: {fileID: 0}
+  doorToConnect: {fileID: 0}
+  doorSpawnPoint: {fileID: 0}
 --- !u!1 &7205860742274942578
 GameObject:
   m_ObjectHideFlags: 0
@@ -2853,10 +2887,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2327fe9fcd8289d4ca85f209489228da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorNorth: {fileID: 7205860743448282561}
-  doorSouth: {fileID: 7205860742175656086}
-  doorWest: {fileID: 7205860742146450971}
-  doorEast: {fileID: 7205860743457859479}
+  isSpecialRoom: 0
+  roomSize: 1
+  roomDifficulty: 0
+  doorNorth: {fileID: 5767179371486641354}
+  doorSouth: {fileID: 2844832218765135688}
+  doorWest: {fileID: 4146342128805756238}
+  doorEast: {fileID: 2378069609977611852}
+  globalSpawnArea: []
+  eliteSpawnArea: []
+  minNumberOfEnemiesEasy: 0
+  maxNumberOfEnemiesEasy: 0
+  minNumberOfEnemiesMedium: 0
+  maxNumberOfEnemiesMedium: 0
+  minNumberOfEnemiesHard: 0
+  maxNumberOfEnemiesHard: 0
+  minNumberOfEnemiesHell: 0
+  maxNumberOfEnemiesHell: 0
+  colliderConfiner: {fileID: 0}
 --- !u!1 &7205860742332556283
 GameObject:
   m_ObjectHideFlags: 0
@@ -7394,6 +7442,7 @@ GameObject:
   - component: {fileID: 7205860743448282564}
   - component: {fileID: 7205860743448282565}
   - component: {fileID: 7205860743448282570}
+  - component: {fileID: 5767179371486641354}
   m_Layer: 0
   m_Name: PolyShape_3
   m_TagString: Untagged
@@ -7718,6 +7767,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &5767179371486641354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7205860743448282571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d2cb3198759e14180cf5288bfd370a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorRenderer: {fileID: 0}
+  doorCollider: {fileID: 0}
+  doorToConnect: {fileID: 0}
+  doorSpawnPoint: {fileID: 0}
 --- !u!1 &7205860743457859481
 GameObject:
   m_ObjectHideFlags: 0
@@ -7732,6 +7797,7 @@ GameObject:
   - component: {fileID: 7205860743457859482}
   - component: {fileID: 7205860743457859483}
   - component: {fileID: 7205860743457859480}
+  - component: {fileID: 2378069609977611852}
   m_Layer: 0
   m_Name: PolyShape_2
   m_TagString: Untagged
@@ -8056,6 +8122,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &2378069609977611852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7205860743457859481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d2cb3198759e14180cf5288bfd370a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorRenderer: {fileID: 0}
+  doorCollider: {fileID: 0}
+  doorToConnect: {fileID: 0}
+  doorSpawnPoint: {fileID: 0}
 --- !u!1 &7205860743465738244
 GameObject:
   m_ObjectHideFlags: 0

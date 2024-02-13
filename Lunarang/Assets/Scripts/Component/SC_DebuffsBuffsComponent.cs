@@ -200,7 +200,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 
                 if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_3_DoT"))
                 {
-                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
+                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3_DoT").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
                         ? float.Parse(value1) : 0;
                     effectBonus += value;
                 }

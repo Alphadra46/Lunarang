@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Enum;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -464,6 +465,11 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
                 damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type,
                     isCritical);
+                
+                if(Random.Range(1, 100) < _stats.poisonHitRate)
+                {
+                    e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
+                }
             }
 
         }
@@ -499,6 +505,11 @@ public class SC_FinalATK_Builder : MonoBehaviour
             var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
             damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type,
                 isCritical);
+            
+            if(Random.Range(1, 100) < _stats.poisonHitRate)
+            {
+                e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
+            }
 
             if(!hasAdditionnalHits) continue;
             for (var i = 0; i < additionnalHits; i++)
@@ -510,6 +521,11 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
                 damageable.TakeDamage(isCritical ? effCrit : effDamage,
                     _comboController.currentWeapon.type, isCritical);
+                
+                if(Random.Range(1, 100) < _stats.poisonHitRate)
+                {
+                    e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
+                }
             }
 
         }
