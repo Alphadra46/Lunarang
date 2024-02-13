@@ -5,6 +5,7 @@ using System.Linq;
 using Pathfinding;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEditor.AI;
 using Random = UnityEngine.Random;
 
 public class SC_PathCreator : MonoBehaviour
@@ -740,6 +741,8 @@ public class SC_PathCreator : MonoBehaviour
         boss = bossRoom.gameObject;
         chest = chestRoom.gameObject;
         
+        SC_PlayerController.instance.transform.position = spawn.GetComponent<SC_RoomManager>().doorNorth.doorSpawnPoint.transform.position;
+        
         //Link these rooms to their pre-room
         var roomPos = Vector3.zero;
         var nextRoomPos = Vector3.zero;
@@ -801,6 +804,8 @@ public class SC_PathCreator : MonoBehaviour
         nextRoomDoor.EnableDoor();
         chestRoom.doorNorth.doorToConnect = nextRoomDoor;
         nextRoomDoor.doorToConnect = chestRoom.doorNorth;
+        
+        
         }
         catch (Exception e)
         {
