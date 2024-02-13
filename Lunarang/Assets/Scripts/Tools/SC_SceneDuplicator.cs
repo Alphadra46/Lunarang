@@ -46,8 +46,8 @@ public class SC_SceneDuplicator : MonoBehaviour
         for (var i = 0; i < s.rootCount; i++)
         {
             //TODO - Check if the game object is already in the scene and if it's not different
-            if (IsObjectEqual(gameObjectList[i], objectsInCurrentScene[i]))
-                continue;
+            // if (IsObjectEqual(gameObjectList[i], objectsInCurrentScene[i]))
+            //     continue;
 
             var go = Instantiate(gameObjectList[i]);
             go.name = go.name.Split('(')[0];
