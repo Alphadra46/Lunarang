@@ -10,7 +10,7 @@ public class SC_Door : MonoBehaviour
     public SC_Door doorToConnect;
     public GameObject doorSpawnPoint;
 
-    private SC_RoomManager roomManager;
+    [HideInInspector] public SC_RoomManager roomManager;
 
     public void Initialize(SC_RoomManager roomManager)
     {
@@ -27,25 +27,28 @@ public class SC_Door : MonoBehaviour
     public void EnableDoor()
     {
         doorRenderer.enabled = true;
-        doorCollider.enabled = true;
+        doorCollider.isTrigger = true;
     }
     
     public void DisableDoor()
     {
         doorRenderer.enabled = false;
-        doorCollider.enabled = false;
+        doorCollider.isTrigger = false;
     }
 
     public void OnEnterRoom()
     {
+        SC_PlayerController.instance.FreezeMovement(true);
         SC_PlayerController.instance.transform.position = doorSpawnPoint.transform.position; //TODO - Smooth the transition later
+        SC_PlayerController.instance.FreezeMovement(false);
+
         roomManager.ChangeConfiner();
-        if (!roomManager.isSpecialRoom)
+        if (!roomManager.isSpecialRoom && !roomManager.isClear)
         {
             roomManager.SpawnEnemies();
             roomManager.LockDoors();
+            SC_AIStats.onDeath += roomManager.DecreaseEnemiesCount;
         }
-        
     }
 
     public void OnExitRoom()

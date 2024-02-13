@@ -190,6 +190,7 @@ public class SC_PlayerController : MonoBehaviour
         var rotation = Quaternion.Euler(0, 45f, 0);
         var isoMatrix = Matrix4x4.Rotate(rotation);
         var result = isoMatrix.MultiplyPoint3x4(positionToLookAt);
+        
 
         if (!isMovementInputPressed) return;
         

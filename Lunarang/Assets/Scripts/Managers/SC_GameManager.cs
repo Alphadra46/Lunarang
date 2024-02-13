@@ -83,7 +83,7 @@ public class SC_GameManager : MonoBehaviour
         {
             case GameState.LOBBY:
                 if (isPause) SetPause();
-                SceneManager.LoadScene(1, LoadSceneMode.Single);
+                SC_UIManager.instance.CreateLoadingScreen(1);
                 SC_UIManager.instance.ResetTempReferences();
                 break;
             case GameState.RUN:
@@ -118,6 +118,8 @@ public class SC_GameManager : MonoBehaviour
         #endif
     }
 
+    
+    
     public void OpenInventory()
     {
         SetPause();
@@ -145,6 +147,7 @@ public class SC_GameManager : MonoBehaviour
         SetPause();
         SC_UIManager.instance.ShowPauseMenu();
     }
+    
     
     // public void OnEscapeUI(GameObject uiToLeave)
     // {
