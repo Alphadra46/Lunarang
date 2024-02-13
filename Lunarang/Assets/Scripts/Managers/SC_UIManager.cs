@@ -27,22 +27,26 @@ public class SC_UIManager : MonoBehaviour
     [SerializeField] private GameObject winUIPrefab;
     [BoxGroup("Prefabs References")]
     [SerializeField] private GameObject forgeUIPrefab;
+    [BoxGroup("Prefabs References")]
+    [SerializeField] private GameObject loadingScreenPrefab;
 
     #region Temporary References
     
     // Main
     [BoxGroup("Temporary References")]
-    [ShowInInspector] private GameObject hudUI;
+    [ShowInInspector] public GameObject hudUI;
     [BoxGroup("Temporary References")]
-    [ShowInInspector] private GameObject inventoryUI;
+    [ShowInInspector] public GameObject inventoryUI;
     [BoxGroup("Temporary References")]
-    [ShowInInspector] private GameObject pauseUI;
+    [ShowInInspector] public GameObject pauseUI;
     [BoxGroup("Temporary References")]
-    [ShowInInspector] private GameObject rewardUI;
+    [ShowInInspector] public GameObject rewardUI;
     [BoxGroup("Temporary References")]
-    [ShowInInspector] private GameObject gameOverUI;
+    [ShowInInspector] public GameObject gameOverUI;
     [BoxGroup("Temporary References")]
-    [ShowInInspector] private GameObject winUI;
+    [ShowInInspector] public GameObject winUI;
+    [BoxGroup("Temporary References")]
+    [ShowInInspector] public GameObject loadingScreenUI;
     
     // Buildings
     [BoxGroup("Temporary References")]
@@ -119,14 +123,18 @@ public class SC_UIManager : MonoBehaviour
         
         if (pauseUI == null)
         {
+            
+            
             pauseUI = Instantiate(pauseUIPrefab, UIParent.transform);
             pauseUI.name = "PauseUI";
             ShowHUD();
             
             EventSystem.current.SetSelectedGameObject(pauseUI.transform.GetChild(1).gameObject);
+            
         }
         else
         {
+            
             Destroy(pauseUI);
             pauseUI = null;
             ShowHUD();
@@ -142,8 +150,6 @@ public class SC_UIManager : MonoBehaviour
 
         if (rewardUI == null)
         {
-            if(SC_SkillManager.instance.allCurrentRunSkills.Count < 1) return;
-            
             rewardUI = Instantiate(rewardUIPrefab, UIParent.transform);
             rewardUI.name = "RewardUI";
             
@@ -154,6 +160,7 @@ public class SC_UIManager : MonoBehaviour
         }
         else
         {
+            
             Destroy(rewardUI);
             rewardUI = null;
             ShowHUD();
@@ -213,6 +220,26 @@ public class SC_UIManager : MonoBehaviour
             Destroy(winUI);
             ShowHUD();
         }
+    }
+    
+    public void CreateLoadingScreen(int sceneIndex)
+    {
+
+        loadingScreenUI = Instantiate(loadingScreenPrefab);
+        if (loadingScreenUI.TryGetComponent(out SC_LoadingScene loadingScript))
+        {
+         
+            loadingScript.LoadScene(sceneIndex);
+            
+        }
+        if(hudUI != null) ShowHUD();
+
+    }
+
+    public void DestroyLoadingScreen()
+    {
+        Destroy(loadingScreenUI);
+        loadingScreenUI = null;
     }
     
     public void ResetTempReferences()
