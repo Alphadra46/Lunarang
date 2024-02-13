@@ -27,13 +27,13 @@ public class SC_Door : MonoBehaviour
     public void EnableDoor()
     {
         doorRenderer.enabled = true;
-        doorCollider.enabled = true;
+        doorCollider.isTrigger = true;
     }
     
     public void DisableDoor()
     {
         doorRenderer.enabled = false;
-        doorCollider.enabled = false;
+        doorCollider.isTrigger = false;
     }
 
     public void OnEnterRoom()

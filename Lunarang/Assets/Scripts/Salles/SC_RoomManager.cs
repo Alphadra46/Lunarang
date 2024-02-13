@@ -126,7 +126,7 @@ public class SC_RoomManager : MonoBehaviour
 
         int numberOfEnemies = Random.Range((int)numberOfEnemiesRange.x, (int)numberOfEnemiesRange.y);
 
-        var enemiesPool = SC_Pooling.instance.poolList.Find(s => s.poolName == "Enemies");
+        var enemiesPool = SC_Pooling.instance.poolList.Find(s => s.poolName == "Ennemis");
         
         if (!canEliteSpawn)
         {
@@ -136,8 +136,30 @@ public class SC_RoomManager : MonoBehaviour
         
         for (int i = 0; i < numberOfEnemies; i++)
         {
-            enemiesInRoom.Add(SC_Pooling.instance.GetItemFromPool("Enemies",enemiesPool.subPoolsList[Random.Range(0,enemiesPool.subPoolsList.Count)].subPoolTransform.gameObject.name));
+            enemiesInRoom.Add(SC_Pooling.instance.GetItemFromPool("Ennemis",enemiesPool.subPoolsList[Random.Range(0,enemiesPool.subPoolsList.Count)].subPoolTransform.gameObject.name));
         }
+
+        foreach (var enemy in enemiesInRoom)
+        {
+            Bounds spawnBounds = new Bounds();
+            Collider spawnArea = new Collider();
+            
+            if (enemy.name=="GO_Bully" || enemy.name=="GO_Summoner")
+            {
+                spawnArea = eliteSpawnArea[Random.Range(0, eliteSpawnArea.Count)].GetComponent<Collider>();
+                spawnBounds = spawnArea.bounds;
+                enemy.transform.position = new Vector3(spawnBounds.center.x + Random.Range(-spawnBounds.extents.x,spawnBounds.extents.x), enemy.transform.position.y, spawnBounds.center.z + Random.Range(-spawnBounds.extents.z, spawnBounds.extents.z));
+            }
+            else
+            {
+                spawnArea = globalSpawnArea[Random.Range(0, globalSpawnArea.Count)].GetComponent<Collider>();
+                spawnBounds = spawnArea.bounds;
+                enemy.transform.position = new Vector3(spawnBounds.center.x + Random.Range(-spawnBounds.extents.x,spawnBounds.extents.x), enemy.transform.position.y, spawnBounds.center.z + Random.Range(-spawnBounds.extents.z, spawnBounds.extents.z));
+            }
+            
+            enemy.SetActive(true);
+        }
+        
         
         Debug.Log("Spawning first wave !");
     }
