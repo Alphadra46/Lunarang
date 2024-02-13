@@ -183,6 +183,13 @@ public class SC_AIStats : SC_Subject, IDamageable
     
     #endregion
 
+    private void ResetStats()
+    {
+
+        currentHealth = currentMaxHealth;
+
+    }
+
     #region Shield Part
     
     /// <summary>
@@ -334,6 +341,7 @@ public class SC_AIStats : SC_Subject, IDamageable
         if(SC_Pooling.instance != null) {
             SC_Pooling.instance.ReturnItemToPool("Ennemis", gameObject);
             gameObject.SetActive(false);
+            ResetStats();
         }
         else
         {

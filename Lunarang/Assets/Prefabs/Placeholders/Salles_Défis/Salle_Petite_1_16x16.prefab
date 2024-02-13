@@ -1146,6 +1146,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 3457972167101523997}
+  roomManager: {fileID: 0}
 --- !u!1 &1174294688925884871
 GameObject:
   m_ObjectHideFlags: 0
@@ -1502,6 +1503,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 1991855613023264067}
+  roomManager: {fileID: 0}
 --- !u!1 &1174294688939873313
 GameObject:
   m_ObjectHideFlags: 0
@@ -5660,6 +5662,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 2022128134121719405}
+  roomManager: {fileID: 0}
 --- !u!1 &1174294689515222698
 GameObject:
   m_ObjectHideFlags: 0
@@ -6392,6 +6395,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 4697727990964354497}
+  roomManager: {fileID: 0}
 --- !u!1 &1174294689634547957
 GameObject:
   m_ObjectHideFlags: 0
@@ -6740,6 +6744,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1174294689664053555}
   - component: {fileID: 1952729192302310498}
+  - component: {fileID: 1564898649857213795}
   m_Layer: 0
   m_Name: Salle_Petite_1_16x16
   m_TagString: Untagged
@@ -6778,6 +6783,7 @@ Transform:
   - {fileID: 1174294689451935148}
   - {fileID: 1174294689470720755}
   - {fileID: 1381561104895660467}
+  - {fileID: 8022831421066847968}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6811,7 +6817,37 @@ MonoBehaviour:
   maxNumberOfEnemiesHard: 8
   minNumberOfEnemiesHell: 8
   maxNumberOfEnemiesHell: 10
-  colliderConfiner: {fileID: 0}
+  colliderConfiner: {fileID: 5077913125403151086}
+  isClear: 0
+--- !u!114 &1564898649857213795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174294689664053552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 23800000, guid: 28ba3277dcbec7346b8e167810cd7038, type: 2}
 --- !u!1 &1174294689865262464
 GameObject:
   m_ObjectHideFlags: 0
@@ -7281,6 +7317,51 @@ Transform:
   m_Father: {fileID: 1174294689525655995}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4883740569976649362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8022831421066847968}
+  - component: {fileID: 5077913125403151086}
+  m_Layer: 0
+  m_Name: Box Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8022831421066847968
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4883740569976649362}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5, y: 0, z: -5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1174294689664053555}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5077913125403151086
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4883740569976649362}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 17.930367, y: 1, z: 17.957554}
+  m_Center: {x: -4.9192123, y: 0, z: 5.1921597}
 --- !u!1 &7129876638075253696
 GameObject:
   m_ObjectHideFlags: 0

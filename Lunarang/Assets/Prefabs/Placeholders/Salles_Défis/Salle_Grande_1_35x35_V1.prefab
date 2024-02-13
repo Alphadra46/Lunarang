@@ -1,5 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &447334389981020324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5559298036821186207}
+  - component: {fileID: 97861203083832081}
+  m_Layer: 0
+  m_Name: Box Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5559298036821186207
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447334389981020324}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5, y: 0, z: -5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8470611467728168291}
+  m_RootOrder: 29
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &97861203083832081
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447334389981020324}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 37.126038, y: 1, z: 37.206093}
+  m_Center: {x: -4.7613983, y: 0, z: 4.9702845}
 --- !u!1 &5839290531240242403
 GameObject:
   m_ObjectHideFlags: 0
@@ -3460,6 +3505,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8470611467728168291}
   - component: {fileID: 30992692004427389}
+  - component: {fileID: 6693684734073803620}
   m_Layer: 0
   m_Name: Salle_Grande_1_35x35_V1
   m_TagString: Untagged
@@ -3508,6 +3554,7 @@ Transform:
   - {fileID: 8470611467592267415}
   - {fileID: 825732878119439576}
   - {fileID: 949826101611778810}
+  - {fileID: 5559298036821186207}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3542,7 +3589,37 @@ MonoBehaviour:
   maxNumberOfEnemiesHard: 8
   minNumberOfEnemiesHell: 8
   maxNumberOfEnemiesHell: 10
-  colliderConfiner: {fileID: 0}
+  colliderConfiner: {fileID: 97861203083832081}
+  isClear: 0
+--- !u!114 &6693684734073803620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8470611467728168290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 23800000, guid: e901d87f521856c4db98963881705ec2, type: 2}
 --- !u!1 &8470611467790020036
 GameObject:
   m_ObjectHideFlags: 0
@@ -5255,6 +5332,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 7170124693675698135}
+  roomManager: {fileID: 0}
 --- !u!1 &8470611467912852219
 GameObject:
   m_ObjectHideFlags: 0
@@ -6370,6 +6448,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 5864819083170796000}
+  roomManager: {fileID: 0}
 --- !u!1 &8470611468189504710
 GameObject:
   m_ObjectHideFlags: 0
@@ -7064,6 +7143,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 8141931705235796128}
+  roomManager: {fileID: 0}
 --- !u!1 &8470611468217196799
 GameObject:
   m_ObjectHideFlags: 0
@@ -10622,6 +10702,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 7575343657305432312}
+  roomManager: {fileID: 0}
 --- !u!1 &8470611469104198144
 GameObject:
   m_ObjectHideFlags: 0

@@ -494,6 +494,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 3212579726756940592}
+  roomManager: {fileID: 0}
 --- !u!1 &3898252628438194770
 GameObject:
   m_ObjectHideFlags: 0
@@ -3714,6 +3715,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 43422744859326847}
+  roomManager: {fileID: 0}
 --- !u!1 &3898252628989180537
 GameObject:
   m_ObjectHideFlags: 0
@@ -5771,6 +5773,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 9207329263972303501}
+  roomManager: {fileID: 0}
 --- !u!1 &3898252629615120227
 GameObject:
   m_ObjectHideFlags: 0
@@ -6127,6 +6130,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 460789149039949253}
+  roomManager: {fileID: 0}
 --- !u!1 &3898252629830550104
 GameObject:
   m_ObjectHideFlags: 0
@@ -6137,6 +6141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3898252629830550107}
   - component: {fileID: 7438239145566868856}
+  - component: {fileID: 5599020235785743194}
   m_Layer: 0
   m_Name: Salle_Moyenne_1_25x25
   m_TagString: Untagged
@@ -6175,6 +6180,7 @@ Transform:
   - {fileID: 3898252629871629978}
   - {fileID: 3941667038558105001}
   - {fileID: 8843959622188548174}
+  - {fileID: 6702653199417345179}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6209,7 +6215,37 @@ MonoBehaviour:
   maxNumberOfEnemiesHard: 8
   minNumberOfEnemiesHell: 8
   maxNumberOfEnemiesHell: 10
-  colliderConfiner: {fileID: 0}
+  colliderConfiner: {fileID: 2971900919152082295}
+  isClear: 0
+--- !u!114 &5599020235785743194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3898252629830550104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 23800000, guid: b3a6d7a3af1c54b468549151044f633f, type: 2}
 --- !u!1 &3898252629871629980
 GameObject:
   m_ObjectHideFlags: 0
@@ -7383,6 +7419,51 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 1, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &7708777067978537242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6702653199417345179}
+  - component: {fileID: 2971900919152082295}
+  m_Layer: 0
+  m_Name: Box Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6702653199417345179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7708777067978537242}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5, y: 0, z: -5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3898252629830550107}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2971900919152082295
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7708777067978537242}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 27.006702, y: 1, z: 26.951883}
+  m_Center: {x: -4.8843746, y: 0, z: 4.5697775}
 --- !u!1 &9207329263972303501
 GameObject:
   m_ObjectHideFlags: 0
