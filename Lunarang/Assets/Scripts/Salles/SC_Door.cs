@@ -38,7 +38,6 @@ public class SC_Door : MonoBehaviour
 
     public void OnEnterRoom()
     {
-        SC_PlayerController.instance.FreezeMovement(true);
         SC_PlayerController.instance.transform.position = doorSpawnPoint.transform.position; //TODO - Smooth the transition later
         SC_PlayerController.instance.FreezeMovement(false);
 
@@ -53,6 +52,7 @@ public class SC_Door : MonoBehaviour
 
     public void OnExitRoom()
     {
+        SC_PlayerController.instance.FreezeMovement(true);
         doorToConnect.OnEnterRoom();
     }
     
