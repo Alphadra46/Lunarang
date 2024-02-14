@@ -21,6 +21,10 @@ public class SC_Door : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
+        if (!other.CompareTag("Player"))
+            return;
+        
+        
         OnExitRoom();
     }
 
@@ -38,9 +42,9 @@ public class SC_Door : MonoBehaviour
 
     public void OnEnterRoom()
     {
-        SC_PlayerController.instance.FreezeMovement(true);
+        //SC_PlayerController.instance.FreezeMovement(true);
         SC_PlayerController.instance.transform.position = doorSpawnPoint.transform.position; //TODO - Smooth the transition later
-        SC_PlayerController.instance.FreezeMovement(false);
+        //SC_PlayerController.instance.FreezeMovement(false);
 
         roomManager.ChangeConfiner();
         if (!roomManager.isSpecialRoom && !roomManager.isClear)
