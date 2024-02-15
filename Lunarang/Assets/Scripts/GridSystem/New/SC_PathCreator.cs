@@ -740,7 +740,7 @@ public class SC_PathCreator : MonoBehaviour
         boss = bossRoom.gameObject;
         chest = chestRoom.gameObject;
         
-        SC_PlayerController.instance.transform.position = spawn.GetComponent<SC_RoomManager>().doorNorth.doorSpawnPoint.transform.position;
+        SC_PlayerController.instance.transform.position = new Vector3(spawn.GetComponent<SC_RoomManager>().doorNorth.doorSpawnPoint.transform.position.x, 0, spawn.GetComponent<SC_RoomManager>().doorNorth.doorSpawnPoint.transform.position.z);
         
         //Link these rooms to their pre-room
         var roomPos = Vector3.zero;

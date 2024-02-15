@@ -161,6 +161,7 @@ public class SC_RoomManager : MonoBehaviour
             }
             
             enemy.SetActive(true);
+            enemy.GetComponent<AI_StateMachine>().TransitionToState(AI_StateMachine.EnemyState.Idle);
         }
         
         
@@ -199,7 +200,8 @@ public class SC_RoomManager : MonoBehaviour
     {
         foreach (var door in activeDoors)
         {
-            door.doorCollider.isTrigger = true;
+            if(door.doorCollider != null)
+                door.doorCollider.isTrigger = true;
         }
     }
 

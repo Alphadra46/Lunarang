@@ -187,6 +187,8 @@ public class SC_AIStats : SC_Subject, IDamageable
     {
 
         currentHealth = currentMaxHealth;
+        _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
+        _renderer.RemoveDebugDamageChildren();
 
     }
 
@@ -275,6 +277,7 @@ public class SC_AIStats : SC_Subject, IDamageable
         else
         {
         
+            
             // Check if the damage is a Critical one and reduce damage by the current DEF of the entity.
             var finalDamage = MathF.Round(rawDamage * defMultiplier);
 
@@ -309,6 +312,7 @@ public class SC_AIStats : SC_Subject, IDamageable
     
     public void TakeDoTDamage(float rawDamage, bool isCrit, Enum_Debuff dotType)
     {
+        
         // Check if the damage is a Critical one and reduce damage by the current DEF of the entity.
         var finalDamage = MathF.Round(rawDamage * defMultiplier);
 
