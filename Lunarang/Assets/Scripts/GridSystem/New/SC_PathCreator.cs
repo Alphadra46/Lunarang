@@ -5,7 +5,6 @@ using System.Linq;
 using Pathfinding;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEditor.AI;
 using Random = UnityEngine.Random;
 
 public class SC_PathCreator : MonoBehaviour
