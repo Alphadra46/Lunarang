@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 645609133007123420}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.57, y: 0, z: 1.53}
+  m_LocalPosition: {x: 1.57, y: 0.5, z: 1.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -145,7 +145,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2508145086638311179}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.99, y: 0, z: 1.34}
+  m_LocalPosition: {x: -1.99, y: 0.5, z: 1.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -176,7 +176,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3769913744195220823}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.41, y: 0, z: 2.61}
+  m_LocalPosition: {x: 1.41, y: 0.5, z: 2.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -953,6 +953,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 3769913744195220823}
+  roomManager: {fileID: 0}
 --- !u!1 &4441531128824844248
 GameObject:
   m_ObjectHideFlags: 0
@@ -4985,6 +4986,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4441531129669478410}
   - component: {fileID: 7368929765027619042}
+  - component: {fileID: 1175633740944286570}
   m_Layer: 0
   m_Name: Salle_Grande_1_35x35_V2
   m_TagString: Untagged
@@ -5034,6 +5036,7 @@ Transform:
   - {fileID: 8383933553767787713}
   - {fileID: 699109440938564258}
   - {fileID: 3987341358559743366}
+  - {fileID: 3543808774626185189}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5069,7 +5072,37 @@ MonoBehaviour:
   maxNumberOfEnemiesHard: 8
   minNumberOfEnemiesHell: 8
   maxNumberOfEnemiesHell: 10
-  colliderConfiner: {fileID: 0}
+  colliderConfiner: {fileID: 2574108454115133058}
+  isClear: 0
+--- !u!114 &1175633740944286570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4441531129669478411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 23800000, guid: 4457a6540f86b1f44ae69b3ebd07252a, type: 2}
 --- !u!1 &4441531129687370031
 GameObject:
   m_ObjectHideFlags: 0
@@ -7044,6 +7077,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 2508145086638311179}
+  roomManager: {fileID: 0}
 --- !u!1 &4441531129985223844
 GameObject:
   m_ObjectHideFlags: 0
@@ -10237,6 +10271,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 7606024761475073521}
+  roomManager: {fileID: 0}
 --- !u!1 &4441531130461813485
 GameObject:
   m_ObjectHideFlags: 0
@@ -11235,6 +11270,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 645609133007123420}
+  roomManager: {fileID: 0}
 --- !u!1 &4441531130765610111
 GameObject:
   m_ObjectHideFlags: 0
@@ -11649,6 +11685,51 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1 &7365596470375881303
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3543808774626185189}
+  - component: {fileID: 2574108454115133058}
+  m_Layer: 30
+  m_Name: Box Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &3543808774626185189
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7365596470375881303}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5, y: 6, z: -5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4441531129669478410}
+  m_RootOrder: 30
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2574108454115133058
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7365596470375881303}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 37.033634, y: 1, z: 37.113686}
+  m_Center: {x: -4.8999996, y: 0, z: 5.4784937}
 --- !u!1 &7606024761475073521
 GameObject:
   m_ObjectHideFlags: 0
@@ -11673,7 +11754,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7606024761475073521}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.41, y: 0, z: -1.79}
+  m_LocalPosition: {x: -1.41, y: 0.5, z: -1.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -41,6 +41,9 @@ public class SC_RoomManager : MonoBehaviour
     private List<SC_Door> activeDoors = new List<SC_Door>();
     private List<GameObject> enemiesInRoom = new List<GameObject>();
 
+    private int numberOfEnemies;
+    [HideInInspector] public bool isClear=false;
+    
     private enum RoomSize
     {
         Small,
@@ -124,7 +127,7 @@ public class SC_RoomManager : MonoBehaviour
                 break;
         }
 
-        int numberOfEnemies = Random.Range((int)numberOfEnemiesRange.x, (int)numberOfEnemiesRange.y);
+        numberOfEnemies = Random.Range((int)numberOfEnemiesRange.x, (int)numberOfEnemiesRange.y);
 
         var enemiesPool = SC_Pooling.instance.poolList.Find(s => s.poolName == "Ennemis");
         
@@ -158,6 +161,7 @@ public class SC_RoomManager : MonoBehaviour
             }
             
             enemy.SetActive(true);
+            enemy.GetComponent<AI_StateMachine>().TransitionToState(AI_StateMachine.EnemyState.Idle);
         }
         
         
@@ -188,7 +192,7 @@ public class SC_RoomManager : MonoBehaviour
         
         foreach (var door in activeDoors)
         {
-            door.doorCollider.enabled = false;
+            door.doorCollider.isTrigger = false;
         }
     }
 
@@ -196,7 +200,21 @@ public class SC_RoomManager : MonoBehaviour
     {
         foreach (var door in activeDoors)
         {
-            door.doorCollider.enabled = true;
+            if(door.doorCollider != null)
+                door.doorCollider.isTrigger = true;
         }
     }
+
+    public void DecreaseEnemiesCount()
+    {
+        numberOfEnemies--;
+
+        if (numberOfEnemies>0)
+            return;
+
+        isClear = true;
+        SC_AIStats.onDeath -= DecreaseEnemiesCount;
+        UnlockDoors();
+    }
+    
 }

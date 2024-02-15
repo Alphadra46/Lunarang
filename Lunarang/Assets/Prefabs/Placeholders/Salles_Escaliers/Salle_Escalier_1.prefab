@@ -1,5 +1,63 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3971594634261325293
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1705135705593969721}
+  - component: {fileID: 4649429149758466094}
+  - component: {fileID: 5525340158401661595}
+  m_Layer: 0
+  m_Name: Stairs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1705135705593969721
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3971594634261325293}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.06, y: 0, z: -5.92}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5734236680039800451}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4649429149758466094
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3971594634261325293}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.09, z: 4.46}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5525340158401661595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3971594634261325293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bfc70a80f247264dac0d503d2387743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4336778131928618098
 GameObject:
   m_ObjectHideFlags: 0
@@ -41,7 +99,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5175667482334888211}
   - component: {fileID: 9121832846900253958}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: MapIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -470,6 +528,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5734236680039800451}
   - component: {fileID: 705448041556276745}
+  - component: {fileID: 4260752878748216667}
   m_Layer: 0
   m_Name: Salle_Escalier_1
   m_TagString: Untagged
@@ -502,6 +561,8 @@ Transform:
   - {fileID: 5734236680429633886}
   - {fileID: 5734236681580897163}
   - {fileID: 5175667482334888211}
+  - {fileID: 6916650968529659249}
+  - {fileID: 1705135705593969721}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -534,7 +595,37 @@ MonoBehaviour:
   maxNumberOfEnemiesHard: 0
   minNumberOfEnemiesHell: 0
   maxNumberOfEnemiesHell: 0
-  colliderConfiner: {fileID: 0}
+  colliderConfiner: {fileID: 2101359167325740851}
+  isClear: 0
+--- !u!114 &4260752878748216667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5734236680039800450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 23800000, guid: 78f850b9037d38846bdef37381f3bfe0, type: 2}
 --- !u!1 &5734236680321330314
 GameObject:
   m_ObjectHideFlags: 0
@@ -4702,6 +4793,7 @@ MonoBehaviour:
   doorCollider: {fileID: 0}
   doorToConnect: {fileID: 0}
   doorSpawnPoint: {fileID: 4336778131928618098}
+  roomManager: {fileID: 0}
 --- !u!1 &5734236681580897153
 GameObject:
   m_ObjectHideFlags: 0
@@ -6295,3 +6387,48 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1 &6247811629803288609
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6916650968529659249}
+  - component: {fileID: 2101359167325740851}
+  m_Layer: 0
+  m_Name: Box Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6916650968529659249
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6247811629803288609}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.13, y: 0, z: -12.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5734236680039800451}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2101359167325740851
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6247811629803288609}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 12.028444, y: 1, z: 12.05848}
+  m_Center: {x: -0.17317486, y: 0, z: 6.252558}
