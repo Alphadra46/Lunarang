@@ -42,9 +42,7 @@ public class SC_Door : MonoBehaviour
 
     public void OnEnterRoom()
     {
-        //SC_PlayerController.instance.FreezeMovement(true);
-        SC_PlayerController.instance.transform.position = doorSpawnPoint.transform.position; //TODO - Smooth the transition later
-        //SC_PlayerController.instance.FreezeMovement(false);
+        SC_PlayerController.instance.Teleport(new Vector3(doorSpawnPoint.transform.position.x, 0, doorSpawnPoint.transform.position.z));
 
         roomManager.ChangeConfiner();
         if (!roomManager.isSpecialRoom && !roomManager.isClear)

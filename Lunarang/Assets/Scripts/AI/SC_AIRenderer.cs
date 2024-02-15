@@ -95,6 +95,16 @@ public class SC_AIRenderer : MonoBehaviour
         
     }
 
+    public void RemoveDebugDamageChildren()
+    {
+        if (DamageUIArea.transform.childCount <= 0) return;
+        for (int i = 0; i < DamageUIArea.transform.childCount; i++)
+        {
+            Destroy(DamageUIArea.transform.GetChild(i).gameObject);
+        }
+
+    }
+
     #endregion
 
     #region Functions
