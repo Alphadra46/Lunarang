@@ -270,7 +270,12 @@ public class SC_PlayerController : MonoBehaviour
 
     public void Teleport(Vector3 loc)
     {
+        canMove = false;
+        currentMovementInput = Vector2.zero;
+        currentMovement = Vector3.zero;
+        
         transform.position = loc;
+        canMove = true;
     }
 
     #endregion
