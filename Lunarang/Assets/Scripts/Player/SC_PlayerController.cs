@@ -171,7 +171,7 @@ public class SC_PlayerController : MonoBehaviour
     /// </summary>
     /// <param name="vector">Vector to convert</param>
     /// <returns>Vector converted for Isometric</returns>
-    private static Vector3 IsoVectorConvert(Vector3 vector)
+    public static Vector3 IsoVectorConvert(Vector3 vector)
     {
         var rotation = Quaternion.Euler(0, 45f, 0); // Initialize the value to add to the base Vector 3
         var isoMatrix = Matrix4x4.Rotate(rotation); // Convert the previous value to isometric rotation
