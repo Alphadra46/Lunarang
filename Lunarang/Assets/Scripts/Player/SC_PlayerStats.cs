@@ -17,7 +17,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     [PropertySpace(SpaceBefore = 10, SpaceAfter = 10)]
     [TabGroup("Stats", "HP", SdfIconType.HeartFill, TextColor = "green"), 
-     ProgressBar(0, "currentMaxHealth", r: 0, g: 1, b: 0, Height = 20), ReadOnly] 
+     ProgressBar(0, "maxHealthEffective", r: 0, g: 1, b: 0, Height = 20), ReadOnly] 
     public float currentHealth;
     
     [TabGroup("Stats", "HP")]
