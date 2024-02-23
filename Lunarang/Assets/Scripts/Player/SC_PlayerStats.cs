@@ -17,7 +17,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     [PropertySpace(SpaceBefore = 10, SpaceAfter = 10)]
     [TabGroup("Stats", "HP", SdfIconType.HeartFill, TextColor = "green"), 
-     ProgressBar(0, "maxHealthEffective", r: 0, g: 1, b: 0, Height = 20), ReadOnly] 
+     ProgressBar(0, "currentMaxHealth", r: 0, g: 1, b: 0, Height = 20), ReadOnly] 
     public float currentHealth;
     
     [TabGroup("Stats", "HP")]
@@ -175,7 +175,19 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     [TabGroup("Stats", "Others")]
     public float dishesEffectBonus = 0f;
-    
+
+    #region Shield
+
+    [TabGroup("Stats", "Shield")]
+    public float shieldMaxHP = 0f;
+    [TabGroup("Stats", "Shield")]
+    public float shieldCurrentHP = 0f;
+    [TabGroup("Stats", "Shield")]
+    public float shieldStrength = 0f;
+
+    #endregion
+
+    #region Mana Overload
 
     [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload")]
     public int manaOverloadStack = 0;
@@ -192,16 +204,31 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload"),ShowInInspector]
     private bool inManaOverload;
     private Coroutine manaOverload;
-    
+
+    #endregion
+
+    #region Mana Fury
+
     [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Fury")]
     public float manaFuryMaxHPGate = 25;
     [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Fury")]
     public bool inManaFury = false;
-    
+
+    #endregion
+
+    #region Events
+
     public SO_Event onDeathEvent;
     public SO_Event onManaFuryEnableEvent;
     public SO_Event onManaFuryDisableEvent;
+
     #endregion
+    
+    #endregion
+
+
+    public static Action<float, float> onHealthChange;
+    public static Action<float, float> onShieldHPChange;
     
     private SC_PlayerController _controller;
     private SC_ComboController _comboController;
@@ -232,7 +259,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     private void Start()
     {
         currentHealth = currentMaxHealth;
-        NotifyObservers(currentHealth, currentMaxHealth);
+        onHealthChange?.Invoke(currentHealth, currentMaxHealth);
     }
 
     private void Update()
@@ -258,27 +285,41 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     /// Apply Damage to the Player.
     /// </summary>
     /// <param name="rawDamage">Damage before Damage Reduction</param>
+    /// <param name="trueDamage"></param>
     public void TakeDamage(float rawDamage, bool trueDamage = false)
     {
         
         if(_controller.isDashing || isGod) return;
 
         var damageTakenMultiplier = (1 + (damageTaken/100));
-        
+            
         var damageReductionMultiplier = (1 - (damageReduction/100));
-        
+            
         var finalDamage = !trueDamage ? Mathf.Round((rawDamage * defMultiplier) * damageTakenMultiplier * damageReductionMultiplier) : rawDamage;
         
-        currentHealth = currentHealth - finalDamage < 0 ? 0 : currentHealth - finalDamage;
-
-        HealthCheck();
-        
-        if (DeathCheck())
+        if (shieldCurrentHP > 0)
         {
-            Death();
+            
+            shieldCurrentHP = shieldCurrentHP - finalDamage < 0 ? 0 : shieldCurrentHP - finalDamage;
+            
+            onShieldHPChange?.Invoke(shieldCurrentHP, shieldMaxHP);
+            
         }
+        else
+        {
+            
+            currentHealth = currentHealth - finalDamage < 0 ? 0 : currentHealth - finalDamage;
 
-        NotifyObservers(currentHealth, currentMaxHealth);
+            HealthCheck();
+            
+            if (DeathCheck())
+            {
+                Death();
+            }
+            
+            onHealthChange?.Invoke(currentHealth, currentMaxHealth);
+            
+        }
     }
 
     public void TakeDamage(float rawDamage, WeaponType weaponType, bool isCrit){}
@@ -301,7 +342,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
             Death();
         }
         
-        NotifyObservers(currentHealth, currentMaxHealth);
+        onHealthChange?.Invoke(currentHealth, currentMaxHealth);
     }
 
     /// <summary>
@@ -315,7 +356,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
         HealthCheck();
         
-        NotifyObservers(currentHealth, currentMaxHealth);
+        onHealthChange?.Invoke(currentHealth, currentMaxHealth);
     }
 
     
@@ -337,7 +378,42 @@ public class SC_PlayerStats : SC_Subject, IDamageable
             onManaFuryDisableEvent?.RaiseEvent();
         }
     }
+
+    public void CreateShield(float shieldValue)
+    {
+        
+        if (SC_SkillManager.instance.CheckHasSkillByName("Protection Épineuse"))
+        {
+
+            damageReduction += 15;
+            debuffsBuffsComponent.ApplyBuff(Enum_Buff.Thorns, 0);
+
+        }
+        
+        shieldMaxHP = (shieldValue * (1 + (shieldStrength/100)));
+        shieldCurrentHP = shieldMaxHP;
+        
+        onShieldHPChange?.Invoke(shieldCurrentHP, shieldMaxHP);
+        
+    }
     
+    public void BreakShield()
+    {
+
+        if (SC_SkillManager.instance.CheckHasSkillByName("Protection Épineuse"))
+        {
+
+            damageReduction -= 15;
+            debuffsBuffsComponent.RemoveBuff(Enum_Buff.Thorns);
+            
+        }
+        
+        shieldMaxHP = 0;
+        shieldCurrentHP = 0;
+        
+        onShieldHPChange?.Invoke(shieldCurrentHP, shieldMaxHP);
+
+    }
     
     public void Death()
     {

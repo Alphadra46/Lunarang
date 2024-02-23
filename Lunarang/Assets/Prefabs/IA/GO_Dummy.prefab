@@ -92,15 +92,12 @@ MonoBehaviour:
   moveValueIndex: 0
   speedBase: 5
   speedModifier: 0
-  hasShield: 0
-  weaknessLength: 3
-  randomWeakness: 1
+  hasShield: 1
   canRegenShield: 0
   delayBeforeRegen: 4
-  currentWeakness: 
-  previousWeakness: 
   isBreaked: 0
   currentDebuffs: 
+  onShieldBreaked: {fileID: 11400000, guid: 91102299776b5c448b019d03aa066879, type: 2}
 --- !u!114 &5482220217696511350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,11 +112,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentBuffs: 
   currentDebuffs: 
+  poisonCurrentStacks: 0
   poisonStackByHit: 1
   poisonMaxStack: 3
-  poisonCurrentStacks: 0
   poisonTick: 2
   poisonDuration: 1
+  poisonDMGBonus: 0
+  dotCritDamage: 0
+  dotCritRate: 0
+  dotDurationBonus: 0
 --- !u!114 &75451546300128144
 MonoBehaviour:
   m_ObjectHideFlags: 0

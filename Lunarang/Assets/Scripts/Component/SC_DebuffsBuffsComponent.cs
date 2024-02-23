@@ -134,6 +134,37 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         switch (newBuff)
         {
             case Enum_Buff.Armor:
+
+                var shieldValue = (_playerStats.currentMaxHealth * 0.2f);
+
+                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_1_Tank"))
+                {
+                    shieldValue = (_playerStats.currentMaxHealth * (SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_1_Tank").buffsParentEffect.TryGetValue("shieldValue", out var value1) 
+                        ? float.Parse(value1)/100 : 0.2f));
+                }
+                
+                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_2_Tank"))
+                {
+                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_2_Tank").buffsParentEffect.TryGetValue("duration", out var value1) 
+                        ? float.Parse(value1) : 0;
+                    duration += base_duration * (value/100);
+                }
+                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_3_Tank"))
+                {
+                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3_Tank").buffsParentEffect.TryGetValue("shieldStrength", out var value1) 
+                        ? float.Parse(value1) : 0;
+                    _playerStats.shieldStrength += value;
+                }
+                
+                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_4_Tank"))
+                {
+                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_4_Tank").buffsParentEffect.TryGetValue("duration", out var value1) 
+                        ? float.Parse(value1) : 0;
+                    duration += base_duration * (value/100);
+                }
+                
+                _playerStats.CreateShield(shieldValue);
+                
                 break;
             case Enum_Buff.SecondChance:
 
@@ -153,8 +184,6 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 
                 if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_4_Berserk"))
                 {
-                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_4_Berserk").buffsParentEffect.TryGetValue("duration", out var value1) 
-                        ? float.Parse(value1) : 0;
                     _playerStats.maxHealthModifier += 50;
                 }
                 
@@ -270,6 +299,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         switch (buff)
         {
             case Enum_Buff.Armor:
+                
+                _playerStats.BreakShield();
+                
                 break;
             case Enum_Buff.SecondChance:
                 
