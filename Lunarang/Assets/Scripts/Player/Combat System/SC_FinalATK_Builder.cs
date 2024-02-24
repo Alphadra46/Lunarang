@@ -463,8 +463,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 Destroy(mhSettings, 2f);
                                 
                 var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
-                damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type,
-                    isCritical);
+                damageable.TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
                 
                 if(Random.Range(1, 100) < _stats.poisonHitRate)
                 {
@@ -503,8 +502,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
         {
             if (!e.TryGetComponent(out IDamageable damageable)) continue;
             var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
-            damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type,
-                isCritical);
+            damageable.TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
             
             if(Random.Range(1, 100) < _stats.poisonHitRate)
             {
@@ -519,8 +517,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 Destroy(mhSettings, 2f);
                                 
                 isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
-                damageable.TakeDamage(isCritical ? effCrit : effDamage,
-                    _comboController.currentWeapon.type, isCritical);
+                damageable.TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
                 
                 if(Random.Range(1, 100) < _stats.poisonHitRate)
                 {

@@ -44,6 +44,24 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     
     #endregion
 
+    #region Freeze
+    
+    [TabGroup("Debuff", "Freeze"), MaxValue(120f), MinValue(0f)]
+    public float freezeDuration = 3f;
+    [TabGroup("Debuff", "Freeze")]
+    public float freezeDurationBonus = 0f;
+    
+    #endregion
+    
+    #region Slowdown
+    
+    [TabGroup("Debuff", "Freeze"), MaxValue(120f), MinValue(0f)]
+    public float slowdownDuration = 5f;
+    [TabGroup("Debuff", "Freeze")]
+    public float slowdownDurationBonus = 0f;
+    
+    #endregion
+    
     #region DoT Damage
     
     [TabGroup("DoT", "Bonus")]
@@ -100,15 +118,27 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
             case Enum_Debuff.Bleed:
                 currentDebuffs.Add(newDebuff);
                 break;
+            
             case Enum_Debuff.Burn:
                 currentDebuffs.Add(newDebuff);
                 break;
+            
             case Enum_Debuff.Freeze:
+                StartCoroutine(FrozenState(applicator));
                 currentDebuffs.Add(newDebuff);
                 break;
+            
             case Enum_Debuff.Slowdown:
+
+                StartCoroutine(Slowdown(applicator,
+                    (SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_3_Freeze").buffsParentEffect
+                        .TryGetValue("slowdownDuration", out var value))
+                        ? float.Parse(value)
+                        : 0)
+                );
                 currentDebuffs.Add(newDebuff);
                 break;
+            
             default:
                 throw new ArgumentOutOfRangeException(nameof(newDebuff), newDebuff, null);
         }
@@ -166,6 +196,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 _playerStats.CreateShield(shieldValue);
                 
                 break;
+            
             case Enum_Buff.SecondChance:
 
                 if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_1_Berserk"))
@@ -199,7 +230,15 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 break;
             
             case Enum_Buff.Thorns:
+                
+                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_3_Tank"))
+                {
+                    _playerStats.damageReduction += (SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_3_Tank").buffsParentEffect.TryGetValue("dmgReductionBonus", out var value1) 
+                        ? float.Parse(value1) : 0);
+                }
+                
                 break;
+            
             case Enum_Buff.God:
 
                 if (isPlayer)
@@ -300,9 +339,17 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         {
             case Enum_Buff.Armor:
                 
+                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_3_Tank"))
+                {
+                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3_Tank").buffsParentEffect.TryGetValue("shieldStrength", out var value1) 
+                        ? float.Parse(value1) : 0;
+                    _playerStats.shieldStrength -= value;
+                }
+                
                 _playerStats.BreakShield();
                 
                 break;
+            
             case Enum_Buff.SecondChance:
                 
                 if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_4_Berserk"))
@@ -322,7 +369,15 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 break;
             
             case Enum_Buff.Thorns:
+                
+                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_3_Tank"))
+                {
+                    _playerStats.damageReduction -= (SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_3_Tank").buffsParentEffect.TryGetValue("dmgReduction", out var value) 
+                        ? float.Parse(value) : 0);
+                }
+                
                 break;
+            
             case Enum_Buff.God:
                 
                 if (isPlayer)
@@ -381,6 +436,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 _playerStats.damageTaken -= (25 - dmgTaken);
                 
                 break;
+            
             default:
                 throw new ArgumentOutOfRangeException(nameof(buff), buff, null);
         }
@@ -449,6 +505,55 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
         poisonCurrentStacks = 0;
         currentDebuffs.Remove(Enum_Debuff.Poison);
+
+    }
+    
+    /// <summary>
+    /// Coroutine for the poison debuff, apply damage every ticks during a certain duration.
+    /// </summary>
+    /// <param name="applicator"></param>
+    /// <returns></returns>
+    private IEnumerator FrozenState(SC_DebuffsBuffsComponent applicator)
+    {
+          
+        var duration = (applicator.freezeDuration * (1 + (freezeDurationBonus / 100)));
+        
+        
+        
+        yield return new WaitForSeconds(duration);
+        
+        currentDebuffs.Remove(Enum_Debuff.Freeze);
+
+    }
+    
+    private IEnumerator Slowdown(SC_DebuffsBuffsComponent applicator, float durationBonus)
+    {
+
+        var duration = applicator.slowdownDuration * (1 + (durationBonus / 100));
+
+        if (applicator.isPlayer)
+        {
+            _aiStats.speedModifier += -30;
+        }
+        else
+        {
+            _playerStats.speedModifier += -30;
+            _playerStats.atkSpeedModifier += -30;
+        }
+        
+        yield return new WaitForSeconds(duration);
+        
+        if (applicator.isPlayer)
+        {
+            _aiStats.speedModifier -= -30;
+        }
+        else
+        {
+            _playerStats.speedModifier -= -30;
+            _playerStats.atkSpeedModifier -= -30;
+        }
+        
+        currentDebuffs.Remove(Enum_Debuff.Slowdown);
 
     }
 

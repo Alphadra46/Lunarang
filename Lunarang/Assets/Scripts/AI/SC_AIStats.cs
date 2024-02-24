@@ -119,11 +119,12 @@ public class SC_AIStats : SC_Subject, IDamageable
     [ShowIf("hasShield")]
     [Tooltip("Is the shield broken?")] public bool isBreaked;
     
-    #endregion
+    [Space(10f)]
+    [FoldoutGroup("Settings/Shield/Shield Settings")]
+    [ShowIfGroup("Settings/Shield/Shield Settings/hasShield")]
+    [Tooltip("has Thorns?")] public bool hasThorns;
     
-    [TabGroup("Settings", "Status")]
-    [Title("Debuffs")]
-    [Tooltip("List of all current debuffs on this enemy"), SerializeField] private List<Enum_Debuff> currentDebuffs;
+    #endregion
 
     
     #endregion
@@ -135,6 +136,7 @@ public class SC_AIStats : SC_Subject, IDamageable
     private SC_AIRenderer _renderer;
     private NavMeshAgent _agent;
     private AI_StateMachine _stateMachine;
+    private SC_DebuffsBuffsComponent _debuffsBuffsComponent;
     
     #endregion
 
@@ -144,8 +146,10 @@ public class SC_AIStats : SC_Subject, IDamageable
     private void Awake()
     {
         if(!TryGetComponent(out _renderer)) return;
+        if(!TryGetComponent(out _debuffsBuffsComponent)) return;
         if(!TryGetComponent(out _agent)) return;
         if(!TryGetComponent(out _stateMachine)) return;
+        
     }
 
     /// <summary>
@@ -213,16 +217,15 @@ public class SC_AIStats : SC_Subject, IDamageable
 
     #region Damage Part
 
-    public void TakeDamage(float rawDamage, bool trueDamage = false){}
-
     /// <summary>
     /// Calculating real taken damage by the entity.
     /// Apply this amount to the entity.
     /// </summary>
     /// <param name="rawDamage">Amount of a non-crit damage</param>
-    /// <param name="pWeaponType"></param>
     /// <param name="isCrit"></param>
-    public void TakeDamage(float rawDamage, WeaponType pWeaponType, bool isCrit)
+    /// <param name="attacker"></param>
+    /// <param name="trueDamage"></param>
+    public void TakeDamage(float rawDamage, bool isCrit, GameObject attacker,bool trueDamage = false)
     {
         
         if (hasShield & !isBreaked)
@@ -265,6 +268,17 @@ public class SC_AIStats : SC_Subject, IDamageable
             }
                 
         }
+        
+        #region Thorns
+        
+        if(!_debuffsBuffsComponent.CheckHasBuff(Enum_Buff.Thorns)) return;
+        
+        const float thornsMV = 0.1f;
+        var rawDMG = thornsMV * currentATK;
+            
+        attacker.GetComponent<IDamageable>().TakeDamage(MathF.Round(rawDMG, MidpointRounding.AwayFromZero), false, gameObject);
+        
+        #endregion
         
         if(_stateMachine == null) return;
         
@@ -318,5 +332,16 @@ public class SC_AIStats : SC_Subject, IDamageable
     
 
     #endregion
-    
+
+    #region Debug
+
+    [Button]
+    public void AttackPlayer()
+    {
+        
+        GameObject.FindWithTag("Player").GetComponent<IDamageable>().TakeDamage(5, false, gameObject);
+        
+    }
+
+    #endregion
 }

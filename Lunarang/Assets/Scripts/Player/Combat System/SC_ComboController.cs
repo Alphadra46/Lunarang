@@ -235,7 +235,7 @@ public class SC_ComboController : MonoBehaviour
             var effDamage = rawDamage * (1 + (_stats.damageBonus/100));
             var effCrit = effDamage * (1 + (_stats.critDMG/100));
             
-            entity.GetComponent<IDamageable>().TakeDamage(isCritical ? effCrit : effDamage, currentWeapon.type, isCritical);
+            entity.GetComponent<IDamageable>().TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
             
             if(Random.Range(1, 100) < _stats.poisonHitRate)
             {

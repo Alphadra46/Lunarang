@@ -39,8 +39,7 @@ public class SC_UI_HealthBar : MonoBehaviour
 
     private void OnHealthValueChanged(float value)
     {
-    
-        print(value);
+        
         detail.color = value == maxHP ? new Color32(255, 255, 255, 0) : new Color32(255, 255, 255, 255);
 
     }
@@ -72,8 +71,8 @@ public class SC_UI_HealthBar : MonoBehaviour
         
         shieldSlider.gameObject.SetActive(newCurrentShieldMaxValue > 0);
         
-        shieldSlider.maxValue = newCurrentShieldValue;
-        shieldSlider.value = newCurrentShieldMaxValue;
+        shieldSlider.maxValue = newCurrentShieldMaxValue;
+        shieldSlider.value = newCurrentShieldValue;
     }
     
 }

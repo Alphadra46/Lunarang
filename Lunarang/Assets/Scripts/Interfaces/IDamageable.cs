@@ -1,5 +1,6 @@
 
 using Enum;
+using UnityEngine;
 
 /// <summary>
 /// Interface for all Damageable Entities.
@@ -7,9 +8,7 @@ using Enum;
 public interface IDamageable
 {
 
-    void TakeDamage(float rawDamage, bool trueDamage = false);
-
-    void TakeDamage(float rawDamage, WeaponType pWeaponType, bool isCrit);
+    void TakeDamage(float rawDamage, bool isCrit, GameObject attacker, bool trueDamage = false);
 
     void TakeDoTDamage(float rawDamage, bool isCrit, Enum_Debuff dotType);
 
