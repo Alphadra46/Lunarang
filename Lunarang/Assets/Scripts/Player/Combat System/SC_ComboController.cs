@@ -217,8 +217,8 @@ public class SC_ComboController : MonoBehaviour
         // print(hb.name);
         var hits = hb.type switch
         {
-            HitBoxType.Box => Physics.OverlapBox((transform.GetChild(1).position) + hb.center, hb.halfExtents,
-                transform.GetChild(1).rotation, hb.layer),
+            HitBoxType.Box => Physics.OverlapBox((transform.GetChild(1).position), hb.halfExtents,
+                GetCurrentForwardVector(hb.orientation), hb.layer),
             HitBoxType.Sphere => Physics.OverlapSphere(hb.pos, hb.radiusSphere, hb.layer),
             HitBoxType.Capsule => Physics.OverlapCapsule(hb.point0, hb.point1, hb.radiusCapsule, hb.layer),
             _ => throw new ArgumentOutOfRangeException()
@@ -235,7 +235,7 @@ public class SC_ComboController : MonoBehaviour
             var effDamage = rawDamage * (1 + (_stats.damageBonus/100));
             var effCrit = effDamage * (1 + (_stats.critDMG/100));
             
-            entity.GetComponent<IDamageable>().TakeDamage(isCritical ? effCrit : effDamage, currentWeapon.type, isCritical);
+            entity.GetComponent<IDamageable>().TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
             
             if(Random.Range(1, 100) < _stats.poisonHitRate)
             {
@@ -468,6 +468,22 @@ public class SC_ComboController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawRay(transform.position,transform.GetChild(1).forward);
+    }
+    
+    Quaternion GetCurrentForwardVector(Quaternion orientation)
+
+    {
+
+        Vector3 forward = transform.forward;
+
+        forward.y = 0;
+
+        forward.Normalize();
+
+        Quaternion rotation = Quaternion.LookRotation(forward);
+
+        return rotation;
+
     }
 
     #endregion

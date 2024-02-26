@@ -89,6 +89,7 @@ public class SC_RewardItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 background.color = new Color32(204, 75, 75, 255);
                 break;
             case ConstellationName.Tank:
+                background.color = new Color32(82, 79, 77, 255);
                 break;
             case ConstellationName.Freeze:
                 break;

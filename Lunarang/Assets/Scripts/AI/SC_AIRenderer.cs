@@ -120,24 +120,11 @@ public class SC_AIRenderer : MonoBehaviour
     }
     
     /// <summary>
-    /// Update Weakness UI to the current list of Weaknesses.
+    /// Update Shield UI.
     /// </summary>
-    /// <param name="currentWeakness">List of current Weaknesses</param>
-    public void UpdateWeaknessBar(List<WeaponType> currentWeakness)
+    public void UpdateShieldBar(bool isBreaked)
     {
-        debugUIWeaknesses.text = "-";
-
-        for (var i = 0; i < currentWeakness.Count; i++)
-        {
-            if(i != currentWeakness.Count - 1)
-            {
-                debugUIWeaknesses.text += currentWeakness[i].ToString()[6..] + " | ";
-            }
-            else
-            {
-                debugUIWeaknesses.text += currentWeakness[i].ToString()[6..];
-            }
-        }    
+        debugUIWeaknesses.text = isBreaked ? "Breaked" : "Shielded";
     }
 
     private void Update()

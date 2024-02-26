@@ -104,12 +104,6 @@ public class SC_AIStats : SC_Subject, IDamageable
     [Space(2.5f)]
     [Tooltip("Has a shield to break before taking damage")] public bool hasShield;
     
-    [FoldoutGroup("Settings/Shield/Shield Settings")]
-    [ShowIfGroup("Settings/Shield/Shield Settings/hasShield")]
-    [Tooltip("How many weaknesses to broke the shield")] public int weaknessLength = 3;
-    [FoldoutGroup("Settings/Shield/Shield Settings")]
-    [ShowIfGroup("Settings/Shield/Shield Settings/hasShield")]
-    [Tooltip("Is the weaknesses randomize ?")] public bool randomWeakness = true;
     [Space(10f)]
     [FoldoutGroup("Settings/Shield/Shield Settings")]
     [ShowIfGroup("Settings/Shield/Shield Settings/hasShield")]
@@ -120,30 +114,29 @@ public class SC_AIStats : SC_Subject, IDamageable
     [Tooltip("After how many seconds ?")] public float delayBeforeRegen = 4f;
     
     [PropertySpace(SpaceAfter = 10)]
-    
-    [FoldoutGroup("Settings/Shield/Shield Settings"), ShowIfGroup("Settings/Shield/Shield Settings/hasShield")]
-    [Tooltip("Current weakness of the shield")] public List<WeaponType> currentWeakness;
-    [FoldoutGroup("Settings/Shield/Shield Settings"), ShowIfGroup("Settings/Shield/Shield Settings/hasShield")]
-    [Tooltip("Previous weakness of the shield")] public List<WeaponType> previousWeakness;
 
     [TabGroup("Settings", "Status")]
     [ShowIf("hasShield")]
     [Tooltip("Is the shield broken?")] public bool isBreaked;
     
-    #endregion
-    
-    [TabGroup("Settings", "Status")]
-    [Title("Debuffs")]
-    [Tooltip("List of all current debuffs on this enemy"), SerializeField] private List<Enum_Debuff> currentDebuffs;
-
+    [Space(10f)]
+    [FoldoutGroup("Settings/Shield/Shield Settings")]
+    [ShowIfGroup("Settings/Shield/Shield Settings/hasShield")]
+    [Tooltip("has Thorns?")] public bool hasThorns;
     
     #endregion
 
+    
+    #endregion
+
+    
     public static Action onDeath;
+    public SO_Event onShieldBreaked;
     
     private SC_AIRenderer _renderer;
     private NavMeshAgent _agent;
     private AI_StateMachine _stateMachine;
+    private SC_DebuffsBuffsComponent _debuffsBuffsComponent;
     
     #endregion
 
@@ -153,8 +146,10 @@ public class SC_AIStats : SC_Subject, IDamageable
     private void Awake()
     {
         if(!TryGetComponent(out _renderer)) return;
+        if(!TryGetComponent(out _debuffsBuffsComponent)) return;
         if(!TryGetComponent(out _agent)) return;
         if(!TryGetComponent(out _stateMachine)) return;
+        
     }
 
     /// <summary>
@@ -165,10 +160,9 @@ public class SC_AIStats : SC_Subject, IDamageable
     {
         
         UpdateStats();
-        InitWeaknessShield();
+        InitShield();
         
         _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
-        _renderer.UpdateWeaknessBar(currentWeakness);
         
         if(_agent != null) _agent.speed = currentSPD;
         
@@ -197,26 +191,11 @@ public class SC_AIStats : SC_Subject, IDamageable
     /// <summary>
     /// Initialize the Weaknesses and create a shield that should be broken before apply damage to the Entity.
     /// </summary>
-    private void InitWeaknessShield()
+    private void InitShield()
     {
         if(!hasShield) return;
-
-        if (randomWeakness)
-        {
-            for (var i = 0; i < weaknessLength; i++)
-            {
-                currentWeakness.Add((WeaponType)Random.Range(1, 4));
-            }
-        }
         
-        if(previousWeakness.Count != 0)
-            previousWeakness.Clear();
-        previousWeakness = currentWeakness.ToList();
-        
-        // Debug Part
-
-        _renderer.UpdateWeaknessBar(currentWeakness);
-
+        _renderer.UpdateShieldBar(isBreaked);
     }
 
     /// <summary>
@@ -228,7 +207,7 @@ public class SC_AIStats : SC_Subject, IDamageable
         yield return new WaitForSeconds(delayBeforeRegen);
 
         isBreaked = false;
-        InitWeaknessShield();
+        InitShield();
 
     }
     
@@ -238,37 +217,23 @@ public class SC_AIStats : SC_Subject, IDamageable
 
     #region Damage Part
 
-    public void TakeDamage(float rawDamage, bool trueDamage = false){}
-
     /// <summary>
     /// Calculating real taken damage by the entity.
     /// Apply this amount to the entity.
     /// </summary>
     /// <param name="rawDamage">Amount of a non-crit damage</param>
-    /// <param name="pWeaponType"></param>
     /// <param name="isCrit"></param>
-    public void TakeDamage(float rawDamage, WeaponType pWeaponType, bool isCrit)
+    /// <param name="attacker"></param>
+    /// <param name="trueDamage"></param>
+    public void TakeDamage(float rawDamage, bool isCrit, GameObject attacker,bool trueDamage = false)
     {
         
         if (hasShield & !isBreaked)
         {
-            print("Incoming Type : " + pWeaponType);
-
-            if (currentWeakness[0] == pWeaponType)
-            {
-                currentWeakness.Remove(currentWeakness[0]);
-                _renderer.UpdateWeaknessBar(currentWeakness);
-            }
-            else
-            {
-                currentWeakness.Clear();
-                currentWeakness = previousWeakness.ToList();
-                _renderer.UpdateWeaknessBar(currentWeakness);
-            }
-
-            if (currentWeakness.Count != 0) return;
-        
+            
             isBreaked = true;
+            onShieldBreaked.RaiseEvent();
+            _renderer.UpdateShieldBar(isBreaked);
             print("BREAKED");
 
             if (canRegenShield)
@@ -303,6 +268,17 @@ public class SC_AIStats : SC_Subject, IDamageable
             }
                 
         }
+        
+        #region Thorns
+        
+        if(!_debuffsBuffsComponent.CheckHasBuff(Enum_Buff.Thorns)) return;
+        
+        const float thornsMV = 0.1f;
+        var rawDMG = thornsMV * currentATK;
+            
+        attacker.GetComponent<IDamageable>().TakeDamage(MathF.Round(rawDMG, MidpointRounding.AwayFromZero), false, gameObject);
+        
+        #endregion
         
         if(_stateMachine == null) return;
         
@@ -356,5 +332,16 @@ public class SC_AIStats : SC_Subject, IDamageable
     
 
     #endregion
-    
+
+    #region Debug
+
+    [Button]
+    public void AttackPlayer()
+    {
+        
+        GameObject.FindWithTag("Player").GetComponent<IDamageable>().TakeDamage(5, false, gameObject);
+        
+    }
+
+    #endregion
 }

@@ -36,6 +36,8 @@ public class SC_InventoryUI : MonoBehaviour
     
     [ShowInInspector] private List<SO_BaseSkill> _dotSkills = new List<SO_BaseSkill>();
     [ShowInInspector] private List<SO_BaseSkill> _berserkSkills = new List<SO_BaseSkill>();
+    [ShowInInspector] private List<SO_BaseSkill> _tankSkills = new List<SO_BaseSkill>();
+    [ShowInInspector] private List<SO_BaseSkill> _freezeSkills = new List<SO_BaseSkill>();
 
     private void Awake()
     {
@@ -63,6 +65,16 @@ public class SC_InventoryUI : MonoBehaviour
             _berserkSkills.Add(bSkill);
         }
         
+        foreach (var tSkill in SC_SkillManager.instance.allEquippedSkills.Where(skill => skill.constellation == ConstellationName.Tank))
+        {
+            _tankSkills.Add(tSkill);
+        }
+        
+        foreach (var fSkill in SC_SkillManager.instance.allEquippedSkills.Where(skill => skill.constellation == ConstellationName.Freeze))
+        {
+            _freezeSkills.Add(fSkill);
+        }
+        
         
         CreateItems();
         ChangeCategory((int) InventoryCategories.All);
@@ -87,8 +99,10 @@ public class SC_InventoryUI : MonoBehaviour
                 skillsVisible = _berserkSkills.ToList();
                 break;
             case InventoryCategories.Tank:
+                skillsVisible = _tankSkills.ToList();
                 break;
             case InventoryCategories.Freeze:
+                skillsVisible = _freezeSkills.ToList();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

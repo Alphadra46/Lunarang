@@ -17,7 +17,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     [PropertySpace(SpaceBefore = 10, SpaceAfter = 10)]
     [TabGroup("Stats", "HP", SdfIconType.HeartFill, TextColor = "green"), 
-     ProgressBar(0, "maxHealthEffective", r: 0, g: 1, b: 0, Height = 20), ReadOnly] 
+     ProgressBar(0, "currentMaxHealth", r: 0, g: 1, b: 0, Height = 20), ReadOnly] 
     public float currentHealth;
     
     [TabGroup("Stats", "HP")]
@@ -32,7 +32,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("Stats", "DEF",SdfIconType.ShieldFill, TextColor = "blue"), ShowInInspector, ReadOnly]
-    public float currentDEF => defBase * (1 + defModifier);
+    public float currentDEF => defBase * (1 + (defModifier/100) + (steelBodyDEFModifier/100));
     
     [TabGroup("Stats", "DEF")]
     public int defBase = 10;
@@ -175,7 +175,19 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     [TabGroup("Stats", "Others")]
     public float dishesEffectBonus = 0f;
-    
+
+    #region Shield
+
+    [TabGroup("Stats", "Shield")]
+    public float shieldMaxHP = 0f;
+    [TabGroup("Stats", "Shield")]
+    public float shieldCurrentHP = 0f;
+    [TabGroup("Stats", "Shield")]
+    public float shieldStrength = 0f;
+
+    #endregion
+
+    #region Mana Overload
 
     [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload")]
     public int manaOverloadStack = 0;
@@ -192,16 +204,56 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Overload"),ShowInInspector]
     private bool inManaOverload;
     private Coroutine manaOverload;
-    
+
+    #endregion
+
+    #region Mana Fury
+
     [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Fury")]
     public float manaFuryMaxHPGate = 25;
     [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Mana Fury")]
     public bool inManaFury = false;
+
+    #endregion
+
+    #region Steel Body
     
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Steel Body")]
+    public int steelBodyStackCount = 0;
+    
+    [PropertySpace(SpaceBefore = 10f)]
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Steel Body")]
+    public float steelBodyHPPercentNeeded = 5f;
+    
+    [PropertySpace(SpaceBefore = 10f)]
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Steel Body")]
+    public float steelBodyDEFPerStack = 5f;
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Steel Body")]
+    public float steelBodyDEFModifier = 0f;
+    
+    [PropertySpace(SpaceBefore = 10f)]
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Steel Body")]
+    public float steelBodyDMGReductionModifier = 0f;
+    
+    [PropertySpace(SpaceBefore = 10f)]
+    [TabGroup("Stats", "Others"),FoldoutGroup("Stats/Others/Steel Body")]
+    public float steelBodyShieldStrengthModifier = 0f;
+
+    #endregion
+    
+    #region Events
+
     public SO_Event onDeathEvent;
     public SO_Event onManaFuryEnableEvent;
     public SO_Event onManaFuryDisableEvent;
+
     #endregion
+    
+    #endregion
+
+
+    public static Action<float, float> onHealthChange;
+    public static Action<float, float> onShieldHPChange;
     
     private SC_PlayerController _controller;
     private SC_ComboController _comboController;
@@ -232,12 +284,12 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     private void Start()
     {
         currentHealth = currentMaxHealth;
-        NotifyObservers(currentHealth, currentMaxHealth);
+        onHealthChange?.Invoke(currentHealth, currentMaxHealth);
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Keypad9)) TakeDamage(5, true);
+        if(Input.GetKeyDown(KeyCode.Keypad9)) TakeDamage(5, false, null, false);
         if(Input.GetKeyDown(KeyCode.Keypad8)) Heal(10);
     }
 
@@ -258,30 +310,73 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     /// Apply Damage to the Player.
     /// </summary>
     /// <param name="rawDamage">Damage before Damage Reduction</param>
-    public void TakeDamage(float rawDamage, bool trueDamage = false)
+    /// <param name="isCrit"></param>
+    /// <param name="attacker"></param>
+    /// <param name="trueDamage"></param>
+    public void TakeDamage(float rawDamage, bool isCrit, GameObject attacker, bool trueDamage = false)
     {
         
         if(_controller.isDashing || isGod) return;
 
         var damageTakenMultiplier = (1 + (damageTaken/100));
+        var damageReductionMultiplier = (1 - ((damageReduction/100) + (steelBodyDMGReductionModifier/100)));
         
-        var damageReductionMultiplier = (1 - (damageReduction/100));
-        
-        var finalDamage = !trueDamage ? Mathf.Round((rawDamage * defMultiplier) * damageTakenMultiplier * damageReductionMultiplier) : rawDamage;
-        
-        currentHealth = currentHealth - finalDamage < 0 ? 0 : currentHealth - finalDamage;
-
-        HealthCheck();
-        
-        if (DeathCheck())
+        if (shieldCurrentHP > 0)
         {
-            Death();
+            var shieldDamage = Mathf.Round(rawDamage * damageTakenMultiplier * damageReductionMultiplier);
+            
+            shieldCurrentHP = shieldCurrentHP - shieldDamage < 0 ? 0 : shieldCurrentHP - shieldDamage;
+            
+            onShieldHPChange?.Invoke(shieldCurrentHP, shieldMaxHP);
+            
+        }
+        else
+        {
+            var finalDamage = !trueDamage ? Mathf.Round((rawDamage * defMultiplier) * damageTakenMultiplier * damageReductionMultiplier) : rawDamage;
+            
+            currentHealth = currentHealth - finalDamage < 0 ? 0 : currentHealth - finalDamage;
+
+            HealthCheck();
+            
+            if (DeathCheck())
+            {
+                Death();
+            }
+            
+            onHealthChange?.Invoke(currentHealth, currentMaxHealth);
+            
         }
 
-        NotifyObservers(currentHealth, currentMaxHealth);
+        #region Thorns
+        
+        if (!SC_SkillManager.instance.CheckHasSkillByName("Protection Épineuse")) return;
+        
+        if(shieldCurrentHP <= 0) return;
+        
+        const float thornsMV = 0.1f;
+        var rawDMG = thornsMV * currentATK;
+        var effDMG = rawDMG * (1 +
+                               (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_2_Tank")
+                                && SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_2_Tank")
+                                    .buffsParentEffect.TryGetValue("thornsDMGBonus", out var value1) ?
+                                   float.Parse(value1)/100
+                                   : 0));
+            
+        attacker.GetComponent<IDamageable>().TakeDamage(MathF.Round(effDMG, MidpointRounding.AwayFromZero), false, gameObject);
+        
+        if (!SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_4_Tank") || !SC_SkillManager.instance
+                .FindChildSkillByName("ChildSkill_1_4_Tank")
+                .buffsParentEffect.TryGetValue("freezeHitRate", out var freezeHitRate)) return;
+        
+        if(Random.Range(1, 100) < float.Parse(freezeHitRate))
+        {
+            attacker.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Freeze, GetComponent<SC_DebuffsBuffsComponent>());
+        }
+        
+        #endregion
+        
     }
-
-    public void TakeDamage(float rawDamage, WeaponType weaponType, bool isCrit){}
+    
     public void TakeDoTDamage(float rawDamage, bool isCrit, Enum_Debuff dotType)
     {
         if(_controller.isDashing || isGod) return;
@@ -301,7 +396,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
             Death();
         }
         
-        NotifyObservers(currentHealth, currentMaxHealth);
+        onHealthChange?.Invoke(currentHealth, currentMaxHealth);
     }
 
     /// <summary>
@@ -315,7 +410,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
         HealthCheck();
         
-        NotifyObservers(currentHealth, currentMaxHealth);
+        onHealthChange?.Invoke(currentHealth, currentMaxHealth);
     }
 
     
@@ -326,16 +421,100 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
     public void HealthCheck()
     {
-        if (currentHealth < (currentMaxHealth * (manaFuryMaxHPGate / 100)) && !inManaFury)
-        {
-            inManaFury = true;
-            onManaFuryEnableEvent?.RaiseEvent();
+        
+        if(SC_SkillManager.instance.CheckHasSkillByName("Furie de l'Essence")) {
+            if (currentHealth < (currentMaxHealth * (manaFuryMaxHPGate / 100)) && !inManaFury)
+            {
+                inManaFury = true;
+                onManaFuryEnableEvent?.RaiseEvent();
+            }
+            else if (currentHealth > (currentMaxHealth * (manaFuryMaxHPGate / 100)) && inManaFury)
+            {
+                inManaFury = false;
+                onManaFuryDisableEvent?.RaiseEvent();
+            }
         }
-        else if (currentHealth > (currentMaxHealth * (manaFuryMaxHPGate / 100)) && inManaFury)
+
+        if (SC_SkillManager.instance.CheckHasSkillByName("Corps d'Acier"))
         {
-            inManaFury = false;
-            onManaFuryDisableEvent?.RaiseEvent();
+            var stackGain = SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_3_Tank") ? float.Parse(SC_SkillManager.instance
+                .FindChildSkillByName("ChildSkill_2_3_Tank")
+                .buffsParentEffect["stackGain"]) : 1;
+            
+            var maxStacks = SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_2_Tank") ? int.Parse(SC_SkillManager.instance
+                .FindChildSkillByName("ChildSkill_2_2_Tank")
+                .buffsParentEffect["maxStacks"]) : 10;
+            
+            steelBodyStackCount = (int)(steelBodyStackCount >= maxStacks ? maxStacks : (Mathf.FloorToInt((100 - ((currentHealth / currentMaxHealth) * 100)) / steelBodyHPPercentNeeded) * stackGain));
+
+            
+            
+            steelBodyDEFModifier = steelBodyStackCount >= maxStacks ? (steelBodyDEFPerStack * maxStacks) : (steelBodyDEFPerStack * steelBodyStackCount);
+
+            if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_1_Tank"))
+                steelBodyShieldStrengthModifier = float.Parse(SC_SkillManager.instance
+                                                      .FindChildSkillByName("ChildSkill_2_1_Tank")
+                                                      .buffsParentEffect["shieldStrengthPerStack"]) * steelBodyStackCount;
+            
+            if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_4_Tank"))
+                steelBodyDMGReductionModifier = float.Parse(SC_SkillManager.instance
+                    .FindChildSkillByName("ChildSkill_2_4_Tank")
+                    .buffsParentEffect["damageReductionPerStack"]) * steelBodyStackCount;
+
         }
+        
+    }
+
+    
+    public void CreateShield(float shieldValue)
+    {
+        if(shieldCurrentHP > 0 && shieldMaxHP > 0) BreakShield();
+        
+        if (SC_SkillManager.instance.CheckHasSkillByName("Protection Épineuse"))
+        {
+
+            damageReduction += (15 + 
+                                (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_1_Tank") 
+                                 && SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_1_Tank").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
+                                    ? float.Parse(value1) : 0));
+            debuffsBuffsComponent.ApplyBuff(Enum_Buff.Thorns, 0);
+            
+        }
+        
+        shieldMaxHP = shieldValue * (1 + (shieldStrength/100) + (steelBodyShieldStrengthModifier/100));
+        shieldCurrentHP = shieldMaxHP;
+        
+        onShieldHPChange?.Invoke(shieldCurrentHP, shieldMaxHP);
+        
+    }
+
+    [TabGroup("Stats", "Shield"), Button]
+    public void EditorShield()
+    {
+        
+        CreateShield(0.2f * currentMaxHealth);
+        
+    }
+    
+    public void BreakShield()
+    {
+
+        if (SC_SkillManager.instance.CheckHasSkillByName("Protection Épineuse"))
+        {
+
+            damageReduction -= (15 + 
+                                (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_1_Tank") 
+                                 && SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_1_Tank").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
+                                    ? float.Parse(value1) : 0));
+            debuffsBuffsComponent.RemoveBuff(Enum_Buff.Thorns);
+            
+        }
+        
+        shieldMaxHP = 0;
+        shieldCurrentHP = 0;
+        
+        onShieldHPChange?.Invoke(shieldCurrentHP, shieldMaxHP);
+
     }
     
     
@@ -411,7 +590,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
         while (duration > 0)
         {
-            TakeDamage(currentMaxHealth * (manaOverloadDamage/100));
+            TakeDamage(currentMaxHealth * (manaOverloadDamage/100), false, gameObject);
             
             yield return new WaitForSeconds(manaOverloadTick);
             duration -= manaOverloadTick;
@@ -434,6 +613,7 @@ public class SC_PlayerStats : SC_Subject, IDamageable
         currentHealth = currentMaxHealth;
     }
     
+    
     /// <summary>
     /// Detect Hurtbox collision, set up taking damage.
     /// </summary>
@@ -445,14 +625,13 @@ public class SC_PlayerStats : SC_Subject, IDamageable
         
         if(!col.transform.parent.parent.TryGetComponent(out SC_AIStats aiStats)) return;
         
-        
         var aiCurrentAtk = aiStats.currentATK;
         var aiCurrentMV = aiStats.moveValues[aiStats.moveValueIndex];
 
         var rawDamage = Mathf.Round(aiCurrentMV * aiCurrentAtk);
         
-        TakeDamage(rawDamage);
-          
+        TakeDamage(rawDamage, false, aiStats.gameObject);
+
     }
     
 }
