@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aadbb2d8085d60249b4636d484c88011, type: 3}
-  m_Name: ChildSkill_1_2_Tank
+  m_Name: ChildSkill_1_2_Freeze
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -118,16 +118,28 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: 
     - Name: $k
       Entry: 1
-      Data: thornsDMGBonus
+      Data: dmgTaken
     - Name: $v
       Entry: 1
-      Data: 50
+      Data: 15
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: duration
+    - Name: $v
+      Entry: 1
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
@@ -137,11 +149,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  skillName: ChildSkill_1_2_Tank
-  constellation: 3
-  shortDescription: "Augmente les d\xE9g\xE2ts inflig\xE9s par <b>\xC9pine</b>."
-  longDescription: "Augmente les d\xE9g\xE2ts inflig\xE9s par <b>\xC9pine</b> de
-    <b>50%</b>."
+  skillName: ChildSkill_1_2_Freeze
+  constellation: 4
+  shortDescription: "Apr\xE8s \xEAtre sorti de l'\xE9tat <b>Gel\xE9</b>, les <b>d\xE9g\xE2ts
+    subis</b> par l'ennemi <b>augmentent</b> pendant <b>un temps donn\xE9</b>."
+  longDescription: "Apr\xE8s \xEAtre sorti de l'\xE9tat <b>Gel\xE9</b>, les <b>d\xE9g\xE2ts
+    subis</b> par l'ennemi <b>augmentent</b> de <b>15%</b> pendant <b>5s</b>."
   eventEnabler: {fileID: 0}
   eventDisabler: {fileID: 0}
-  parentSkill: {fileID: 11400000, guid: 2a9400b89641e424398481f8bf83bfdf, type: 2}
+  parentSkill: {fileID: 11400000, guid: 2b35ac5c9e1940f4f88e7aa9c143275b, type: 2}

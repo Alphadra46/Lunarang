@@ -96,7 +96,7 @@ MonoBehaviour:
   canRegenShield: 0
   delayBeforeRegen: 4
   isBreaked: 0
-  currentDebuffs: 
+  hasThorns: 0
   onShieldBreaked: {fileID: 11400000, guid: 91102299776b5c448b019d03aa066879, type: 2}
 --- !u!114 &5482220217696511350
 MonoBehaviour:
@@ -116,8 +116,14 @@ MonoBehaviour:
   poisonStackByHit: 1
   poisonMaxStack: 3
   poisonTick: 2
-  poisonDuration: 1
+  poisonDuration: 10
   poisonDMGBonus: 0
+  freezeDuration: 3
+  freezeDurationBonus: 0
+  unfreezeAoESize: 2
+  unfreezeAoEMV: 45
+  slowdownDuration: 5
+  slowdownDurationBonus: 0
   dotCritDamage: 0
   dotCritRate: 0
   dotDurationBonus: 0

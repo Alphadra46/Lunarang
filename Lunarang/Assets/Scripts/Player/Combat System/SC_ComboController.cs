@@ -96,6 +96,8 @@ public class SC_ComboController : MonoBehaviour
     // private bool isInputBufferingOn = false;
 
     #endregion
+    
+    public LayerMask layerAttackable;
 
     public Collider[] currentEnemiesHitted;
     
@@ -103,6 +105,7 @@ public class SC_ComboController : MonoBehaviour
     private SC_PlayerController _controller;
     private SC_PlayerStats _stats;
     private SC_FinalATK_Builder _finalBuilder;
+    private SC_DebuffsBuffsComponent _debuffsBuffsComponent;
     [SerializeField] private List<VisualEffect> vfxParameterList = new List<VisualEffect>();
 
     public bool canAttack = true;
@@ -119,6 +122,7 @@ public class SC_ComboController : MonoBehaviour
         if(!TryGetComponent(out _controller)) return;
         if(!TryGetComponent(out _finalBuilder)) return;
         if(!TryGetComponent(out _stats)) return;
+        if(!TryGetComponent(out _debuffsBuffsComponent)) return;
     }
 
     private void Start()
@@ -247,6 +251,7 @@ public class SC_ComboController : MonoBehaviour
         currentEnemiesHitted = hits;
 
     }
+    
 
     /// <summary>
     /// Create a fully customizable projectile.
@@ -304,6 +309,100 @@ public class SC_ComboController : MonoBehaviour
         }
         
     }
+    
+    /// <summary>
+    /// Create multiples hits.
+    /// </summary>
+    public void Multihit(int additionnalHits)
+    {
+        
+        var currentMV = (currentWeapon.MovesValues[comboCounter - 1] / 100);
+
+        var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
+        var effDamage = rawDamage * (1 + (_stats.damageBonus / 100));
+        var effCrit = effDamage * (1 + (_stats.critDMG / 100));
+        
+        foreach (var e in currentEnemiesHitted)
+        {
+            if (!e.TryGetComponent(out IDamageable damageable)) continue;
+                            
+            for (var i = 0; i < additionnalHits; i++)
+            {
+                // var mhSettings = Instantiate(ExampleMH);
+                //
+                // mhSettings.transform.localScale *= areaSize;
+                // mhSettings.transform.position = new Vector3(e.transform.position.x,
+                //     e.transform.localScale.y, e.transform.position.z);
+                // Destroy(mhSettings, 2f);
+                                
+                var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+                damageable.TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
+                
+                if(Random.Range(1, 100) < _stats.poisonHitRate)
+                {
+                    e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
+                }
+            }
+
+        }
+        
+    }
+
+    /// <summary>
+    /// Create an area of effect at a certain pos.
+    /// </summary>
+    /// <param name="pos">Center of the AoE</param>
+    /// <param name="areaSize"></param>
+    /// <param name="hasAdditionnalHits">Is the AoE has additionnal hits ?</param>
+    /// <param name="additionnalHits"></param>
+    public void CreateAoE(Vector3 pos, float areaSize,bool hasAdditionnalHits = false, int additionnalHits = 0)
+    {
+
+        var currentMV = (currentWeapon.MovesValues[comboCounter - 1] / 100);
+
+        var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
+        var effDamage = rawDamage * (1 + (_stats.damageBonus / 100));
+        var effCrit = effDamage * (1 + (_stats.critDMG / 100));
+        
+        // var aoeSettings = Instantiate(ExampleAoE);
+        // aoeSettings.transform.localScale *= areaSize;
+        // aoeSettings.transform.position = pos;
+        // Destroy(aoeSettings, 2f);
+
+        var ennemiesInAoE =
+            Physics.OverlapSphere((pos), areaSize,
+                layerAttackable); //TODO : Replace Pos by Weapon Hit Pos
+
+        foreach (var e in ennemiesInAoE)
+        {
+            if (!e.TryGetComponent(out IDamageable damageable)) continue;
+            var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+            damageable.TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
+            
+            if(Random.Range(1, 100) < _stats.poisonHitRate)
+            {
+                e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
+            }
+
+            if(!hasAdditionnalHits) continue;
+            for (var i = 0; i < additionnalHits; i++)
+            {
+                // var mhSettings = Instantiate(ExampleMH);
+                // mhSettings.transform.position = e.transform.position;
+                // Destroy(mhSettings, 2f);
+                                
+                isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+                damageable.TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
+                
+                if(Random.Range(1, 100) < _stats.poisonHitRate)
+                {
+                    e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
+                }
+            }
+
+        }
+    }
+    
     
     #region Combo Part
     
@@ -418,8 +517,34 @@ public class SC_ComboController : MonoBehaviour
             }
 
         }
-        
-        if(comboCounter == comboMaxLength) onLastAttack.RaiseEvent();
+
+        if (comboCounter == comboMaxLength)
+        {
+            onLastAttack.RaiseEvent();
+
+            if (SC_SkillManager.instance.CheckHasSkillByName("Châtiment Glacial"))
+            {
+
+                const float freezeHitRateBase = 50f;
+                var freezeHitRateBonus = (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_1_Freeze") 
+                    ? float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_1_Freeze").buffsParentEffect["freezeHitRate"]) : 0)
+                    + (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_3_Freeze") 
+                        ? float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3_Freeze").buffsParentEffect["freezeHitRate"]) : 0);
+
+                var freezeHitRate = freezeHitRateBase + freezeHitRateBonus;
+                print(freezeHitRate);
+                
+                foreach (var e in currentEnemiesHitted)
+                {
+                    if(Random.Range(1, 100) < freezeHitRate)
+                    {
+                        e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Freeze, GetComponent<SC_DebuffsBuffsComponent>());
+                    }
+                }
+                
+            }
+            
+        }
         
         // Debug Side
         print("Combo : " + comboCounter + " / Type : " + currentWeapon.type);
@@ -471,7 +596,6 @@ public class SC_ComboController : MonoBehaviour
     }
     
     Quaternion GetCurrentForwardVector(Quaternion orientation)
-
     {
 
         Vector3 forward = transform.forward;

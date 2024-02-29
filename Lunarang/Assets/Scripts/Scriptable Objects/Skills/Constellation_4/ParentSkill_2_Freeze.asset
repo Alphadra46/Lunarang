@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aadbb2d8085d60249b4636d484c88011, type: 3}
-  m_Name: ChildSkill_1_2_Tank
+  m_Script: {fileID: 11500000, guid: 9ffe99ba0a3ec7343aa7a3af0ccd7fb3, type: 3}
+  m_Name: ParentSkill_2_Freeze
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -40,7 +40,19 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 39
+    - Name: $v
+      Entry: 1
+      Data: +2
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -105,43 +117,18 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: buffsParentEffect
-      Entry: 7
-      Data: 6|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String,
-        mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 7|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
-        mscorlib]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: thornsDMGBonus
-    - Name: $v
-      Entry: 1
-      Data: 50
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  skillName: ChildSkill_1_2_Tank
-  constellation: 3
-  shortDescription: "Augmente les d\xE9g\xE2ts inflig\xE9s par <b>\xC9pine</b>."
-  longDescription: "Augmente les d\xE9g\xE2ts inflig\xE9s par <b>\xC9pine</b> de
-    <b>50%</b>."
+  skillName: Immobilisation Glaciale
+  constellation: 4
+  shortDescription: "Augmente la <b>dur\xE9e</b> de l'\xE9tat <b>Gel\xE9</b> des
+    ennemis et leur applique l'effet <b>Ralentissement</b> une fois sorti de l'\xE9tat
+    <b>Gel\xE9</b>."
+  longDescription: "Augmente la <b>dur\xE9e</b> de l'\xE9tat <b>Gel\xE9</b> des ennemis
+    de <b>2s</b> et leur applique l'effet <b>Ralentissement</b> une fois sorti de
+    l'\xE9tat <b>Gel\xE9</b> pendant <b>5s</b>."
   eventEnabler: {fileID: 0}
   eventDisabler: {fileID: 0}
-  parentSkill: {fileID: 11400000, guid: 2a9400b89641e424398481f8bf83bfdf, type: 2}
+  childrenSkills:
+  - {fileID: 11400000, guid: 4f89c771a06f27648a77b0644d3f9286, type: 2}
+  - {fileID: 11400000, guid: bb6502b10884f244fa722923ab2b8a22, type: 2}
+  - {fileID: 11400000, guid: 7fea473ab3da217428205cbcc1d0c945, type: 2}
+  - {fileID: 11400000, guid: 2348347381c30e241b6b62a6eb28d7ba, type: 2}

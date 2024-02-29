@@ -291,6 +291,14 @@ public class SC_PlayerStats : SC_Subject, IDamageable
     {
         if(Input.GetKeyDown(KeyCode.Keypad9)) TakeDamage(5, false, null, false);
         if(Input.GetKeyDown(KeyCode.Keypad8)) Heal(10);
+        if (Input.GetKeyDown(KeyCode.Keypad4))
+        {
+
+            SC_SkillManager.instance.AddSkillsToSkillsList(SC_SkillManager.instance.FindSkillByName("Châtiment Glacial"));
+            SC_SkillManager.instance.AddSkillsToSkillsList(SC_SkillManager.instance.FindSkillByName("ChildSkill_3_1_Freeze"));
+            SC_SkillManager.instance.AddSkillsToSkillsList(SC_SkillManager.instance.FindSkillByName("ChildSkill_3_3_Freeze"));
+
+        }
     }
 
 
