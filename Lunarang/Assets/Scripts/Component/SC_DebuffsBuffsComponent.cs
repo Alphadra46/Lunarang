@@ -468,7 +468,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         
     }
     
-    #region DoT
+    #region Coroutines
 
     /// <summary>
     /// Coroutine for the poison debuff, apply damage every ticks during a certain duration.
@@ -529,7 +529,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_2_Freeze"))
         {
 
-            _aiStats.damageTaken += float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_4_Freeze")
+            _aiStats.damageTaken += float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_2_Freeze")
                 .buffsParentEffect["dmgTaken"]);
 
         }
@@ -538,6 +538,29 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
             _aiStats.damageTaken += float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_4_Freeze")
                 .buffsParentEffect["dmgTaken"]);
+
+        }
+        
+        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_2_Freeze"))
+        {
+
+            applicator.StartCoroutine(BuffStatTemp(Stats.ATK, float.Parse(SC_SkillManager.instance
+                .FindChildSkillByName("ChildSkill_3_2_Freeze")
+                .buffsParentEffect["atkBonus"]), float.Parse(SC_SkillManager.instance
+                .FindChildSkillByName("ChildSkill_3_2_Freeze")
+                .buffsParentEffect["atkBonusDuration"]))
+            );
+
+        }
+        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_4_Freeze"))
+        {
+
+            applicator.StartCoroutine(BuffStatTemp(Stats.ATKSPD, float.Parse(SC_SkillManager.instance
+                    .FindChildSkillByName("ChildSkill_3_4_Freeze")
+                    .buffsParentEffect["atkSpdBonus"]), float.Parse(SC_SkillManager.instance
+                    .FindChildSkillByName("ChildSkill_3_4_Freeze")
+                    .buffsParentEffect["atkSpdBonusDuration"]))
+            );
 
         }
         
@@ -576,7 +599,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
             
         }
 
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_2_Freeze") && applicator.isPlayer)
+        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_2_Freeze"))
         {
 
             StartCoroutine(BuffStatTemp(Stats.DMGTaken,
@@ -654,6 +677,13 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 if (isPlayer) _playerStats.damageTaken += value;
                 else _aiStats.damageTaken += value;
                 break;
+            case Stats.ATK:
+                if (isPlayer) _playerStats.atkModifier += value;
+                else _aiStats.atkModifier += value;
+                break;
+            case Stats.ATKSPD:
+                if (isPlayer) _playerStats.atkSpeedModifier += value;
+                break;
         }
         
         yield return new WaitForSeconds(duration);
@@ -663,6 +693,13 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
             case Stats.DMGTaken:
                 if (isPlayer) _playerStats.damageTaken -= value;
                 else _aiStats.damageTaken -= value;
+                break;
+            case Stats.ATK:
+                if (isPlayer) _playerStats.atkModifier -= value;
+                else _aiStats.atkModifier -= value;
+                break;
+            case Stats.ATKSPD:
+                if (isPlayer) _playerStats.atkSpeedModifier -= value;
                 break;
         }
 

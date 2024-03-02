@@ -216,19 +216,25 @@ public class SC_ComboController : MonoBehaviour
         }
     }
 
+    #region Hurtboxes
+
     public void CreateHitBox(SO_HitBox hb)
     {
+        var hbTransform = transform.GetChild(1);
+        var originPos = hbTransform.localPosition;
+        transform.GetChild(1).localPosition = hb.center;
+        
         // print(hb.name);
         var hits = hb.type switch
         {
-            HitBoxType.Box => Physics.OverlapBox((transform.GetChild(1).position), hb.halfExtents,
+            HitBoxType.Box => Physics.OverlapBox(hbTransform.position, hb.halfExtents,
                 GetCurrentForwardVector(hb.orientation), hb.layer),
             HitBoxType.Sphere => Physics.OverlapSphere(hb.pos, hb.radiusSphere, hb.layer),
             HitBoxType.Capsule => Physics.OverlapCapsule(hb.point0, hb.point1, hb.radiusCapsule, hb.layer),
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        foreach (var entity in hits)
+        foreach (var e in hits)
         {
             
             var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
@@ -239,19 +245,28 @@ public class SC_ComboController : MonoBehaviour
             var effDamage = rawDamage * (1 + (_stats.damageBonus/100));
             var effCrit = effDamage * (1 + (_stats.critDMG/100));
             
-            entity.GetComponent<IDamageable>().TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
+            e.GetComponent<IDamageable>().TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
             
             if(Random.Range(1, 100) < _stats.poisonHitRate)
             {
-                entity.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
+                e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
+            }
+
+            if (comboCounter == comboMaxLength && SC_SkillManager.instance.CheckHasSkillByName("Châtiment Glacial"))
+            {
+                CheckFreezeHit(e, true);
+            }
+            else if (currentWeapon.id == "hammer")
+            {
+                CheckFreezeHit(e);
             }
             
         }
 
         currentEnemiesHitted = hits;
 
+        // hbTransform.localPosition = originPos;
     }
-    
 
     /// <summary>
     /// Create a fully customizable projectile.
@@ -342,6 +357,12 @@ public class SC_ComboController : MonoBehaviour
                 {
                     e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
                 }
+                
+                if (comboCounter == comboMaxLength && SC_SkillManager.instance.CheckHasSkillByName("Châtiment Glacial"))
+                {
+                    CheckFreezeHit(e);
+                }
+                
             }
 
         }
@@ -398,10 +419,18 @@ public class SC_ComboController : MonoBehaviour
                 {
                     e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
                 }
+
+                if (comboCounter == comboMaxLength && SC_SkillManager.instance.CheckHasSkillByName("Châtiment Glacial"))
+                {
+                   CheckFreezeHit(e);
+                }
+                
             }
 
         }
     }
+
+    #endregion
     
     
     #region Combo Part
@@ -521,29 +550,6 @@ public class SC_ComboController : MonoBehaviour
         if (comboCounter == comboMaxLength)
         {
             onLastAttack.RaiseEvent();
-
-            if (SC_SkillManager.instance.CheckHasSkillByName("Châtiment Glacial"))
-            {
-
-                const float freezeHitRateBase = 50f;
-                var freezeHitRateBonus = (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_1_Freeze") 
-                    ? float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_1_Freeze").buffsParentEffect["freezeHitRate"]) : 0)
-                    + (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_3_Freeze") 
-                        ? float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3_Freeze").buffsParentEffect["freezeHitRate"]) : 0);
-
-                var freezeHitRate = freezeHitRateBase + freezeHitRateBonus;
-                print(freezeHitRate);
-                
-                foreach (var e in currentEnemiesHitted)
-                {
-                    if(Random.Range(1, 100) < freezeHitRate)
-                    {
-                        e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Freeze, GetComponent<SC_DebuffsBuffsComponent>());
-                    }
-                }
-                
-            }
-            
         }
         
         // Debug Side
@@ -568,28 +574,6 @@ public class SC_ComboController : MonoBehaviour
 
     #endregion
 
-    #region Input Buffering
-    
-    /// <summary>
-    /// Activate the possibility to do stock an input.
-    /// </summary>
-    public void ActivateInputBuffering()
-    {
-        // isInputBufferingOn = true;
-        print("Buffering On");
-    }
-    
-    /// <summary>
-    /// Deactivate the possibility to do stock an input.
-    /// </summary>
-    public void DeactivateInputBuffering()
-    {
-        // isInputBufferingOn = false;
-        print("Buffering Off");
-    }
-    
-    #endregion
-
     private void OnDrawGizmos()
     {
         Gizmos.DrawRay(transform.position,transform.GetChild(1).forward);
@@ -608,6 +592,26 @@ public class SC_ComboController : MonoBehaviour
 
         return rotation;
 
+    }
+
+    public void CheckFreezeHit(Collider entity, bool isLastHit = false)
+    {
+        var freezeHitRateBonus = (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_1_Freeze") 
+                                     ? float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_1_Freeze").buffsParentEffect["freezeHitRate"]) : 0)
+                                 + (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_3_Freeze") 
+                                     ? float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3_Freeze").buffsParentEffect["freezeHitRate"]) : 0);
+
+        var baseFreezeHitRate = currentWeapon.id == "hammer" ? 40f : 0f;
+
+        var freezeHitRate = isLastHit ? baseFreezeHitRate + 50f + freezeHitRateBonus : baseFreezeHitRate;
+        
+        print(freezeHitRate);
+        
+        if(Random.Range(1, 100) < freezeHitRate)
+        {
+            entity.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Freeze, GetComponent<SC_DebuffsBuffsComponent>());
+        }
+        
     }
 
     #endregion

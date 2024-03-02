@@ -14,16 +14,6 @@ public class SC_AnimatorComboLinker : MonoBehaviour
     public SC_FinalATK_Builder pFABuilder;
 
     // All functions here are just to link the Animator from the Mesh to the ComboController
-    
-    public void ActivateInputBuffering()
-    {
-        pComboController.ActivateInputBuffering();
-    }
-
-    public void DeactivateInputBuffering()
-    {
-        pComboController.DeactivateInputBuffering();
-    }
 
     public void ResetCombo()
     {

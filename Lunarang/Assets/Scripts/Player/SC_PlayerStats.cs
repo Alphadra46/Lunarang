@@ -296,7 +296,9 @@ public class SC_PlayerStats : SC_Subject, IDamageable
 
             SC_SkillManager.instance.AddSkillsToSkillsList(SC_SkillManager.instance.FindSkillByName("Châtiment Glacial"));
             SC_SkillManager.instance.AddSkillsToSkillsList(SC_SkillManager.instance.FindSkillByName("ChildSkill_3_1_Freeze"));
+            SC_SkillManager.instance.AddSkillsToSkillsList(SC_SkillManager.instance.FindSkillByName("ChildSkill_3_2_Freeze"));
             SC_SkillManager.instance.AddSkillsToSkillsList(SC_SkillManager.instance.FindSkillByName("ChildSkill_3_3_Freeze"));
+            SC_SkillManager.instance.AddSkillsToSkillsList(SC_SkillManager.instance.FindSkillByName("ChildSkill_3_4_Freeze"));
 
         }
     }
