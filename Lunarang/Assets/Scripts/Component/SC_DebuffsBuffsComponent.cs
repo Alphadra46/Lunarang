@@ -563,6 +563,16 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
             );
 
         }
+
+        if (isPlayer)
+        {
+            SC_PlayerController.instance.FreezeMovement(true);
+            SC_PlayerController.instance.FreezeDash(true);
+        }
+        else
+        {
+            _aiStats.GetComponent<AI_StateMachine>().TransitionToState(AI_StateMachine.EnemyState.Freeze);
+        }
         
         yield return new WaitForSeconds(duration);
 

@@ -360,6 +360,10 @@ public class SC_ComboController : MonoBehaviour
                 
                 if (comboCounter == comboMaxLength && SC_SkillManager.instance.CheckHasSkillByName("Châtiment Glacial"))
                 {
+                    CheckFreezeHit(e, true);
+                }
+                else if (currentWeapon.id == "hammer")
+                {
                     CheckFreezeHit(e);
                 }
                 
@@ -422,7 +426,11 @@ public class SC_ComboController : MonoBehaviour
 
                 if (comboCounter == comboMaxLength && SC_SkillManager.instance.CheckHasSkillByName("Châtiment Glacial"))
                 {
-                   CheckFreezeHit(e);
+                   CheckFreezeHit(e, true);
+                }
+                else if (currentWeapon.id == "hammer")
+                {
+                    CheckFreezeHit(e);
                 }
                 
             }

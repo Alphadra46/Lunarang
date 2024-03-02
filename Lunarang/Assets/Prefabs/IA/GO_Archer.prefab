@@ -335,6 +335,7 @@ GameObject:
   - component: {fileID: 1753954169216546170}
   - component: {fileID: 1753954169216546173}
   - component: {fileID: 1753954169216546172}
+  - component: {fileID: 8972695709085470348}
   m_Layer: 10
   m_Name: GO_Archer
   m_TagString: Entity
@@ -454,15 +455,14 @@ MonoBehaviour:
   moveValueIndex: 0
   speedBase: 5
   speedModifier: 0
+  damageTaken: 0
+  dotDamageTaken: 0
   hasShield: 0
-  weaknessLength: 3
-  randomWeakness: 1
   canRegenShield: 0
   delayBeforeRegen: 4
-  currentWeakness: 
-  previousWeakness: 
   isBreaked: 0
-  currentDebuffs: 
+  hasThorns: 0
+  onShieldBreaked: {fileID: 0}
 --- !u!114 &1753954169216546172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,6 +502,34 @@ MonoBehaviour:
   defenseCDBase: 6
   dashSpeed: 12
   dashDuration: 0.5
+--- !u!114 &8972695709085470348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1753954169216546166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5bc4ba44f66e3f4cb628b754663c1e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentBuffs: 
+  currentDebuffs: 
+  poisonCurrentStacks: 0
+  poisonStackByHit: 1
+  poisonMaxStack: 3
+  poisonTick: 2
+  poisonDuration: 10
+  poisonDMGBonus: 0
+  freezeDuration: 3
+  freezeDurationBonus: 0
+  unfreezeAoESize: 2
+  unfreezeAoEMV: 45
+  slowdownDuration: 5
+  dotCritDamage: 0
+  dotCritRate: 0
+  dotDurationBonus: 0
 --- !u!1 &1861037506054332496
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,7 +601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pComboController: {fileID: 0}
   pController: {fileID: 0}
-  pStats: {fileID: 0}
+  pFABuilder: {fileID: 0}
 --- !u!1 &1880202873462965003
 GameObject:
   m_ObjectHideFlags: 0

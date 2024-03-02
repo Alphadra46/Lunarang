@@ -57,6 +57,7 @@ public class AI_Archer_StateMachine : AI_StateMachine
         States.Add(EnemyState.Attack, new AI_Archer_AttackState(EnemyState.Attack, this));
         States.Add(EnemyState.Defense, new AI_Archer_DefenseState(EnemyState.Defense, this));
         States.Add(EnemyState.Death, new AI_DeathState(EnemyState.Death, this));
+        States.Add(EnemyState.Freeze, new AI_FreezeState(EnemyState.Freeze, this));
         
         CurrentState = States[EnemyState.Idle];
     }
