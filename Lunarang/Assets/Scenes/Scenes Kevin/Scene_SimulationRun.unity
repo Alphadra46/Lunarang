@@ -4956,6 +4956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5bc4ba44f66e3f4cb628b754663c1e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _modifierPanel: {fileID: 0}
   currentBuffs: 
   currentDebuffs: 
   poisonCurrentStacks: 0
@@ -4964,6 +4965,11 @@ MonoBehaviour:
   poisonTick: 2
   poisonDuration: 1
   poisonDMGBonus: 0
+  freezeDuration: 3
+  freezeDurationBonus: 0
+  unfreezeAoESize: 2
+  unfreezeAoEMV: 45
+  slowdownDuration: 5
   dotCritDamage: 0
   dotCritRate: 0
   dotDurationBonus: 0
@@ -4991,15 +4997,14 @@ MonoBehaviour:
   moveValueIndex: 0
   speedBase: 5
   speedModifier: 0
+  damageTaken: 0
+  dotDamageTaken: 0
   hasShield: 0
-  weaknessLength: 3
-  randomWeakness: 1
   canRegenShield: 0
   delayBeforeRegen: 4
-  currentWeakness: 
-  previousWeakness: 
   isBreaked: 0
-  currentDebuffs: 
+  hasThorns: 0
+  onShieldBreaked: {fileID: 0}
 --- !u!54 &513159959
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -24235,6 +24240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5bc4ba44f66e3f4cb628b754663c1e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _modifierPanel: {fileID: 0}
   currentBuffs: 
   currentDebuffs: 
   poisonCurrentStacks: 0
@@ -24243,6 +24249,11 @@ MonoBehaviour:
   poisonTick: 2
   poisonDuration: 1
   poisonDMGBonus: 0
+  freezeDuration: 3
+  freezeDurationBonus: 0
+  unfreezeAoESize: 2
+  unfreezeAoEMV: 45
+  slowdownDuration: 5
   dotCritDamage: 0
   dotCritRate: 0
   dotDurationBonus: 0
@@ -24270,15 +24281,14 @@ MonoBehaviour:
   moveValueIndex: 0
   speedBase: 5
   speedModifier: 0
+  damageTaken: 0
+  dotDamageTaken: 0
   hasShield: 0
-  weaknessLength: 3
-  randomWeakness: 1
   canRegenShield: 0
   delayBeforeRegen: 4
-  currentWeakness: 
-  previousWeakness: 
   isBreaked: 0
-  currentDebuffs: 
+  hasThorns: 0
+  onShieldBreaked: {fileID: 0}
 --- !u!54 &1773102691
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -24422,6 +24432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5bc4ba44f66e3f4cb628b754663c1e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _modifierPanel: {fileID: 0}
   currentBuffs: 
   currentDebuffs: 
   poisonCurrentStacks: 0
@@ -24430,6 +24441,11 @@ MonoBehaviour:
   poisonTick: 2
   poisonDuration: 10
   poisonDMGBonus: 0
+  freezeDuration: 3
+  freezeDurationBonus: 0
+  unfreezeAoESize: 2
+  unfreezeAoEMV: 45
+  slowdownDuration: 5
   dotCritDamage: 0
   dotCritRate: 0
   dotDurationBonus: 0
@@ -24483,6 +24499,12 @@ MonoBehaviour:
   manaOverloadDamage: 5
   manaFuryMaxHPGate: 25
   inManaFury: 0
+  steelBodyStackCount: 0
+  steelBodyHPPercentNeeded: 5
+  steelBodyDEFPerStack: 5
+  steelBodyDEFModifier: 0
+  steelBodyDMGReductionModifier: 0
+  steelBodyShieldStrengthModifier: 0
   onDeathEvent: {fileID: 11400000, guid: f837962aa1e7a73469b5b0aa065d14a9, type: 2}
   onManaFuryEnableEvent: {fileID: 11400000, guid: b8ff692fc196aa94ab808ab57117e1b0,
     type: 2}
@@ -24546,6 +24568,9 @@ MonoBehaviour:
   lastComboWeapons: []
   onLastAttack: {fileID: 11400000, guid: 357009ac74cee5241b32602177b3b39e, type: 2}
   canPerformCombo: 1
+  layerAttackable:
+    serializedVersion: 2
+    m_Bits: 1024
   currentEnemiesHitted: []
   _animator: {fileID: 1913144215}
   vfxParameterList:

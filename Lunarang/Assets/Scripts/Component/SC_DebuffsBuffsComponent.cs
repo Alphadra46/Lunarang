@@ -13,6 +13,8 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     private SC_AIStats _aiStats;
     private SC_PlayerStats _playerStats;
 
+    [SerializeField, PropertySpace(SpaceAfter = 10f)] private SC_ModifierPanel _modifierPanel;
+
     private bool isPlayer;
     
     #region Status
@@ -121,15 +123,18 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                     print("POISON");
                     StartCoroutine(PoisonDoT(applicator));
                     currentDebuffs.Add(newDebuff);
+                    if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
                 }
                 break;
             
             case Enum_Debuff.Bleed:
                 currentDebuffs.Add(newDebuff);
+                if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
                 break;
             
             case Enum_Debuff.Burn:
                 currentDebuffs.Add(newDebuff);
+                if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
                 break;
             
             case Enum_Debuff.Freeze:
@@ -137,6 +142,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 
                 StartCoroutine(FrozenState(applicator));
                 currentDebuffs.Add(newDebuff);
+                if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
                 break;
             
             case Enum_Debuff.Slowdown:
@@ -144,6 +150,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 StartCoroutine(Slowdown(applicator)
                 );
                 currentDebuffs.Add(newDebuff);
+                if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
                 break;
             
             default:
@@ -325,6 +332,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         }
         
         currentBuffs.Add(newBuff);
+        if(_modifierPanel != null) _modifierPanel.buffAdded?.Invoke(newBuff);
         
         print(duration);
         if (duration > 0) StartCoroutine(RemoveBuffAfterDuration(newBuff, duration));
@@ -354,7 +362,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 }
                 
                 _playerStats.BreakShield();
-                
+
                 break;
             
             case Enum_Buff.SecondChance:
@@ -449,6 +457,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         }
 
         currentBuffs.Remove(buff);
+        if(_modifierPanel != null) _modifierPanel.buffRemoved?.Invoke(buff);
         
         if (isPlayer && _playerStats.statsDebug != null)
         {
@@ -512,6 +521,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
         poisonCurrentStacks = 0;
         currentDebuffs.Remove(Enum_Debuff.Poison);
+        if(_modifierPanel != null) _modifierPanel.debuffRemoved?.Invoke(Enum_Debuff.Poison);
 
     }
     
@@ -526,6 +536,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         var duration = (applicator.freezeDuration * 
                         (1 + (applicator.freezeDurationBonus / 100)));
 
+        // Bonus from Skills when Frozen
         if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_2_Freeze"))
         {
 
@@ -564,6 +575,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
         }
 
+        // Freeze Effect
         if (isPlayer)
         {
             SC_PlayerController.instance.FreezeMovement(true);
@@ -571,11 +583,13 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         }
         else
         {
-            _aiStats.GetComponent<AI_StateMachine>().TransitionToState(AI_StateMachine.EnemyState.Freeze);
+            if(_aiStats.TryGetComponent(out AI_StateMachine stateMachine))
+                stateMachine.TransitionToState(AI_StateMachine.EnemyState.Freeze);
         }
         
         yield return new WaitForSeconds(duration);
 
+        // Bonus from Skills when Unfrozen
         if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("Fracture Glaciaire"))
         {
 
@@ -620,7 +634,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
         if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("Immobilisation Glaciale"))
         {
-            StartCoroutine(Slowdown(applicator));
+            ApplyDebuff(Enum_Debuff.Slowdown, applicator);
         }
         
         
@@ -639,7 +653,20 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
         }
         
+        // Unfreeze Effect
+        if (isPlayer)
+        {
+            SC_PlayerController.instance.FreezeMovement(false);
+            SC_PlayerController.instance.FreezeDash(false);
+        }
+        else
+        {
+            if(_aiStats.TryGetComponent(out AI_StateMachine stateMachine))
+                stateMachine.TransitionToState(AI_StateMachine.EnemyState.Patrol);
+        }
+        
         currentDebuffs.Remove(Enum_Debuff.Freeze);
+        if(_modifierPanel != null) _modifierPanel.debuffRemoved?.Invoke(Enum_Debuff.Freeze);
 
     }
     
@@ -675,7 +702,8 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         }
         
         currentDebuffs.Remove(Enum_Debuff.Slowdown);
-
+        if(_modifierPanel != null) _modifierPanel.debuffRemoved?.Invoke(Enum_Debuff.Slowdown);
+        
     }
 
     private IEnumerator BuffStatTemp(Stats stat, float value, float duration)
