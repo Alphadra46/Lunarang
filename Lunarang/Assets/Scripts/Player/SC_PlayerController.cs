@@ -163,6 +163,7 @@ public class SC_PlayerController : MonoBehaviour
             yield return null;
         }
         isDashing = false;
+        SC_ComboController.instance.canPerformCombo = true;
         _animator.SetBool("isDashing", false);
     }
     

@@ -90,6 +90,18 @@ public class SC_AIStats : SC_Subject, IDamageable
     
 
     #endregion
+    [Space(5)]
+    
+    #region DMG
+
+    // DMG
+    [TabGroup("Settings/Stats/Subtabs", "DMG",TextColor = "darkred")]
+    public float damageTaken = 0;
+    
+    [TabGroup("Settings/Stats/Subtabs", "DMG")]
+    public float dotDamageTaken = 0;
+
+    #endregion
     
     #endregion
 
@@ -242,9 +254,10 @@ public class SC_AIStats : SC_Subject, IDamageable
         else
         {
         
+            var damageTakenMultiplier = (1 + (damageTaken/100));
             
             // Check if the damage is a Critical one and reduce damage by the current DEF of the entity.
-            var finalDamage = MathF.Round(rawDamage * defMultiplier);
+            var finalDamage = MathF.Round((rawDamage * defMultiplier) * damageTakenMultiplier);
 
             // Apply damage to the entity. Check if doesn't go below 0.
             currentHealth = currentHealth - finalDamage <= 0 ? 0 : currentHealth - finalDamage;

@@ -28,6 +28,7 @@ public class AI_Bully_StateMachine : AI_StateMachine
         States.Add(EnemyState.Chase, new AI_Bully_ChaseState(EnemyState.Chase, this));
         States.Add(EnemyState.Attack, new AI_Bully_AttackState(EnemyState.Attack, this));
         States.Add(EnemyState.Death, new AI_DeathState(EnemyState.Death, this));
+        States.Add(EnemyState.Freeze, new AI_FreezeState(EnemyState.Freeze, this));
         
         CurrentState = States[EnemyState.Idle];
     }

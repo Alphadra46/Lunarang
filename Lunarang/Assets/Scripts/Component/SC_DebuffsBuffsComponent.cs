@@ -13,6 +13,8 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     private SC_AIStats _aiStats;
     private SC_PlayerStats _playerStats;
 
+    [SerializeField, PropertySpace(SpaceAfter = 10f)] private SC_ModifierPanel _modifierPanel;
+
     private bool isPlayer;
     
     #region Status
@@ -38,7 +40,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     [TabGroup("DoT", "Poison"), MaxValue(2f), MinValue(0.25f)]
     public float poisonTick = 2f;
     [TabGroup("DoT", "Poison"), MaxValue(120f), MinValue(0.25f)]
-    public float poisonDuration = 1f;
+    public float poisonDuration = 10f;
     [TabGroup("DoT", "Poison")]
     public float poisonDMGBonus = 0f;
     
@@ -48,8 +50,13 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     
     [TabGroup("Debuff", "Freeze"), MaxValue(120f), MinValue(0f)]
     public float freezeDuration = 3f;
-    [TabGroup("Debuff", "Freeze")]
+    [TabGroup("Debuff", "Freeze"), MaxValue(120f), MinValue(0f)]
     public float freezeDurationBonus = 0f;
+    
+    [TabGroup("Debuff", "Freeze")]
+    public float unfreezeAoESize = 2f;
+    [TabGroup("Debuff", "Freeze")]
+    public float unfreezeAoEMV = 45f;
     
     #endregion
     
@@ -57,9 +64,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     
     [TabGroup("Debuff", "Freeze"), MaxValue(120f), MinValue(0f)]
     public float slowdownDuration = 5f;
-    [TabGroup("Debuff", "Freeze")]
-    public float slowdownDurationBonus = 0f;
-    
+
     #endregion
     
     #region DoT Damage
@@ -86,6 +91,12 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         }
     }
 
+    
+    public bool CheckHasDebuff(Enum_Debuff debuff)
+    {
+        return currentDebuffs.Contains(debuff);
+    }
+    
     public void ApplyDebuff(Enum_Debuff newDebuff, SC_DebuffsBuffsComponent applicator)
     {
          
@@ -112,31 +123,34 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                     print("POISON");
                     StartCoroutine(PoisonDoT(applicator));
                     currentDebuffs.Add(newDebuff);
+                    if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
                 }
                 break;
             
             case Enum_Debuff.Bleed:
                 currentDebuffs.Add(newDebuff);
+                if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
                 break;
             
             case Enum_Debuff.Burn:
                 currentDebuffs.Add(newDebuff);
+                if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
                 break;
             
             case Enum_Debuff.Freeze:
+                if(CheckHasDebuff(Enum_Debuff.Freeze)) return;
+                
                 StartCoroutine(FrozenState(applicator));
                 currentDebuffs.Add(newDebuff);
+                if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
                 break;
             
             case Enum_Debuff.Slowdown:
 
-                StartCoroutine(Slowdown(applicator,
-                    (SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_3_Freeze").buffsParentEffect
-                        .TryGetValue("slowdownDuration", out var value))
-                        ? float.Parse(value)
-                        : 0)
+                StartCoroutine(Slowdown(applicator)
                 );
                 currentDebuffs.Add(newDebuff);
+                if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
                 break;
             
             default:
@@ -318,6 +332,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         }
         
         currentBuffs.Add(newBuff);
+        if(_modifierPanel != null) _modifierPanel.buffAdded?.Invoke(newBuff);
         
         print(duration);
         if (duration > 0) StartCoroutine(RemoveBuffAfterDuration(newBuff, duration));
@@ -347,7 +362,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 }
                 
                 _playerStats.BreakShield();
-                
+
                 break;
             
             case Enum_Buff.SecondChance:
@@ -442,6 +457,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         }
 
         currentBuffs.Remove(buff);
+        if(_modifierPanel != null) _modifierPanel.buffRemoved?.Invoke(buff);
         
         if (isPlayer && _playerStats.statsDebug != null)
         {
@@ -461,7 +477,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         
     }
     
-    #region DoT
+    #region Coroutines
 
     /// <summary>
     /// Coroutine for the poison debuff, apply damage every ticks during a certain duration.
@@ -505,6 +521,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
         poisonCurrentStacks = 0;
         currentDebuffs.Remove(Enum_Debuff.Poison);
+        if(_modifierPanel != null) _modifierPanel.debuffRemoved?.Invoke(Enum_Debuff.Poison);
 
     }
     
@@ -515,21 +532,152 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     /// <returns></returns>
     private IEnumerator FrozenState(SC_DebuffsBuffsComponent applicator)
     {
-          
-        var duration = (applicator.freezeDuration * (1 + (freezeDurationBonus / 100)));
+
+        var duration = (applicator.freezeDuration * 
+                        (1 + (applicator.freezeDurationBonus / 100)));
+
+        // Bonus from Skills when Frozen
+        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_2_Freeze"))
+        {
+
+            _aiStats.damageTaken += float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_2_Freeze")
+                .buffsParentEffect["dmgTaken"]);
+
+        }
+        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_4_Freeze"))
+        {
+
+            _aiStats.damageTaken += float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_4_Freeze")
+                .buffsParentEffect["dmgTaken"]);
+
+        }
         
-        
+        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_2_Freeze"))
+        {
+
+            applicator.StartCoroutine(BuffStatTemp(Stats.ATK, float.Parse(SC_SkillManager.instance
+                .FindChildSkillByName("ChildSkill_3_2_Freeze")
+                .buffsParentEffect["atkBonus"]), float.Parse(SC_SkillManager.instance
+                .FindChildSkillByName("ChildSkill_3_2_Freeze")
+                .buffsParentEffect["atkBonusDuration"]))
+            );
+
+        }
+        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_4_Freeze"))
+        {
+
+            applicator.StartCoroutine(BuffStatTemp(Stats.ATKSPD, float.Parse(SC_SkillManager.instance
+                    .FindChildSkillByName("ChildSkill_3_4_Freeze")
+                    .buffsParentEffect["atkSpdBonus"]), float.Parse(SC_SkillManager.instance
+                    .FindChildSkillByName("ChildSkill_3_4_Freeze")
+                    .buffsParentEffect["atkSpdBonusDuration"]))
+            );
+
+        }
+
+        // Freeze Effect
+        if (isPlayer)
+        {
+            SC_PlayerController.instance.FreezeMovement(true);
+            SC_PlayerController.instance.FreezeDash(true);
+        }
+        else
+        {
+            if(_aiStats.TryGetComponent(out AI_StateMachine stateMachine))
+                stateMachine.TransitionToState(AI_StateMachine.EnemyState.Freeze);
+        }
         
         yield return new WaitForSeconds(duration);
+
+        // Bonus from Skills when Unfrozen
+        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("Fracture Glaciaire"))
+        {
+
+            print("AOOOOE");
+            
+            var rawDamage = MathF.Round((applicator.unfreezeAoEMV/100) * applicator._playerStats.currentATK, MidpointRounding.AwayFromZero);
+            var effDamage = rawDamage * (1 + (applicator._playerStats.dotDamageBonus / 100));
+            var effCrit = effDamage * (1 + (applicator.dotCritDamage / 100));
+
+            var pos = new Vector3(transform.position.x, 0.4f, transform.position.z);
+            
+            var ennemiesInAoE =
+                Physics.OverlapSphere(pos, applicator.unfreezeAoESize,
+                    SC_ComboController.instance.layerAttackable);
+
+            foreach (var e in ennemiesInAoE)
+            {
+                if (!e.TryGetComponent(out IDamageable damageable)) continue;
+                var isCritical = Random.Range(0, 100) < applicator.dotCritRate ? true : false;
+                damageable.TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
+
+                if(SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_1_Freeze") && 
+                   Random.Range(1, 100) < float.Parse(SC_SkillManager.instance
+                       .FindChildSkillByName("ChildSkill_1_1_Freeze")
+                       .buffsParentEffect["freezeHitRate"]))
+                {
+                    e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Freeze, applicator);
+                }
+                
+            }
+            
+        }
+
+        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_2_Freeze"))
+        {
+
+            StartCoroutine(BuffStatTemp(Stats.DMGTaken,
+                float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_2_Freeze").buffsParentEffect["dmgTaken"]),
+                float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_2_Freeze").buffsParentEffect["duration"])));
+
+        }
+
+        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("Immobilisation Glaciale"))
+        {
+            ApplyDebuff(Enum_Debuff.Slowdown, applicator);
+        }
+        
+        
+        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_2_Freeze"))
+        {
+
+            _aiStats.damageTaken -= float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_4_Freeze")
+                .buffsParentEffect["dmgTaken"]);
+
+        }
+        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_4_Freeze"))
+        {
+
+            _aiStats.damageTaken -= float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_4_Freeze")
+                .buffsParentEffect["dmgTaken"]);
+
+        }
+        
+        // Unfreeze Effect
+        if (isPlayer)
+        {
+            SC_PlayerController.instance.FreezeMovement(false);
+            SC_PlayerController.instance.FreezeDash(false);
+        }
+        else
+        {
+            if(_aiStats.TryGetComponent(out AI_StateMachine stateMachine))
+                stateMachine.TransitionToState(AI_StateMachine.EnemyState.Patrol);
+        }
         
         currentDebuffs.Remove(Enum_Debuff.Freeze);
+        if(_modifierPanel != null) _modifierPanel.debuffRemoved?.Invoke(Enum_Debuff.Freeze);
 
     }
     
-    private IEnumerator Slowdown(SC_DebuffsBuffsComponent applicator, float durationBonus)
+    private IEnumerator Slowdown(SC_DebuffsBuffsComponent applicator)
     {
 
-        var duration = applicator.slowdownDuration * (1 + (durationBonus / 100));
+        var duration = applicator.slowdownDuration * (1 + ((SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_3_Freeze").buffsParentEffect
+            .TryGetValue("slowdownDurationBonus", out var value))
+            ? float.Parse(value)
+            : 0) / 100);
+        
 
         if (applicator.isPlayer)
         {
@@ -554,9 +702,47 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         }
         
         currentDebuffs.Remove(Enum_Debuff.Slowdown);
-
+        if(_modifierPanel != null) _modifierPanel.debuffRemoved?.Invoke(Enum_Debuff.Slowdown);
+        
     }
 
+    private IEnumerator BuffStatTemp(Stats stat, float value, float duration)
+    {
+
+        switch (stat)
+        {
+            case Stats.DMGTaken:
+                if (isPlayer) _playerStats.damageTaken += value;
+                else _aiStats.damageTaken += value;
+                break;
+            case Stats.ATK:
+                if (isPlayer) _playerStats.atkModifier += value;
+                else _aiStats.atkModifier += value;
+                break;
+            case Stats.ATKSPD:
+                if (isPlayer) _playerStats.atkSpeedModifier += value;
+                break;
+        }
+        
+        yield return new WaitForSeconds(duration);
+        
+        switch (stat)
+        {
+            case Stats.DMGTaken:
+                if (isPlayer) _playerStats.damageTaken -= value;
+                else _aiStats.damageTaken -= value;
+                break;
+            case Stats.ATK:
+                if (isPlayer) _playerStats.atkModifier -= value;
+                else _aiStats.atkModifier -= value;
+                break;
+            case Stats.ATKSPD:
+                if (isPlayer) _playerStats.atkSpeedModifier -= value;
+                break;
+        }
+
+    }
+    
     #endregion
     
     

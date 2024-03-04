@@ -7,7 +7,8 @@
         SecondChance,
         Thorns,
         RelentlessTorment,
-        ManaFury
+        ManaFury,
+        ColdPunishment
 
     }
 }

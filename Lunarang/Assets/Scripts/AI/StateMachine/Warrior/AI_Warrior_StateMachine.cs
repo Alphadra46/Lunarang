@@ -40,6 +40,7 @@ public class AI_Warrior_StateMachine : AI_StateMachine
         States.Add(EnemyState.Attack, new AI_Warrior_AttackState(EnemyState.Attack, this));
         States.Add(EnemyState.Stun, new AI_Warrior_StunState(EnemyState.Stun, this));
         States.Add(EnemyState.Death, new AI_DeathState(EnemyState.Death, this));
+        States.Add(EnemyState.Freeze, new AI_FreezeState(EnemyState.Freeze, this));
         
         CurrentState = States[EnemyState.Idle];
     }
