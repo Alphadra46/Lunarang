@@ -73,6 +73,7 @@ public class AI_BadKyu_ChaseState : BaseState<AI_StateMachine.EnemyState>
     {
 
         var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
+        var playerPos = player.transform.position;
         
         if (distance <= _aiStateMachine.attackRange)
         {
@@ -85,9 +86,17 @@ public class AI_BadKyu_ChaseState : BaseState<AI_StateMachine.EnemyState>
         }
         else if (distance <= _aiStateMachine.detectionAreaRadius)
         {
+            
             _agent.isStopped = false;
-            _agent.SetDestination(player.transform.position);
+            _aiStateMachine.hasSeenPlayer = true;
+
         }
+
+        if (_aiStateMachine.hasSeenPlayer)
+        {
+            _agent.SetDestination(playerPos);
+        }
+        
         
         _aiStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiStateMachine.centerPoint.position.y + _aiStateMachine.ProjectileSpawnOffset.y, player.transform.position.z));
         

@@ -91,6 +91,24 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         }
     }
 
+    public void ResetAllBuffsAndDebuffs()
+    {
+
+        foreach (var buff in currentBuffs)
+        {
+            RemoveBuff(buff);
+        }
+
+        foreach (var debuff in currentDebuffs)
+        {
+            _modifierPanel.debuffRemoved?.Invoke(debuff);
+        }
+        
+        currentBuffs.Clear();
+        currentDebuffs.Clear();
+        
+    }
+
     
     public bool CheckHasDebuff(Enum_Debuff debuff)
     {

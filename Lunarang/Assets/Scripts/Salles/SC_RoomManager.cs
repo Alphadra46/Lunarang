@@ -39,10 +39,10 @@ public class SC_RoomManager : MonoBehaviour
     private CinemachineConfiner confiner;
 
     private List<SC_Door> activeDoors = new List<SC_Door>();
-    private List<GameObject> enemiesInRoom = new List<GameObject>();
+    [ShowInInspector] private List<GameObject> enemiesInRoom = new List<GameObject>();
 
-    private int numberOfEnemies;
-    [HideInInspector] public bool isClear=false;
+    [ShowInInspector] private int numberOfEnemies;
+    [ShowInInspector] public bool isClear=false;
     
     private enum RoomSize
     {

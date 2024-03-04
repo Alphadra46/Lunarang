@@ -330,6 +330,7 @@ public class SC_AIStats : SC_Subject, IDamageable
     {
         NotifyObservers("enemyDeath");
         onDeath?.Invoke();
+        _debuffsBuffsComponent.ResetAllBuffsAndDebuffs();
         
         if(SC_Pooling.instance != null) {
             SC_Pooling.instance.ReturnItemToPool("Ennemis", gameObject);
@@ -338,7 +339,7 @@ public class SC_AIStats : SC_Subject, IDamageable
         }
         else
         {
-            Destroy(gameObject, 1);    
+            Destroy(gameObject, 1);
         }
         
     }

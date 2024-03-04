@@ -10,7 +10,7 @@ public class SC_InteractableBase : MonoBehaviour, IInteractable
     [SerializeField] private List<UnityEvent> events = new List<UnityEvent>();
 
     private SC_InteractorComponent interactor;
-
+    
     public bool interactableOnce;
     private bool wasInteracted;
     
@@ -51,6 +51,13 @@ public class SC_InteractableBase : MonoBehaviour, IInteractable
     private bool CheckInteractionStatut()
     {
         return isInteractionEnded;
+    }
+
+    public void OpenRewardChest()
+    {
+        
+        SC_GameManager.instance.OpenRewardChest();
+        
     }
 
     private IEnumerator WaitUntilEnded()

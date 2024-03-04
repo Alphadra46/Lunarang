@@ -57,13 +57,14 @@ public class AI_StateMachine : StateManager<AI_StateMachine.EnemyState>
 
     #region Chase
     
-    [FormerlySerializedAs("chaseAreaRadius")]
     [TabGroup("States", "Chase")]
     [Range(1f, 100f)]
     public float detectionAreaRadius = 1;
     [TabGroup("States", "Chase")]
     [Range(1f, 100f)]
     public float chaseSpeed = 1;
+    [TabGroup("States", "Chase")]
+    public bool hasSeenPlayer = false;
 
     #endregion
 

@@ -3,10 +3,10 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AI_Bully_PatrolState : BaseState<AI_Bully_StateMachine.EnemyState>
+public class AI_Bully_PatrolState : BaseState<AI_StateMachine.EnemyState>
 {
     
-    public AI_Bully_PatrolState(AI_Bully_StateMachine.EnemyState key, AI_Bully_StateMachine manager) : base(key , manager)
+    public AI_Bully_PatrolState(AI_StateMachine.EnemyState key, AI_Bully_StateMachine manager) : base(key , manager)
     {
         _aiStateMachine = manager;
     }
