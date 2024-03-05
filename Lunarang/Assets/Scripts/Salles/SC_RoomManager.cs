@@ -139,9 +139,17 @@ public class SC_RoomManager : MonoBehaviour
         
         for (int i = 0; i < numberOfEnemies; i++)
         {
-            enemiesInRoom.Add(SC_Pooling.instance.GetItemFromPool("Ennemis",enemiesPool.subPoolsList[Random.Range(0,enemiesPool.subPoolsList.Count)].subPoolTransform.gameObject.name));
+            var ennemy = SC_Pooling.instance.GetItemFromPool("Ennemis",
+                enemiesPool.subPoolsList[Random.Range(0, enemiesPool.subPoolsList.Count)].subPoolTransform.gameObject
+                    .name);
+            
+            if(enemiesInRoom.Contains(ennemy))
+                Debug.Log("ERRORRRRR");
+            enemiesInRoom.Add(ennemy);
         }
 
+        Debug.Log(numberOfEnemies == enemiesInRoom.Distinct().Count());
+        
         foreach (var enemy in enemiesInRoom)
         {
             Bounds spawnBounds = new Bounds();
