@@ -68,13 +68,13 @@ public class SC_Projectile : MonoBehaviour
             foreach (var e in ennemiesInAoE)
             {
                 if (!e.TryGetComponent(out IDamageable aoeHitted)) continue;
-                aoeHitted.TakeDamage(damage, weaponType, isCrit);
+                aoeHitted.TakeDamage(damage, isCrit, sender);
 
                 if (hitNumber <= 1) continue;
                 
                 for (var i = 0; i < hitNumber-1; i++)
                 {
-                    aoeHitted.TakeDamage(damage, weaponType, isCrit);
+                    aoeHitted.TakeDamage(damage, isCrit, sender);
                 }
 
             }
@@ -86,10 +86,10 @@ public class SC_Projectile : MonoBehaviour
             {
                 
                 if(col.CompareTag("Entity"))
-                    damageable.TakeDamage(damage, weaponType,isCrit);
+                    damageable.TakeDamage(damage, isCrit, sender);
                 else if (col.CompareTag("Player"))
                 {
-                    damageable.TakeDamage(damage);
+                    damageable.TakeDamage(damage, false, sender);
                 }
 
             }

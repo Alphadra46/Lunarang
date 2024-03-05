@@ -68,6 +68,7 @@ public enum Stats
     
     FreezeHitRate,
     FreezeDuration,
+    FreezeDurationBonus,
     UnfreezeAoESize,
     UnfreezeAoEMV,
     UnfreezeAoEHitRate,
@@ -317,10 +318,37 @@ public class SO_BaseSkill : SerializedScriptableObject
                 case Stats.FreezeHitRate:
                     break;
                 case Stats.FreezeDuration:
+                    debuffsBuffsComponent.freezeDuration = 
+                        (int)(stat.Value.Contains("+") ? 
+                            debuffsBuffsComponent.freezeDuration+value 
+                            : stat.Value.Contains("-") ?
+                                debuffsBuffsComponent.freezeDuration-value 
+                                : value);
+                    break;
+                case Stats.FreezeDurationBonus:
+                    debuffsBuffsComponent.freezeDurationBonus = 
+                        (int)(stat.Value.Contains("+") ? 
+                            debuffsBuffsComponent.freezeDurationBonus+value 
+                            : stat.Value.Contains("-") ?
+                                debuffsBuffsComponent.freezeDurationBonus-value 
+                                : value);
+                    
                     break;
                 case Stats.UnfreezeAoESize:
+                    debuffsBuffsComponent.unfreezeAoESize = 
+                        (int)(stat.Value.Contains("+") ? 
+                            debuffsBuffsComponent.unfreezeAoESize+value 
+                            : stat.Value.Contains("-") ?
+                                debuffsBuffsComponent.unfreezeAoESize-value 
+                                : value);
                     break;
                 case Stats.UnfreezeAoEMV:
+                    debuffsBuffsComponent.unfreezeAoEMV = 
+                        (int)(stat.Value.Contains("+") ? 
+                        debuffsBuffsComponent.unfreezeAoEMV+value 
+                        : stat.Value.Contains("-") ?
+                            debuffsBuffsComponent.unfreezeAoEMV-value 
+                            : value);
                     break;
                 case Stats.UnfreezeAoEHitRate:
                     break;

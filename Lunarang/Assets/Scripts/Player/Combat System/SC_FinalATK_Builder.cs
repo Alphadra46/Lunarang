@@ -179,13 +179,13 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 {
                     case "M":
 
-                        Multihit();
+                        _comboController.Multihit(additionnalHits);
 
                         break;
 
                     case "A":
 
-                        CreateAoE(pos + (transform.forward), true);
+                        _comboController.CreateAoE(pos + (transform.forward), areaSize,true, additionnalHits);
                         
                         break;
 
@@ -210,16 +210,16 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 {
                     case "M":
                         
-                        Multihit();
+                        _comboController.Multihit(additionnalHits);
                         foreach (var e in _comboController.currentEnemiesHitted)
                         {
-                            CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z));
+                            _comboController.CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z), areaSize);
                         }
                         
                         break;
                     case "A":
                         
-                        CreateAoE(pos + (transform.forward), true);
+                        _comboController.CreateAoE(pos + (transform.forward), areaSize,true, additionnalHits);
 
                         break;
 
@@ -246,7 +246,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 {
                     
                     case "M":
-                        Multihit();
+                        _comboController.Multihit(additionnalHits);
                         
                         _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                             projectilesNumbers,
@@ -259,7 +259,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                         break;
                     
                     case "A":
-                        CreateAoE(pos + (transform.forward), true);
+                        _comboController.CreateAoE(pos + (transform.forward), areaSize,true, additionnalHits);
                         
                         _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                             projectilesNumbers,
@@ -297,16 +297,16 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 {
                     case "M":
                         
-                        Multihit();
+                        _comboController.Multihit(additionnalHits);
                         foreach (var e in _comboController.currentEnemiesHitted)
                         {
-                            CreateAoE(pos + (transform.forward));
+                            _comboController.CreateAoE(pos + (transform.forward), areaSize);
                         }
 
                         break;
                     case "A":
                         
-                        CreateAoE(pos + (transform.forward));
+                        _comboController.CreateAoE(pos + (transform.forward), areaSize);
                         
                         break;
 
@@ -333,11 +333,11 @@ public class SC_FinalATK_Builder : MonoBehaviour
                 {
                     
                     case "M":
-                        Multihit();
+                        _comboController.Multihit(additionnalHits);
                         
                         foreach (var e in _comboController.currentEnemiesHitted)
                         {
-                            CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z));
+                            _comboController.CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z), areaSize);
                             _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                                 projectilesNumbers,
                                 areaSize,
@@ -353,7 +353,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                     
                     case "A":
                         
-                        CreateAoE(pos + (transform.forward));
+                        _comboController.CreateAoE(pos + (transform.forward), areaSize);
                         _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                             projectilesNumbers,
                             areaSize,
@@ -404,7 +404,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                     
                     case "A":
                         
-                        CreateAoE(pos + (transform.forward));
+                        _comboController.CreateAoE(pos + (transform.forward), areaSize);
                         _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                             projectilesNumbers,
                             areaSize,
@@ -437,100 +437,6 @@ public class SC_FinalATK_Builder : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Create multiples hits.
-    /// </summary>
-    private void Multihit()
-    {
-        
-        var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100);
-
-        var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
-        var effDamage = rawDamage * (1 + (_stats.damageBonus / 100));
-        var effCrit = effDamage * (1 + (_stats.critDMG / 100));
-        
-        foreach (var e in _comboController.currentEnemiesHitted)
-        {
-            if (!e.TryGetComponent(out IDamageable damageable)) continue;
-                            
-            for (var i = 0; i < additionnalHits; i++)
-            {
-                var mhSettings = Instantiate(ExampleMH);
-
-                mhSettings.transform.localScale *= areaSize;
-                mhSettings.transform.position = new Vector3(e.transform.position.x,
-                    e.transform.localScale.y, e.transform.position.z);
-                Destroy(mhSettings, 2f);
-                                
-                var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
-                damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type,
-                    isCritical);
-                
-                if(Random.Range(1, 100) < _stats.poisonHitRate)
-                {
-                    e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
-                }
-            }
-
-        }
-        
-    }
-
-    /// <summary>
-    /// Create an area of effect at a certain pos.
-    /// </summary>
-    /// <param name="pos">Center of the AoE</param>
-    /// <param name="hasAdditionnalHits">Is the AoE has additionnal hits ?</param>
-    private void CreateAoE(Vector3 pos, bool hasAdditionnalHits = false)
-    {
-
-        var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100);
-
-        var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
-        var effDamage = rawDamage * (1 + (_stats.damageBonus / 100));
-        var effCrit = effDamage * (1 + (_stats.critDMG / 100));
-        
-        var aoeSettings = Instantiate(ExampleAoE);
-        aoeSettings.transform.localScale *= areaSize;
-        aoeSettings.transform.position = pos;
-        Destroy(aoeSettings, 2f);
-
-        ennemiesInAoE =
-            Physics.OverlapSphere((pos), areaSize,
-                layerAttackable); //TODO : Replace Pos by Weapon Hit Pos
-
-        foreach (var e in ennemiesInAoE)
-        {
-            if (!e.TryGetComponent(out IDamageable damageable)) continue;
-            var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
-            damageable.TakeDamage(isCritical ? effCrit : effDamage, _comboController.currentWeapon.type,
-                isCritical);
-            
-            if(Random.Range(1, 100) < _stats.poisonHitRate)
-            {
-                e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
-            }
-
-            if(!hasAdditionnalHits) continue;
-            for (var i = 0; i < additionnalHits; i++)
-            {
-                var mhSettings = Instantiate(ExampleMH);
-                mhSettings.transform.position = e.transform.position;
-                Destroy(mhSettings, 2f);
-                                
-                isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
-                damageable.TakeDamage(isCritical ? effCrit : effDamage,
-                    _comboController.currentWeapon.type, isCritical);
-                
-                if(Random.Range(1, 100) < _stats.poisonHitRate)
-                {
-                    e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
-                }
-            }
-
-        }
-    }
-    
     /// <summary>
     /// Reset all paramaters.
     /// </summary>

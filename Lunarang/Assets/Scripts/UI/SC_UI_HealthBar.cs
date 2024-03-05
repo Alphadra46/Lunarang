@@ -5,9 +5,8 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
 
-public class SC_UI_HealthBar : MonoBehaviour, IObserver
+public class SC_UI_HealthBar : MonoBehaviour
 {
     
     
@@ -17,35 +16,41 @@ public class SC_UI_HealthBar : MonoBehaviour, IObserver
     [ShowInInspector, ReadOnly] private float maxHP;
 
     [ShowInInspector, ReadOnly] private Slider mainSlider;
-    [ShowInInspector, ReadOnly] private Slider anticipationSlider;
+    [ShowInInspector, ReadOnly] private Slider shieldSlider;
+    [ShowInInspector, ReadOnly] private Image detail;
     
     [ShowInInspector, ReadOnly] private TextMeshProUGUI tmpHP;
-
-    public float anticipationSpeed;
-    private SC_PlayerStats playerStats;
 
     #endregion
 
     private void Awake()
     {
+
+        SC_PlayerStats.onHealthChange += HealthUpdate;
+        SC_PlayerStats.onShieldHPChange += ShieldUpdate;
         
         if(!transform.GetChild(2).TryGetComponent(out mainSlider)) return;
+        if(mainSlider.handleRect.TryGetComponent(out detail)) mainSlider.onValueChanged.AddListener(OnHealthValueChanged);
         
-        if(!transform.GetChild(1).TryGetComponent(out anticipationSlider)) return;
+        if(!transform.GetChild(1).TryGetComponent(out shieldSlider)) return;
         
-        if(!transform.GetChild(3).TryGetComponent(out tmpHP)) return;
+        if(!transform.GetChild(4).TryGetComponent(out tmpHP)) return;
+    }
 
-        playerStats = FindObjectOfType<SC_PlayerStats>();
-        AddSelfToSubjectList();
+    private void OnHealthValueChanged(float value)
+    {
+        
+        detail.color = value == maxHP ? new Color32(255, 255, 255, 0) : new Color32(255, 255, 255, 255);
+
     }
 
     private void Update()
     {
         
-        if (mainSlider.value != anticipationSlider.value)
-        {
-            anticipationSlider.value = Mathf.Lerp(anticipationSlider.value, currentHP, anticipationSpeed);
-        }
+        // if (mainSlider.value != anticipationSlider.value)
+        // {
+        //     anticipationSlider.value = Mathf.Lerp(anticipationSlider.value, currentHP, anticipationSpeed);
+        // }
         
     }
 
@@ -56,33 +61,18 @@ public class SC_UI_HealthBar : MonoBehaviour, IObserver
 
         mainSlider.maxValue = maxHP;
         mainSlider.value = currentHP;
-        
-        anticipationSlider.maxValue = maxHP;
 
         tmpHP.text = $"{currentHP} / {maxHP}";
-
     }
-
-    public void OnNotify()
+    
+    public void ShieldUpdate(float newCurrentShieldValue, float newCurrentShieldMaxValue)
     {
-        throw new NotImplementedException();
+        if(shieldSlider == null) return;
+        
+        shieldSlider.gameObject.SetActive(newCurrentShieldMaxValue > 0);
+        
+        shieldSlider.maxValue = newCurrentShieldMaxValue;
+        shieldSlider.value = newCurrentShieldValue;
     }
-
-    public void OnNotify(string context, SC_Subject subjectReference)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void OnNotify(float newCurrentHP, float newMaxHP)
-    {
-        HealthUpdate(newCurrentHP,newMaxHP);
-    }
-
-    /// <summary>
-    /// Add this observer to the Subscribe list of the subject
-    /// </summary>
-    private void AddSelfToSubjectList()
-    {
-        playerStats.AddObserver(this);
-    }
+    
 }

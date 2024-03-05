@@ -70,6 +70,7 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
     {
 
         var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
+        var playerPos = player.transform.position;
         
         if (distance <= _aiStateMachine.attackRange)
         {
@@ -85,15 +86,20 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
         {
             
             _agent.isStopped = false;
-            _agent.SetDestination(player.transform.position);
-            
-        }
-        else
-        {
-            _aiStateMachine.TransitionToState(AI_Bully_StateMachine.EnemyState.Patrol);
+            _aiStateMachine.hasSeenPlayer = true;
+
         }
 
-        var playerPos = player.transform.position;
+        if (_aiStateMachine.hasSeenPlayer)
+        {
+            _agent.SetDestination(playerPos);
+        }
+        // else
+        // {
+        //     _aiStateMachine.TransitionToState(AI_Bully_StateMachine.EnemyState.Patrol);
+        // }
+
+        
         _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
         
     }

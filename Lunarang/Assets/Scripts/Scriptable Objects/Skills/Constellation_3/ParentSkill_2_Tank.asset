@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ffe99ba0a3ec7343aa7a3af0ccd7fb3, type: 3}
+  m_Name: ParentSkill_2_Tank
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: statsChangedOnInit
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[Stats, Assembly-CSharp],[System.String,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Stats, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: buffsAppliedOnInit
+      Entry: 7
+      Data: 2|System.Collections.Generic.Dictionary`2[[Enum.Enum_Buff, Assembly-CSharp],[System.String,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 3|System.Collections.Generic.EnumEqualityComparer`1[[Enum.Enum_Buff,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: statsChangedOnEvent
+      Entry: 7
+      Data: 4|System.Collections.Generic.Dictionary`2[[Stats, Assembly-CSharp],[System.String,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 1
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: buffsAppliedOnEvent
+      Entry: 7
+      Data: 5|System.Collections.Generic.Dictionary`2[[Enum.Enum_Buff, Assembly-CSharp],[System.String,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 3
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  skillName: Corps d'Acier
+  constellation: 3
+  shortDescription: "\xC0 chaque fois que Lo\xFC perd <b>certain nombre de PV<b>,
+    celui-ci gagne <b>1</b> charge de <b>Corps d'acier</b>.\r"
+  longDescription: "Pour chaque <b>5%</b> de <b>PV perdus</b> par Lo\xFC, celui-ci
+    gagne <b>1</b> charge de <b>Corps d'acier</b>.\r\n\r\nChaque charge de <b>Corps
+    d'acier</b> vient augmenter de <b>10%</b> la <b>DEF</b> de Lo\xFC.\r\nLe nombre
+    maximum de charges est de <b>10</b>.\r"
+  eventEnabler: {fileID: 0}
+  eventDisabler: {fileID: 0}
+  childrenSkills:
+  - {fileID: 11400000, guid: 80cb8cd0b22b661468dfaab27001be8c, type: 2}
+  - {fileID: 11400000, guid: 249b51f1e810e9c49aeea45af68552ef, type: 2}
+  - {fileID: 11400000, guid: d2de864a1116d0b48b3cbfd5f95c80fb, type: 2}
+  - {fileID: 11400000, guid: c30a0eb83314c3a488fa1dfd6d2ad299, type: 2}
