@@ -149,7 +149,9 @@ public class SC_AIStats : SC_Subject, IDamageable
     private NavMeshAgent _agent;
     private AI_StateMachine _stateMachine;
     private SC_DebuffsBuffsComponent _debuffsBuffsComponent;
-    
+
+
+    private bool isDead = false;
     #endregion
 
 
@@ -196,6 +198,7 @@ public class SC_AIStats : SC_Subject, IDamageable
         _renderer.UpdateHealthBar(currentHealth, currentMaxHealth);
         _renderer.RemoveDebugDamageChildren();
 
+        isDead = false;
     }
 
     #region Shield Part
@@ -240,6 +243,7 @@ public class SC_AIStats : SC_Subject, IDamageable
     public void TakeDamage(float rawDamage, bool isCrit, GameObject attacker,bool trueDamage = false)
     {
         
+        
         if (hasShield & !isBreaked)
         {
             
@@ -271,13 +275,16 @@ public class SC_AIStats : SC_Subject, IDamageable
 
             if (currentHealth <= 0)
             {
+                
                 if (_stateMachine == null)
                 {
                     Death();
                     return;
                 }
-                
-                _stateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
+                if(isDead != true) {
+                    _stateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
+                    isDead = true;
+                }
             }
                 
         }
@@ -316,29 +323,33 @@ public class SC_AIStats : SC_Subject, IDamageable
         _renderer.DebugDamage(finalDamage, isCrit, dotType);
 
         if (!(currentHealth <= 0)) return;
-        
+
+        isDead = true;
         if (_stateMachine == null)
         {
             Death();
             return;
         }
-                
-        _stateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
+        
+        if(isDead != true) {
+            _stateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
+            isDead = true;
+        }
     }
 
     public void Death()
     {
-        NotifyObservers("enemyDeath");
         onDeath?.Invoke();
+        _debuffsBuffsComponent.ResetAllBuffsAndDebuffs();
         
         if(SC_Pooling.instance != null) {
             SC_Pooling.instance.ReturnItemToPool("Ennemis", gameObject);
-            gameObject.SetActive(false);
             ResetStats();
+            gameObject.SetActive(false);
         }
         else
         {
-            Destroy(gameObject, 1);    
+            Destroy(gameObject, 1);
         }
         
     }

@@ -84,14 +84,24 @@ public class AI_Summoner_ChaseState : BaseState<AI_StateMachine.EnemyState>
             }
             
         } else if (distance <= _aiStateMachine.detectionAreaRadius) {
+            
             _agent.isStopped = false;
-            _agent.SetDestination(player.transform.position);
-            _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
+            _aiStateMachine.hasSeenPlayer = true;
+
         }
-        else
+
+        if (_aiStateMachine.hasSeenPlayer)
         {
-            _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Patrol);
+            _agent.SetDestination(playerPos);
+            _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
+            
         }
+        
+        
+        // else
+        // {
+        //     _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Patrol);
+        // }
         
     }
     
