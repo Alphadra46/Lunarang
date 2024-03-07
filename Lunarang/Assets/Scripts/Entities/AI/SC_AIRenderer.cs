@@ -83,8 +83,10 @@ public class SC_AIRenderer : MonoBehaviour
             case Enum_Debuff.Bleed:
                 break;
             case Enum_Debuff.Burn:
+                textMeshProUGUI.color = isCrit ?new Color32(173, 38, 14, 255) : new Color32(232, 60, 30, 255);
                 break;
             case Enum_Debuff.Freeze:
+                textMeshProUGUI.color = isCrit ?new Color32(60, 164, 201, 255) : new Color32(114, 191, 219, 255);
                 break;
             case Enum_Debuff.Slowdown:
                 break;

@@ -23,33 +23,26 @@ MonoBehaviour:
     SerializationNodes:
     - Name: statsChangedOnInit
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[Stats, Assembly-CSharp],[System.String,
-        mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Stats, Assembly-CSharp]],
+      Data: 0|System.Collections.Generic.List`1[[SC_StatModification, Assembly-CSharp]],
         mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 
-    - Name: $k
+      Data: 1|SC_StatModification, Assembly-CSharp
+    - Name: StatToModify
       Entry: 3
       Data: 46
-    - Name: $v
-      Entry: 1
-      Data: +100%
+    - Name: ModificationType
+      Entry: 3
+      Data: 0
+    - Name: ModificationValue
+      Entry: 4
+      Data: 100
+    - Name: timer
+      Entry: 4
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -86,24 +79,11 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: statsChangedOnEvent
-      Entry: 7
-      Data: 4|System.Collections.Generic.Dictionary`2[[Stats, Assembly-CSharp],[System.String,
-        mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 9
-      Data: 1
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
+      Entry: 6
       Data: 
     - Name: buffsAppliedOnEvent
       Entry: 7
-      Data: 5|System.Collections.Generic.Dictionary`2[[Enum.Enum_Buff, Assembly-CSharp],[System.String,
+      Data: 4|System.Collections.Generic.Dictionary`2[[Enum.Enum_Buff, Assembly-CSharp],[System.String,
         mscorlib]], mscorlib
     - Name: comparer
       Entry: 9
@@ -119,15 +99,28 @@ MonoBehaviour:
       Data: 
     - Name: buffsParentEffect
       Entry: 7
-      Data: 6|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String,
+      Data: 5|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String,
         mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 7|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+      Data: 6|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
         mscorlib]], mscorlib
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: buffsParentTest
+      Entry: 7
+      Data: 7|System.Collections.Generic.List`1[[SC_StatModification, Assembly-CSharp]],
+        mscorlib
     - Name: 
       Entry: 12
       Data: 0

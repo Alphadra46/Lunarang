@@ -236,20 +236,22 @@ public class SC_ComboController : MonoBehaviour
 
         foreach (var e in hits)
         {
+
+            var entityDebuff = e.GetComponent<SC_DebuffsBuffsComponent>();
             
-            var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+            var isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
             
             var currentMV = (currentWeapon.MovesValues[comboCounter-1]/100);
             
-            var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
-            var effDamage = rawDamage * (1 + (_stats.damageBonus/100));
-            var effCrit = effDamage * (1 + (_stats.critDMG/100));
+            var rawDamage = MathF.Round(currentMV * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
+            var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus/100));
+            var effCrit = effDamage * (1 + (_stats.currentStats.critDMG/100));
             
             e.GetComponent<IDamageable>().TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
             
-            if(Random.Range(1, 100) < _stats.poisonHitRate)
+            if(Random.Range(1, 100) < _stats.currentStats.poisonHitRate)
             {
-                e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
+                entityDebuff.ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
             }
 
             if (comboCounter == comboMaxLength && SC_SkillManager.instance.CheckHasSkillByName("Châtiment Glacial"))
@@ -259,6 +261,18 @@ public class SC_ComboController : MonoBehaviour
             else if (currentWeapon.id == "hammer")
             {
                 CheckFreezeHit(e);
+            }
+
+            if (currentWeapon.id == "chakram")
+            {
+                CheckBurnHit(e);
+            }
+
+            if (entityDebuff.currentDebuffs.Contains(Enum_Debuff.Burn))
+            {
+                
+                entityDebuff.doTStates.Burn(_debuffsBuffsComponent, entityDebuff);
+                
             }
             
         }
@@ -305,11 +319,11 @@ public class SC_ComboController : MonoBehaviour
             p.areaSize = areaSize;
             p.isAoE = isAoE;
             
-            var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+            var isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
             
-            var rawDamage = MathF.Round((moveValue/100) * _stats.currentATK, MidpointRounding.AwayFromZero);
-            var effDamage = rawDamage * (1 + (_stats.damageBonus/100));
-            var effCrit = effDamage * (1 + (_stats.critDMG/100));
+            var rawDamage = MathF.Round((moveValue/100) * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
+            var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus/100));
+            var effCrit = effDamage * (1 + (_stats.currentStats.critDMG/100));
             
             p.damage = isCritical ? effCrit : effDamage;
             p.isCrit = isCritical;
@@ -333,9 +347,9 @@ public class SC_ComboController : MonoBehaviour
         
         var currentMV = (currentWeapon.MovesValues[comboCounter - 1] / 100);
 
-        var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
-        var effDamage = rawDamage * (1 + (_stats.damageBonus / 100));
-        var effCrit = effDamage * (1 + (_stats.critDMG / 100));
+        var rawDamage = MathF.Round(currentMV * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
+        var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus / 100));
+        var effCrit = effDamage * (1 + (_stats.currentStats.critDMG / 100));
         
         foreach (var e in currentEnemiesHitted)
         {
@@ -350,10 +364,10 @@ public class SC_ComboController : MonoBehaviour
                 //     e.transform.localScale.y, e.transform.position.z);
                 // Destroy(mhSettings, 2f);
                                 
-                var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+                var isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
                 damageable.TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
                 
-                if(Random.Range(1, 100) < _stats.poisonHitRate)
+                if(Random.Range(1, 100) < _stats.currentStats.poisonHitRate)
                 {
                     e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
                 }
@@ -380,14 +394,18 @@ public class SC_ComboController : MonoBehaviour
     /// <param name="areaSize"></param>
     /// <param name="hasAdditionnalHits">Is the AoE has additionnal hits ?</param>
     /// <param name="additionnalHits"></param>
-    public void CreateAoE(Vector3 pos, float areaSize,bool hasAdditionnalHits = false, int additionnalHits = 0)
+    public void CreateAoE(Vector3 pos, float areaSize, float currentMV, bool isDoT = false,bool hasAdditionnalHits = false, int additionnalHits = 0)
     {
 
-        var currentMV = (currentWeapon.MovesValues[comboCounter - 1] / 100);
-
-        var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
-        var effDamage = rawDamage * (1 + (_stats.damageBonus / 100));
-        var effCrit = effDamage * (1 + (_stats.critDMG / 100));
+        var rawDamage = MathF.Round(currentMV * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
+        var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus / 100));
+        var effCrit = effDamage * (1 + (_stats.currentStats.critDMG / 100));
+        
+        var effDoTDamage = Mathf.Round(rawDamage * (1 + (_debuffsBuffsComponent.burnDMGBonus + (_debuffsBuffsComponent._playerStats.currentStats.dotDamageBonus))/100));
+        
+        var effDoTCrit = effDoTDamage * (1 + (_debuffsBuffsComponent.dotCritDamage/100));
+                
+        
         
         // var aoeSettings = Instantiate(ExampleAoE);
         // aoeSettings.transform.localScale *= areaSize;
@@ -401,10 +419,19 @@ public class SC_ComboController : MonoBehaviour
         foreach (var e in ennemiesInAoE)
         {
             if (!e.TryGetComponent(out IDamageable damageable)) continue;
-            var isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
-            damageable.TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
+            var isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
+            var isDoTCritical = Random.Range(0, 100) < _debuffsBuffsComponent.dotCritRate ? true : false;
+
+            if (!isDoT)
+            {
+                damageable.TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
+            }
+            else
+            {
+                damageable.TakeDoTDamage(isDoTCritical ? effDoTCrit : effDoTDamage, isDoTCritical, Enum_Debuff.Burn);
+            }
             
-            if(Random.Range(1, 100) < _stats.poisonHitRate)
+            if(Random.Range(1, 100) < _stats.currentStats.poisonHitRate)
             {
                 e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
             }
@@ -416,17 +443,17 @@ public class SC_ComboController : MonoBehaviour
                 // mhSettings.transform.position = e.transform.position;
                 // Destroy(mhSettings, 2f);
                                 
-                isCritical = Random.Range(0, 100) < _stats.critRate ? true : false;
+                isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
                 damageable.TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
                 
-                if(Random.Range(1, 100) < _stats.poisonHitRate)
+                if(Random.Range(1, 100) < _stats.currentStats.poisonHitRate)
                 {
                     e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
                 }
 
                 if (comboCounter == comboMaxLength && SC_SkillManager.instance.CheckHasSkillByName("Châtiment Glacial"))
                 {
-                   CheckFreezeHit(e, true);
+                    CheckFreezeHit(e, true);
                 }
                 else if (currentWeapon.id == "hammer")
                 {
@@ -618,6 +645,23 @@ public class SC_ComboController : MonoBehaviour
         if(Random.Range(1, 100) < freezeHitRate)
         {
             entity.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Freeze, GetComponent<SC_DebuffsBuffsComponent>());
+        }
+        
+    }
+    
+    public void CheckBurnHit(Collider entity, bool isLastHit = false)
+    {
+        var burnHitRateBonus = 0f;
+
+        var baseBurnHitRate = currentWeapon.id == "chakram" ? 40f : 0f;
+
+        var burnHitRate = isLastHit ? baseBurnHitRate + 50f + burnHitRateBonus : baseBurnHitRate;
+        
+        print(burnHitRate);
+        
+        if(Random.Range(1, 100) < burnHitRate)
+        {
+            entity.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Burn, GetComponent<SC_DebuffsBuffsComponent>());
         }
         
     }

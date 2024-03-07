@@ -48,7 +48,7 @@ public class SC_SkillManager : MonoBehaviour
     {
         if(allEquippedSkills.Contains(newSkill) && newSkill.constellation != ConstellationName.Lunar) return;
         
-        if (newSkill.skillName == "ChildSkill_3_4_Berserk" && SC_PlayerStats.instance.inManaFury)
+        if (newSkill.skillName == "ChildSkill_3_4_Berserk" && SC_PlayerStats.instance.currentStats.inManaFury)
         {
             SC_PlayerStats.instance.debuffsBuffsComponent.RemoveBuff(Enum_Buff.ManaFury);
             allEquippedSkills.Add(newSkill);

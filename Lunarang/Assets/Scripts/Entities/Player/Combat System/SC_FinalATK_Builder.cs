@@ -153,7 +153,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
 
         var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100);
 
-        var rawDamage = MathF.Round(currentMV * _stats.currentATK, MidpointRounding.AwayFromZero);
+        var rawDamage = MathF.Round(currentMV * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
 
         switch (impactPoint)
         {
@@ -185,7 +185,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
 
                     case "A":
 
-                        _comboController.CreateAoE(pos + (transform.forward), areaSize,true, additionnalHits);
+                        _comboController.CreateAoE(pos + (transform.forward), areaSize,(_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100),false,true, additionnalHits);
                         
                         break;
 
@@ -213,13 +213,13 @@ public class SC_FinalATK_Builder : MonoBehaviour
                         _comboController.Multihit(additionnalHits);
                         foreach (var e in _comboController.currentEnemiesHitted)
                         {
-                            _comboController.CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z), areaSize);
+                            _comboController.CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z), areaSize, (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100));
                         }
                         
                         break;
                     case "A":
                         
-                        _comboController.CreateAoE(pos + (transform.forward), areaSize,true, additionnalHits);
+                        _comboController.CreateAoE(pos + (transform.forward), areaSize,(_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100),true,true, additionnalHits);
 
                         break;
 
@@ -259,7 +259,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                         break;
                     
                     case "A":
-                        _comboController.CreateAoE(pos + (transform.forward), areaSize,true, additionnalHits);
+                        _comboController.CreateAoE(pos + (transform.forward), areaSize, (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100), false,true, additionnalHits);
                         
                         _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                             projectilesNumbers,
@@ -300,13 +300,13 @@ public class SC_FinalATK_Builder : MonoBehaviour
                         _comboController.Multihit(additionnalHits);
                         foreach (var e in _comboController.currentEnemiesHitted)
                         {
-                            _comboController.CreateAoE(pos + (transform.forward), areaSize);
+                            _comboController.CreateAoE(pos + (transform.forward), areaSize, (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100));
                         }
 
                         break;
                     case "A":
                         
-                        _comboController.CreateAoE(pos + (transform.forward), areaSize);
+                        _comboController.CreateAoE(pos + (transform.forward), areaSize, (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100));
                         
                         break;
 
@@ -337,7 +337,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                         
                         foreach (var e in _comboController.currentEnemiesHitted)
                         {
-                            _comboController.CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z), areaSize);
+                            _comboController.CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z), areaSize, (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100));
                             _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                                 projectilesNumbers,
                                 areaSize,
@@ -353,7 +353,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                     
                     case "A":
                         
-                        _comboController.CreateAoE(pos + (transform.forward), areaSize);
+                        _comboController.CreateAoE(pos + (transform.forward), areaSize, (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100));
                         _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                             projectilesNumbers,
                             areaSize,
@@ -404,7 +404,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                     
                     case "A":
                         
-                        _comboController.CreateAoE(pos + (transform.forward), areaSize);
+                        _comboController.CreateAoE(pos + (transform.forward), areaSize, (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100));
                         _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                             projectilesNumbers,
                             areaSize,

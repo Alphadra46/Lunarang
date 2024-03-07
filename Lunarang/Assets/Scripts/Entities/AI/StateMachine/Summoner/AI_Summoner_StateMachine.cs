@@ -143,7 +143,7 @@ public class AI_Summoner_StateMachine : AI_StateMachine
             projectile.hitNumber = 1;
         
             projectile.speed = projectileSpeed;
-            projectile.damage = (int)Mathf.Round(((projectileDamage/100) * _stats.currentATK));
+            projectile.damage = (int)Mathf.Round(((projectileDamage/100) * _stats.currentStats.currentATK));
             
             yield return new WaitForSeconds(delayBetweenProjectiles);
         }

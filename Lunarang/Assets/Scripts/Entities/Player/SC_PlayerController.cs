@@ -242,7 +242,7 @@ public class SC_PlayerController : MonoBehaviour
         Rotate(); // Rotate the player
         
         if(isMovementInputPressed)
-            _characterController.Move((IsoVectorConvert(currentMovement) * SC_PlayerStats.instance.currentSpeed) * Time.deltaTime); // Move the player
+            _characterController.Move((IsoVectorConvert(currentMovement) * SC_PlayerStats.instance.currentStats.currentSpeed) * Time.deltaTime); // Move the player
     }
 
     public void FreezeMovement(bool value)

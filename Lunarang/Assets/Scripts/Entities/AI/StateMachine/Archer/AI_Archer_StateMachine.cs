@@ -80,7 +80,7 @@ public class AI_Archer_StateMachine : AI_StateMachine
         projectile.hitNumber = 1;
         
         projectile.speed = atkSpdBase;
-        projectile.damage = (int)Mathf.Round((_stats.moveValues[_stats.moveValueIndex] * _stats.currentATK));
+        projectile.damage = (int)Mathf.Round((_stats.moveValues[_stats.moveValueIndex] * _stats.currentStats.currentATK));
 
     }
 
