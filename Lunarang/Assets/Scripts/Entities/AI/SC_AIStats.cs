@@ -62,8 +62,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     private AI_StateMachine _stateMachine;
     private SC_DebuffsBuffsComponent _debuffsBuffsComponent;
 
-
-    private bool isDead = false;
+    [ShowInInspector] public bool isDead = false;
     #endregion
 
 
@@ -141,7 +140,12 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     
 
     #endregion
-    
+
+    private void OnEnable()
+    {
+        ResetStats();
+    }
+
 
     #region Damage Part
 

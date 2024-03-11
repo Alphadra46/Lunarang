@@ -54,7 +54,7 @@ public class SC_Projectile : MonoBehaviour
     /// Detect collision and if collide with Player, apply damage to Player.
     /// </summary>
     /// <param name="col"></param>
-    private void OnTriggerEnter(Collider col)
+    public virtual void OnTriggerEnter(Collider col)
     {
         
         if (!col.TryGetComponent(out IDamageable damageable)) return;
@@ -102,7 +102,7 @@ public class SC_Projectile : MonoBehaviour
     /// Cancel internal cooldown for destroying.
     /// Reset the velocity.
     /// </summary>
-    private void Destroy()
+    public void Destroy()
     {
         CancelInvoke(DESTROY_METHOD_NAME);
         _rb.velocity = Vector3.zero;

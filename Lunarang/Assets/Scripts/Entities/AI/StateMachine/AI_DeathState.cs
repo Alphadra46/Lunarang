@@ -35,7 +35,7 @@ public class AI_DeathState : BaseState<AI_StateMachine.EnemyState>
 
     public override AI_StateMachine.EnemyState GetNextState()
     {
-        return AI_StateMachine.EnemyState.Patrol;
+        return AI_StateMachine.EnemyState.Chase;
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public class AI_DeathState : BaseState<AI_StateMachine.EnemyState>
     IEnumerator TransitionPatrol()
     {
         yield return new WaitForSeconds(_aiStateMachine.idleDelay);
-        _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Patrol);
+        _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Chase);
     }
     
 }

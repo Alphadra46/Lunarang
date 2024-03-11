@@ -56,6 +56,10 @@ public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
             case AI_StateMachine.EnemyState.Defense:
                 _aiStateMachine.StartCoroutine(DefenseCooldown());
                 break;
+            default:
+                _aiStateMachine.StopCoroutine(AttackCooldown());
+                _aiStateMachine.StopCoroutine(DefenseCooldown());
+                break;
         }
         
     }
@@ -70,6 +74,14 @@ public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
     public override void UpdateState()
     {
 
+        if (_aiStateMachine._stats.isDead)
+        {
+            _aiStateMachine.StopCoroutine(AttackCooldown());
+            _aiStateMachine.StopCoroutine(DefenseCooldown());
+            _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
+            return;
+        }
+        
         var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
         
         if (distance <= _aiStateMachine.defenseAreaRadius)

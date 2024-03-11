@@ -18,6 +18,7 @@ public class AI_FreezeState : BaseState<AI_StateMachine.EnemyState>
     public override void EnterState()
     {
         _aiStateMachine.agent.isStopped = true;
+        _aiStateMachine.agent.SetDestination(_aiStateMachine.transform.position);
         _aiStateMachine.agent.velocity = Vector3.zero;
     }
 
