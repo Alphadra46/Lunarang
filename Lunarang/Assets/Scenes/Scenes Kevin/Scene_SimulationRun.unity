@@ -221,7 +221,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 199565110}
   m_LocalRotation: {x: 0.27781588, y: 0.36497167, z: -0.1150751, w: 0.8811196}
-  m_LocalPosition: {x: -4.15, y: 0, z: -0.94000006}
+  m_LocalPosition: {x: -2, y: 0, z: 8.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -486,6 +486,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &391320689 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3353019030451939600, guid: 192942400cfd35446bfeb0d28000d952,
+    type: 3}
+  m_PrefabInstance: {fileID: 1048827400}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1025277049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -493,6 +499,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 587586877011242701, guid: ac488dd82448eb64ca3896c5bd8bccae,
+        type: 3}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 391320689}
     - target: {fileID: 587586877011242702, guid: ac488dd82448eb64ca3896c5bd8bccae,
         type: 3}
       propertyPath: m_RootOrder
@@ -1158,7 +1169,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1529476547}
   m_LocalRotation: {x: 0.27781588, y: 0.36497167, z: -0.1150751, w: 0.8811196}
-  m_LocalPosition: {x: -4.15, y: 0, z: -0.94000006}
+  m_LocalPosition: {x: -2, y: 0, z: 8.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1203,7 +1214,7 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_Follow: {fileID: 391320689}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5

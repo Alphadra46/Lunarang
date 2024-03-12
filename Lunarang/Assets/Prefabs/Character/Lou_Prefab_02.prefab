@@ -247,7 +247,7 @@ MonoBehaviour:
   canPerformCombo: 1
   layerAttackable:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   currentEnemiesHitted: []
   _animator: {fileID: 967730642558520258}
   vfxParameterList:
@@ -291,50 +291,103 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3430445b760999d4dbc1e09ee2895d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 0
-  maxHealth: 100
-  maxHealthModifier: 0
-  defBase: 10
-  defModifier: 0
-  atkBase: 25
-  atkModifier: 0
-  baseCritRate: 5
-  bonusCritRate: 0
-  baseCritDMG: 50
-  bonusCritDMG: 0
-  damageReduction: 0
-  damageTaken: 0
-  dotDamageTaken: 0
-  damageBonus: 0
-  mhDamageBonus: 0
-  aoeDamageBonus: 0
-  projectileDamageBonus: 0
-  dotDamageBonus: 0
-  poisonHitRate: 0
-  baseSpeed: 7
-  speedModifier: 0
-  baseATKSpeed: 7
-  atkSpeedModifier: 0
+  baseStats:
+    currentHealth: 0
+    maxHealth: 100
+    maxHealthModifier: 0
+    defBase: 10
+    defModifier: 0
+    atkBase: 25
+    atkModifier: 0
+    baseCritRate: 5
+    bonusCritRate: 0
+    baseCritDMG: 50
+    bonusCritDMG: 0
+    damageReduction: 0
+    damageTaken: 0
+    dotDamageTaken: 0
+    damageBonus: 0
+    mhDamageBonus: 0
+    aoeDamageBonus: 0
+    projectileDamageBonus: 0
+    dotDamageBonus: 0
+    poisonHitRate: 0
+    freezeHitRate: 0
+    burnHitRate: 0
+    bleedHitRate: 0
+    baseSpeed: 8
+    speedModifier: 0
+    baseATKSpeed: 7
+    atkSpeedModifier: 0
+    healingBonus: 0
+    dishesEffectBonus: 0
+    shieldMaxHP: 0
+    shieldCurrentHP: 0
+    shieldStrength: 0
+    manaOverloadStack: 0
+    manaOverloadMaxStack: 2
+    manaOverloadDamageBoost: 20
+    manaOverloadTick: 0.5
+    manaOverloadDuration: 5
+    manaOverloadDamage: 5
+    inManaOverload: 0
+    manaFuryMaxHPGate: 25
+    inManaFury: 0
+    steelBodyStackCount: 0
+    steelBodyHPPercentNeeded: 5
+    steelBodyDEFPerStack: 5
+    steelBodyDEFModifier: 0
+    steelBodyDMGReductionModifier: 0
+    steelBodyShieldStrengthModifier: 0
+  currentStats:
+    currentHealth: 0
+    maxHealth: 0
+    maxHealthModifier: 0
+    defBase: 0
+    defModifier: 0
+    atkBase: 0
+    atkModifier: 0
+    baseCritRate: 0
+    bonusCritRate: 0
+    baseCritDMG: 0
+    bonusCritDMG: 0
+    damageReduction: 0
+    damageTaken: 0
+    dotDamageTaken: 0
+    damageBonus: 0
+    mhDamageBonus: 0
+    aoeDamageBonus: 0
+    projectileDamageBonus: 0
+    dotDamageBonus: 0
+    poisonHitRate: 0
+    freezeHitRate: 0
+    burnHitRate: 0
+    bleedHitRate: 0
+    baseSpeed: 0
+    speedModifier: 0
+    baseATKSpeed: 0
+    atkSpeedModifier: 0
+    healingBonus: 0
+    dishesEffectBonus: 0
+    shieldMaxHP: 0
+    shieldCurrentHP: 0
+    shieldStrength: 0
+    manaOverloadStack: 0
+    manaOverloadMaxStack: 0
+    manaOverloadDamageBoost: 0
+    manaOverloadTick: 0
+    manaOverloadDuration: 0
+    manaOverloadDamage: 0
+    inManaOverload: 0
+    manaFuryMaxHPGate: 0
+    inManaFury: 0
+    steelBodyStackCount: 0
+    steelBodyHPPercentNeeded: 0
+    steelBodyDEFPerStack: 0
+    steelBodyDEFModifier: 0
+    steelBodyDMGReductionModifier: 0
+    steelBodyShieldStrengthModifier: 0
   isGod: 0
-  healingBonus: 0
-  dishesEffectBonus: 0
-  shieldMaxHP: 0
-  shieldCurrentHP: 0
-  shieldStrength: 0
-  manaOverloadStack: 0
-  manaOverloadMaxStack: 2
-  manaOverloadDamageBoost: 20
-  manaOverloadTick: 0.5
-  manaOverloadDuration: 5
-  manaOverloadDamage: 5
-  manaFuryMaxHPGate: 25
-  inManaFury: 0
-  steelBodyStackCount: 0
-  steelBodyHPPercentNeeded: 5
-  steelBodyDEFPerStack: 5
-  steelBodyDEFModifier: 0
-  steelBodyDMGReductionModifier: 0
-  steelBodyShieldStrengthModifier: 0
   onDeathEvent: {fileID: 11400000, guid: f837962aa1e7a73469b5b0aa065d14a9, type: 2}
   onManaFuryEnableEvent: {fileID: 11400000, guid: b8ff692fc196aa94ab808ab57117e1b0,
     type: 2}
@@ -354,6 +407,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5bc4ba44f66e3f4cb628b754663c1e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _aiStats: {fileID: 0}
+  _playerStats: {fileID: 0}
+  _modifierPanel: {fileID: 0}
+  isPlayer: 0
   currentBuffs: 
   currentDebuffs: 
   poisonCurrentStacks: 0
@@ -362,12 +419,21 @@ MonoBehaviour:
   poisonTick: 2
   poisonDuration: 10
   poisonDMGBonus: 0
+  burnCurrentStacks: 0
+  burnMaxStack: 5
+  burnTick: 1
+  burnHitRequired: 3
+  burnHitToProc: 0
+  burnAoEMV: 10
+  burnAoESize: 0.75
+  burnAoEHitRate: 0
+  burnDoTMV: 5
+  burnDMGBonus: 0
   freezeDuration: 3
   freezeDurationBonus: 0
   unfreezeAoESize: 2
   unfreezeAoEMV: 45
   slowdownDuration: 5
-  slowdownDurationBonus: 0
   dotCritDamage: 0
   dotCritRate: 0
   dotDurationBonus: 0

@@ -16,19 +16,19 @@ public class SC_StatsDebug : MonoBehaviour
     public void LoadStats()
     {
         
-        stats.Add("Base ATK : ",SC_PlayerStats.instance.atkBase);
-        stats.Add("Bonus ATK : ",SC_PlayerStats.instance.atkModifier);
-        stats.Add("Current ATK : ",SC_PlayerStats.instance.currentATK);
-        stats.Add("Base DEF : ",SC_PlayerStats.instance.defBase);
-        stats.Add("Bonus DEF : ",SC_PlayerStats.instance.currentDEF);
-        stats.Add("Current DEF : ",SC_PlayerStats.instance.currentDEF);
-        stats.Add("Base CRIT Rate : ", SC_PlayerStats.instance.baseCritRate);
-        stats.Add("Bonus CRIT Rate : ", SC_PlayerStats.instance.bonusCritRate);
-        stats.Add("Current CRIT Rate : ", SC_PlayerStats.instance.critRate);
-        stats.Add("Base CRIT DMG : ", SC_PlayerStats.instance.baseCritDMG);
-        stats.Add("Bonus CRIT DMG : ", SC_PlayerStats.instance.bonusCritDMG);
-        stats.Add("Current CRIT DMG : ", SC_PlayerStats.instance.critDMG);
-        stats.Add("Bonus Damage % : ", SC_PlayerStats.instance.damageBonus);
+        stats.Add("Base ATK : ",SC_PlayerStats.instance.currentStats.atkBase);
+        stats.Add("Bonus ATK : ",SC_PlayerStats.instance.currentStats.atkModifier);
+        stats.Add("Current ATK : ",SC_PlayerStats.instance.currentStats.currentATK);
+        stats.Add("Base DEF : ",SC_PlayerStats.instance.currentStats.defBase);
+        stats.Add("Bonus DEF : ",SC_PlayerStats.instance.currentStats.currentDEF);
+        stats.Add("Current DEF : ",SC_PlayerStats.instance.currentStats.currentDEF);
+        stats.Add("Base CRIT Rate : ", SC_PlayerStats.instance.currentStats.baseCritRate);
+        stats.Add("Bonus CRIT Rate : ", SC_PlayerStats.instance.currentStats.bonusCritRate);
+        stats.Add("Current CRIT Rate : ", SC_PlayerStats.instance.currentStats.critRate);
+        stats.Add("Base CRIT DMG : ", SC_PlayerStats.instance.currentStats.baseCritDMG);
+        stats.Add("Bonus CRIT DMG : ", SC_PlayerStats.instance.currentStats.bonusCritDMG);
+        stats.Add("Current CRIT DMG : ", SC_PlayerStats.instance.currentStats.critDMG);
+        stats.Add("Bonus Damage % : ", SC_PlayerStats.instance.currentStats.damageBonus);
         
     }
 
