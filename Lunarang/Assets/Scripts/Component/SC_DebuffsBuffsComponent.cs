@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Entities;
 using Enum;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -9,13 +10,15 @@ using Random = UnityEngine.Random;
 
 public class SC_DebuffsBuffsComponent : MonoBehaviour
 {
+    [HideInInspector] public SC_AIStats _aiStats;
+    [HideInInspector] public SC_PlayerStats _playerStats;
 
-    private SC_AIStats _aiStats;
-    private SC_PlayerStats _playerStats;
+    [SerializeField, PropertySpace(SpaceAfter = 10f)]
+    public SC_ModifierPanel _modifierPanel;
 
-    [SerializeField, PropertySpace(SpaceAfter = 10f)] private SC_ModifierPanel _modifierPanel;
+    [ReadOnly] public bool isPlayer;
 
-    private bool isPlayer;
+    [HideInInspector] public SC_DoT_States doTStates = new SC_DoT_States();
     
     #region Status
     
@@ -43,6 +46,37 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     public float poisonDuration = 10f;
     [TabGroup("DoT", "Poison")]
     public float poisonDMGBonus = 0f;
+    
+    #endregion
+    
+    #region Burn
+    
+    [TabGroup("DoT", "Burn"), MaxValue("burnMaxStack"), MinValue(0)]
+    public int burnCurrentStacks = 0;
+    
+    [PropertySpace(SpaceBefore = 5)]
+    [TabGroup("DoT", "Burn")]
+    public int burnMaxStack = 5;
+    
+    [TabGroup("DoT", "Burn")]
+    public float burnTick = 1f;
+    [TabGroup("DoT", "Burn")]
+    public int burnHitRequired = 3;
+    [TabGroup("DoT", "Burn")]
+    public int burnHitToProc = 0;
+    
+    [TabGroup("DoT", "Burn")]
+    public float burnAoEMV = 10f;
+    [TabGroup("DoT", "Burn")]
+    public float burnAoESize = 0.75f;
+    [TabGroup("DoT", "Burn")]
+    public float burnAoEHitRate = 0f;
+    
+    [TabGroup("DoT", "Burn")]
+    public float burnDoTMV = 5f;
+    
+    [TabGroup("DoT", "Burn")]
+    public float burnDMGBonus = 0f;
     
     #endregion
 
@@ -108,7 +142,6 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         currentDebuffs.Clear();
         
     }
-
     
     public bool CheckHasDebuff(Enum_Debuff debuff)
     {
@@ -139,7 +172,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 else
                 {
                     print("POISON");
-                    StartCoroutine(PoisonDoT(applicator));
+                    StartCoroutine(doTStates.PoisonDoT(applicator, this));
                     currentDebuffs.Add(newDebuff);
                     if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
                 }
@@ -151,6 +184,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 break;
             
             case Enum_Debuff.Burn:
+                if(CheckHasDebuff(Enum_Debuff.Burn)) return;
+                burnMaxStack = applicator.burnMaxStack;
+                
                 currentDebuffs.Add(newDebuff);
                 if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
                 break;
@@ -158,14 +194,14 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
             case Enum_Debuff.Freeze:
                 if(CheckHasDebuff(Enum_Debuff.Freeze)) return;
                 
-                StartCoroutine(FrozenState(applicator));
+                StartCoroutine(doTStates.FrozenState(applicator, this));
                 currentDebuffs.Add(newDebuff);
                 if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
                 break;
             
             case Enum_Debuff.Slowdown:
 
-                StartCoroutine(Slowdown(applicator)
+                StartCoroutine(doTStates.Slowdown(applicator, this)
                 );
                 currentDebuffs.Add(newDebuff);
                 if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
@@ -197,11 +233,11 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         {
             case Enum_Buff.Armor:
 
-                var shieldValue = (_playerStats.currentMaxHealth * 0.2f);
+                var shieldValue = (_playerStats.currentStats.currentMaxHealth * 0.2f);
 
                 if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_1_Tank"))
                 {
-                    shieldValue = (_playerStats.currentMaxHealth * (SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_1_Tank").buffsParentEffect.TryGetValue("shieldValue", out var value1) 
+                    shieldValue = (_playerStats.currentStats.currentMaxHealth * (SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_1_Tank").buffsParentEffect.TryGetValue("shieldValue", out var value1) 
                         ? float.Parse(value1)/100 : 0.2f));
                 }
                 
@@ -215,7 +251,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 {
                     var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3_Tank").buffsParentEffect.TryGetValue("shieldStrength", out var value1) 
                         ? float.Parse(value1) : 0;
-                    _playerStats.shieldStrength += value;
+                    _playerStats.currentStats.shieldStrength += value;
                 }
                 
                 if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_4_Tank"))
@@ -247,17 +283,17 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 
                 if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_4_Berserk"))
                 {
-                    _playerStats.maxHealthModifier += 50;
+                    _playerStats.currentStats.maxHealthModifier += 50;
                 }
                 
-                _playerStats.currentHealth = (int) Mathf.Round(_playerStats.currentMaxHealth * (0.05f+(effectBonus/100)));
+                _playerStats.currentStats.currentHealth = (int) Mathf.Round(_playerStats.currentStats.currentMaxHealth * (0.05f+(effectBonus/100)));
 
-                _playerStats.damageReduction += 30;
-                _playerStats.atkModifier += 25;
-                _playerStats.damageBonus += 30;
+                _playerStats.currentStats.damageReduction += 30;
+                _playerStats.currentStats.atkModifier += 25;
+                _playerStats.currentStats.damageBonus += 30;
 
-                _playerStats.speedModifier += 10;
-                _playerStats.atkSpeedModifier += 10;
+                _playerStats.currentStats.speedModifier += 10;
+                _playerStats.currentStats.atkSpeedModifier += 10;
 
                 break;
             
@@ -265,7 +301,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 
                 if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_3_Tank"))
                 {
-                    _playerStats.damageReduction += (SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_3_Tank").buffsParentEffect.TryGetValue("dmgReductionBonus", out var value1) 
+                    _playerStats.currentStats.damageReduction += (SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_3_Tank").buffsParentEffect.TryGetValue("dmgReductionBonus", out var value1) 
                         ? float.Parse(value1) : 0);
                 }
                 
@@ -275,9 +311,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
                 if (isPlayer)
                 {
-                    _playerStats.atkModifier += 1000;
-                    _playerStats.bonusCritDMG += 200;
-                    _playerStats.bonusCritRate += 95;
+                    _playerStats.currentStats.atkModifier += 1000;
+                    _playerStats.currentStats.bonusCritDMG += 200;
+                    _playerStats.currentStats.bonusCritRate += 95;
                 }
                 
                 break;
@@ -288,7 +324,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 {
                     var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_1_DoT").buffsParentEffect.TryGetValue("atkSPD", out var value1) 
                         ? float.Parse(value1) : 0;
-                    _playerStats.atkSpeedModifier += value;
+                    _playerStats.currentStats.atkSpeedModifier += value;
                 }
                 
                 if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_2_DoT"))
@@ -312,7 +348,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                     duration += base_duration * (value/100);
                 }
 
-                _playerStats.dotDamageBonus += 40 * (1+(effectBonus/100));
+                _playerStats.currentStats.dotDamageBonus += 40 * (1+(effectBonus/100));
                 
                 break;
 
@@ -338,10 +374,10 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                         ? float.Parse(value1) : 0;
                 }
                 
-                _playerStats.damageBonus += (50 + effectBonus);
-                _playerStats.atkModifier += (40 + effectBonus);
+                _playerStats.currentStats.damageBonus += (50 + effectBonus);
+                _playerStats.currentStats.atkModifier += (40 + effectBonus);
                 
-                _playerStats.damageTaken += (25-dmgTaken);
+                _playerStats.currentStats.damageTaken += (25-dmgTaken);
                 
                 break;
             
@@ -364,6 +400,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
     public void RemoveBuff(Enum_Buff buff)
     {
+        
         float effectBonus = 0;
         
         if(!currentBuffs.Contains(buff)) return;
@@ -376,7 +413,8 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 {
                     var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3_Tank").buffsParentEffect.TryGetValue("shieldStrength", out var value1) 
                         ? float.Parse(value1) : 0;
-                    _playerStats.shieldStrength -= value;
+                    
+                    _playerStats.currentStats.shieldStrength -= value;
                 }
                 
                 _playerStats.BreakShield();
@@ -389,15 +427,15 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 {
                     var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_4_Berserk").buffsParentEffect.TryGetValue("maxHPBonus", out var value1) 
                         ? float.Parse(value1) : 0;
-                    _playerStats.maxHealthModifier -= value;
+                    _playerStats.currentStats.maxHealthModifier -= value;
                 }
                 
-                _playerStats.damageReduction -= 30;
-                _playerStats.atkModifier -= 25;
-                _playerStats.damageBonus -= 30;
+                _playerStats.currentStats.damageReduction -= 30;
+                _playerStats.currentStats.atkModifier -= 25;
+                _playerStats.currentStats.damageBonus -= 30;
 
-                _playerStats.speedModifier -= 10;
-                _playerStats.atkSpeedModifier -= 10;
+                _playerStats.currentStats.speedModifier -= 10;
+                _playerStats.currentStats.atkSpeedModifier -= 10;
                 
                 break;
             
@@ -405,7 +443,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 
                 if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_3_Tank"))
                 {
-                    _playerStats.damageReduction -= (SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_3_Tank").buffsParentEffect.TryGetValue("dmgReduction", out var value) 
+                    _playerStats.currentStats.damageReduction -= (SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_3_Tank").buffsParentEffect.TryGetValue("dmgReduction", out var value) 
                         ? float.Parse(value) : 0);
                 }
                 
@@ -415,9 +453,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 
                 if (isPlayer)
                 {
-                    _playerStats.atkModifier -= 1000;
-                    _playerStats.bonusCritDMG -= 200;
-                    _playerStats.bonusCritRate -= 95;
+                    _playerStats.currentStats.atkModifier -= 1000;
+                    _playerStats.currentStats.bonusCritDMG -= 200;
+                    _playerStats.currentStats.bonusCritRate -= 95;
                 }
                 
                 break;
@@ -427,7 +465,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 {
                     var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_1_DoT").buffsParentEffect.TryGetValue("atkSPD", out var value1) 
                         ? float.Parse(value1) : 0;
-                    _playerStats.atkSpeedModifier -= value;
+                    _playerStats.currentStats.atkSpeedModifier -= value;
                 }
                 
                 if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_3_DoT"))
@@ -437,7 +475,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                     effectBonus += value;
                 }
                 
-                _playerStats.dotDamageBonus -= 40 * (1+(effectBonus/100));
+                _playerStats.currentStats.dotDamageBonus -= 40 * (1+(effectBonus/100));
                 
                 break;
 
@@ -463,10 +501,10 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                         ? float.Parse(value1) : 0;
                 }
                 
-                _playerStats.damageBonus -= 50 + effectBonus;
-                _playerStats.atkModifier -= 40 + effectBonus;
+                _playerStats.currentStats.damageBonus -= 50 + effectBonus;
+                _playerStats.currentStats.atkModifier -= 40 + effectBonus;
                 
-                _playerStats.damageTaken -= (25 - dmgTaken);
+                _playerStats.currentStats.damageTaken -= (25 - dmgTaken);
                 
                 break;
             
@@ -497,267 +535,23 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     
     #region Coroutines
 
-    /// <summary>
-    /// Coroutine for the poison debuff, apply damage every ticks during a certain duration.
-    /// </summary>
-    /// <param name="applicator"></param>
-    /// <returns></returns>
-    private IEnumerator PoisonDoT(SC_DebuffsBuffsComponent applicator)
+    public IEnumerator BuffStatTemp(SC_StatModification newModification)
     {
-          
-        var duration = (applicator.poisonDuration * (1 + (dotDurationBonus / 100)));
+        if (_playerStats == null) yield break;
         
-        poisonCurrentStacks += applicator.poisonStackByHit;
+        var isPositive = newModification.ModificationValue > 0;
         
-        yield return new WaitForSeconds(applicator.poisonTick);
-        
-        while (duration > 0)
-        {
+        _playerStats.ModifyStats(_playerStats.currentStats, out var modifiedStats, newModification);
+        _playerStats.currentStats = modifiedStats;
 
-            print("Poison Tick");
-            print("Poison Stack :" + poisonCurrentStacks);
-            
-            for (var i = 0; i < poisonCurrentStacks; i++)
-            {
-                var rawDamage = (applicator.isPlayer ? applicator._playerStats.currentATK : applicator._aiStats.currentATK) * 0.1f;
-        
-                var effDamage = Mathf.Round(rawDamage * (1 + (applicator.poisonDMGBonus + (applicator.isPlayer ? applicator._playerStats.dotDamageBonus : 0))/100));
-                print(effDamage);
-        
-                var effCrit = effDamage * (1 + (applicator.dotCritDamage/100));
-                
-                var isCritical = Random.Range(0, 100) < applicator.dotCritRate ? true : false;
-                GetComponent<IDamageable>().TakeDoTDamage(isCritical ? effCrit : effDamage, isCritical, Enum_Debuff.Poison);
-            }
-            
-            duration -= applicator.poisonTick;
-            
-            // print("Duration :" + duration);
-            
-            yield return new WaitForSeconds(applicator.poisonTick);
-        }
+        yield return new WaitForSeconds(newModification.timer);
 
-        poisonCurrentStacks = 0;
-        currentDebuffs.Remove(Enum_Debuff.Poison);
-        if(_modifierPanel != null) _modifierPanel.debuffRemoved?.Invoke(Enum_Debuff.Poison);
+        newModification.ModificationValue =
+            isPositive ? -newModification.ModificationValue : Math.Abs(newModification.ModificationValue);
+        print(newModification.ModificationValue);
 
-    }
-    
-    /// <summary>
-    /// Coroutine for the poison debuff, apply damage every ticks during a certain duration.
-    /// </summary>
-    /// <param name="applicator"></param>
-    /// <returns></returns>
-    private IEnumerator FrozenState(SC_DebuffsBuffsComponent applicator)
-    {
-
-        var duration = (applicator.freezeDuration * 
-                        (1 + (applicator.freezeDurationBonus / 100)));
-
-        // Bonus from Skills when Frozen
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_2_Freeze"))
-        {
-
-            _aiStats.damageTaken += float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_2_Freeze")
-                .buffsParentEffect["dmgTaken"]);
-
-        }
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_4_Freeze"))
-        {
-
-            _aiStats.damageTaken += float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_4_Freeze")
-                .buffsParentEffect["dmgTaken"]);
-
-        }
-        
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_2_Freeze"))
-        {
-
-            applicator.StartCoroutine(BuffStatTemp(Stats.ATK, float.Parse(SC_SkillManager.instance
-                .FindChildSkillByName("ChildSkill_3_2_Freeze")
-                .buffsParentEffect["atkBonus"]), float.Parse(SC_SkillManager.instance
-                .FindChildSkillByName("ChildSkill_3_2_Freeze")
-                .buffsParentEffect["atkBonusDuration"]))
-            );
-
-        }
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_4_Freeze"))
-        {
-
-            applicator.StartCoroutine(BuffStatTemp(Stats.ATKSPD, float.Parse(SC_SkillManager.instance
-                    .FindChildSkillByName("ChildSkill_3_4_Freeze")
-                    .buffsParentEffect["atkSpdBonus"]), float.Parse(SC_SkillManager.instance
-                    .FindChildSkillByName("ChildSkill_3_4_Freeze")
-                    .buffsParentEffect["atkSpdBonusDuration"]))
-            );
-
-        }
-
-        // Freeze Effect
-        if (isPlayer)
-        {
-            SC_PlayerController.instance.FreezeMovement(true);
-            SC_PlayerController.instance.FreezeDash(true);
-        }
-        else
-        {
-            if(_aiStats.TryGetComponent(out AI_StateMachine stateMachine))
-                stateMachine.TransitionToState(AI_StateMachine.EnemyState.Freeze);
-        }
-        
-        yield return new WaitForSeconds(duration);
-
-        // Bonus from Skills when Unfrozen
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("Fracture Glaciaire"))
-        {
-
-            print("AOOOOE");
-            
-            var rawDamage = MathF.Round((applicator.unfreezeAoEMV/100) * applicator._playerStats.currentATK, MidpointRounding.AwayFromZero);
-            var effDamage = rawDamage * (1 + (applicator._playerStats.dotDamageBonus / 100));
-            var effCrit = effDamage * (1 + (applicator.dotCritDamage / 100));
-
-            var pos = new Vector3(transform.position.x, 0.4f, transform.position.z);
-            
-            var ennemiesInAoE =
-                Physics.OverlapSphere(pos, applicator.unfreezeAoESize,
-                    SC_ComboController.instance.layerAttackable);
-
-            foreach (var e in ennemiesInAoE)
-            {
-                if (!e.TryGetComponent(out IDamageable damageable)) continue;
-                var isCritical = Random.Range(0, 100) < applicator.dotCritRate ? true : false;
-                damageable.TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
-
-                if(SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_1_Freeze") && 
-                   Random.Range(1, 100) < float.Parse(SC_SkillManager.instance
-                       .FindChildSkillByName("ChildSkill_1_1_Freeze")
-                       .buffsParentEffect["freezeHitRate"]))
-                {
-                    e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Freeze, applicator);
-                }
-                
-            }
-            
-        }
-
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_2_Freeze"))
-        {
-
-            StartCoroutine(BuffStatTemp(Stats.DMGTaken,
-                float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_2_Freeze").buffsParentEffect["dmgTaken"]),
-                float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_2_Freeze").buffsParentEffect["duration"])));
-
-        }
-
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("Immobilisation Glaciale"))
-        {
-            ApplyDebuff(Enum_Debuff.Slowdown, applicator);
-        }
-        
-        
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_2_Freeze"))
-        {
-
-            _aiStats.damageTaken -= float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_4_Freeze")
-                .buffsParentEffect["dmgTaken"]);
-
-        }
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_4_Freeze"))
-        {
-
-            _aiStats.damageTaken -= float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_4_Freeze")
-                .buffsParentEffect["dmgTaken"]);
-
-        }
-        
-        // Unfreeze Effect
-        if (isPlayer)
-        {
-            SC_PlayerController.instance.FreezeMovement(false);
-            SC_PlayerController.instance.FreezeDash(false);
-        }
-        else
-        {
-            if(_aiStats.TryGetComponent(out AI_StateMachine stateMachine))
-                stateMachine.TransitionToState(AI_StateMachine.EnemyState.Patrol);
-        }
-        
-        currentDebuffs.Remove(Enum_Debuff.Freeze);
-        if(_modifierPanel != null) _modifierPanel.debuffRemoved?.Invoke(Enum_Debuff.Freeze);
-
-    }
-    
-    private IEnumerator Slowdown(SC_DebuffsBuffsComponent applicator)
-    {
-
-        var duration = applicator.slowdownDuration * (1 + ((SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_3_Freeze").buffsParentEffect
-            .TryGetValue("slowdownDurationBonus", out var value))
-            ? float.Parse(value)
-            : 0) / 100);
-        
-
-        if (applicator.isPlayer)
-        {
-            _aiStats.speedModifier += -30;
-        }
-        else
-        {
-            _playerStats.speedModifier += -30;
-            _playerStats.atkSpeedModifier += -30;
-        }
-        
-        yield return new WaitForSeconds(duration);
-        
-        if (applicator.isPlayer)
-        {
-            _aiStats.speedModifier -= -30;
-        }
-        else
-        {
-            _playerStats.speedModifier -= -30;
-            _playerStats.atkSpeedModifier -= -30;
-        }
-        
-        currentDebuffs.Remove(Enum_Debuff.Slowdown);
-        if(_modifierPanel != null) _modifierPanel.debuffRemoved?.Invoke(Enum_Debuff.Slowdown);
-        
-    }
-
-    private IEnumerator BuffStatTemp(Stats stat, float value, float duration)
-    {
-
-        switch (stat)
-        {
-            case Stats.DMGTaken:
-                if (isPlayer) _playerStats.damageTaken += value;
-                else _aiStats.damageTaken += value;
-                break;
-            case Stats.ATK:
-                if (isPlayer) _playerStats.atkModifier += value;
-                else _aiStats.atkModifier += value;
-                break;
-            case Stats.ATKSPD:
-                if (isPlayer) _playerStats.atkSpeedModifier += value;
-                break;
-        }
-        
-        yield return new WaitForSeconds(duration);
-        
-        switch (stat)
-        {
-            case Stats.DMGTaken:
-                if (isPlayer) _playerStats.damageTaken -= value;
-                else _aiStats.damageTaken -= value;
-                break;
-            case Stats.ATK:
-                if (isPlayer) _playerStats.atkModifier -= value;
-                else _aiStats.atkModifier -= value;
-                break;
-            case Stats.ATKSPD:
-                if (isPlayer) _playerStats.atkSpeedModifier -= value;
-                break;
-        }
+        _playerStats.ModifyStats(_playerStats.currentStats, out modifiedStats, newModification);
+        _playerStats.currentStats = modifiedStats;
 
     }
     
