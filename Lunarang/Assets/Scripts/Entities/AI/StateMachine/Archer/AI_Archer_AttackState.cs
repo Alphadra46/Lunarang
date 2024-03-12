@@ -30,10 +30,22 @@ public class AI_Archer_AttackState : BaseState<AI_StateMachine.EnemyState>
     public override void UpdateState()
     {
     }
+    
+    /// <summary>
+    /// After a certain delay, deactivate the hurtbox and switch to Chase State.
+    /// </summary>
+    /// <param name="delay">Delay in seconds before switching state.</param>
+    public IEnumerator EndAttack(float delay)
+    {
+
+        yield return new WaitForSeconds(delay);
+        _aiArcherStateMachine.TransitionToState(AI_Archer_StateMachine.EnemyState.Chase);
+        
+    }
 
     public override AI_StateMachine.EnemyState GetNextState()
     {
-        return AI_StateMachine.EnemyState.Attack;
+        return AI_StateMachine.EnemyState.Chase;
     }
     
     

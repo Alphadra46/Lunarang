@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
+using XNode.Odin;
 using Random = UnityEngine.Random;
 public abstract class StateManager<EState> : MonoBehaviour where EState : System.Enum
 {
@@ -12,7 +13,7 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : System
     [ShowInInspector, PropertySpace(SpaceAfter = 10)] protected BaseState<EState> CurrentState;
     [ShowInInspector, PropertySpace(SpaceAfter = 10)] public EState NextState;
     
-    protected bool IsTransitionState = false;
+    [ShowInInspector] protected bool IsTransitionState = false;
     
     /// <summary>
     /// Call current state start function.
@@ -36,6 +37,8 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : System
     /// <param name="stateKey">Next State</param>
     public void TransitionToState(EState stateKey)
     {
+        if(IsTransitionState) return;
+    
         NextState = stateKey;
 
         print(gameObject.GetInstanceID() + " : " + NextState);
