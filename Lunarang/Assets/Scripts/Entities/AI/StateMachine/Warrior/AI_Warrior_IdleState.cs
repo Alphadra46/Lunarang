@@ -43,7 +43,7 @@ public class AI_Warrior_IdleState : BaseState<AI_Warrior_StateMachine.EnemyState
     IEnumerator TransitionPatrol()
     {
         yield return new WaitForSeconds(_aiStateMachine.idleDelay);
-        _aiStateMachine.TransitionToState(AI_Warrior_StateMachine.EnemyState.Patrol);
+        _aiStateMachine.TryToTransition(AI_Warrior_StateMachine.EnemyState.Patrol);
     }
     
 }

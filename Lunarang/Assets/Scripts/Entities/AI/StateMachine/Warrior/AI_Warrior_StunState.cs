@@ -40,7 +40,7 @@ public class AI_Warrior_StunState : BaseState<AI_Warrior_StateMachine.EnemyState
 
         yield return new WaitForSeconds(duration);
 
-        _aiStateMachine.TransitionToState(AI_Warrior_StateMachine.EnemyState.Chase);
+        _aiStateMachine.TryToTransition(AI_Warrior_StateMachine.EnemyState.Chase);
         
     }
 

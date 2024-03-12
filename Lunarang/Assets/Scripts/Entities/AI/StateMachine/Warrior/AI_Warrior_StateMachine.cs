@@ -66,7 +66,7 @@ public class AI_Warrior_StateMachine : AI_StateMachine
         
         if(!other.CompareTag("HurtBox_Player")) return;
         
-        TransitionToState(EnemyState.Stun);
+        TryToTransition(EnemyState.Stun);
         
     }
     

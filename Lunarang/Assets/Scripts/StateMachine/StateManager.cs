@@ -37,6 +37,8 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : System
     public void TransitionToState(EState stateKey)
     {
         NextState = stateKey;
+
+        print(gameObject.GetInstanceID() + " : " + NextState);
         
         IsTransitionState = true;
         CurrentState.ExitState();

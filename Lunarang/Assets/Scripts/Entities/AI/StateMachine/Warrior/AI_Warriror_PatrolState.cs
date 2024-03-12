@@ -47,7 +47,7 @@ public class AI_Warrior_PatrolState : BaseState<AI_Warrior_StateMachine.EnemySta
         
         if (objectsInArea.Any(obj => obj.CompareTag("Player")))
         {
-            _aiStateMachine.TransitionToState(AI_Warrior_StateMachine.EnemyState.Chase);
+            _aiStateMachine.TryToTransition(AI_Warrior_StateMachine.EnemyState.Chase);
         }
         else
         {

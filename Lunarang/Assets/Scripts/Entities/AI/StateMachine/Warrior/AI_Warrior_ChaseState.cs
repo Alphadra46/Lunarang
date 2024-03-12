@@ -62,6 +62,12 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
     /// </summary>
     public override void UpdateState()
     {
+        //
+        // if (_aiStateMachine._stats.isDead)
+        // {
+        //     _aiStateMachine.StopCoroutine(AttackCooldown());
+        //     _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Death);
+        // }
 
         var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
         var playerPos = player.transform.position;
@@ -72,8 +78,7 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
             _agent.isStopped = true;
             if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform, _aiStateMachine.detectionAreaRadius, _aiStateMachine.layersAttackable))
             {
-                Debug.Log("DIEEE");
-                _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Attack);
+                _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Attack);
             }
                 
         }

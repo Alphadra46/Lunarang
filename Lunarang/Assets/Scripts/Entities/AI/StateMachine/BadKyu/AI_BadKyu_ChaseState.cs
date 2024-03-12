@@ -71,7 +71,14 @@ public class AI_BadKyu_ChaseState : BaseState<AI_StateMachine.EnemyState>
     /// </summary>
     public override void UpdateState()
     {
-
+        // if (_aiStateMachine._stats.isDead)
+        // {
+        //     _aiStateMachine.StopCoroutine(AttackCooldown());
+        //     _aiStateMachine.StopCoroutine(DefenseCooldown());
+        //     _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Death);
+        // }
+        
+        
         var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
         var playerPos = player.transform.position;
         
@@ -80,7 +87,7 @@ public class AI_BadKyu_ChaseState : BaseState<AI_StateMachine.EnemyState>
             _agent.isStopped = true;
             if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform))
             {
-                _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Attack);
+                _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Attack);
             }
                 
         }

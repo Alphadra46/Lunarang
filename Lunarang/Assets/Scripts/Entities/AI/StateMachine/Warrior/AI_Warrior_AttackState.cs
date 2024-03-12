@@ -29,6 +29,10 @@ public class AI_Warrior_AttackState : BaseState<AI_Warrior_StateMachine.EnemySta
 
     public override void UpdateState()
     {
+        // if (!_aiStateMachine._stats.isDead) return;
+        //
+        // _aiStateMachine.StopCoroutine(EndAttack(_aiStateMachine.atkDuration));
+        // _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Death);
     }
 
     /// <summary>
@@ -40,7 +44,7 @@ public class AI_Warrior_AttackState : BaseState<AI_Warrior_StateMachine.EnemySta
 
         yield return new WaitForSeconds(delay);
         _aiStateMachine.hurtBox.SetActive(false);
-        _aiStateMachine.TransitionToState(AI_Warrior_StateMachine.EnemyState.Chase);
+        _aiStateMachine.TryToTransition(AI_Warrior_StateMachine.EnemyState.Chase);
         
     }
     

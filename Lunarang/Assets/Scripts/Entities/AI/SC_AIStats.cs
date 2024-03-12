@@ -243,16 +243,18 @@ public class SC_AIStats : SC_EntityBase, IDamageable
 
         if (!(currentStats.currentHealth <= 0)) return;
 
-        isDead = true;
-        if (_stateMachine == null)
+        if (currentStats.currentHealth <= 0)
         {
-            Death();
-            return;
-        }
-        
-        if(isDead != true) {
-            _stateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
-            isDead = true;
+                
+            if (_stateMachine == null)
+            {
+                Death();
+                return;
+            }
+            if(isDead != true) {
+                _stateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
+                isDead = true;
+            }
         }
     }
 

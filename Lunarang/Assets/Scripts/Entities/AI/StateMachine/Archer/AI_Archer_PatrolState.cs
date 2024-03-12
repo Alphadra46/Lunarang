@@ -47,7 +47,7 @@ public class AI_Archer_PatrolState : BaseState<AI_Archer_StateMachine.EnemyState
         
         if (objectsInArea.Any(obj => obj.CompareTag("Player")))
         {
-            _aiArcherStateMachine.TransitionToState(AI_Archer_StateMachine.EnemyState.Chase);
+            _aiArcherStateMachine.TryToTransition(AI_Archer_StateMachine.EnemyState.Chase);
             Debug.Log("!!");
         }
         else

@@ -68,11 +68,15 @@ public class AI_Summoner_ChaseState : BaseState<AI_StateMachine.EnemyState>
     /// </summary>
     public override void UpdateState()
     {
-
+        // if (_aiStateMachine._stats.isDead)
+        // {
+        //     _aiStateMachine.StopCoroutine(AttackCooldown());
+        //     _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
+        //     return;
+        // }
+        
         var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
         var playerPos = player.transform.position;
-        
-        
         
         if (distance <= _aiStateMachine.attackRange)
         {
@@ -80,7 +84,7 @@ public class AI_Summoner_ChaseState : BaseState<AI_StateMachine.EnemyState>
             _agent.isStopped = true;
             if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform))
             {
-                _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Attack);
+                _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Attack);
             }
             
         } else if (distance <= _aiStateMachine.detectionAreaRadius) {

@@ -74,13 +74,13 @@ public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
     public override void UpdateState()
     {
 
-        if (_aiStateMachine._stats.isDead)
-        {
-            _aiStateMachine.StopCoroutine(AttackCooldown());
-            _aiStateMachine.StopCoroutine(DefenseCooldown());
-            _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
-            return;
-        }
+        // if (_aiStateMachine._stats.isDead)
+        // {
+        //     _aiStateMachine.StopCoroutine(AttackCooldown());
+        //     _aiStateMachine.StopCoroutine(DefenseCooldown());
+        //     _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Death);
+        //     return;
+        // }
         
         var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
         
@@ -89,7 +89,7 @@ public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
             _agent.isStopped = true;
             if (canDefense)
             {
-                _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Defense);
+                _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Defense);
             }
         }
         else if (distance <= _aiStateMachine.attackRange)
@@ -97,7 +97,7 @@ public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
             _agent.isStopped = true;
             if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform))
             {
-                _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Attack);
+                _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Attack);
             }
                 
         }
