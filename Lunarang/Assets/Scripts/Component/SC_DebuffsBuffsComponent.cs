@@ -79,6 +79,26 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     public float burnDMGBonus = 0f;
     
     #endregion
+    
+    #region Bleed
+    
+    [TabGroup("Debuff", "Bleed"), MaxValue("bleedMaxStack"), MinValue(0)]
+    public int bleedCurrentStacks = 0;
+    
+    [PropertySpace(SpaceBefore = 5)]
+    [TabGroup("Debuff", "Bleed")]
+    public int bleedMaxStacks = 5;
+    
+    [TabGroup("Debuff", "Bleed")]
+    public float bleedHits = 8f;
+    
+    [TabGroup("Debuff", "Bleed")]
+    public float bleedMV = 5f;
+    
+    [TabGroup("Debuff", "Bleed")]
+    public float bleedDMGBonus = 0f;
+    
+    #endregion
 
     #region Freeze
     
@@ -179,6 +199,21 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 break;
             
             case Enum_Debuff.Bleed:
+                if(CheckHasDebuff(Enum_Debuff.Bleed))
+                {
+                    if (bleedCurrentStacks < bleedMaxStacks)
+                    {
+                        bleedCurrentStacks++;
+                    }
+                    else
+                    {
+                        
+                        doTStates.BleedDMG(applicator, this);
+                        bleedCurrentStacks = 0;
+                        currentDebuffs.Remove(Enum_Debuff.Bleed);
+                    }
+                }
+                
                 currentDebuffs.Add(newDebuff);
                 if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
                 break;

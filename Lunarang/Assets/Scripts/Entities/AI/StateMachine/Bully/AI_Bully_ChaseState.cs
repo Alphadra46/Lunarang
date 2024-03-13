@@ -78,7 +78,7 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
             _agent.isStopped = true;
             if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _aiStateMachine.centerPoint, _aiStateMachine.detectionAreaRadius, _aiStateMachine.layersAttackable))
             {
-                _aiStateMachine.TryToTransition(AI_Bully_StateMachine.EnemyState.Attack);
+                _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Attack);
             }
                 
         }
@@ -105,9 +105,9 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
     }
     
 
-    public override AI_Bully_StateMachine.EnemyState GetNextState()
+    public override AI_StateMachine.EnemyState GetNextState()
     {
-        return AI_Bully_StateMachine.EnemyState.Chase;
+        return AI_StateMachine.EnemyState.Chase;
     }
     
     /// <summary>
@@ -117,8 +117,10 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
     {
         
         canAttack = false;
+        _aiStateMachine._renderer.SendBoolToAnimator("canAttack", canAttack);
         yield return new WaitForSeconds(_aiStateMachine.atkCDBase);
         canAttack = true;
+        _aiStateMachine._renderer.SendBoolToAnimator("canAttack", canAttack);
 
     }
     

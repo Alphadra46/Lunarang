@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -91,9 +92,18 @@ public class AI_StateMachine : StateManager<AI_StateMachine.EnemyState>
     [HideInInspector] public NavMeshAgent agent;
 
     public SC_AIStats _stats;
+    public SC_AIRenderer _renderer;
     public Rigidbody _rb;
     
     #endregion
+
+    protected virtual void Awake()
+    {
+        if (!TryGetComponent(out agent)) return;
+        if (!TryGetComponent(out _stats)) return;
+        if (!TryGetComponent(out _renderer)) return;
+        if (!TryGetComponent(out _rb)) return;
+    }
 
     public virtual void OnDamageTaken()
     {}
