@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SC_RewardManager : MonoBehaviour
 {
@@ -11,8 +13,9 @@ public class SC_RewardManager : MonoBehaviour
     [SerializeField] private int numberOfNormalSkill;
     [SerializeField] private int numberOfLunarSkill;
     [SerializeField] private int numberOfMoonFragment;
-    
-    
+
+    private SO_SkillInventory playerInventory;
+    private List<SC_Constellation> constellations = new List<SC_Constellation>();
     [HideInInspector] public List<SO_BaseSkill> selectedSkills = new List<SO_BaseSkill>();
     //TODO - List for Lunar Skills
 
@@ -20,33 +23,40 @@ public class SC_RewardManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        playerInventory = Resources.Load<SO_SkillInventory>("SkillInventory");
+        constellations = Resources.LoadAll<SC_Constellation>("Constellations").ToList();
     }
 
-    public void RewardSelection()
+    public void RewardSelection(SC_RewardUI rewardUI)
     {
         for (int i = 0; i < numberOfNormalSkill; i++) //Normal skill selection
         {
             selectedSkills.Add(NormalSkillSelection());
         }
         
+        //TODO - Lunar Skills
         
+        //TODO - Moon fragments
+
+        rewardUI.rewardSkills = selectedSkills.ToList();
+        rewardUI.Init();
     }
 
     private SO_BaseSkill NormalSkillSelection()
     {
-        var c = Resources.LoadAll<SC_Constellation>("Constellation").ToList();
-        SO_SkillInventory playerInventory = Resources.Load<SO_SkillInventory>("SO_SkillInventory");
-
+        var c = constellations.ToList(); 
+        c = c.Where(constel => !playerInventory.completedConstellations.Contains(constel)).ToList();
         
         if (playerInventory.ongoingConstellations.Count==0)
         {
-            //Fully random selection
+            SC_Constellation selectedConstellation = c[Random.Range(0, c.Count)];
+
+            return selectedConstellation.GetRandomParentSkill(playerInventory.skillsOwned);
         }
         else
         {
             SC_Constellation selectedConstellation = playerInventory.ongoingConstellations[Random.Range(0, playerInventory.ongoingConstellations.Count)];
             float p = 0f;
-            
             
             switch (playerInventory.ongoingConstellations.Count)
             {
@@ -77,16 +87,14 @@ public class SC_RewardManager : MonoBehaviour
             {
                 if (Random.Range(1,101) > 70)
                 {
-                    //return selectedConstellation.GetRandomChildSkill();
+                    return selectedConstellation.GetRandomChildSkill(playerInventory.skillsOwned);
                 }
                 else
                 {
                     return selectedConstellation.GetRandomParentSkill(playerInventory.skillsOwned);
                 }
-                //TODO Get a random child or parent skill from the selected constellation with 70% of a child from existing parent and 30% of a new parent skill
             }
         }
-
         return null;
     }
 

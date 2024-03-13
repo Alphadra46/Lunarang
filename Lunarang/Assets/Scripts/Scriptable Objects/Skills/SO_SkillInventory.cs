@@ -7,6 +7,7 @@ using UnityEngine.Rendering;
 public class SO_SkillInventory : ScriptableObject
 {
     public List<SC_Constellation> ongoingConstellations = new List<SC_Constellation>();
+    public List<SC_Constellation> completedConstellations = new List<SC_Constellation>();
     public List<SO_BaseSkill> skillsOwned = new List<SO_BaseSkill>();
 
     public void AddConstellation(SC_Constellation constellation)
@@ -31,6 +32,7 @@ public class SO_SkillInventory : ScriptableObject
             if (constellation.IsConstellationCompleted(skillsOwned))
             {
                 ongoingConstellations.Remove(constellation);
+                completedConstellations.Add(constellation);
                 return;
             }
         }

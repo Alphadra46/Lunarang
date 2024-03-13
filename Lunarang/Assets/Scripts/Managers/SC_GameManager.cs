@@ -134,7 +134,7 @@ public class SC_GameManager : MonoBehaviour
     
     public void OpenRewardChest()
     {
-        if(SC_SkillManager.instance.allCurrentRunSkills.Count < 1) return;
+        //if(SC_SkillManager.instance.allCurrentRunSkills.Count < 1) return;
         
         SetPause();
         SC_UIManager.instance.ShowRewardMenu();

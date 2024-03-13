@@ -18,14 +18,7 @@ public class SC_RewardUI : MonoBehaviour
     public Transform rewardParent;
     
     private List<GameObject> rewards = new List<GameObject>();
-
-
-    private void Awake()
-    {
-        Init(); //May cause problem if there is multiple chests to open and because of the instance call
-
-        EventSystem.current.SetSelectedGameObject(rewards[0]);
-    }
+    
 
     public void Init()
     {
@@ -42,7 +35,7 @@ public class SC_RewardUI : MonoBehaviour
             }
             
         }
-        else if (rewardRessources.Count > 0)
+        if (rewardRessources.Count > 0)
         {
             foreach (var ressource in rewardRessources)
             {
@@ -66,7 +59,7 @@ public class SC_RewardUI : MonoBehaviour
 
         }
         
-        
+        EventSystem.current.SetSelectedGameObject(rewards[0]);
     }
     
     
