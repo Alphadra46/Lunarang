@@ -134,9 +134,31 @@ public class SC_AIRenderer : MonoBehaviour
         if(_agent == null) return;
         if(_animator == null) return;
         
-        _animator.SetBool("canMove", true);
-        _animator.SetBool("isMoving", _agent.velocity.magnitude > 1 ? true : false);
+        SendBoolToAnimator("canMove", true);
+        SendBoolToAnimator("isMoving", _agent.velocity.magnitude > 1 ? true : false);
 
+    }
+
+    public void SendTriggerToAnimator(string triggerName)
+    {
+        
+        print("Trigger sended : " + triggerName);
+        _animator.SetTrigger(triggerName);
+        
+    }
+    
+    public void SendBoolToAnimator(string booleanName, bool value)
+    {
+        
+        _animator.SetBool(booleanName, value);
+        
+    }
+    
+    public void SendIntToAnimator(string integerName, int value)
+    {
+        
+        _animator.SetInteger(integerName, value);
+        
     }
 
     #endregion

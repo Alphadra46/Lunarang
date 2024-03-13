@@ -17,11 +17,10 @@ public class AI_Bully_StateMachine : AI_StateMachine
     /// Initialize all references.
     /// Add all states to the state list.
     /// </summary>
-    private void Awake()
+    protected override void Awake()
     {
-        if (!TryGetComponent(out agent)) return;
-        if (!TryGetComponent(out _stats)) return;
-        if (!TryGetComponent(out _rb)) return;
+        
+        base.Awake();
         
         States.Add(EnemyState.Idle, new AI_Bully_IdleState(EnemyState.Idle, this));
         States.Add(EnemyState.Patrol, new AI_Bully_PatrolState(EnemyState.Patrol, this));
@@ -31,6 +30,7 @@ public class AI_Bully_StateMachine : AI_StateMachine
         States.Add(EnemyState.Freeze, new AI_FreezeState(EnemyState.Freeze, this));
         
         CurrentState = States[EnemyState.Idle];
+        
     }
 
     // TODO : Refaire les commentaires.

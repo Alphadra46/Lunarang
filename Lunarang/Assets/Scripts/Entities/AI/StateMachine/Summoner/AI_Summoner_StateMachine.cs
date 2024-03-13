@@ -60,11 +60,10 @@ public class AI_Summoner_StateMachine : AI_StateMachine
     /// Initialize all references.
     /// Add all states to the state list.
     /// </summary>
-    private void Awake()
+    protected override void Awake()
     {
-        if (!TryGetComponent(out agent)) return;
-        if (!TryGetComponent(out _stats)) return;
-        if (!TryGetComponent(out _rb)) return;
+        
+        base.Awake();
         
         States.Add(EnemyState.Idle, new AI_IdleState(EnemyState.Idle, this));
         States.Add(EnemyState.Patrol, new AI_Summoner_PatrolState(EnemyState.Patrol, this));

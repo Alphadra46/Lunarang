@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public class SC_DoT_States
 {
+    
     /// <summary>
     /// Coroutine for the poison debuff, apply damage every ticks during a certain duration.
     /// </summary>
@@ -312,6 +313,27 @@ public class SC_DoT_States
         }
         
         
+    }
+
+    public void BleedDMG(SC_DebuffsBuffsComponent applicator, SC_DebuffsBuffsComponent self)
+    {
+
+        
+        for (var i = 0; i < self.bleedHits; i++)
+        {
+            
+            var rawDamage = (self.isPlayer ? self._playerStats.currentStats.currentMaxHealth : self._aiStats.currentStats.currentMaxHealth) *
+                            (applicator.bleedMV/100);
+
+            var effDamage = Mathf.Round(rawDamage) * (1 + (applicator.bleedDMGBonus + (applicator.isPlayer ? applicator._playerStats.currentStats.dotDamageBonus : 0))/100);
+
+            var effCrit = effDamage * (1 + (applicator.dotCritDamage/100));
+        
+            var isCritical = Random.Range(0, 100) < applicator.dotCritRate ? true : false;
+            self.GetComponent<IDamageable>().TakeDoTDamage(isCritical ? effCrit : effDamage, isCritical, Enum_Debuff.Bleed);
+    
+        }
+
     }
     
 }

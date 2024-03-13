@@ -29,10 +29,6 @@ public class AI_Bully_AttackState : BaseState<AI_Bully_StateMachine.EnemyState>
 
     public override void UpdateState()
     {
-        // if (!_aiStateMachine._stats.isDead) return;
-        //
-        // _aiStateMachine.StopCoroutine(EndAttack(_aiStateMachine.atkDuration));
-        // _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Death);
     }
 
     /// <summary>
@@ -42,15 +38,17 @@ public class AI_Bully_AttackState : BaseState<AI_Bully_StateMachine.EnemyState>
     private IEnumerator EndAttack(float delay)
     {
 
+        _aiStateMachine._renderer.SendTriggerToAnimator("Attack_1");
+        
         yield return new WaitForSeconds(delay);
-        _aiStateMachine.hurtBox.SetActive(false);
-        _aiStateMachine.TryToTransition(AI_Bully_StateMachine.EnemyState.Chase);
+        
+        _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
         
     }
     
-    public override AI_Bully_StateMachine.EnemyState GetNextState()
+    public override AI_StateMachine.EnemyState GetNextState()
     {
-        return AI_Bully_StateMachine.EnemyState.Attack;
+        return AI_StateMachine.EnemyState.Attack;
     }
     
     
