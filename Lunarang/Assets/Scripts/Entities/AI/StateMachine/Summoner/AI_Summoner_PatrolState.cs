@@ -47,7 +47,7 @@ public class AI_Summoner_PatrolState : BaseState<AI_StateMachine.EnemyState>
         
         if (objectsInArea.Any(obj => obj.CompareTag("Player")))
         {
-            _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Chase);
+            _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
         }
         
     }

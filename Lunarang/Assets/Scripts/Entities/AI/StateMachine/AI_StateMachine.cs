@@ -98,6 +98,18 @@ public class AI_StateMachine : StateManager<AI_StateMachine.EnemyState>
     public virtual void OnDamageTaken()
     {}
     
+    
+    public void TryToTransition(EnemyState newState, bool isFreezeBreak = false)
+    {
+        
+        if (_stats.isDead) return;
+        
+        if (CurrentState == States[EnemyState.Freeze] && !isFreezeBreak) return;
+        
+        TransitionToState(newState);
+        
+    }
+    
     #region Gizmos
 
     protected virtual void OnDrawGizmos()

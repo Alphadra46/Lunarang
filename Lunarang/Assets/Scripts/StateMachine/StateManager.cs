@@ -40,6 +40,8 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : System
         if(IsTransitionState) return;
     
         NextState = stateKey;
+
+        print(gameObject.GetInstanceID() + " : " + NextState);
         
         IsTransitionState = true;
         CurrentState.ExitState();

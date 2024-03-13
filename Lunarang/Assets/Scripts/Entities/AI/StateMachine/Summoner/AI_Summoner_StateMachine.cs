@@ -201,7 +201,7 @@ public class AI_Summoner_StateMachine : AI_StateMachine
     /// </summary>
     public void Signal()
     {
-        TransitionToState(EnemyState.Chase);
+        TryToTransition(EnemyState.Chase);
     }
 
     

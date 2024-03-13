@@ -128,7 +128,7 @@ public class SC_DoT_States
         else
         {
             if(self._aiStats.TryGetComponent(out AI_StateMachine stateMachine))
-                stateMachine.TransitionToState(AI_StateMachine.EnemyState.Freeze);
+                stateMachine.TryToTransition(AI_StateMachine.EnemyState.Freeze);
         }
         
         yield return new WaitForSeconds(duration);
@@ -212,7 +212,7 @@ public class SC_DoT_States
         else
         {
             if(self._aiStats.TryGetComponent(out AI_StateMachine stateMachine))
-                stateMachine.TransitionToState(AI_StateMachine.EnemyState.Patrol);
+                stateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase, true);
         }
         
         self.currentDebuffs.Remove(Enum_Debuff.Freeze);

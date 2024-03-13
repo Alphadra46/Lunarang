@@ -63,7 +63,7 @@ public class AI_BadKyu_DefenseState : BaseState<AI_StateMachine.EnemyState>
         }
         
         _aiStateMachine._rb.isKinematic = true;
-        _aiStateMachine.TransitionToState(AI_Archer_StateMachine.EnemyState.Chase);
+        _aiStateMachine.TryToTransition(AI_Archer_StateMachine.EnemyState.Chase);
         
     }
 }

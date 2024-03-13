@@ -63,7 +63,7 @@ public class AI_Archer_DefenseState : BaseState<AI_Archer_StateMachine.EnemyStat
         }
         
         _aiArcherStateMachine._rb.isKinematic = true;
-        _aiArcherStateMachine.TransitionToState(AI_Archer_StateMachine.EnemyState.Chase);
+        _aiArcherStateMachine.TryToTransition(AI_Archer_StateMachine.EnemyState.Chase);
         
     }
 }

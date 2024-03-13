@@ -78,7 +78,7 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
             _agent.isStopped = true;
             if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _aiStateMachine.centerPoint, _aiStateMachine.detectionAreaRadius, _aiStateMachine.layersAttackable))
             {
-                _aiStateMachine.TransitionToState(AI_Bully_StateMachine.EnemyState.Attack);
+                _aiStateMachine.TryToTransition(AI_Bully_StateMachine.EnemyState.Attack);
             }
                 
         }
