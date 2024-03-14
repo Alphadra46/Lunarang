@@ -1,4 +1,4 @@
-using System;
+    using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -190,6 +190,8 @@ public class SC_AIStats : SC_EntityBase, IDamageable
             _renderer.UpdateHealthBar(currentStats.currentHealth, currentStats.currentMaxHealth);
             _renderer.DebugDamage(finalDamage, isCrit);
 
+            if(isDead) return;
+            
             if (currentStats.currentHealth <= 0)
             {
                 
@@ -241,8 +243,8 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         _renderer.UpdateHealthBar(currentStats.currentHealth, currentStats.currentMaxHealth);
         _renderer.DebugDamage(finalDamage, isCrit, dotType);
 
-        if (!(currentStats.currentHealth <= 0)) return;
-
+        if(isDead) return;
+        
         if (currentStats.currentHealth <= 0)
         {
                 

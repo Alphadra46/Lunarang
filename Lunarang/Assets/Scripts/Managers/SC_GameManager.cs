@@ -31,6 +31,10 @@ public class SC_GameManager : MonoBehaviour
 
     [Title("Settings")]
     [ShowInInspector] public List<GameObject> allInteractables = new List<GameObject>();
+
+
+    [HideInInspector] public SC_ResourcesInventory playerResourceInventory;
+    [HideInInspector] public SO_SkillInventory playerSkillInventory;
     
     #endregion
     
@@ -38,6 +42,9 @@ public class SC_GameManager : MonoBehaviour
     {
         if(instance != null) Destroy(this);
         instance = this;
+        
+        playerResourceInventory = Resources.Load<SC_ResourcesInventory>("ResourceInventory");
+        playerSkillInventory = Resources.Load<SO_SkillInventory>("SkillInventory");
     }
 
     private void Start()
