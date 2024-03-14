@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -44,5 +45,16 @@ public class SO_SkillInventory : ScriptableObject
                 return;
             }
         }
+    }
+
+    /// <summary>
+    /// Clear the player's inventory
+    /// </summary>
+    [Button]
+    public void ClearInventory()
+    {
+        completedConstellations.Clear();
+        ongoingConstellations.Clear();
+        skillsOwned.Clear();
     }
 }

@@ -152,7 +152,7 @@ public class SC_UIManager : MonoBehaviour
         {
             rewardUI = Instantiate(rewardUIPrefab, UIParent.transform);
             rewardUI.name = "RewardUI";
-            SC_RewardManager.instance.RewardSelection(rewardUI.GetComponent<SC_RewardUI>());
+            SC_RewardManager.instance.ChestRewardSelection(rewardUI.GetComponent<SC_RewardUI>());
             
             SC_InputManager.instance.submit.Disable();
             ShowHUD();

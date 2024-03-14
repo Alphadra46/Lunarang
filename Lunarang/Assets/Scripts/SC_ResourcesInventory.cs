@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 [CreateAssetMenu(menuName = "Middle-Men/Resources Inventory")]
-public class SC_ResourcesInventory : ScriptableObject
+public class SC_ResourcesInventory : SerializedScriptableObject
 {
-    public SerializedDictionary<SC_Ressource, int> resourceInventory = new SerializedDictionary<SC_Ressource, int>();
+    public Dictionary<SC_Ressource, int> resourceInventory = new Dictionary<SC_Ressource, int>();
 
     public void AddResource(SC_Ressource resource, int amount)
     {
@@ -32,4 +33,9 @@ public class SC_ResourcesInventory : ScriptableObject
         resourceInventory[resource] -= amount;
     }
     
+    [Button]
+    public void ClearResourceInventory()
+    {
+        resourceInventory.Clear();
+    }
 }
