@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -17,56 +18,12 @@ public class SC_RewardUI : MonoBehaviour
     public Transform rewardParent;
     
     private List<GameObject> rewards = new List<GameObject>();
-
-
-    public void SetRessourcesRewards(List<SC_Ressource> ressources)
-    {
-        rewardRessources = ressources;
-    }
     
-    public void SetSkillsRewards(List<SO_BaseSkill> skills)
-    {
-        rewardSkills = skills;
-    }
-
-    private void RandomSkillReward()
-    {
-        var i = 0;
-        var length = SC_SkillManager.instance.allCurrentRunSkills.Count > 2
-            ? 3
-            : SC_SkillManager.instance.allCurrentRunSkills.Count;
-        
-        while (i < length)
-        {
-            var index = Random.Range(0, SC_SkillManager.instance.allCurrentRunSkills.Count);
-
-            if (rewardSkills.Contains(SC_SkillManager.instance.allCurrentRunSkills[index]))
-            {
-                continue;
-            }
-            
-            rewardSkills.Add(SC_SkillManager.instance.allCurrentRunSkills[index]);
-            i++;
-        }
-        
-        print(rewardSkills.Count);
-    }
-
-    private void Awake()
-    {
-
-        RandomSkillReward();
-        Init();
-
-        EventSystem.current.SetSelectedGameObject(rewards[0]);
-    }
 
     public void Init()
     {
-        
         if (rewardSkills.Count > 0)
         {
-            
             foreach (var skill in rewardSkills)
             {
                 var reward = Instantiate(rewardItemPrefab, rewardParent).GetComponent<SC_RewardItemUI>();
@@ -78,9 +35,8 @@ public class SC_RewardUI : MonoBehaviour
             }
             
         }
-        else if (rewardRessources.Count > 0)
+        if (rewardRessources.Count > 0)
         {
-            
             foreach (var ressource in rewardRessources)
             {
                 var reward = Instantiate(rewardItemPrefab, rewardParent).GetComponent<SC_RewardItemUI>();
@@ -103,7 +59,7 @@ public class SC_RewardUI : MonoBehaviour
 
         }
         
-        
+        EventSystem.current.SetSelectedGameObject(rewards[0]);
     }
     
     
