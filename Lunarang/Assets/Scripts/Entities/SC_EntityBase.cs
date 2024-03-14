@@ -412,16 +412,28 @@ namespace Entities
                     break;
                 
                 case StatTypes.BurnHitRate:
+                    modifiedStats.burnHitRate =
+                        modOperation(baseStats.burnHitRate, statMod.ModificationValue);
                     break;
                 case StatTypes.BurnAoESize:
+                    debuffsBuffsComponent.burnAoESize =
+                        modOperation(debuffsBuffsComponent.burnAoESize, statMod.ModificationValue);
                     break;
                 case StatTypes.BurnTick:
+                    debuffsBuffsComponent.burnTick =
+                        modOperation(debuffsBuffsComponent.burnTick, statMod.ModificationValue);
                     break;
-                case StatTypes.BurnMaxDuration:
+                case StatTypes.BurnMaxStack:
+                    debuffsBuffsComponent.burnMaxStack =
+                        (int) modOperation(debuffsBuffsComponent.burnMaxStack, statMod.ModificationValue);
                     break;
                 case StatTypes.BurnAoEHitRate:
+                    debuffsBuffsComponent.burnAoEHitRate =
+                        modOperation(debuffsBuffsComponent.burnAoEHitRate, statMod.ModificationValue);
                     break;
                 case StatTypes.BurnDMG:
+                    debuffsBuffsComponent.burnDMGBonus =
+                        modOperation(debuffsBuffsComponent.burnDMGBonus, statMod.ModificationValue);
                     break;
                 
                 case StatTypes.FreezeHitRate:
@@ -460,7 +472,12 @@ namespace Entities
                     modifiedStats.manaFuryMaxHPGate = (int) modOperation(baseStats.manaFuryMaxHPGate, statMod.ModificationValue);
                     break;
                     
-                
+                case StatTypes.CritRate:
+                    modifiedStats.bonusCritRate = modOperation(baseStats.bonusCritRate, statMod.ModificationValue);
+                    break;
+                case StatTypes.CritDamage:
+                    modifiedStats.bonusCritDMG = modOperation(baseStats.bonusCritDMG, statMod.ModificationValue);
+                    break;
             }
 
             return modifiedStats;

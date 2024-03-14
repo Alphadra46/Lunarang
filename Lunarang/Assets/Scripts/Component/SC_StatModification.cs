@@ -57,7 +57,7 @@ public enum StatTypes
     BurnHitRate,
     BurnAoESize,
     BurnTick,
-    BurnMaxDuration,
+    BurnMaxStack,
     BurnAoEHitRate,
     BurnDMG,
     
@@ -72,7 +72,10 @@ public enum StatTypes
     ManaOverloadDamageTick,
     ManaOverloadDuration,
     
-    ManaFuryMaxHP
+    ManaFuryMaxHP,
+    
+    CritRate,
+    CritDamage
     
 }
 

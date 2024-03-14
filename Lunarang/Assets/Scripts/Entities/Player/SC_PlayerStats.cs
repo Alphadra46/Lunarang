@@ -73,11 +73,13 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         if (Input.GetKeyDown(KeyCode.Keypad4))
         {
 
-            SC_SkillManager.instance.AddSkillsToSkillsList(SC_SkillManager.instance.FindSkillByName("Châtiment Glacial"));
-            SC_SkillManager.instance.AddSkillsToSkillsList(SC_SkillManager.instance.FindSkillByName("ChildSkill_3_1_Freeze"));
-            SC_SkillManager.instance.AddSkillsToSkillsList(SC_SkillManager.instance.FindSkillByName("ChildSkill_3_2_Freeze"));
-            SC_SkillManager.instance.AddSkillsToSkillsList(SC_SkillManager.instance.FindSkillByName("ChildSkill_3_3_Freeze"));
-            SC_SkillManager.instance.AddSkillsToSkillsList(SC_SkillManager.instance.FindSkillByName("ChildSkill_3_4_Freeze"));
+            SC_SkillManager.instance.AddSkillsToSkillsList(SC_SkillManager.instance.FindSkillByName("Glouton"));
+
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad5))
+        {
+            if(SC_SkillManager.instance.CheckHasSkillByName("Glouton"))
+                SC_SkillManager.instance.AddLevelToLunarSkill("Glouton", 1);
 
         }
     }
