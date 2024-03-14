@@ -18,27 +18,33 @@ public enum ConstellationName
 
 public class SO_BaseSkill : SerializedScriptableObject
 {
-
+    
     public string skillName;
     public ConstellationName constellation;
     
     [MultiLineProperty] public string shortDescription;
     [MultiLineProperty] public string longDescription;
-
+    
+    [FoldoutGroup("BaseSkill")]
     [PropertySpace(SpaceBefore = 5)]
     public List<SC_StatModification> statsChangedOnInit = new List<SC_StatModification>();
+    [FoldoutGroup("BaseSkill")]
     public Dictionary<Enum_Buff, string> buffsAppliedOnInit = new Dictionary<Enum_Buff, string>();
     
+    [FoldoutGroup("BaseSkill")]
     [PropertySpace(SpaceBefore = 5)]
     public SO_Event eventEnabler;
+    [FoldoutGroup("BaseSkill")]
     public SO_Event eventDisabler;
     
+    [FoldoutGroup("BaseSkill")]
     [PropertySpace(SpaceBefore = 5)]
     public List<SC_StatModification> statsChangedOnEvent = new List<SC_StatModification>();
+    [FoldoutGroup("BaseSkill")]
     [PropertySpace(SpaceAfter = 5)]
     public Dictionary<Enum_Buff, string> buffsAppliedOnEvent = new Dictionary<Enum_Buff, string>();
     
-    
+    [FoldoutGroup("BaseSkill")]
     private Dictionary<StatTypes, string> tempStatsSave = new Dictionary<StatTypes, string>();
     
     public virtual void Init()

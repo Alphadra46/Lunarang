@@ -63,5 +63,14 @@ public class SC_SkillManager : MonoBehaviour
        
        
     }
+
+    public void AddLevelToLunarSkill(string skillName, int levelAdded)
+    {
+
+        var skill = (SO_LunarSkill) FindSkillByName(skillName);
+        
+        skill.IncrementLevel(levelAdded);
+
+    }
     
 }
