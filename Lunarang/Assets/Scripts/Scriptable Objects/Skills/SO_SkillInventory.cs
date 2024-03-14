@@ -29,9 +29,10 @@ public class SO_SkillInventory : ScriptableObject
     /// <param name="skill">The skill to add</param>
     public void AddSkill(SO_BaseSkill skill)
     {
-        bool constellationCompleted = false;
-        
-        if (skillsOwned.Contains(skill))
+        var temp = skill as SO_LunarSkill;
+        if (temp != null) goto lunarSkill;
+
+            if (skillsOwned.Contains(skill))
             return;
         
         skillsOwned.Add(skill);
@@ -45,6 +46,15 @@ public class SO_SkillInventory : ScriptableObject
                 return;
             }
         }
+        
+        lunarSkill:
+        if (skillsOwned.Contains(skill))
+        {
+            temp.IncrementLevel(1);
+            return;
+        }
+        skillsOwned.Add(skill);
+
     }
 
     /// <summary>

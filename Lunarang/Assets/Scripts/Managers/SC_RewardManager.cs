@@ -40,8 +40,6 @@ public class SC_RewardManager : MonoBehaviour
     
     
     private SC_Ressource moonFragment;
-    private SO_SkillInventory playerSkillInventory;
-    private SC_ResourcesInventory playerResourceInventory;
     private List<SC_Ressource> ressources = new List<SC_Ressource>();
     private List<SC_Constellation> constellations = new List<SC_Constellation>();
     [HideInInspector] public List<SO_BaseSkill> selectedSkills = new List<SO_BaseSkill>();
@@ -51,8 +49,6 @@ public class SC_RewardManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        playerSkillInventory = Resources.Load<SO_SkillInventory>("SkillInventory");
-        playerResourceInventory = Resources.Load<SC_ResourcesInventory>("ResourceInventory");
         constellations = Resources.LoadAll<SC_Constellation>("Constellations").ToList();
         moonFragment = Resources.Load<SC_Ressource>("Ressources/MoonFragment");
         ressources = Resources.LoadAll<SC_Ressource>("Ressources/Base").ToList();
@@ -83,20 +79,20 @@ public class SC_RewardManager : MonoBehaviour
     private SO_BaseSkill NormalSkillSelection()
     {
         var c = constellations.ToList(); 
-        c = c.Where(constel => !playerSkillInventory.completedConstellations.Contains(constel)).ToList(); //Remove from the list the constellation that are already completed
+        c = c.Where(constel => !SC_GameManager.instance.playerSkillInventory.completedConstellations.Contains(constel)).ToList(); //Remove from the list the constellation that are already completed
         
-        if (playerSkillInventory.ongoingConstellations.Count==0) //Parent skill selected at random between every constellation that is not completed
+        if (SC_GameManager.instance.playerSkillInventory.ongoingConstellations.Count==0) //Parent skill selected at random between every constellation that is not completed
         {
             SC_Constellation selectedConstellation = c[Random.Range(0, c.Count)];
 
-            return selectedConstellation.GetRandomParentSkill(playerSkillInventory.skillsOwned);
+            return selectedConstellation.GetRandomParentSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
         }
         else
         {
-            SC_Constellation selectedConstellation = playerSkillInventory.ongoingConstellations[Random.Range(0, playerSkillInventory.ongoingConstellations.Count)];
+            SC_Constellation selectedConstellation = SC_GameManager.instance.playerSkillInventory.ongoingConstellations[Random.Range(0, SC_GameManager.instance.playerSkillInventory.ongoingConstellations.Count)];
             float p = 0f; //The probability to get a skill from an ongoing constellation
             
-            switch (playerSkillInventory.ongoingConstellations.Count)
+            switch (SC_GameManager.instance.playerSkillInventory.ongoingConstellations.Count)
             {
                 case 1:
                     p = 50f;
@@ -114,22 +110,22 @@ public class SC_RewardManager : MonoBehaviour
 
             if (Random.Range(1,101) > p) //Random constellation skill from a constellation that the player have not started yet
             {
-                foreach (var constellation in playerSkillInventory.ongoingConstellations)
+                foreach (var constellation in SC_GameManager.instance.playerSkillInventory.ongoingConstellations)
                 {
                     c.Remove(constellation);
                 }
                 selectedConstellation = c[Random.Range(0, c.Count)];
-                return selectedConstellation.GetRandomParentSkill(playerSkillInventory.skillsOwned);
+                return selectedConstellation.GetRandomParentSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
             }
             else //Ongoing constellation skill
             {
                 if (Random.Range(1,101) > 70) //Get a child skill from a already owned parent skill and ongoing constellation
                 {
-                    return selectedConstellation.GetRandomChildSkill(playerSkillInventory.skillsOwned);
+                    return selectedConstellation.GetRandomChildSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
                 }
                 else //Get a new parent skill from an ongoing constellation
                 {
-                    return selectedConstellation.GetRandomParentSkill(playerSkillInventory.skillsOwned);
+                    return selectedConstellation.GetRandomParentSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
                 }
             }
         }
@@ -169,7 +165,7 @@ public class SC_RewardManager : MonoBehaviour
 
         if (canDropMoonFragment && Random.Range(1, 101) <= moonFragmentEliteDropRate)
         {
-            playerResourceInventory.AddResource(moonFragment,1); 
+            SC_GameManager.instance.playerResourceInventory.AddResource(moonFragment,1); 
             //TODO - Display resource
         }
 
@@ -205,7 +201,7 @@ public class SC_RewardManager : MonoBehaviour
                 (r > highRarityDropRate && r <= highRarityDropRate + mediumRarityDropRate) ? templeLevel :
                 templeLevel - 1;
 
-            playerResourceInventory.AddResource(ressources.First(ressource => ressource.rarityLevel==resourceLevel),Mathf.RoundToInt(Random.Range(dropRange.x,dropRange.y)*quantityMultiplier));
+            SC_GameManager.instance.playerResourceInventory.AddResource(ressources.First(ressource => ressource.rarityLevel==resourceLevel),Mathf.RoundToInt(Random.Range(dropRange.x,dropRange.y)*quantityMultiplier));
             //TODO - Display resource
         }
     }
