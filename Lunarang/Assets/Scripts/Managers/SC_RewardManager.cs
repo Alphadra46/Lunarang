@@ -185,14 +185,14 @@ public class SC_RewardManager : MonoBehaviour
 
             if (templeLevel-1 >=0) //If the level of the temple is at the minimum
             {
-                mediumRarityDropRate = lowRarityDropRate / 2;
-                highRarityDropRate = lowRarityDropRate / 2;
+                mediumRarityDropRate += lowRarityDropRate / 2;
+                highRarityDropRate += lowRarityDropRate / 2;
                 lowRarityDropRate = 0f;
             }
             else if (templeLevel+1 >6) //If the level of the temple is at max
             {
-                mediumRarityDropRate = highRarityDropRate / 2;
-                lowRarityDropRate = highRarityDropRate / 2;
+                mediumRarityDropRate += highRarityDropRate / 2;
+                lowRarityDropRate += highRarityDropRate / 2;
                 highRarityDropRate = 0f;
             }
 
@@ -201,6 +201,10 @@ public class SC_RewardManager : MonoBehaviour
                 (r > highRarityDropRate && r <= highRarityDropRate + mediumRarityDropRate) ? templeLevel :
                 templeLevel - 1;
 
+            dropRange = r <= highRarityDropRate ? highRarityDropRange :
+                (r > highRarityDropRate && r <= highRarityDropRate + mediumRarityDropRate) ? mediumRarityDropRange :
+                lowRarityDropRange;
+            
             SC_GameManager.instance.playerResourceInventory.AddResource(ressources.First(ressource => ressource.rarityLevel==resourceLevel),Mathf.RoundToInt(Random.Range(dropRange.x,dropRange.y)*quantityMultiplier));
             //TODO - Display resource
         }
