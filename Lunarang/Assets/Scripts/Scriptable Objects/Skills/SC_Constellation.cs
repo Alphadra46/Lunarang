@@ -2,15 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
-[CreateAssetMenu(menuName = "SO/Constellation", fileName = "SO_Constellation"), Serializable]
-public class SC_Constellation : ScriptableObject
+[CreateAssetMenu(menuName = "SO/Constellation", fileName = "SO_Constellation")]
+public class SC_Constellation : SerializedScriptableObject
 {
     public string name;
-    public List<SO_ParentSkill> skills = new List<SO_ParentSkill>();
+    public Dictionary<SO_ParentSkill, List<SO_ChildSkill>> skills = new Dictionary<SO_ParentSkill, List<SO_ChildSkill>>();
 
     /// <summary>
     /// Get a random child skill of a already owned parent skill
@@ -19,15 +20,14 @@ public class SC_Constellation : ScriptableObject
     /// <returns>The chosen skill</returns>
     public SO_ChildSkill GetRandomChildSkill(List<SO_BaseSkill> playerInventory)
     {
-        var l = skills.ToList();
+        var l = skills.Keys.ToList();
         l = l.Where(s => playerInventory.Contains(s)).ToList();
         var parentSkill = l[Random.Range(0, l.Count)];
 
-        var lc = skills[skills.IndexOf(parentSkill)].childrenSkills.ToList();
+        var lc = skills[parentSkill];
         lc = lc.Where(s => !playerInventory.Contains(s)).ToList();
         
-        //return lc[Random.Range(0,lc.Count)];
-        return new SO_ChildSkill();
+        return lc[Random.Range(0,lc.Count)];
     }
     
     /// <summary>
@@ -37,7 +37,7 @@ public class SC_Constellation : ScriptableObject
     /// <returns>The chosen skill</returns>
     public SO_ParentSkill GetRandomParentSkill(List<SO_BaseSkill> inventory)
     {
-        var l = skills.ToList();
+        var l = skills.Keys.ToList();
         l = l.Where(s => !inventory.Contains(s)).ToList();
         return l[Random.Range(0,l.Count)];
     }
@@ -49,12 +49,12 @@ public class SC_Constellation : ScriptableObject
     /// <returns>If the constellation is completely owned by the player</returns>
     public bool IsConstellationCompleted(List<SO_BaseSkill> playerSkills)
     {
-        foreach (var parentSkill in skills)
+        foreach (var parentSkill in skills.Keys)
         {
             if (!playerSkills.Contains(parentSkill))
                 return false;
             
-            foreach (var childSkill in skills[skills.IndexOf(parentSkill)].childrenSkills)
+            foreach (var childSkill in skills[parentSkill])
             {
                 if (!playerSkills.Contains(childSkill))
                     return false;
