@@ -10,6 +10,10 @@ public class SO_SkillInventory : ScriptableObject
     public List<SC_Constellation> completedConstellations = new List<SC_Constellation>();
     public List<SO_BaseSkill> skillsOwned = new List<SO_BaseSkill>();
 
+    /// <summary>
+    /// Add a constellation to the ongoing constellation list
+    /// </summary>
+    /// <param name="constellation">The constellation to add</param>
     public void AddConstellation(SC_Constellation constellation)
     {
         if (ongoingConstellations.Contains(constellation))
@@ -18,6 +22,10 @@ public class SO_SkillInventory : ScriptableObject
         ongoingConstellations.Add(constellation);
     }
 
+    /// <summary>
+    /// Add a skill to the inventory
+    /// </summary>
+    /// <param name="skill">The skill to add</param>
     public void AddSkill(SO_BaseSkill skill)
     {
         bool constellationCompleted = false;
