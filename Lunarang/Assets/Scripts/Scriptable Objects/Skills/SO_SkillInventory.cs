@@ -46,6 +46,7 @@ public class SO_SkillInventory : ScriptableObject
                 return;
             }
         }
+        return;
         
         lunarSkill:
         if (skillsOwned.Contains(skill))
