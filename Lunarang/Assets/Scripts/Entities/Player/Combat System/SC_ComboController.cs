@@ -249,11 +249,15 @@ public class SC_ComboController : MonoBehaviour
             
             e.GetComponent<IDamageable>().TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
             
+            if(e.GetComponent<SC_AIStats>().isDead) return;
+            
+            // Check Poison
             if(Random.Range(1, 100) < _stats.currentStats.poisonHitRate)
             {
                 entityDebuff.ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
             }
 
+            // Check Freeze
             if (comboCounter == comboMaxLength && SC_SkillManager.instance.CheckHasSkillByName("Châtiment Glacial"))
             {
                 CheckFreezeHit(e, true);
@@ -262,12 +266,12 @@ public class SC_ComboController : MonoBehaviour
             {
                 CheckFreezeHit(e);
             }
-
+            
+            // Check Burn
             if (currentWeapon.id == "chakram")
             {
                 CheckBurnHit(e);
             }
-
             if (entityDebuff.currentDebuffs.Contains(Enum_Debuff.Burn))
             {
                 
