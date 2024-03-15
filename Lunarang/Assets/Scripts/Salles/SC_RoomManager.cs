@@ -24,16 +24,19 @@ public class SC_RoomManager : MonoBehaviour
     [TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] public List<GameObject> globalSpawnArea;
     [TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] public List<GameObject> eliteSpawnArea;
 
-    [Header("Enemies wave parameters")] 
+    [Header("Enemies wave parameters")]
     [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int minNumberOfEnemiesEasy;
     [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int maxNumberOfEnemiesEasy;
     [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int minNumberOfEnemiesMedium;
     [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int maxNumberOfEnemiesMedium;
+    [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int numberOfEliteMedium;
     [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int minNumberOfEnemiesHard;
     [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int maxNumberOfEnemiesHard;
+    [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int numberOfEliteHard;
     [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int minNumberOfEnemiesHell;
     [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int maxNumberOfEnemiesHell;
-
+    [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int numberOfEliteHell;
+    
     [Header("Other room parameters")] 
     [SerializeField, TabGroup("Settings", "Global Settings")] private Collider colliderConfiner;
     private CinemachineConfiner confiner;
