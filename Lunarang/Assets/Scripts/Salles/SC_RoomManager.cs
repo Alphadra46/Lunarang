@@ -13,6 +13,9 @@ public class SC_RoomManager : MonoBehaviour
     public bool isSpecialRoom;
     [SerializeField, TabGroup("Settings", "Global Settings"), HideIf("isSpecialRoom")] private RoomSize roomSize;
     [SerializeField, ReadOnly, TabGroup("Settings", "Global Settings"), HideIf("isSpecialRoom")] private RoomDifficulty roomDifficulty;
+
+    [Header("Stairs")] 
+    [SerializeField, TabGroup("Settings", "Global Settings"), ShowIf("isSpecialRoom")] public SC_Stairs stair;
     
     [Header("Door possible position")]
     [TabGroup("Settings", "Global Settings")] public SC_Door doorNorth;
@@ -46,6 +49,8 @@ public class SC_RoomManager : MonoBehaviour
 
     [ShowInInspector] private int numberOfEnemies;
     [ShowInInspector] public bool isClear=false;
+
+    private bool isInit = false;
     
     private enum RoomSize
     {
@@ -62,8 +67,13 @@ public class SC_RoomManager : MonoBehaviour
         Hell
     }
     
-    private void OnEnable()
+    private void OnEnable() //TODO - Maybe create a doOnce after the floor is completely generated so that it can't go in there anymore and disable doors
     {
+        if (isInit)
+            return;
+
+        isInit = true;
+        
         SetDifficulty();
         
         doorNorth.Initialize(this);
