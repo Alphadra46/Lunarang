@@ -9,7 +9,10 @@ using Random = UnityEngine.Random;
 
 public class SC_PathCreator : MonoBehaviour
 {
+    public static SC_PathCreator instance;
+    
     [Header("General setting")]
+    [TabGroup("Settings", "Generation values")] public int numberOfFloor = 3;
     [TabGroup("Settings", "Generation values")] public bool setSeed;
     [TabGroup("Settings", "Generation values"), ShowIf("setSeed")] public int customSeed;
     [TabGroup("Settings", "Generation values"), ShowInInspector, ReadOnly] private int seed;
@@ -74,24 +77,55 @@ public class SC_PathCreator : MonoBehaviour
     private GameObject spawn;
     private GameObject boss;
     private GameObject chest;
-    
+
+    [HideInInspector] public List<SC_Floor> floorsList = new List<SC_Floor>();
+    [HideInInspector] public int actualFloor; //Will be used to determine which floor need to be activated in game
+    private int floorIndexGeneration; //Will be used to know which floor we are generating
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        floorsList.Clear();
+        floorIndexGeneration = 0;
         originalSpawnNodeIndex = spawnNodeIndex;
-        SetupGeneration();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (!isInit)
-            return;
-        
-
-        if (Input.GetKeyDown(KeyCode.R))
+        for (int i = 0; i < numberOfFloor; i++)
         {
             SetupGeneration();
+            floorsList.Add(new SC_Floor(spawnToBossRooms.ToList(),spawnToChestRooms.ToList(),bossToChestRooms.ToList(),spawnToBossPath,spawnToChestPath,bossToChestPath,spawn,boss, chest));
+            floorIndexGeneration++;
+
+            if (i!=0)
+            {
+                floorsList[i].HideFloor(); //Hide the floors above the first one
+            }
+        }
+        
+        SC_PlayerController.instance.transform.position = new Vector3(floorsList[0].floorStartRoom.GetComponent<SC_RoomManager>().doorNorth.doorSpawnPoint.transform.position.x, 0, floorsList[0].floorStartRoom.GetComponent<SC_RoomManager>().doorNorth.doorSpawnPoint.transform.position.z);
+        FloorConnection();
+        
+    }
+
+    /// <summary>
+    /// Connect every floor stairs
+    /// </summary>
+    private void FloorConnection()
+    {
+        foreach (var floor in floorsList)
+        {
+            if (floorsList.IndexOf(floor)+1>=numberOfFloor) //If the actual floor is the last one then break out of the function
+                return;
+
+            if (floor.floorEndRoom.TryGetComponent(out SC_RoomManager floorEndRoomManager) && floorsList[floorsList.IndexOf(floor) + 1].floorStartRoom.TryGetComponent(out SC_RoomManager nextFloorStartRoomManager))
+            {
+                floorEndRoomManager.stair.stairToConnect = nextFloorStartRoomManager.stair;
+                nextFloorStartRoomManager.stair.stairToConnect = floorEndRoomManager.stair;
+            }
         }
     }
 
@@ -122,22 +156,22 @@ public class SC_PathCreator : MonoBehaviour
         nodesInRange.Clear();
         foreach (var room in spawnToBossRooms)
         {
-            Destroy(room);
+            //Destroy(room);
         }
         spawnToBossRooms.Clear();
         foreach (var room in spawnToChestRooms)
         {
-            Destroy(room);
+            //Destroy(room);
         }
         spawnToChestRooms.Clear();
         foreach (var room in bossToChestRooms)
         {
-            Destroy(room);
+            //Destroy(room);
         }
         bossToChestRooms.Clear();
-        Destroy(spawn);
-        Destroy(boss);
-        Destroy(chest);
+        //Destroy(spawn);
+        //Destroy(boss);
+        //Destroy(chest);
         
         
         //Set a random spawn location if wanted
@@ -732,15 +766,13 @@ public class SC_PathCreator : MonoBehaviour
         
         
         //Then add the real spawn, boos and chest room
-        var spawnRoom = Instantiate(spawnRoomList[Random.Range(0, spawnRoomList.Count)], GetAvailableRoomSpace(spawnNodeIndex, out int si, 0, false), Quaternion.identity).GetComponent<SC_RoomManager>();
-        var bossRoom = Instantiate(bossRoomList[Random.Range(0, bossRoomList.Count)], GetAvailableRoomSpace(bossRoomIndex, out int bi, si, true), Quaternion.identity).GetComponent<SC_RoomManager>();
+        var spawnRoom = Instantiate(floorIndexGeneration<=0?spawnRoomList[Random.Range(0, spawnRoomList.Count)]:stairRoomList[Random.Range(0,stairRoomList.Count)], GetAvailableRoomSpace(spawnNodeIndex, out int si, 0, false), Quaternion.identity).GetComponent<SC_RoomManager>();
+        var bossRoom = Instantiate(floorIndexGeneration<numberOfFloor-1?stairRoomList[Random.Range(0,stairRoomList.Count)]:bossRoomList[Random.Range(0, bossRoomList.Count)], GetAvailableRoomSpace(bossRoomIndex, out int bi, si, true), Quaternion.identity).GetComponent<SC_RoomManager>();
         var chestRoom = Instantiate(chestRoomList[Random.Range(0, chestRoomList.Count)], GetAvailableRoomSpace(chestRoomIndex, out chestRoomIndex, bi, true), Quaternion.identity).GetComponent<SC_RoomManager>();
 
         spawn = spawnRoom.gameObject;
         boss = bossRoom.gameObject;
         chest = chestRoom.gameObject;
-        
-        SC_PlayerController.instance.transform.position = new Vector3(spawn.GetComponent<SC_RoomManager>().doorNorth.doorSpawnPoint.transform.position.x, 0, spawn.GetComponent<SC_RoomManager>().doorNorth.doorSpawnPoint.transform.position.z);
         
         //Link these rooms to their pre-room
         var roomPos = Vector3.zero;
