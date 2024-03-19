@@ -17,7 +17,8 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     #region Variables
     
     [Title("IDs")] 
-    [Tooltip("Plus tard flemme")] public string typeID;
+    [Tooltip("ID of the enemy")] public string typeID;
+    [Tooltip("Is an Elite enemy ?")] public bool isElite = false;
 
     [Space(10)]
     
@@ -264,6 +265,8 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     {
         onDeath?.Invoke();
         _debuffsBuffsComponent.ResetAllBuffsAndDebuffs();
+        
+        SC_RewardManager.instance.ResourceDropSelection(isElite ? "Elite" : "Base");
         
         if(SC_Pooling.instance != null) {
             SC_Pooling.instance.ReturnItemToPool("Ennemis", gameObject);

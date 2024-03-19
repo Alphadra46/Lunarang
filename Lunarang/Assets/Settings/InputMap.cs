@@ -98,6 +98,24 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Consumable_Switch"",
+                    ""type"": ""Button"",
+                    ""id"": ""f05fd95d-ca7c-44d0-909c-ea879dc09583"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Consumable_Use"",
+                    ""type"": ""Button"",
+                    ""id"": ""20c961ed-77c1-4497-a891-22ca6a2d2db5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -318,6 +336,94 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Joystick"",
+                    ""id"": ""e56c5750-65fe-44d6-9090-68c2569e276a"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Consumable_Switch"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""89c7caa1-03c4-4da3-9192-b86e7907a0c4"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Consumable_Switch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""092fa9d3-61da-44d5-a663-6adaf70acc8f"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Consumable_Switch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""b0b89978-c97f-4547-abaf-f773231035ea"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Consumable_Switch"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""57b7d3d7-721e-4757-afa7-b08f7f9ae1ba"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Consumable_Switch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""abf395b1-56fc-4dcc-8c90-f9084e6e1f4a"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Consumable_Switch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02e2325c-dec1-4aa8-bea9-7f57e1ddc4e5"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Consumable_Use"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96f701d7-30d3-4104-a281-1066be026fa6"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Consumable_Use"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -935,6 +1041,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_General_Pause = m_General.FindAction("Pause", throwIfNotFound: true);
         m_General_Inventory = m_General.FindAction("Inventory", throwIfNotFound: true);
         m_General_Interaction = m_General.FindAction("Interaction", throwIfNotFound: true);
+        m_General_Consumable_Switch = m_General.FindAction("Consumable_Switch", throwIfNotFound: true);
+        m_General_Consumable_Use = m_General.FindAction("Consumable_Use", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1019,6 +1127,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_General_Pause;
     private readonly InputAction m_General_Inventory;
     private readonly InputAction m_General_Interaction;
+    private readonly InputAction m_General_Consumable_Switch;
+    private readonly InputAction m_General_Consumable_Use;
     public struct GeneralActions
     {
         private @InputMap m_Wrapper;
@@ -1031,6 +1141,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @Pause => m_Wrapper.m_General_Pause;
         public InputAction @Inventory => m_Wrapper.m_General_Inventory;
         public InputAction @Interaction => m_Wrapper.m_General_Interaction;
+        public InputAction @Consumable_Switch => m_Wrapper.m_General_Consumable_Switch;
+        public InputAction @Consumable_Use => m_Wrapper.m_General_Consumable_Use;
         public InputActionMap Get() { return m_Wrapper.m_General; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1064,6 +1176,12 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
+            @Consumable_Switch.started += instance.OnConsumable_Switch;
+            @Consumable_Switch.performed += instance.OnConsumable_Switch;
+            @Consumable_Switch.canceled += instance.OnConsumable_Switch;
+            @Consumable_Use.started += instance.OnConsumable_Use;
+            @Consumable_Use.performed += instance.OnConsumable_Use;
+            @Consumable_Use.canceled += instance.OnConsumable_Use;
         }
 
         private void UnregisterCallbacks(IGeneralActions instance)
@@ -1092,6 +1210,12 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
+            @Consumable_Switch.started -= instance.OnConsumable_Switch;
+            @Consumable_Switch.performed -= instance.OnConsumable_Switch;
+            @Consumable_Switch.canceled -= instance.OnConsumable_Switch;
+            @Consumable_Use.started -= instance.OnConsumable_Use;
+            @Consumable_Use.performed -= instance.OnConsumable_Use;
+            @Consumable_Use.canceled -= instance.OnConsumable_Use;
         }
 
         public void RemoveCallbacks(IGeneralActions instance)
@@ -1283,6 +1407,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
+        void OnConsumable_Switch(InputAction.CallbackContext context);
+        void OnConsumable_Use(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

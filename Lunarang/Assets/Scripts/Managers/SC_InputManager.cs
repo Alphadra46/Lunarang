@@ -21,6 +21,8 @@ public class SC_InputManager : MonoBehaviour
     [HideInInspector] public InputAction interaction;
     [HideInInspector] public InputAction pause;
     [HideInInspector] public InputAction inventory;
+    [HideInInspector] public InputAction consumable_use;
+    [HideInInspector] public InputAction consumable_switch;
     
     [Header("UI")]
     [HideInInspector] public InputAction navigate;
@@ -126,6 +128,9 @@ public class SC_InputManager : MonoBehaviour
 
         pause = playerInputActions.General.Pause;
         inventory = playerInputActions.General.Inventory;
+        
+        consumable_use = playerInputActions.General.Consumable_Use;
+        consumable_switch = playerInputActions.General.Consumable_Switch;
     }
 
     /// <summary>
@@ -144,6 +149,9 @@ public class SC_InputManager : MonoBehaviour
         
         pause.Enable();
         inventory.Enable();
+        
+        consumable_switch.Enable();
+        consumable_use.Enable();
     }
 
     /// <summary>
@@ -162,6 +170,9 @@ public class SC_InputManager : MonoBehaviour
         
         pause.Disable();
         inventory.Disable();
+        
+        consumable_switch.Disable();
+        consumable_use.Disable();
     }
     
     /// <summary>

@@ -18,6 +18,8 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     
     [TabGroup("Status", "Debugs")]
     public bool isGod;
+
+    public int resurectionCounter = 1;
     
     #region Events
 
@@ -70,18 +72,6 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     {
         if(Input.GetKeyDown(KeyCode.Keypad9)) TakeDamage(5, false, null, false);
         if(Input.GetKeyDown(KeyCode.Keypad8)) Heal(10);
-        if (Input.GetKeyDown(KeyCode.Keypad4))
-        {
-
-            SC_SkillManager.instance.AddSkillsToSkillsList(SC_SkillManager.instance.FindSkillByName("Glouton"));
-
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad5))
-        {
-            if(SC_SkillManager.instance.CheckHasSkillByName("Glouton"))
-                SC_SkillManager.instance.AddLevelToLunarSkill("Glouton", 1);
-
-        }
     }
 
 
@@ -140,23 +130,22 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
 
         #region Thorns
         
-        if (!SC_SkillManager.instance.CheckHasSkillByName("Protection Épineuse")) return;
+        if (!SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Protection Épineuse")) return;
         
         if(currentStats.shieldCurrentHP <= 0) return;
         
         const float thornsMV = 0.1f;
         var rawDMG = thornsMV * currentStats.currentATK;
         var effDMG = rawDMG * (1 +
-                               (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_2_Tank")
-                                && SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_2_Tank")
+                               (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_2_Tank")
+                                && SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_2_Tank")
                                     .buffsParentEffect.TryGetValue("thornsDMGBonus", out var value1) ?
                                    float.Parse(value1)/100
                                    : 0));
             
         attacker.GetComponent<IDamageable>().TakeDamage(MathF.Round(effDMG, MidpointRounding.AwayFromZero), false, gameObject);
         
-        if (!SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_4_Tank") || !SC_SkillManager.instance
-                .FindChildSkillByName("ChildSkill_1_4_Tank")
+        if (!SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_4_Tank") || !SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_4_Tank")
                 .buffsParentEffect.TryGetValue("freezeHitRate", out var freezeHitRate)) return;
         
         if(Random.Range(1, 100) < float.Parse(freezeHitRate))
@@ -213,7 +202,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     public void HealthCheck()
     {
         
-        if(SC_SkillManager.instance.CheckHasSkillByName("Furie de l'Essence")) {
+        if(SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Furie de l'Essence")) {
             if (currentStats.currentHealth < (currentStats.currentMaxHealth * (currentStats.manaFuryMaxHPGate / 100)) && !currentStats.inManaFury)
             {
                 currentStats.inManaFury = true;
@@ -226,14 +215,12 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
             }
         }
 
-        if (SC_SkillManager.instance.CheckHasSkillByName("Corps d'Acier"))
+        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Corps d'Acier"))
         {
-            var stackGain = SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_3_Tank") ? float.Parse(SC_SkillManager.instance
-                .FindChildSkillByName("ChildSkill_2_3_Tank")
+            var stackGain = SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_2_3_Tank") ? float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_2_3_Tank")
                 .buffsParentEffect["stackGain"]) : 1;
             
-            var maxStacks = SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_2_Tank") ? int.Parse(SC_SkillManager.instance
-                .FindChildSkillByName("ChildSkill_2_2_Tank")
+            var maxStacks = SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_2_2_Tank") ? int.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_2_2_Tank")
                 .buffsParentEffect["maxStacks"]) : 10;
             
             currentStats.steelBodyStackCount = (int)(currentStats.steelBodyStackCount >= maxStacks ? maxStacks : (Mathf.FloorToInt((100 - ((currentStats.currentHealth / currentStats.currentMaxHealth) * 100)) / currentStats.steelBodyHPPercentNeeded) * stackGain));
@@ -242,14 +229,12 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
             
             currentStats.steelBodyDEFModifier = currentStats.steelBodyStackCount >= maxStacks ? (currentStats.steelBodyDEFPerStack * maxStacks) : (currentStats.steelBodyDEFPerStack * currentStats.steelBodyStackCount);
 
-            if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_1_Tank"))
-                currentStats.steelBodyShieldStrengthModifier = float.Parse(SC_SkillManager.instance
-                                                      .FindChildSkillByName("ChildSkill_2_1_Tank")
+            if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_2_1_Tank"))
+                currentStats.steelBodyShieldStrengthModifier = float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_2_1_Tank")
                                                       .buffsParentEffect["shieldStrengthPerStack"]) * currentStats.steelBodyStackCount;
             
-            if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_4_Tank"))
-                currentStats.steelBodyDMGReductionModifier = float.Parse(SC_SkillManager.instance
-                    .FindChildSkillByName("ChildSkill_2_4_Tank")
+            if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_2_4_Tank"))
+                currentStats.steelBodyDMGReductionModifier = float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_2_4_Tank")
                     .buffsParentEffect["damageReductionPerStack"]) * currentStats.steelBodyStackCount;
 
         }
@@ -261,12 +246,12 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     {
         if(currentStats.shieldCurrentHP > 0 && currentStats.shieldMaxHP > 0) BreakShield();
         
-        if (SC_SkillManager.instance.CheckHasSkillByName("Protection Épineuse"))
+        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Protection Épineuse"))
         {
 
             currentStats.damageReduction += (15 + 
-                                             (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_1_Tank") 
-                                              && SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_1_Tank").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
+                                             (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_1_Tank") 
+                                              && SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_1_Tank").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
                                                  ? float.Parse(value1) : 0));
             debuffsBuffsComponent.ApplyBuff(Enum_Buff.Thorns, 0);
             
@@ -290,12 +275,12 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     public void BreakShield()
     {
 
-        if (SC_SkillManager.instance.CheckHasSkillByName("Protection Épineuse"))
+        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Protection Épineuse"))
         {
 
             currentStats.damageReduction -= (15 + 
-                                             (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_1_Tank") 
-                                              && SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_1_Tank").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
+                                             (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_1_Tank") 
+                                              && SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_1_Tank").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
                                                  ? float.Parse(value1) : 0));
             debuffsBuffsComponent.RemoveBuff(Enum_Buff.Thorns);
             
@@ -312,10 +297,10 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     public void Death()
     {
         onDeathEvent.RaiseEvent();
-
-        if (SC_SkillManager.instance.CheckHasSkillByName("Souffle de Résurrection"))
+        
+        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Souffle de Résurrection") && resurectionCounter > 0)
         {
-            SC_SkillManager.instance.allEquippedSkills.Remove(SC_SkillManager.instance.FindSkillByName("Souffle de Résurrection"));
+            resurectionCounter--;
             return;
         }
 
@@ -327,23 +312,23 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
 
         print("Enemy Killed");
         
-        if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_3_Berserk") && debuffsBuffsComponent.CheckHasBuff(Enum_Buff.SecondChance))
+        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_3_Berserk") && debuffsBuffsComponent.CheckHasBuff(Enum_Buff.SecondChance))
         {
 
             if(Random.Range(0, 2) == 1) return;
             
-            Heal(Mathf.Round(currentStats.currentMaxHealth * (float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_3_Berserk").buffsParentEffect["healAmount"])/100)));
+            Heal(Mathf.Round(currentStats.currentMaxHealth * (float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_3_Berserk").buffsParentEffect["healAmount"])/100)));
 
         }
 
-        if (SC_SkillManager.instance.CheckHasSkillByName("Surcharge d'Essence"))
+        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Surcharge d'Essence"))
         {
             GainManaOverloadStack();
 
-            if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_2_Berserk") && currentStats.manaOverloadStack >= 2)
+            if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_2_2_Berserk") && currentStats.manaOverloadStack >= 2)
             {
                 
-                Heal(Mathf.Round(currentStats.currentMaxHealth * (float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_2_Berserk").buffsParentEffect["healAmount"])/100)));
+                Heal(Mathf.Round(currentStats.currentMaxHealth * (float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_2_2_Berserk").buffsParentEffect["healAmount"])/100)));
                 
             }
             

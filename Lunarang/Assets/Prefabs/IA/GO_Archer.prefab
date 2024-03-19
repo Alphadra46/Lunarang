@@ -539,6 +539,7 @@ MonoBehaviour:
     steelBodyDMGReductionModifier: 0
     steelBodyShieldStrengthModifier: 0
   typeID: archer
+  isElite: 0
   hasShield: 0
   canRegenShield: 0
   delayBeforeRegen: 4
@@ -548,6 +549,7 @@ MonoBehaviour:
   - 0.3
   moveValueIndex: 0
   onShieldBreaked: {fileID: 0}
+  isDead: 0
 --- !u!114 &1753954169216546172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,6 +582,7 @@ MonoBehaviour:
     m_Bits: 2147483648
   agent: {fileID: 0}
   _stats: {fileID: 0}
+  _renderer: {fileID: 0}
   _rb: {fileID: 0}
   projectileGO: {fileID: 8993542559262429342, guid: 0cd81e12f35ccf4489ed1adba314bb9a,
     type: 3}
@@ -622,6 +625,11 @@ MonoBehaviour:
   burnAoEHitRate: 0
   burnDoTMV: 5
   burnDMGBonus: 0
+  bleedCurrentStacks: 0
+  bleedMaxStacks: 5
+  bleedHits: 8
+  bleedMV: 5
+  bleedDMGBonus: 0
   freezeDuration: 3
   freezeDurationBonus: 0
   unfreezeAoESize: 2
@@ -2999,12 +3007,12 @@ PrefabInstance:
     - target: {fileID: 4806072021058079036, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4806072021058079036, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4806072021058079036, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
@@ -3019,7 +3027,7 @@ PrefabInstance:
     - target: {fileID: 4806072021058079036, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 5639235307506099298, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}

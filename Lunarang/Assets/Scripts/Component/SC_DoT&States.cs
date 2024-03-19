@@ -66,32 +66,30 @@ public class SC_DoT_States
                         (1 + (applicator.freezeDurationBonus / 100)));
 
         // Bonus from Skills when Frozen
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_2_Freeze"))
+        if (applicator.isPlayer && SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_2_2_Freeze"))
         {
 
-            self._aiStats.currentStats.damageTaken += float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_2_Freeze")
+            self._aiStats.currentStats.damageTaken += float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_2_2_Freeze")
                 .buffsParentEffect["dmgTaken"]);
 
         }
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_4_Freeze"))
+        if (applicator.isPlayer && SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_2_4_Freeze"))
         {
 
-            self._aiStats.currentStats.damageTaken += float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_4_Freeze")
+            self._aiStats.currentStats.damageTaken += float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_2_4_Freeze")
                 .buffsParentEffect["dmgTaken"]);
 
         }
         
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_2_Freeze"))
+        if (applicator.isPlayer && SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_2_Freeze"))
         {
             var newStatModifier = new SC_StatModification
             {
                 StatToModify = StatTypes.ATK,
                 ModificationType = StatModificationType.Numerical,
-                ModificationValue = float.Parse(SC_SkillManager.instance
-                    .FindChildSkillByName("ChildSkill_3_2_Freeze")
+                ModificationValue = float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_2_Freeze")
                     .buffsParentEffect["atkBonus"]),
-                timer = float.Parse(SC_SkillManager.instance
-                    .FindChildSkillByName("ChildSkill_3_2_Freeze")
+                timer = float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_2_Freeze")
                     .buffsParentEffect["atkBonusDuration"])
             };
 
@@ -100,18 +98,16 @@ public class SC_DoT_States
             );
 
         }
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_4_Freeze"))
+        if (applicator.isPlayer && SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_4_Freeze"))
         {
 
             var newStatModifier = new SC_StatModification
             {
                 StatToModify = StatTypes.ATKSPD,
                 ModificationType = StatModificationType.Numerical,
-                ModificationValue = float.Parse(SC_SkillManager.instance
-                    .FindChildSkillByName("ChildSkill_3_4_Freeze")
+                ModificationValue = float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_4_Freeze")
                     .buffsParentEffect["atkSpdBonus"]),
-                timer = float.Parse(SC_SkillManager.instance
-                    .FindChildSkillByName("ChildSkill_3_4_Freeze")
+                timer = float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_4_Freeze")
                     .buffsParentEffect["atkSpdBonusDuration"])
             };
             
@@ -135,7 +131,7 @@ public class SC_DoT_States
         yield return new WaitForSeconds(duration);
 
         // Bonus from Skills when Unfrozen
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("Fracture Glaciaire"))
+        if (applicator.isPlayer && SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Fracture Glaciaire"))
         {
 
             Debug.Log("AOOOOE");
@@ -156,9 +152,8 @@ public class SC_DoT_States
                 var isCritical = Random.Range(0, 100) < applicator.dotCritRate ? true : false;
                 damageable.TakeDoTDamage(isCritical ? effCrit : effDamage, isCritical, Enum_Debuff.Freeze);
 
-                if(SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_1_Freeze") && 
-                   Random.Range(1, 100) < float.Parse(SC_SkillManager.instance
-                       .FindChildSkillByName("ChildSkill_1_1_Freeze")
+                if(SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_1_Freeze") && 
+                   Random.Range(1, 100) < float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_1_Freeze")
                        .buffsParentEffect["freezeHitRate"]))
                 {
                     e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Freeze, applicator);
@@ -168,38 +163,38 @@ public class SC_DoT_States
             
         }
 
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_2_Freeze"))
+        if (applicator.isPlayer && SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_2_Freeze"))
         {
 
             var newStatModifier = new SC_StatModification
             {
                 StatToModify = StatTypes.DMGTaken,
                 ModificationType = StatModificationType.Percentage,
-                ModificationValue = float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_2_Freeze").buffsParentEffect["dmgTaken"]),
-                timer = float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_2_Freeze").buffsParentEffect["duration"])
+                ModificationValue = float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_2_Freeze").buffsParentEffect["dmgTaken"]),
+                timer = float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_2_Freeze").buffsParentEffect["duration"])
             };
             
             self.StartCoroutine(self.BuffStatTemp(newStatModifier));
 
         }
 
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("Immobilisation Glaciale"))
+        if (applicator.isPlayer && SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Immobilisation Glaciale"))
         {
             self.ApplyDebuff(Enum_Debuff.Slowdown, applicator);
         }
         
         
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_2_Freeze"))
+        if (applicator.isPlayer && SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_2_2_Freeze"))
         {
 
-            self._aiStats.currentStats.damageTaken -= float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_4_Freeze")
+            self._aiStats.currentStats.damageTaken -= float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_2_4_Freeze")
                 .buffsParentEffect["dmgTaken"]);
 
         }
-        if (applicator.isPlayer && SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_2_4_Freeze"))
+        if (applicator.isPlayer && SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_2_4_Freeze"))
         {
 
-            self._aiStats.currentStats.damageTaken -= float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_4_Freeze")
+            self._aiStats.currentStats.damageTaken -= float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_2_4_Freeze")
                 .buffsParentEffect["dmgTaken"]);
 
         }
@@ -224,7 +219,7 @@ public class SC_DoT_States
     public IEnumerator Slowdown(SC_DebuffsBuffsComponent applicator, SC_DebuffsBuffsComponent self)
     {
 
-        var duration = applicator.slowdownDuration * (1 + ((SC_SkillManager.instance.FindChildSkillByName("ChildSkill_2_3_Freeze").buffsParentEffect
+        var duration = applicator.slowdownDuration * (1 + ((SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_2_3_Freeze").buffsParentEffect
             .TryGetValue("slowdownDurationBonus", out var value))
             ? float.Parse(value)
             : 0) / 100);
@@ -261,6 +256,7 @@ public class SC_DoT_States
 
     public void Burn(SC_DebuffsBuffsComponent applicator, SC_DebuffsBuffsComponent self)
     {
+        if(!self.burnCanProc) return;
         
         if(self.burnCurrentStacks < self.burnMaxStack)
         {
@@ -274,10 +270,11 @@ public class SC_DoT_States
                     self.burnHitToProc = applicator.burnHitRequired-1;
 
                     self.burnCurrentStacks++;
+                    self.StartCoroutine(BurnICD(self));
                     break;
             }
         }
-        else if (self.burnCurrentStacks == self.burnMaxStack)
+        else if (self.burnCurrentStacks >= self.burnMaxStack)
         {
             self.burnCurrentStacks = 0;
             self.burnHitToProc = 0;
@@ -300,7 +297,6 @@ public class SC_DoT_States
                             (applicator.burnDoTMV/100);
         
             var effDamage = Mathf.Round(rawDamage) * (1 + (applicator.burnDMGBonus + (applicator.isPlayer ? applicator._playerStats.currentStats.dotDamageBonus : 0))/100);
-            Debug.Log(effDamage);
         
             var effCrit = effDamage * (1 + (applicator.dotCritDamage/100));
                 
@@ -315,6 +311,15 @@ public class SC_DoT_States
         
     }
 
+    public IEnumerator BurnICD(SC_DebuffsBuffsComponent self)
+    {
+        self.burnCanProc = false;
+        
+        yield return new WaitForSeconds(self.burnICD);
+
+        self.burnCanProc = true;
+    }
+    
     public void BleedDMG(SC_DebuffsBuffsComponent applicator, SC_DebuffsBuffsComponent self)
     {
 

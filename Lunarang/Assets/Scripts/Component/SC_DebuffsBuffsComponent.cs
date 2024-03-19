@@ -66,6 +66,11 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     public int burnHitToProc = 0;
     
     [TabGroup("DoT", "Burn")]
+    public bool burnCanProc = true;
+    [TabGroup("DoT", "Burn")]
+    public float burnICD = 1f;
+    
+    [TabGroup("DoT", "Burn")]
     public float burnAoEMV = 10f;
     [TabGroup("DoT", "Burn")]
     public float burnAoESize = 0.75f;
@@ -82,7 +87,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     
     #region Bleed
     
-    [TabGroup("Debuff", "Bleed"), MaxValue("bleedMaxStack"), MinValue(0)]
+    [TabGroup("Debuff", "Bleed")]
     public int bleedCurrentStacks = 0;
     
     [PropertySpace(SpaceBefore = 5)]
@@ -90,10 +95,10 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     public int bleedMaxStacks = 5;
     
     [TabGroup("Debuff", "Bleed")]
-    public float bleedHits = 8f;
+    public int bleedHits = 5;
     
     [TabGroup("Debuff", "Bleed")]
-    public float bleedMV = 5f;
+    public float bleedMV = 1f;
     
     [TabGroup("Debuff", "Bleed")]
     public float bleedDMGBonus = 0f;
@@ -199,19 +204,24 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 break;
             
             case Enum_Debuff.Bleed:
+                
                 if(CheckHasDebuff(Enum_Debuff.Bleed))
                 {
-                    if (bleedCurrentStacks < bleedMaxStacks)
+                    
+                    if (bleedCurrentStacks+1 < bleedMaxStacks)
                     {
                         bleedCurrentStacks++;
                     }
                     else
                     {
-                        
                         doTStates.BleedDMG(applicator, this);
                         bleedCurrentStacks = 0;
-                        currentDebuffs.Remove(Enum_Debuff.Bleed);
+                        currentDebuffs.Remove(newDebuff);
+                        if(_modifierPanel != null) _modifierPanel.debuffRemoved?.Invoke(newDebuff);
+                        
                     }
+                    
+                    return;
                 }
                 
                 currentDebuffs.Add(newDebuff);
@@ -220,6 +230,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
             
             case Enum_Debuff.Burn:
                 if(CheckHasDebuff(Enum_Debuff.Burn)) return;
+                
                 burnMaxStack = applicator.burnMaxStack;
                 
                 currentDebuffs.Add(newDebuff);
@@ -270,28 +281,28 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
                 var shieldValue = (_playerStats.currentStats.currentMaxHealth * 0.2f);
 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_1_Tank"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_1_Tank"))
                 {
-                    shieldValue = (_playerStats.currentStats.currentMaxHealth * (SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_1_Tank").buffsParentEffect.TryGetValue("shieldValue", out var value1) 
+                    shieldValue = (_playerStats.currentStats.currentMaxHealth * (SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_1_Tank").buffsParentEffect.TryGetValue("shieldValue", out var value1) 
                         ? float.Parse(value1)/100 : 0.2f));
                 }
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_2_Tank"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_2_Tank"))
                 {
-                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_2_Tank").buffsParentEffect.TryGetValue("duration", out var value1) 
+                    var value = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_2_Tank").buffsParentEffect.TryGetValue("duration", out var value1) 
                         ? float.Parse(value1) : 0;
                     duration += base_duration * (value/100);
                 }
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_3_Tank"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_3_Tank"))
                 {
-                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3_Tank").buffsParentEffect.TryGetValue("shieldStrength", out var value1) 
+                    var value = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_3_Tank").buffsParentEffect.TryGetValue("shieldStrength", out var value1) 
                         ? float.Parse(value1) : 0;
                     _playerStats.currentStats.shieldStrength += value;
                 }
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_4_Tank"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_4_Tank"))
                 {
-                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_4_Tank").buffsParentEffect.TryGetValue("duration", out var value1) 
+                    var value = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_4_Tank").buffsParentEffect.TryGetValue("duration", out var value1) 
                         ? float.Parse(value1) : 0;
                     duration += base_duration * (value/100);
                 }
@@ -302,21 +313,21 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
             
             case Enum_Buff.SecondChance:
 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_1_Berserk"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_1_Berserk"))
                 {
-                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_1_Berserk").buffsParentEffect.TryGetValue("hpRecovered", out var value1) 
+                    var value = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_1_Berserk").buffsParentEffect.TryGetValue("hpRecovered", out var value1) 
                         ? float.Parse(value1) : 0;
                     effectBonus += value;
                 }
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_2_Berserk"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_2_Berserk"))
                 {
-                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_2_Berserk").buffsParentEffect.TryGetValue("duration", out var value1) 
+                    var value = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_2_Berserk").buffsParentEffect.TryGetValue("duration", out var value1) 
                         ? float.Parse(value1) : 0;
                     duration += base_duration * (value/100);
                 }
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_4_Berserk"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_4_Berserk"))
                 {
                     _playerStats.currentStats.maxHealthModifier += 50;
                 }
@@ -334,9 +345,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
             
             case Enum_Buff.Thorns:
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_3_Tank"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_3_Tank"))
                 {
-                    _playerStats.currentStats.damageReduction += (SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_3_Tank").buffsParentEffect.TryGetValue("dmgReductionBonus", out var value1) 
+                    _playerStats.currentStats.damageReduction += (SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_3_Tank").buffsParentEffect.TryGetValue("dmgReductionBonus", out var value1) 
                         ? float.Parse(value1) : 0);
                 }
                 
@@ -355,30 +366,30 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
             
             case Enum_Buff.RelentlessTorment:
 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_1_DoT"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_1_DoT"))
                 {
-                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_1_DoT").buffsParentEffect.TryGetValue("atkSPD", out var value1) 
+                    var value = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_1_DoT").buffsParentEffect.TryGetValue("atkSPD", out var value1) 
                         ? float.Parse(value1) : 0;
                     _playerStats.currentStats.atkSpeedModifier += value;
                 }
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_2_DoT"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_2_DoT"))
                 {
-                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_2_DoT").buffsParentEffect.TryGetValue("duration", out var value1) 
+                    var value = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_2_DoT").buffsParentEffect.TryGetValue("duration", out var value1) 
                         ? float.Parse(value1) : 0;
                     duration += base_duration * (value/100);
                 }
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_3_DoT"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_3_DoT"))
                 {
-                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3_DoT").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
+                    var value = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_3_DoT").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
                         ? float.Parse(value1) : 0;
                     effectBonus += value;
                 }
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_4_DoT"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_4_DoT"))
                 {
-                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_4_DoT").buffsParentEffect.TryGetValue("duration", out var value1) 
+                    var value = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_4_DoT").buffsParentEffect.TryGetValue("duration", out var value1) 
                         ? float.Parse(value1) : 0;
                     duration += base_duration * (value/100);
                 }
@@ -391,21 +402,21 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
                 float dmgTaken = 0;
 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_1_Berserk"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_1_Berserk"))
                 {
-                    dmgTaken = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_1_Berserk").buffsParentEffect.TryGetValue("dmgTaken", out var value1) 
+                    dmgTaken = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_1_Berserk").buffsParentEffect.TryGetValue("dmgTaken", out var value1) 
                         ? float.Parse(value1) : 0;
                 }
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_3_Berserk"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_3_Berserk"))
                 {
-                    dmgTaken = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3_Berserk").buffsParentEffect.TryGetValue("dmgTaken", out var value1) 
+                    dmgTaken = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_3_Berserk").buffsParentEffect.TryGetValue("dmgTaken", out var value1) 
                         ? float.Parse(value1) : 0;
                 }
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_4_Berserk"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_4_Berserk"))
                 {
-                    effectBonus = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_4_Berserk").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
+                    effectBonus = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_4_Berserk").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
                         ? float.Parse(value1) : 0;
                 }
                 
@@ -444,9 +455,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         {
             case Enum_Buff.Armor:
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_3_Tank"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_3_Tank"))
                 {
-                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3_Tank").buffsParentEffect.TryGetValue("shieldStrength", out var value1) 
+                    var value = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_3_Tank").buffsParentEffect.TryGetValue("shieldStrength", out var value1) 
                         ? float.Parse(value1) : 0;
                     
                     _playerStats.currentStats.shieldStrength -= value;
@@ -458,9 +469,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
             
             case Enum_Buff.SecondChance:
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_4_Berserk"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_4_Berserk"))
                 {
-                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_4_Berserk").buffsParentEffect.TryGetValue("maxHPBonus", out var value1) 
+                    var value = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_4_Berserk").buffsParentEffect.TryGetValue("maxHPBonus", out var value1) 
                         ? float.Parse(value1) : 0;
                     _playerStats.currentStats.maxHealthModifier -= value;
                 }
@@ -476,9 +487,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
             
             case Enum_Buff.Thorns:
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_1_3_Tank"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_3_Tank"))
                 {
-                    _playerStats.currentStats.damageReduction -= (SC_SkillManager.instance.FindChildSkillByName("ChildSkill_1_3_Tank").buffsParentEffect.TryGetValue("dmgReduction", out var value) 
+                    _playerStats.currentStats.damageReduction -= (SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_3_Tank").buffsParentEffect.TryGetValue("dmgReduction", out var value) 
                         ? float.Parse(value) : 0);
                 }
                 
@@ -496,16 +507,16 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 break;
             
             case Enum_Buff.RelentlessTorment:
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_1_DoT"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_1_DoT"))
                 {
-                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_1_DoT").buffsParentEffect.TryGetValue("atkSPD", out var value1) 
+                    var value = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_1_DoT").buffsParentEffect.TryGetValue("atkSPD", out var value1) 
                         ? float.Parse(value1) : 0;
                     _playerStats.currentStats.atkSpeedModifier -= value;
                 }
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_3_DoT"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_3_DoT"))
                 {
-                    var value = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3_DoT").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
+                    var value = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_3_DoT").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
                         ? float.Parse(value1) : 0;
                     effectBonus += value;
                 }
@@ -518,21 +529,21 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
                 float dmgTaken = 0;
 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_1_Berserk"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_1_Berserk"))
                 {
-                    dmgTaken = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_1_Berserk").buffsParentEffect.TryGetValue("dmgTaken", out var value1) 
+                    dmgTaken = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_1_Berserk").buffsParentEffect.TryGetValue("dmgTaken", out var value1) 
                         ? float.Parse(value1) : 0;
                 }
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_3_Berserk"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_3_Berserk"))
                 {
-                    dmgTaken = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3_Berserk").buffsParentEffect.TryGetValue("dmgTaken", out var value1) 
+                    dmgTaken = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_3_Berserk").buffsParentEffect.TryGetValue("dmgTaken", out var value1) 
                         ? float.Parse(value1) : 0;
                 }
                 
-                if (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_4_Berserk"))
+                if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_4_Berserk"))
                 {
-                    effectBonus = SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_4_Berserk").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
+                    effectBonus = SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_4_Berserk").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
                         ? float.Parse(value1) : 0;
                 }
                 

@@ -39,11 +39,11 @@ public class SC_RewardManager : MonoBehaviour
 
     
     
-    private SC_Ressource moonFragment;
+    [HideInInspector] public SC_Ressource moonFragment;
     private List<SC_Ressource> ressources = new List<SC_Ressource>();
     private List<SC_Constellation> constellations = new List<SC_Constellation>();
     [HideInInspector] public List<SO_BaseSkill> selectedSkills = new List<SO_BaseSkill>();
-    //TODO - List for Lunar Skills
+    private List<SO_BaseSkill> lunarSkills = new List<SO_BaseSkill>();
 
     // Start is called before the first frame update
     void Awake()
@@ -52,6 +52,7 @@ public class SC_RewardManager : MonoBehaviour
         constellations = Resources.LoadAll<SC_Constellation>("Constellations").ToList();
         moonFragment = Resources.Load<SC_Ressource>("Ressources/MoonFragment");
         ressources = Resources.LoadAll<SC_Ressource>("Ressources/Base").ToList();
+        lunarSkills = Resources.LoadAll<SO_BaseSkill>("Skills").ToList();
     }
 
     /// <summary>
@@ -65,11 +66,13 @@ public class SC_RewardManager : MonoBehaviour
             selectedSkills.Add(NormalSkillSelection());
         }
         
-        //TODO - Lunar Skills
+        selectedSkills.Add(lunarSkills[Random.Range(0, lunarSkills.Count)]);
         
         rewardUI.rewardRessources.Add(moonFragment);
         rewardUI.rewardSkills = selectedSkills.ToList();
         rewardUI.Init();
+        
+        selectedSkills.Clear();
     }
 
     /// <summary>
