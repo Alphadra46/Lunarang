@@ -27,9 +27,7 @@ public class SC_RewardUI : MonoBehaviour
             foreach (var skill in rewardSkills)
             {
                 var reward = Instantiate(rewardItemPrefab, rewardParent).GetComponent<SC_RewardItemUI>();
-                reward.SetTitle(skill.skillName);
-                reward.SetDescription(skill.shortDescription);
-                reward.SetColor(skill.constellation);
+                reward.Init(skill);
                 
                 rewards.Add(reward.gameObject);
             }
@@ -40,9 +38,7 @@ public class SC_RewardUI : MonoBehaviour
             foreach (var ressource in rewardRessources)
             {
                 var reward = Instantiate(rewardItemPrefab, rewardParent).GetComponent<SC_RewardItemUI>();
-                reward.SetTitle(ressource.name);
-                reward.SetDescription(ressource.description);
-
+                reward.Init(ressource, 1);
                 
                 rewards.Add(reward.gameObject);
             }
@@ -61,6 +57,17 @@ public class SC_RewardUI : MonoBehaviour
         
         EventSystem.current.SetSelectedGameObject(rewards[0]);
     }
-    
-    
+
+    private void OnDestroy()
+    {
+        foreach (var reward in rewards)
+        {
+            Destroy(reward);
+        }
+        
+        rewards.Clear();
+        
+        rewardSkills.Clear();
+        rewardRessources.Clear();
+    }
 }

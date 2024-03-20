@@ -48,29 +48,29 @@ public class SC_InventoryUI : MonoBehaviour
 
     private void Init()
     {
-        if(SC_SkillManager.instance.allEquippedSkills.Count < 1) return;
+        if(SC_GameManager.instance.playerSkillInventory.skillsOwned.Count < 1) return;
         
-        foreach (var skill in SC_SkillManager.instance.allEquippedSkills.Where(skill => skill.GetType() == typeof(SO_ParentSkill)))
+        foreach (var skill in SC_GameManager.instance.playerSkillInventory.skillsOwned.Where(skill => skill.GetType() == typeof(SO_ParentSkill)))
         {
             _parentSkills.Add((SO_ParentSkill) skill);
         }
 
-        foreach (var dotSkill in SC_SkillManager.instance.allEquippedSkills.Where(skill => skill.constellation == ConstellationName.DoT))
+        foreach (var dotSkill in SC_GameManager.instance.playerSkillInventory.skillsOwned.Where(skill => skill.constellation == ConstellationName.DoT))
         {
             _dotSkills.Add(dotSkill);
         }
         
-        foreach (var bSkill in SC_SkillManager.instance.allEquippedSkills.Where(skill => skill.constellation == ConstellationName.Berserker))
+        foreach (var bSkill in SC_GameManager.instance.playerSkillInventory.skillsOwned.Where(skill => skill.constellation == ConstellationName.Berserker))
         {
             _berserkSkills.Add(bSkill);
         }
         
-        foreach (var tSkill in SC_SkillManager.instance.allEquippedSkills.Where(skill => skill.constellation == ConstellationName.Tank))
+        foreach (var tSkill in SC_GameManager.instance.playerSkillInventory.skillsOwned.Where(skill => skill.constellation == ConstellationName.Tank))
         {
             _tankSkills.Add(tSkill);
         }
         
-        foreach (var fSkill in SC_SkillManager.instance.allEquippedSkills.Where(skill => skill.constellation == ConstellationName.Freeze))
+        foreach (var fSkill in SC_GameManager.instance.playerSkillInventory.skillsOwned.Where(skill => skill.constellation == ConstellationName.Freeze))
         {
             _freezeSkills.Add(fSkill);
         }
@@ -90,7 +90,7 @@ public class SC_InventoryUI : MonoBehaviour
         switch (category)
         {
             case InventoryCategories.All:
-                skillsVisible = SC_SkillManager.instance.allEquippedSkills.ToList();
+                skillsVisible = SC_GameManager.instance.playerSkillInventory.skillsOwned.ToList();
                 break;
             case InventoryCategories.DoT:
                 skillsVisible = _dotSkills.ToList();
@@ -119,9 +119,7 @@ public class SC_InventoryUI : MonoBehaviour
         foreach (var skill in skillsVisible)
         {
             var skillGO = Instantiate(ItemPrefab, contentParent).GetComponent<SC_RewardItemUI>();
-            skillGO.SetTitle(skill.skillName);
-            skillGO.SetDescription(skill.shortDescription);
-            skillGO.SetColor(skill.constellation);
+            skillGO.Init(skill);
                 
             skillsGO.Add(skillGO.gameObject);
         }

@@ -221,7 +221,6 @@ public class SC_ComboController : MonoBehaviour
     public void CreateHitBox(SO_HitBox hb)
     {
         var hbTransform = transform.GetChild(1);
-        var originPos = hbTransform.localPosition;
         transform.GetChild(1).localPosition = hb.center;
         
         // print(hb.name);
@@ -236,8 +235,6 @@ public class SC_ComboController : MonoBehaviour
 
         foreach (var e in hits)
         {
-
-            var entityDebuff = e.GetComponent<SC_DebuffsBuffsComponent>();
             
             var isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
             
@@ -251,34 +248,7 @@ public class SC_ComboController : MonoBehaviour
             
             if(e.GetComponent<SC_AIStats>().isDead) return;
             
-            // Check Poison
-            if(Random.Range(1, 100) < _stats.currentStats.poisonHitRate)
-            {
-                entityDebuff.ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
-            }
-
-            // Check Freeze
-            if (comboCounter == comboMaxLength && SC_SkillManager.instance.CheckHasSkillByName("Châtiment Glacial"))
-            {
-                CheckFreezeHit(e, true);
-            }
-            else if (currentWeapon.id == "hammer")
-            {
-                CheckFreezeHit(e);
-            }
-            
-            // Check Burn
-            if (currentWeapon.id == "chakram")
-            {
-                CheckBurnHit(e);
-            }
-            if (entityDebuff.currentDebuffs.Contains(Enum_Debuff.Burn))
-            {
-                
-                entityDebuff.doTStates.Burn(_debuffsBuffsComponent, entityDebuff);
-                
-            }
-            
+            CheckAllDebuffApplication(e);
         }
 
         currentEnemiesHitted = hits;
@@ -361,29 +331,11 @@ public class SC_ComboController : MonoBehaviour
                             
             for (var i = 0; i < additionnalHits; i++)
             {
-                // var mhSettings = Instantiate(ExampleMH);
-                //
-                // mhSettings.transform.localScale *= areaSize;
-                // mhSettings.transform.position = new Vector3(e.transform.position.x,
-                //     e.transform.localScale.y, e.transform.position.z);
-                // Destroy(mhSettings, 2f);
                                 
                 var isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
                 damageable.TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
-                
-                if(Random.Range(1, 100) < _stats.currentStats.poisonHitRate)
-                {
-                    e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
-                }
-                
-                if (comboCounter == comboMaxLength && SC_SkillManager.instance.CheckHasSkillByName("Châtiment Glacial"))
-                {
-                    CheckFreezeHit(e, true);
-                }
-                else if (currentWeapon.id == "hammer")
-                {
-                    CheckFreezeHit(e);
-                }
+
+                CheckAllDebuffApplication(e);
                 
             }
 
@@ -396,8 +348,10 @@ public class SC_ComboController : MonoBehaviour
     /// </summary>
     /// <param name="pos">Center of the AoE</param>
     /// <param name="areaSize"></param>
+    /// <param name="isDoT"></param>
     /// <param name="hasAdditionnalHits">Is the AoE has additionnal hits ?</param>
     /// <param name="additionnalHits"></param>
+    /// <param name="currentMV"></param>
     public void CreateAoE(Vector3 pos, float areaSize, float currentMV, bool isDoT = false,bool hasAdditionnalHits = false, int additionnalHits = 0)
     {
 
@@ -408,13 +362,6 @@ public class SC_ComboController : MonoBehaviour
         var effDoTDamage = Mathf.Round(rawDamage * (1 + (_debuffsBuffsComponent.burnDMGBonus + (_debuffsBuffsComponent._playerStats.currentStats.dotDamageBonus))/100));
         
         var effDoTCrit = effDoTDamage * (1 + (_debuffsBuffsComponent.dotCritDamage/100));
-                
-        
-        
-        // var aoeSettings = Instantiate(ExampleAoE);
-        // aoeSettings.transform.localScale *= areaSize;
-        // aoeSettings.transform.position = pos;
-        // Destroy(aoeSettings, 2f);
 
         var ennemiesInAoE =
             Physics.OverlapSphere((pos), areaSize,
@@ -422,6 +369,7 @@ public class SC_ComboController : MonoBehaviour
 
         foreach (var e in ennemiesInAoE)
         {
+            
             if (!e.TryGetComponent(out IDamageable damageable)) continue;
             var isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
             var isDoTCritical = Random.Range(0, 100) < _debuffsBuffsComponent.dotCritRate ? true : false;
@@ -435,35 +383,15 @@ public class SC_ComboController : MonoBehaviour
                 damageable.TakeDoTDamage(isDoTCritical ? effDoTCrit : effDoTDamage, isDoTCritical, Enum_Debuff.Burn);
             }
             
-            if(Random.Range(1, 100) < _stats.currentStats.poisonHitRate)
-            {
-                e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
-            }
+            CheckPoisonHit(e);
 
             if(!hasAdditionnalHits) continue;
             for (var i = 0; i < additionnalHits; i++)
             {
-                // var mhSettings = Instantiate(ExampleMH);
-                // mhSettings.transform.position = e.transform.position;
-                // Destroy(mhSettings, 2f);
                                 
                 isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
                 damageable.TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
-                
-                if(Random.Range(1, 100) < _stats.currentStats.poisonHitRate)
-                {
-                    e.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
-                }
 
-                if (comboCounter == comboMaxLength && SC_SkillManager.instance.CheckHasSkillByName("Châtiment Glacial"))
-                {
-                    CheckFreezeHit(e, true);
-                }
-                else if (currentWeapon.id == "hammer")
-                {
-                    CheckFreezeHit(e);
-                }
-                
             }
 
         }
@@ -633,19 +561,54 @@ public class SC_ComboController : MonoBehaviour
 
     }
 
+    public void CheckAllDebuffApplication(Collider e, bool isTriggeringBurn = true)
+    {
+        
+        // Check Poison
+        CheckPoisonHit(e);
+
+        // Check Freeze
+        CheckFreezeHit(e, comboCounter == comboMaxLength && SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Châtiment Glacial"));
+        
+        // Check Burn
+        var entityDebuff = e.GetComponent<SC_DebuffsBuffsComponent>();
+        
+        if(!entityDebuff.currentDebuffs.Contains(Enum_Debuff.Burn)) CheckBurnHit(e);
+        
+        else if (entityDebuff.currentDebuffs.Contains(Enum_Debuff.Burn) && isTriggeringBurn)
+        {
+            entityDebuff.doTStates.Burn(_debuffsBuffsComponent, entityDebuff);
+        }
+        
+        // Check Bleed
+        CheckBleedHit(e);
+        
+    }
+
+    public void CheckPoisonHit(Collider entity)
+    {
+        
+        if(Random.Range(1, 100) < _stats.currentStats.poisonHitRate)
+        {
+            entity.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Poison, GetComponent<SC_DebuffsBuffsComponent>());
+        }
+        
+    }
+    
     public void CheckFreezeHit(Collider entity, bool isLastHit = false)
     {
-        var freezeHitRateBonus = (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_1_Freeze") 
-                                     ? float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_1_Freeze").buffsParentEffect["freezeHitRate"]) : 0)
-                                 + (SC_SkillManager.instance.CheckHasSkillByName("ChildSkill_3_3_Freeze") 
-                                     ? float.Parse(SC_SkillManager.instance.FindChildSkillByName("ChildSkill_3_3_Freeze").buffsParentEffect["freezeHitRate"]) : 0);
+        
+        var freezeHitRateBonus = (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_1_Freeze") 
+                                     ? float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_1_Freeze").buffsParentEffect["freezeHitRate"]) : 0)
+                                 + (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_3_Freeze") 
+                                     ? float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_3_Freeze").buffsParentEffect["freezeHitRate"]) : 0);
 
         var baseFreezeHitRate = currentWeapon.id == "hammer" ? 40f : 0f;
 
         var freezeHitRate = isLastHit ? baseFreezeHitRate + 50f + freezeHitRateBonus : baseFreezeHitRate;
-        
+            
         print(freezeHitRate);
-        
+            
         if(Random.Range(1, 100) < freezeHitRate)
         {
             entity.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Freeze, GetComponent<SC_DebuffsBuffsComponent>());
@@ -655,6 +618,7 @@ public class SC_ComboController : MonoBehaviour
     
     public void CheckBurnHit(Collider entity, bool isLastHit = false)
     {
+        
         var burnHitRateBonus = 0f;
 
         var baseBurnHitRate = currentWeapon.id == "chakram" ? 40f : 0f;
@@ -666,6 +630,23 @@ public class SC_ComboController : MonoBehaviour
         if(Random.Range(1, 100) < burnHitRate)
         {
             entity.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Burn, GetComponent<SC_DebuffsBuffsComponent>());
+        }
+        
+    }
+    
+    public void CheckBleedHit(Collider entity, bool isLastHit = false)
+    {
+        var bleedHitRateBonus = 0f;
+
+        var baseBleedHitRate = currentWeapon.id == "rapier" ? 40f : 0f;
+
+        var bleedHitRate = isLastHit ? baseBleedHitRate + 50f + bleedHitRateBonus : baseBleedHitRate;
+        
+        print(bleedHitRate);
+        
+        if(Random.Range(1, 100) < bleedHitRate)
+        {
+            entity.GetComponent<SC_DebuffsBuffsComponent>().ApplyDebuff(Enum_Debuff.Bleed, GetComponent<SC_DebuffsBuffsComponent>());
         }
         
     }

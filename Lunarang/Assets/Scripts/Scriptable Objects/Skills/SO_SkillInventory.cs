@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -68,4 +69,26 @@ public class SO_SkillInventory : ScriptableObject
         ongoingConstellations.Clear();
         skillsOwned.Clear();
     }
+    
+    public bool CheckHasSkillByName(string skillName)
+    {
+        return skillsOwned.Contains(FindSkillByName(skillName));
+    }
+    
+    public bool CheckHasSkill(SO_BaseSkill skill)
+    {
+        return skillsOwned.Contains(skill);
+    }
+    
+    public SO_BaseSkill FindSkillByName(string skillName)
+    {
+        return SC_GameManager.instance.allSkills.FirstOrDefault(skill => skill.skillName == skillName);
+    }
+    
+    public SO_ChildSkill FindChildSkillByName(string childSkillName)
+    {
+        return (SO_ChildSkill) SC_GameManager.instance.allSkills.FirstOrDefault(skill => skill.skillName == childSkillName);
+    }
+    
+    
 }

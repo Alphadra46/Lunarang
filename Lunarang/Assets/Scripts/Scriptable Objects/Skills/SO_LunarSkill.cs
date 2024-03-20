@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/LunarSkill", fileName = "LunarSkill")]
+[CreateAssetMenu(menuName = "Skills/LunarSkill", fileName = "LunarSkill")]
 public class SO_LunarSkill : SO_BaseSkill
 {
     [FoldoutGroup("LunarSkill")]
