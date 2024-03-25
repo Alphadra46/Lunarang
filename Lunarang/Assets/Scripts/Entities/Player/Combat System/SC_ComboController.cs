@@ -319,7 +319,7 @@ public class SC_ComboController : MonoBehaviour
     public void Multihit(int additionnalHits)
     {
         
-        var currentMV = (currentWeapon.MovesValues[comboCounter - 1] / 100);
+        var currentMV = ((currentWeapon.MovesValues[comboCounter - 1] + (currentWeapon.levelUpStatsRate * currentWeapon.currentLevel-1)) / 100);
 
         var rawDamage = MathF.Round(currentMV * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
         var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus / 100));

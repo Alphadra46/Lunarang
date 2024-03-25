@@ -583,6 +583,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
     public IEnumerator BuffStatTemp(SC_StatModification newModification)
     {
+        
         if (_playerStats == null) yield break;
         
         var isPositive = newModification.ModificationValue > 0;
@@ -594,7 +595,6 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
         newModification.ModificationValue =
             isPositive ? -newModification.ModificationValue : Math.Abs(newModification.ModificationValue);
-        print(newModification.ModificationValue);
 
         _playerStats.ModifyStats(_playerStats.currentStats, out modifiedStats, newModification);
         _playerStats.currentStats = modifiedStats;

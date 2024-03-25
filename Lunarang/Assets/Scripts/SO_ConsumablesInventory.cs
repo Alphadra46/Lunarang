@@ -13,7 +13,7 @@ public class SO_ConsumablesInventory : SerializedScriptableObject
         consumablesInventory.Add(consumable);
     }
 
-    public void RemoveResource(SO_Consumable consumable)
+    public void RemoveConsumable(SO_Consumable consumable)
     {
         consumablesInventory.Remove(consumable);
     }
