@@ -29,7 +29,7 @@ public class SC_PathCreator : MonoBehaviour
     [Header("Spawn room prefabs lists")]
     [TabGroup("Settings", "Prefabs")] public List<GameObject> spawnRoomList = new List<GameObject>();
     [Header("Stair room prefabs lists")]
-    [TabGroup("Settings", "Prefabs")] public List<GameObject> stairRoomList = new List<GameObject>(); //TODO - When the floor system will be done use this list for "spawn" rooms and "boss" rooms
+    [TabGroup("Settings", "Prefabs")] public List<GameObject> stairRoomList = new List<GameObject>();
 
     [Space(10), Header("Challenge room parameters")] 
     [TabGroup("Settings", "Generation values")] public int smallRoomSpawnRate = 20;

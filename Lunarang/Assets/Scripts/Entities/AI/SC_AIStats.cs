@@ -55,7 +55,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     [Tooltip("How many % of the enemy ATK the attack does"),TabGroup("ATK")] public float[] moveValues;
     [Tooltip("Index of the current attack MV"),TabGroup("ATK"), ReadOnly] public int moveValueIndex = 0;
     
-    public static Action onDeath;
+    public static Action<SC_AIStats> onDeath;
     public SO_Event onShieldBreaked;
     
     private SC_AIRenderer _renderer;
@@ -263,7 +263,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
 
     public void Death()
     {
-        onDeath?.Invoke();
+        onDeath?.Invoke(this);
         _debuffsBuffsComponent.ResetAllBuffsAndDebuffs();
         
         SC_RewardManager.instance.ResourceDropSelection(isElite ? "Elite" : "Base");
