@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public enum GameState
 {
@@ -35,7 +36,7 @@ public class SC_GameManager : MonoBehaviour
 
     [HideInInspector] public SC_ResourcesInventory playerResourceInventory;
     [HideInInspector] public SO_SkillInventory playerSkillInventory;
-    [HideInInspector] public SO_ConsumablesInventory playercConsumablesInventory;
+    [HideInInspector] public SO_ConsumablesInventory playerConsumablesInventory;
     
     [ShowInInspector] public List<SO_BaseSkill> allSkills = new List<SO_BaseSkill>();
     
@@ -48,7 +49,7 @@ public class SC_GameManager : MonoBehaviour
         
         playerResourceInventory = Resources.Load<SC_ResourcesInventory>("ResourceInventory");
         playerSkillInventory = Resources.Load<SO_SkillInventory>("SkillInventory");
-        playercConsumablesInventory = Resources.Load<SO_ConsumablesInventory>("ConsumableInventory");
+        playerConsumablesInventory = Resources.Load<SO_ConsumablesInventory>("ConsumableInventory");
     }
 
     private void Start()
