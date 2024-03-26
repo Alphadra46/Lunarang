@@ -307,7 +307,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         SC_GameManager.instance.ChangeState(GameState.DEFEAT);
     }
     
-    private void onEnemyKilled()
+    private void onEnemyKilled(SC_AIStats enemy)
     {
 
         print("Enemy Killed");

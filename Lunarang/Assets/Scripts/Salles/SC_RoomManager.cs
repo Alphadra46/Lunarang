@@ -28,17 +28,7 @@ public class SC_RoomManager : MonoBehaviour
     [TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] public List<GameObject> eliteSpawnArea;
 
     [Header("Enemies wave parameters")]
-    [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int minNumberOfEnemiesEasy;
-    [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int maxNumberOfEnemiesEasy;
-    [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int minNumberOfEnemiesMedium;
-    [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int maxNumberOfEnemiesMedium;
-    [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int numberOfEliteMedium;
-    [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int minNumberOfEnemiesHard;
-    [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int maxNumberOfEnemiesHard;
-    [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int numberOfEliteHard;
-    [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int minNumberOfEnemiesHell;
-    [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int maxNumberOfEnemiesHell;
-    [SerializeField, Range(0, 10), TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private int numberOfEliteHell;
+    [SerializeField, TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] private SC_WaveSettings waveSettings;
     
     [Header("Other room parameters")] 
     [SerializeField, TabGroup("Settings", "Global Settings")] private Collider colliderConfiner;
@@ -47,10 +37,16 @@ public class SC_RoomManager : MonoBehaviour
     private List<SC_Door> activeDoors = new List<SC_Door>();
     [ShowInInspector] private List<GameObject> enemiesInRoom = new List<GameObject>();
 
-    [ShowInInspector] private int numberOfEnemies;
+    [ShowInInspector] private int numberOfEnemiesInWave;
+    [ShowInInspector] private int numberOfEliteEnemiesInWave;
+    [ShowInInspector] private int totalEnemiesInWave;
     [ShowInInspector] public bool isClear=false;
 
+    private int actualWave = 0;
+    private int numberOfWave = 0;
     private bool isInit = false;
+    private bool hasBonusChallenge = false;
+    private bool isBonusChallengeActive = false;
     
     private enum RoomSize
     {
@@ -63,18 +59,18 @@ public class SC_RoomManager : MonoBehaviour
     {
         Easy,
         Medium,
-        Hard,
-        Hell
+        Hard
     }
     
-    private void OnEnable() //TODO - Maybe create a doOnce after the floor is completely generated so that it can't go in there anymore and disable doors
+    private void OnEnable()
     {
         if (isInit)
             return;
 
         isInit = true;
-        
-        SetDifficulty();
+
+        if (!isSpecialRoom)
+            SetDifficulty();
         
         doorNorth.Initialize(this);
         doorSouth.Initialize(this);
@@ -102,12 +98,14 @@ public class SC_RoomManager : MonoBehaviour
                 difficulty = rand < 15 ? RoomDifficulty.Easy : rand < 70 ? RoomDifficulty.Medium : RoomDifficulty.Hard;
                 break;
             case RoomSize.Large:
-                difficulty = rand < 40 ? RoomDifficulty.Medium : rand < 80 ? RoomDifficulty.Hard : RoomDifficulty.Hell;
+                difficulty = rand < 50 ? RoomDifficulty.Medium : RoomDifficulty.Hard;
+                hasBonusChallenge = Random.Range(0, 100) < 20;
                 break;
             default:
                 break;
         }
-
+        
+        
         roomDifficulty = difficulty;
     }
 
@@ -119,56 +117,71 @@ public class SC_RoomManager : MonoBehaviour
     
     public void SpawnEnemies()
     {
-        Vector2 numberOfEnemiesRange = Vector2.zero;
+        actualWave++;
+
+        List<Vector2> numberOfEnemiesRange = new List<Vector2>();
+        List<Vector2> numberOfEliteEnemiesRange = new List<Vector2>();
         bool canEliteSpawn = roomDifficulty != RoomDifficulty.Easy;
-        
+
         switch (roomDifficulty)
         {
             case RoomDifficulty.Easy:
-                numberOfEnemiesRange = new Vector2(minNumberOfEnemiesEasy, maxNumberOfEnemiesEasy);
+                numberOfEnemiesRange = waveSettings.numberOfEnemiesEasyPerWave;
                 break;
             case RoomDifficulty.Medium:
-                numberOfEnemiesRange = new Vector2(minNumberOfEnemiesMedium, minNumberOfEnemiesMedium);
+                numberOfEnemiesRange = waveSettings.numberOfEnemiesMediumPerWave;
+                numberOfEliteEnemiesRange = waveSettings.numberOfEliteEnemiesMediumPerWave;
                 break;
             case RoomDifficulty.Hard:
-                numberOfEnemiesRange = new Vector2(minNumberOfEnemiesHard, maxNumberOfEnemiesHard);
-                break;
-            case RoomDifficulty.Hell:
-                numberOfEnemiesRange = new Vector2(minNumberOfEnemiesHell, minNumberOfEnemiesHell);
+                numberOfEnemiesRange = waveSettings.numberOfEnemiesHardPerWave;
+                numberOfEliteEnemiesRange = waveSettings.numberOfEliteEnemiesHardPerWave;
                 break;
             default:
                 break;
         }
 
-        numberOfEnemies = Random.Range((int)numberOfEnemiesRange.x, (int)numberOfEnemiesRange.y);
+        numberOfWave = numberOfEnemiesRange.Count;
+        
+        numberOfEnemiesInWave = (int)Random.Range(numberOfEnemiesRange[actualWave-1].x, numberOfEnemiesRange[actualWave-1].y);
+        
+        numberOfEliteEnemiesInWave = canEliteSpawn?(int)Random.Range(numberOfEliteEnemiesRange[actualWave - 1].x, numberOfEliteEnemiesRange[actualWave - 1].y):0;
 
+        totalEnemiesInWave = numberOfEnemiesInWave + numberOfEliteEnemiesInWave;
+        
         var enemiesPool = SC_Pooling.instance.poolList.Find(s => s.poolName == "Ennemis");
         
-        if (!canEliteSpawn)
+        if (canEliteSpawn)
         {
-            enemiesPool.subPoolsList.Remove(enemiesPool.subPoolsList.Find(s => s.subPoolTransform.gameObject.name == "GO_Summoner"));
-            enemiesPool.subPoolsList.Remove(enemiesPool.subPoolsList.Find(s => s.subPoolTransform.gameObject.name == "GO_Bully"));
+            var eliteEnemyList = enemiesPool.subPoolsList.ToList();
+            eliteEnemyList = eliteEnemyList.Where(e => e.subPoolTransform.gameObject.name == "GO_Bully" || e.subPoolTransform.gameObject.name == "GO_Summoner").ToList();
+            for (int i = 0; i < numberOfEliteEnemiesInWave; i++)
+            {
+                var eliteEnemy = SC_Pooling.instance.GetItemFromPool("Ennemis", eliteEnemyList[Random.Range(0, eliteEnemyList.Count)].subPoolTransform.gameObject.name);
+                if(enemiesInRoom.Contains(eliteEnemy))
+                    Debug.Log("ERRORRRRR - ELITE");
+                enemiesInRoom.Add(eliteEnemy);
+            }
         }
         
-        for (int i = 0; i < numberOfEnemies; i++)
+        var baseEnemyList = enemiesPool.subPoolsList.ToList();
+        baseEnemyList = baseEnemyList.Where(e => e.subPoolTransform.gameObject.name != "GO_Bully" && e.subPoolTransform.gameObject.name != "GO_Summoner").ToList();
+        for (int i = 0; i < numberOfEnemiesInWave; i++)
         {
-            var ennemy = SC_Pooling.instance.GetItemFromPool("Ennemis",
-                enemiesPool.subPoolsList[Random.Range(0, enemiesPool.subPoolsList.Count)].subPoolTransform.gameObject
-                    .name);
+            var enemy = SC_Pooling.instance.GetItemFromPool("Ennemis", baseEnemyList[Random.Range(0, baseEnemyList.Count)].subPoolTransform.gameObject.name);
             
-            if(enemiesInRoom.Contains(ennemy))
-                Debug.Log("ERRORRRRR");
-            enemiesInRoom.Add(ennemy);
+            if(enemiesInRoom.Contains(enemy))
+                Debug.Log("ERRORRRRR - BASE");
+            enemiesInRoom.Add(enemy);
         }
 
-        Debug.Log(numberOfEnemies == enemiesInRoom.Distinct().Count());
+        Debug.Log(numberOfEnemiesInWave == enemiesInRoom.Distinct().Count());
         
         foreach (var enemy in enemiesInRoom)
         {
             Bounds spawnBounds = new Bounds();
             Collider spawnArea = new Collider();
             
-            if (enemy.name=="GO_Bully" || enemy.name=="GO_Summoner")
+            if (enemy.name is "GO_Bully" or "GO_Summoner")
             {
                 spawnArea = eliteSpawnArea[Random.Range(0, eliteSpawnArea.Count)].GetComponent<Collider>();
                 spawnBounds = spawnArea.bounds;
@@ -186,9 +199,126 @@ public class SC_RoomManager : MonoBehaviour
         }
         
         
-        Debug.Log("Spawning first wave !");
+        Debug.Log($"Spawning wave {actualWave} !");
     }
 
+    public void HellChallenge()
+    {
+        isClear = false;
+        SC_AIStats.onDeath += DecreaseEnemiesCount;
+        LockDoors();
+
+        numberOfEliteEnemiesInWave = waveSettings.maxEliteAlive;
+        numberOfEnemiesInWave = waveSettings.numberOfEnemiesAlive - numberOfEliteEnemiesInWave;
+        
+        isBonusChallengeActive = true;
+        totalEnemiesInWave = waveSettings.totalOfEnemiesHell;
+        
+        var enemiesPool = SC_Pooling.instance.poolList.Find(s => s.poolName == "Ennemis");
+        
+        for (int i = 0; i < waveSettings.numberOfEnemiesAlive; i++) //Spawn the first batch of enemies
+        {
+            if (i<waveSettings.maxEliteAlive) //TODO - Maybe change the condition to be a const or another variable than maxEliteAlive
+            {
+                var eliteEnemyList = enemiesPool.subPoolsList.ToList();
+                eliteEnemyList = eliteEnemyList.Where(e => e.subPoolTransform.gameObject.name == "GO_Bully" || e.subPoolTransform.gameObject.name == "GO_Summoner").ToList();
+                for (int j = 0; j < numberOfEliteEnemiesInWave; j++)
+                {
+                    var eliteEnemy = SC_Pooling.instance.GetItemFromPool("Ennemis", eliteEnemyList[Random.Range(0, eliteEnemyList.Count)].subPoolTransform.gameObject.name);
+                    
+                    if(enemiesInRoom.Contains(eliteEnemy))
+                        Debug.Log("ERRORRRRR - ELITE");
+                    enemiesInRoom.Add(eliteEnemy);
+                }
+            }
+            else
+            {
+                var baseEnemyList = enemiesPool.subPoolsList.ToList();
+                baseEnemyList = baseEnemyList.Where(e => e.subPoolTransform.gameObject.name != "GO_Bully" && e.subPoolTransform.gameObject.name != "GO_Summoner").ToList();
+                for (int j = 0; j < numberOfEnemiesInWave; j++)
+                {
+                    var enemy = SC_Pooling.instance.GetItemFromPool("Ennemis", baseEnemyList[Random.Range(0, baseEnemyList.Count)].subPoolTransform.gameObject.name);
+            
+                    if(enemiesInRoom.Contains(enemy))
+                        Debug.Log("ERRORRRRR - BASE");
+                    enemiesInRoom.Add(enemy);
+                }
+            }
+        }
+
+        foreach (var enemy in enemiesInRoom)
+        {
+            Bounds spawnBounds = new Bounds();
+            Collider spawnArea = new Collider();
+            
+            if (enemy.name is "GO_Bully" or "GO_Summoner")
+            {
+                spawnArea = eliteSpawnArea[Random.Range(0, eliteSpawnArea.Count)].GetComponent<Collider>();
+                spawnBounds = spawnArea.bounds;
+                enemy.transform.position = new Vector3(spawnBounds.center.x + Random.Range(-spawnBounds.extents.x,spawnBounds.extents.x), enemy.transform.position.y, spawnBounds.center.z + Random.Range(-spawnBounds.extents.z, spawnBounds.extents.z));
+            }
+            else
+            {
+                spawnArea = globalSpawnArea[Random.Range(0, globalSpawnArea.Count)].GetComponent<Collider>();
+                spawnBounds = spawnArea.bounds;
+                enemy.transform.position = new Vector3(spawnBounds.center.x + Random.Range(-spawnBounds.extents.x,spawnBounds.extents.x), enemy.transform.position.y, spawnBounds.center.z + Random.Range(-spawnBounds.extents.z, spawnBounds.extents.z));
+            }
+            
+            enemy.SetActive(true);
+            enemy.GetComponent<AI_StateMachine>().TransitionToState(AI_StateMachine.EnemyState.Idle);
+        }
+    }
+
+    private void SpawnHellEnemy()
+    {
+        var enemiesPool = SC_Pooling.instance.poolList.Find(s => s.poolName == "Ennemis");
+        GameObject enemy;
+        
+        if (numberOfEnemiesInWave<waveSettings.maxEliteAlive && Random.Range(0,100)<20)
+        {
+            numberOfEliteEnemiesInWave++;
+            var eliteEnemyList = enemiesPool.subPoolsList.ToList();
+            eliteEnemyList = eliteEnemyList.Where(e => e.subPoolTransform.gameObject.name == "GO_Bully" || e.subPoolTransform.gameObject.name == "GO_Summoner").ToList();
+            var eliteEnemy = SC_Pooling.instance.GetItemFromPool("Ennemis", eliteEnemyList[Random.Range(0, eliteEnemyList.Count)].subPoolTransform.gameObject.name);
+                    
+            if(enemiesInRoom.Contains(eliteEnemy))
+                Debug.Log("ERRORRRRR - ELITE");
+            enemiesInRoom.Add(eliteEnemy);
+            enemy = eliteEnemy;
+        }
+        else
+        {
+            numberOfEnemiesInWave++;
+            var baseEnemyList = enemiesPool.subPoolsList.ToList();
+            baseEnemyList = baseEnemyList.Where(e => e.subPoolTransform.gameObject.name != "GO_Bully" && e.subPoolTransform.gameObject.name != "GO_Summoner").ToList();
+            var baseEnemy = SC_Pooling.instance.GetItemFromPool("Ennemis", baseEnemyList[Random.Range(0, baseEnemyList.Count)].subPoolTransform.gameObject.name);
+            
+            if(enemiesInRoom.Contains(baseEnemy))
+                Debug.Log("ERRORRRRR - BASE");
+            enemiesInRoom.Add(baseEnemy);
+            enemy = baseEnemy;
+        }
+        
+        Bounds spawnBounds = new Bounds();
+        Collider spawnArea = new Collider();
+            
+        if (enemy.name is "GO_Bully" or "GO_Summoner")
+        {
+            spawnArea = eliteSpawnArea[Random.Range(0, eliteSpawnArea.Count)].GetComponent<Collider>();
+            spawnBounds = spawnArea.bounds;
+            enemy.transform.position = new Vector3(spawnBounds.center.x + Random.Range(-spawnBounds.extents.x,spawnBounds.extents.x), enemy.transform.position.y, spawnBounds.center.z + Random.Range(-spawnBounds.extents.z, spawnBounds.extents.z));
+        }
+        else
+        {
+            spawnArea = globalSpawnArea[Random.Range(0, globalSpawnArea.Count)].GetComponent<Collider>();
+            spawnBounds = spawnArea.bounds;
+            enemy.transform.position = new Vector3(spawnBounds.center.x + Random.Range(-spawnBounds.extents.x,spawnBounds.extents.x), enemy.transform.position.y, spawnBounds.center.z + Random.Range(-spawnBounds.extents.z, spawnBounds.extents.z));
+        }
+            
+        enemy.SetActive(true);
+        enemy.GetComponent<AI_StateMachine>().TransitionToState(AI_StateMachine.EnemyState.Idle);
+    }
+    
     public void LockDoors()
     {
         if (activeDoors.Count==0)
@@ -226,16 +356,53 @@ public class SC_RoomManager : MonoBehaviour
         }
     }
 
-    public void DecreaseEnemiesCount()
+    public void DecreaseEnemiesCount(SC_AIStats enemy)
     {
-        numberOfEnemies--;
-
-        if (numberOfEnemies>0)
+        if (!enemiesInRoom.Contains(enemy.gameObject))
             return;
 
+        totalEnemiesInWave--;
+
+        if (isBonusChallengeActive)
+        {
+            if (totalEnemiesInWave > waveSettings.numberOfEnemiesAlive)
+            {
+                enemiesInRoom.Remove(enemy.gameObject);
+                
+                if (enemy.isElite)
+                    numberOfEliteEnemiesInWave--;
+                else
+                    numberOfEnemiesInWave--;
+                
+                SpawnHellEnemy();
+            }
+        }
+        
+        if (totalEnemiesInWave>0) 
+            return;
+
+        if (isBonusChallengeActive)
+        {
+            isBonusChallengeActive = false;
+            //TODO - Spawn a treasure chest
+        }
+        else if (actualWave < numberOfWave)
+        {
+            enemiesInRoom.Clear();
+            SpawnEnemies();
+            return;
+        }
+        
+        enemiesInRoom.Clear();
         isClear = true;
         SC_AIStats.onDeath -= DecreaseEnemiesCount;
         UnlockDoors();
+        
+        if (hasBonusChallenge)
+        {
+            //TODO - Display the lever to activate the bonus challenge
+        }
+        
     }
     
 }

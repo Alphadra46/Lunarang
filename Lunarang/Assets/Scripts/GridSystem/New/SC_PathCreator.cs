@@ -29,7 +29,7 @@ public class SC_PathCreator : MonoBehaviour
     [Header("Spawn room prefabs lists")]
     [TabGroup("Settings", "Prefabs")] public List<GameObject> spawnRoomList = new List<GameObject>();
     [Header("Stair room prefabs lists")]
-    [TabGroup("Settings", "Prefabs")] public List<GameObject> stairRoomList = new List<GameObject>(); //TODO - When the floor system will be done use this list for "spawn" rooms and "boss" rooms
+    [TabGroup("Settings", "Prefabs")] public List<GameObject> stairRoomList = new List<GameObject>();
 
     [Space(10), Header("Challenge room parameters")] 
     [TabGroup("Settings", "Generation values")] public int smallRoomSpawnRate = 20;
@@ -96,7 +96,8 @@ public class SC_PathCreator : MonoBehaviour
 
         for (int i = 0; i < numberOfFloor; i++)
         {
-            SetupGeneration();
+            SetupGeneration(true);
+            //BUG - Maybe the line below is the cause of the mis-generation
             floorsList.Add(new SC_Floor(spawnToBossRooms.ToList(),spawnToChestRooms.ToList(),bossToChestRooms.ToList(),spawnToBossPath,spawnToChestPath,bossToChestPath,spawn,boss, chest));
             floorIndexGeneration++;
 
@@ -146,33 +147,63 @@ public class SC_PathCreator : MonoBehaviour
     /// <summary>
     /// Setup all the room placements and create the path between the rooms
     /// </summary>
-    private void SetupGeneration()
+    private void SetupGeneration(bool isFirstTime)
     {
         //Set a seed for the Random class
         seed = setSeed?customSeed:Random.Range(0, 1000000);
         Random.InitState(seed);
+
+        if (!isFirstTime)
+        {
+            foreach (var room in spawnToBossRooms)
+            {
+                Destroy(room);
+            }
+            foreach (var room in spawnToChestRooms)
+            {
+                Destroy(room);
+            }
+            foreach (var room in bossToChestRooms)
+            {
+                Destroy(room);
+            }
+
+            if (floorsList.Count>=1)
+            {
+                if (floorsList[floorIndexGeneration-1].floorStartRoom != spawn)
+                {
+                    Destroy(spawn);
+                }
+                
+                if (floorsList[floorIndexGeneration-1].floorEndRoom != boss)
+                {
+                    Destroy(boss);
+                }
+                
+                if (floorsList[floorIndexGeneration-1].floorChestRoom != chest)
+                {
+                    Destroy(chest);
+                }
+            }
+
+            if (floorIndexGeneration == 0)
+            {
+                Destroy(spawn);
+                Destroy(boss);
+                Destroy(chest);
+            }
+            
+            spawn = null;
+            boss = null;
+            chest = null;
+        }
         
         //Reset the nodes in range so that there is no conflict with previous paths
         nodesInRange.Clear();
-        foreach (var room in spawnToBossRooms)
-        {
-            //Destroy(room);
-        }
         spawnToBossRooms.Clear();
-        foreach (var room in spawnToChestRooms)
-        {
-            //Destroy(room);
-        }
         spawnToChestRooms.Clear();
-        foreach (var room in bossToChestRooms)
-        {
-            //Destroy(room);
-        }
         bossToChestRooms.Clear();
-        //Destroy(spawn);
-        //Destroy(boss);
-        //Destroy(chest);
-        
+
         
         //Set a random spawn location if wanted
         spawnNodeIndex = useRandomOnSpawnLocation
@@ -766,13 +797,21 @@ public class SC_PathCreator : MonoBehaviour
         
         
         //Then add the real spawn, boos and chest room
-        var spawnRoom = Instantiate(floorIndexGeneration<=0?spawnRoomList[Random.Range(0, spawnRoomList.Count)]:stairRoomList[Random.Range(0,stairRoomList.Count)], GetAvailableRoomSpace(spawnNodeIndex, out int si, 0, false), Quaternion.identity).GetComponent<SC_RoomManager>();
-        var bossRoom = Instantiate(floorIndexGeneration<numberOfFloor-1?stairRoomList[Random.Range(0,stairRoomList.Count)]:bossRoomList[Random.Range(0, bossRoomList.Count)], GetAvailableRoomSpace(bossRoomIndex, out int bi, si, true), Quaternion.identity).GetComponent<SC_RoomManager>();
-        var chestRoom = Instantiate(chestRoomList[Random.Range(0, chestRoomList.Count)], GetAvailableRoomSpace(chestRoomIndex, out chestRoomIndex, bi, true), Quaternion.identity).GetComponent<SC_RoomManager>();
 
-        spawn = spawnRoom.gameObject;
-        boss = bossRoom.gameObject;
-        chest = chestRoom.gameObject;
+        var possiblePos = GetAvailableRoomSpace(spawnNodeIndex, out int si, 0, false);
+        spawn = Instantiate(floorIndexGeneration<=0?spawnRoomList[Random.Range(0, spawnRoomList.Count)]:stairRoomList[Random.Range(0,stairRoomList.Count)], possiblePos, Quaternion.identity);
+
+        possiblePos = GetAvailableRoomSpace(bossRoomIndex, out int bi, si, true);
+        boss = Instantiate(floorIndexGeneration<numberOfFloor-1?stairRoomList[Random.Range(0,stairRoomList.Count)]:bossRoomList[Random.Range(0, bossRoomList.Count)], possiblePos, Quaternion.identity);
+
+        possiblePos = GetAvailableRoomSpace(chestRoomIndex, out chestRoomIndex, si, true);
+        chest = Instantiate(chestRoomList[Random.Range(0, chestRoomList.Count)], possiblePos, Quaternion.identity);
+        
+        var spawnRoom = spawn.GetComponent<SC_RoomManager>();
+        var bossRoom = boss.GetComponent<SC_RoomManager>();
+        var chestRoom = chest.GetComponent<SC_RoomManager>();
+
+        
         
         //Link these rooms to their pre-room
         var roomPos = Vector3.zero;
@@ -840,9 +879,9 @@ public class SC_PathCreator : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogError($"Generating a new floor, cause of failure : {e.Message}");
-            SetupGeneration();
-            throw;
+            Debug.LogError($"Generating a new floor, cause of failure : {e.Message} at floor {floorIndexGeneration}");
+            SetupGeneration(false);
+            return;
         }
     }
 
@@ -862,7 +901,7 @@ public class SC_PathCreator : MonoBehaviour
             if (availableNodesInRange.Contains(AstarPath.active.data.gridGraph.nodes[nodeIndexToExclude]))
                 availableNodesInRange.Remove(AstarPath.active.data.gridGraph.nodes[nodeIndexToExclude]);
         }
-
+        
         var newNode = availableNodesInRange[Random.Range(0, availableNodesInRange.Count)];
         indexOfNewNode = newNode.NodeInGridIndex;
         availableNodesInRange.Clear();
