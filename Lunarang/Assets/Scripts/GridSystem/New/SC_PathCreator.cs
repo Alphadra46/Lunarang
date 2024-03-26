@@ -153,7 +153,7 @@ public class SC_PathCreator : MonoBehaviour
         seed = setSeed?customSeed:Random.Range(0, 1000000);
         Random.InitState(seed);
 
-        if (!isFirstTime)
+        if (!isFirstTime) //We delete every room created for this floor if this is not the first generation for this floor.
         {
             foreach (var room in spawnToBossRooms)
             {
