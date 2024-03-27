@@ -1864,6 +1864,7 @@ MonoBehaviour:
     steelBodyDMGReductionModifier: 0
     steelBodyShieldStrengthModifier: 0
   typeID: warrior
+  isElite: 0
   hasShield: 0
   canRegenShield: 0
   delayBeforeRegen: 4
@@ -1873,6 +1874,7 @@ MonoBehaviour:
   - 0.16
   moveValueIndex: 0
   onShieldBreaked: {fileID: 0}
+  isDead: 0
 --- !u!114 &6131542437344180436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1905,6 +1907,7 @@ MonoBehaviour:
     m_Bits: 2147483648
   agent: {fileID: 0}
   _stats: {fileID: 0}
+  _renderer: {fileID: 0}
   _rb: {fileID: 0}
   hurtBox: {fileID: 6131542438275865336}
   stunDuration: 0.2
@@ -1937,11 +1940,18 @@ MonoBehaviour:
   burnTick: 1
   burnHitRequired: 3
   burnHitToProc: 0
+  burnCanProc: 1
+  burnICD: 1
   burnAoEMV: 10
   burnAoESize: 0.75
   burnAoEHitRate: 0
   burnDoTMV: 5
   burnDMGBonus: 0
+  bleedCurrentStacks: 0
+  bleedMaxStacks: 5
+  bleedHits: 5
+  bleedMV: 1
+  bleedDMGBonus: 0
   freezeDuration: 3
   freezeDurationBonus: 0
   unfreezeAoESize: 2
