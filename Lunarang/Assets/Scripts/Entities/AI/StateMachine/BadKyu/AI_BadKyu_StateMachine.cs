@@ -68,6 +68,8 @@ public class AI_BadKyu_StateMachine : AI_StateMachine
         States.Add(EnemyState.Freeze, new AI_FreezeState(EnemyState.Freeze, this));
         
         CurrentState = States[EnemyState.Idle];
+        
+        transform.GetChild(0).gameObject.SetActive(true);
     }
     
     /// <summary>
@@ -80,15 +82,25 @@ public class AI_BadKyu_StateMachine : AI_StateMachine
         var projectile = currentProjectiles == 2 ? 
             Instantiate(projectileBody).GetComponent<SC_Projectile>() : Instantiate(projectileArms).GetComponent<SC_Projectile>();
 
+        projectile.sender = gameObject;
+        
         projectile.transform.position = centerPoint.position + ProjectileSpawnOffset;
         projectile.transform.forward = centerPoint.forward;
+
+        projectile.direction = centerPoint.forward;
+        projectile.hitNumber = 1;
         
         projectile.speed = atkSpdBase;
         projectile.damage = (int)Mathf.Round(((_stats.moveValues[currentProjectiles == 2 ? 1 : 0] / 100) * _stats.currentStats.currentATK));
 
         currentProjectiles++;
         
-        if(currentProjectiles == maxProjectiles) _stats.Death();
+        if(currentProjectiles == maxProjectiles)
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+            _stats.Death();
+        }
+        
     }
 
     /// <summary>
@@ -102,7 +114,7 @@ public class AI_BadKyu_StateMachine : AI_StateMachine
     public bool hasLineOfSightTo(Transform target, Transform start)
     {
         return Physics.SphereCast(start.position + ProjectileSpawnOffset, 0.1f,
-            ((target.position + ProjectileSpawnOffset) -
+            ((new Vector3(target.position.x, target.localScale.y/1, target.position.z) + ProjectileSpawnOffset) -
              (start.position + ProjectileSpawnOffset)).normalized, out var Hit,
             detectionAreaRadius, layersAttackable) && Hit.collider.CompareTag("Player");
     }
