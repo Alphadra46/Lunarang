@@ -19,7 +19,7 @@ public class AI_BadKyu_AttackState : BaseState<AI_StateMachine.EnemyState>
     public override void EnterState()
     {
         _aiStateMachine.SpawnProjectile();
-        _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
+        
     }
 
     public override void ExitState()
@@ -29,6 +29,7 @@ public class AI_BadKyu_AttackState : BaseState<AI_StateMachine.EnemyState>
 
     public override void UpdateState()
     {
+        _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
     }
 
     public override AI_StateMachine.EnemyState GetNextState()

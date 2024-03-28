@@ -48,6 +48,7 @@ public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
     /// </summary>
     public override void ExitState()
     {
+        
         switch (_aiStateMachine.NextState)
         {
             case AI_StateMachine.EnemyState.Attack:
@@ -73,16 +74,9 @@ public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
     /// </summary>
     public override void UpdateState()
     {
-
-        // if (_aiStateMachine._stats.isDead)
-        // {
-        //     _aiStateMachine.StopCoroutine(AttackCooldown());
-        //     _aiStateMachine.StopCoroutine(DefenseCooldown());
-        //     _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Death);
-        //     return;
-        // }
         
         var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
+        var playerPos = player.transform.position;
         
         if (distance <= _aiStateMachine.defenseAreaRadius)
         {
@@ -107,7 +101,12 @@ public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
             _agent.SetDestination(player.transform.position);
         }
         
-        _aiStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiStateMachine.centerPoint.position.y, player.transform.position.z));
+        if (_aiStateMachine.hasSeenPlayer)
+        {
+            _agent.SetDestination(playerPos);
+        }
+        
+        _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
         
     }
     

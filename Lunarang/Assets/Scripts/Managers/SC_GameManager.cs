@@ -144,6 +144,12 @@ public class SC_GameManager : MonoBehaviour
         SC_UIManager.instance.ShowForge();
     }
     
+    public void OpenLibrary()
+    {
+        SetPause();
+        
+    }
+    
     public void OpenRewardChest()
     {
         //if(SC_SkillManager.instance.allCurrentRunSkills.Count < 1) return;
