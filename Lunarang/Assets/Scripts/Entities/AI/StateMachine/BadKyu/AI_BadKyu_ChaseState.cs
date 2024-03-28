@@ -97,10 +97,8 @@ public class AI_BadKyu_ChaseState : BaseState<AI_StateMachine.EnemyState>
         if (_aiStateMachine.hasSeenPlayer)
         {
             _agent.SetDestination(playerPos);
+            _aiStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiStateMachine.centerPoint.position.y + _aiStateMachine.ProjectileSpawnOffset.y, player.transform.position.z));
         }
-        
-        
-        _aiStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiStateMachine.centerPoint.position.y + _aiStateMachine.ProjectileSpawnOffset.y, player.transform.position.z));
         
     }
     

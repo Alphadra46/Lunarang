@@ -104,6 +104,7 @@ public class AI_Summoner_StateMachine : AI_StateMachine
         for (var i = 0; i < numbersOfSummons; i++)
         {
             var summon = Instantiate(summonGO);
+            summon.GetComponent<NavMeshAgent>().enabled = false;
             var angle = Mathf.PI * (i+1) / (numbersOfSummons+1);
             print(angle);
                 
@@ -116,6 +117,7 @@ public class AI_Summoner_StateMachine : AI_StateMachine
             pos = centerDirection * pos;
             
             summon.transform.position = transform.position + pos;
+            summon.GetComponent<NavMeshAgent>().enabled = true;
             
         }
 
