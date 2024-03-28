@@ -28,6 +28,8 @@ public class SC_UIManager : MonoBehaviour
     [BoxGroup("Prefabs References")]
     [SerializeField] private GameObject forgeUIPrefab;
     [BoxGroup("Prefabs References")]
+    [SerializeField] private GameObject libraryUIPrefab;
+    [BoxGroup("Prefabs References")]
     [SerializeField] private GameObject loadingScreenPrefab;
 
     #region Temporary References
@@ -51,6 +53,8 @@ public class SC_UIManager : MonoBehaviour
     // Buildings
     [BoxGroup("Temporary References")]
     [ShowInInspector] private GameObject forgeUI;
+    [BoxGroup("Temporary References")]
+    [ShowInInspector] private GameObject libraryUI;
 
 #endregion
 

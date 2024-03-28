@@ -57,7 +57,9 @@ public class AI_BadKyu_ChaseState : BaseState<AI_StateMachine.EnemyState>
                 _aiStateMachine.StartCoroutine(DefenseCooldown());
                 break;
             default:
-                throw new ArgumentOutOfRangeException();
+                _aiStateMachine.StopCoroutine(AttackCooldown());
+                _aiStateMachine.StopCoroutine(DefenseCooldown());
+                break;
         }
         
     }
@@ -71,13 +73,6 @@ public class AI_BadKyu_ChaseState : BaseState<AI_StateMachine.EnemyState>
     /// </summary>
     public override void UpdateState()
     {
-        // if (_aiStateMachine._stats.isDead)
-        // {
-        //     _aiStateMachine.StopCoroutine(AttackCooldown());
-        //     _aiStateMachine.StopCoroutine(DefenseCooldown());
-        //     _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Death);
-        // }
-        
         
         var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
         var playerPos = player.transform.position;
@@ -89,13 +84,13 @@ public class AI_BadKyu_ChaseState : BaseState<AI_StateMachine.EnemyState>
             {
                 _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Attack);
             }
+            _aiStateMachine.hasSeenPlayer = true;
                 
         }
         else if (distance <= _aiStateMachine.detectionAreaRadius)
         {
             
             _agent.isStopped = false;
-            _aiStateMachine.hasSeenPlayer = true;
 
         }
 

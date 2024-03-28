@@ -253,7 +253,6 @@ public class SC_ComboController : MonoBehaviour
 
         currentEnemiesHitted = hits;
 
-        // hbTransform.localPosition = originPos;
     }
 
     /// <summary>
