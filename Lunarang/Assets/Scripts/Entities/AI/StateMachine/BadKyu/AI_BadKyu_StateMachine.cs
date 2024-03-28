@@ -85,7 +85,6 @@ public class AI_BadKyu_StateMachine : AI_StateMachine
         
         projectile.speed = atkSpdBase;
         projectile.damage = (int)Mathf.Round(((_stats.moveValues[currentProjectiles == 2 ? 1 : 0] / 100) * _stats.currentStats.currentATK));
-        // print((int)Mathf.Round((_stats.moveValues[currentProjectiles == 2 ? 1 : 0] / 100) * _stats.currentATK));
 
         currentProjectiles++;
         
