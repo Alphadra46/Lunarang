@@ -77,11 +77,20 @@ public class AI_BadKyu_ChaseState : BaseState<AI_StateMachine.EnemyState>
         var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
         var playerPos = player.transform.position;
         
+        if(_aiStateMachine.currentProjectiles >= _aiStateMachine.maxProjectiles) return;
+        
+        if (_aiStateMachine.hasSeenPlayer)
+        {
+            _agent.SetDestination(playerPos);
+            _aiStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiStateMachine.centerPoint.position.y + _aiStateMachine.ProjectileSpawnOffset.y, player.transform.position.z));
+        }
+        
         if (distance <= _aiStateMachine.attackRange)
         {
             _agent.isStopped = true;
             if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform))
             {
+                _aiStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiStateMachine.centerPoint.position.y + _aiStateMachine.ProjectileSpawnOffset.y, player.transform.position.z));
                 _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Attack);
             }
             _aiStateMachine.hasSeenPlayer = true;
@@ -93,14 +102,6 @@ public class AI_BadKyu_ChaseState : BaseState<AI_StateMachine.EnemyState>
             _agent.isStopped = false;
 
         }
-
-        if (_aiStateMachine.hasSeenPlayer)
-        {
-            _agent.SetDestination(playerPos);
-        }
-        
-        
-        _aiStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiStateMachine.centerPoint.position.y + _aiStateMachine.ProjectileSpawnOffset.y, player.transform.position.z));
         
     }
     

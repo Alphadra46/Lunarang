@@ -19,7 +19,6 @@ public class AI_BadKyu_AttackState : BaseState<AI_StateMachine.EnemyState>
     public override void EnterState()
     {
         _aiStateMachine.SpawnProjectile();
-        
     }
 
     public override void ExitState()

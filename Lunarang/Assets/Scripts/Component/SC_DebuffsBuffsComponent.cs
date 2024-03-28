@@ -357,8 +357,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
                 if (isPlayer)
                 {
-                    _playerStats.currentStats.atkModifier += 1000;
-                    _playerStats.currentStats.bonusCritDMG += 200;
+                    _playerStats.currentStats.atkModifier += 5000;
+                    _playerStats.currentStats.damageBonus += 5000;
+                    _playerStats.currentStats.bonusCritDMG += 5000;
                     _playerStats.currentStats.bonusCritRate += 95;
                 }
                 
@@ -499,8 +500,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 
                 if (isPlayer)
                 {
-                    _playerStats.currentStats.atkModifier -= 1000;
-                    _playerStats.currentStats.bonusCritDMG -= 200;
+                    _playerStats.currentStats.atkModifier -= 5000;
+                    _playerStats.currentStats.damageBonus -= 5000;
+                    _playerStats.currentStats.bonusCritDMG -= 5000;
                     _playerStats.currentStats.bonusCritRate -= 95;
                 }
                 
