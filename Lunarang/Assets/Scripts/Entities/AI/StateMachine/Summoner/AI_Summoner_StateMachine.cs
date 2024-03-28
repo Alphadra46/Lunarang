@@ -109,7 +109,7 @@ public class AI_Summoner_StateMachine : AI_StateMachine
                 
             var x = Mathf.Sin(angle) * detectionAreaRadius;
             var z = Mathf.Cos(angle) * detectionAreaRadius;
-            var pos = new Vector3(x, transform.position.y, z);
+            var pos = new Vector3(x, 0.5f, z);
             
             var centerDirection = Quaternion.LookRotation(-centerPoint.right, centerPoint.up);
             
