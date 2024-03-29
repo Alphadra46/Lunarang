@@ -98,7 +98,7 @@ public class AI_BadKyu_StateMachine : AI_StateMachine
         if(currentProjectiles == maxProjectiles)
         {
             transform.GetChild(0).gameObject.SetActive(false);
-            _stats.Death();
+            TryToTransition(EnemyState.Death);
         }
         
     }
