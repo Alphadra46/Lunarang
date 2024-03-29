@@ -141,7 +141,7 @@ public class SC_AIRenderer : MonoBehaviour
 
     public void SendTriggerToAnimator(string triggerName)
     {
-        
+        if(_animator == null) return;
         print("Trigger sended : " + triggerName);
         _animator.SetTrigger(triggerName);
         
@@ -149,14 +149,14 @@ public class SC_AIRenderer : MonoBehaviour
     
     public void SendBoolToAnimator(string booleanName, bool value)
     {
-        
+        if(_animator == null) return;
         _animator.SetBool(booleanName, value);
         
     }
     
     public void SendIntToAnimator(string integerName, int value)
     {
-        
+        if(_animator == null) return;
         _animator.SetInteger(integerName, value);
         
     }

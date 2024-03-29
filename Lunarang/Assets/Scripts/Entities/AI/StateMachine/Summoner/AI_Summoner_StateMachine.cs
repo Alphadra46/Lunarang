@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
@@ -103,7 +104,13 @@ public class AI_Summoner_StateMachine : AI_StateMachine
     {
         for (var i = 0; i < numbersOfSummons; i++)
         {
-            var summon = Instantiate(summonGO);
+            var enemyPool = SC_Pooling.instance.poolList.Find(s => s.poolName == "Ennemis");
+            var kyuEnemyList = enemyPool.subPoolsList.ToList();
+            kyuEnemyList = kyuEnemyList.Where(e => e.subPoolTransform.gameObject.name == "GO_BadKyu").ToList();
+            
+            
+            var summon = SC_Pooling.instance.GetItemFromPool("Ennemis", kyuEnemyList[Random.Range(0, kyuEnemyList.Count)].subPoolTransform.gameObject.name);
+            
             summon.GetComponent<NavMeshAgent>().enabled = false;
             var angle = Mathf.PI * (i+1) / (numbersOfSummons+1);
             print(angle);
