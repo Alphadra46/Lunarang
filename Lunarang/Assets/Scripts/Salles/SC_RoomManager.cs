@@ -368,6 +368,7 @@ public class SC_RoomManager : MonoBehaviour
             return;
 
         totalEnemiesInWave--;
+        enemiesInRoom.Remove(enemy.gameObject);
 
         if (isBonusChallengeActive)
         {
