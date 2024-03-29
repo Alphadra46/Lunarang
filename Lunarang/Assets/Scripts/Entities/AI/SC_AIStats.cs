@@ -145,8 +145,13 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     private void OnEnable()
     {
         ResetStats();
+        _agent.enabled = true;
     }
 
+    private void OnDisable()
+    {
+        _agent.enabled = false;
+    }
 
     #region Damage Part
 
