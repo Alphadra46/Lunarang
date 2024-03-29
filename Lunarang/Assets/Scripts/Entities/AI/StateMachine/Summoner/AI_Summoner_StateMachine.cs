@@ -108,7 +108,6 @@ public class AI_Summoner_StateMachine : AI_StateMachine
             var kyuEnemyList = enemyPool.subPoolsList.ToList();
             kyuEnemyList = kyuEnemyList.Where(e => e.subPoolTransform.gameObject.name == "GO_BadKyu").ToList();
             
-            
             var summon = SC_Pooling.instance.GetItemFromPool("Ennemis", kyuEnemyList[Random.Range(0, kyuEnemyList.Count)].subPoolTransform.gameObject.name);
             
             summon.GetComponent<NavMeshAgent>().enabled = false;

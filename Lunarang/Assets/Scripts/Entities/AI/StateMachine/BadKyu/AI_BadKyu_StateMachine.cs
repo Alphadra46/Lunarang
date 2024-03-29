@@ -68,10 +68,14 @@ public class AI_BadKyu_StateMachine : AI_StateMachine
         States.Add(EnemyState.Freeze, new AI_FreezeState(EnemyState.Freeze, this));
         
         CurrentState = States[EnemyState.Idle];
-        
-        transform.GetChild(0).gameObject.SetActive(true);
     }
-    
+
+    private void OnEnable()
+    {
+        transform.GetChild(0).gameObject.SetActive(true);
+        currentProjectiles = 0;
+    }
+
     /// <summary>
     /// Summon a projectile from the spawn offset.
     /// Set all the settings of the projectile.
@@ -95,10 +99,11 @@ public class AI_BadKyu_StateMachine : AI_StateMachine
 
         currentProjectiles++;
         
-        if(currentProjectiles == maxProjectiles)
+        if(currentProjectiles >= maxProjectiles)
         {
+            print("MEURT");
+            TransitionToState(EnemyState.Death);
             transform.GetChild(0).gameObject.SetActive(false);
-            TryToTransition(EnemyState.Death);
         }
         
     }

@@ -19,6 +19,8 @@ public enum GameState
 public class SC_GameManager : MonoBehaviour
 {
     public static SC_GameManager instance;
+
+    public static Action clearRoom;
     
     #region Variables
 
@@ -56,8 +58,6 @@ public class SC_GameManager : MonoBehaviour
     {
         SC_InputManager.instance.pause.started += OnPauseKey;
     }
-
-    
 
     private void OnDisable()
     {
@@ -129,7 +129,6 @@ public class SC_GameManager : MonoBehaviour
                 Application.Quit();
         #endif
     }
-
     
     
     public void OpenInventory()
@@ -158,6 +157,7 @@ public class SC_GameManager : MonoBehaviour
         SC_UIManager.instance.ShowRewardMenu();
     }
     
+    
     public void OnPauseKey(InputAction.CallbackContext obj)
     {
         if (SC_UIManager.instance.inventoryUI != null || SC_UIManager.instance.rewardUI != null ||
@@ -165,16 +165,5 @@ public class SC_GameManager : MonoBehaviour
         SetPause();
         SC_UIManager.instance.ShowPauseMenu();
     }
-    
-    
-    // public void OnEscapeUI(GameObject uiToLeave)
-    // {
-    //     SetPause();
-    //     
-    //     Destroy(uiToLeave);
-    //     uiToLeave = null;
-    //     SC_UIManager.instance.ShowHUD();
-    // }
-    
     
 }

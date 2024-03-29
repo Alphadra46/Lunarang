@@ -104,7 +104,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     
     #endregion
 
-    private void ResetStats()
+    public void ResetStats()
     {
 
         currentStats.currentHealth = currentStats.currentMaxHealth;

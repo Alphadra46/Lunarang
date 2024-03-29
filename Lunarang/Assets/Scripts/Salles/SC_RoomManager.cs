@@ -84,7 +84,7 @@ public class SC_RoomManager : MonoBehaviour
 
         confiner = FindObjectOfType<CinemachineConfiner>();
     }
-
+    
     public void SetDifficulty()
     {
         RoomDifficulty difficulty = RoomDifficulty.Easy;
@@ -321,6 +321,8 @@ public class SC_RoomManager : MonoBehaviour
     
     public void LockDoors()
     {
+        SC_GameManager.clearRoom += ClearRoom;
+        
         if (activeDoors.Count==0)
         {
             if (doorNorth.doorToConnect!=null)
@@ -349,10 +351,14 @@ public class SC_RoomManager : MonoBehaviour
 
     public void UnlockDoors()
     {
+        SC_GameManager.clearRoom -= ClearRoom;
+        
         foreach (var door in activeDoors)
         {
-            if(door.doorCollider != null)
+            if (door.doorCollider != null)
+            {
                 door.doorCollider.isTrigger = true;
+            }
         }
     }
 
@@ -404,5 +410,22 @@ public class SC_RoomManager : MonoBehaviour
         }
         
     }
-    
+
+    public void ClearRoom()
+    {
+
+        foreach (var enemy in enemiesInRoom)
+        {
+            SC_Pooling.instance.ReturnItemToPool("Ennemis", enemy);
+            enemy.GetComponent<SC_AIStats>().ResetStats();
+            enemy.SetActive(false);
+        }
+        
+        enemiesInRoom.Clear();
+        isClear = true;
+        SC_AIStats.onDeath -= DecreaseEnemiesCount;
+        UnlockDoors();
+        
+    }
+
 }

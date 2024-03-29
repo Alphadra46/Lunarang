@@ -25,20 +25,20 @@ public class SC_KillCommand : SC_Command
             if (hitData.collider.CompareTag("Entity") && hitData.collider.TryGetComponent(out SC_AIStats _ai))
             {
                 _ai.Death();
+                SC_DebugConsole.instance.PrintLine("<color=#42adf5>"+ hitData.collider.name + " <color=white>has been killed.");
             }
             else if(hitData.collider.CompareTag("Player") && hitData.collider.TryGetComponent(out SC_PlayerStats _p))
             {
                 _p.Death();
+                SC_DebugConsole.instance.PrintLine("<color=#42adf5>"+ hitData.collider.name + " <color=white>has been killed.");
             }
-            
-            SC_DebugConsole.instance.PrintLine("<color=#42adf5>"+ hitData.collider.name + " <color=white>has been killed.");
             
         }
         
         // With arguments
         else
         {
-             var arg = args[1];
+            var arg = args[1];
              
             // Only specified entities
             if(arg.Contains("@e"))

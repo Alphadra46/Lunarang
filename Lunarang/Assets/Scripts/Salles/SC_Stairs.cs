@@ -42,7 +42,14 @@ public class SC_Stairs : MonoBehaviour
             //TODO - Error
         }
         
-        SC_PlayerController.instance.transform.position = stairToConnect.stairTPPoint.position;
+        if(stairToConnect != null) {
+            SC_PlayerController.instance.transform.position = stairToConnect.stairTPPoint.position;
+        }
+        else
+        {
+            SC_GameManager.instance.ChangeState(GameState.WIN);
+        }
+        
         
         SC_PathCreator.instance.floorsList[SC_PathCreator.instance.actualFloor].DisplayFloor(); //Display the floor in which the player will be transported
         SC_PathCreator.instance.floorsList[thisFloorIndex].HideFloor(); //Hide the current floor
