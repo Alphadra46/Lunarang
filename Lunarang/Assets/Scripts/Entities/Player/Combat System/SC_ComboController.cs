@@ -522,7 +522,7 @@ public class SC_ComboController : MonoBehaviour
         
         // Debug Side
         print("Combo : " + comboCounter + " / Type : " + currentWeapon.type);
-        ComboUpdated?.Invoke(comboCounter == comboMaxLength ? 0 : comboCounter, comboMaxLength);
+        ComboUpdated?.Invoke(comboCounter, comboMaxLength);
         
     }
 

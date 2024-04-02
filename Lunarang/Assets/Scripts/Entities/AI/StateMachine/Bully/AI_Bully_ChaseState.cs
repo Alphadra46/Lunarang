@@ -23,7 +23,6 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
 
     private GameObject player;
     
-    private bool canAttack = true;
     // private bool canBeStun = true;
 
     #endregion
@@ -41,6 +40,8 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
         _agent.updateRotation = false;
         _agent.speed = _aiStateMachine.chaseSpeed;
         
+        _aiStateMachine.CanAttack(true);
+        
     }
 
     /// <summary>
@@ -48,13 +49,6 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
     /// </summary>
     public override void ExitState()
     {
-        
-        switch (_aiStateMachine.NextState)
-        {
-            case AI_Bully_StateMachine.EnemyState.Attack:
-                _aiStateMachine.StartCoroutine(AttackCooldown());
-                break;
-        }
         
     }
     
@@ -76,52 +70,35 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
         {
             
             _agent.isStopped = true;
-            if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _aiStateMachine.centerPoint, _aiStateMachine.detectionAreaRadius, _aiStateMachine.layersAttackable))
+            _agent.velocity = Vector3.zero;
+            
+            if (_aiStateMachine.canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _aiStateMachine.centerPoint, _aiStateMachine.detectionAreaRadius, _aiStateMachine.layersAttackable))
             {
                 _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Attack);
             }
                 
         }
-        else if (distance <= _aiStateMachine.detectionAreaRadius)
+        else if (distance <= _aiStateMachine.detectionAreaRadius && !_aiStateMachine.hasSeenPlayer)
         {
             
-            _agent.isStopped = false;
             _aiStateMachine.hasSeenPlayer = true;
 
         }
-
-        if (_aiStateMachine.hasSeenPlayer)
+        else if (_aiStateMachine.hasSeenPlayer)
         {
+            _agent.isStopped = false;
             _agent.SetDestination(playerPos);
+            _aiStateMachine.canRotate = true;
         }
-        // else
-        // {
-        //     _aiStateMachine.TransitionToState(AI_Bully_StateMachine.EnemyState.Patrol);
-        // }
-
         
-        _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
-        
+        if(_aiStateMachine.canRotate)
+            _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
     }
     
 
     public override AI_StateMachine.EnemyState GetNextState()
     {
         return AI_StateMachine.EnemyState.Chase;
-    }
-    
-    /// <summary>
-    /// Internal Cooldown before next attack.
-    /// </summary>
-    private IEnumerator AttackCooldown()
-    {
-        
-        canAttack = false;
-        _aiStateMachine._renderer.SendBoolToAnimator("canAttack", canAttack);
-        yield return new WaitForSeconds(_aiStateMachine.atkCDBase);
-        canAttack = true;
-        _aiStateMachine._renderer.SendBoolToAnimator("canAttack", canAttack);
-
     }
     
     

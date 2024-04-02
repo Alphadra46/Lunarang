@@ -157,7 +157,6 @@ public class SC_GameManager : MonoBehaviour
         SC_UIManager.instance.ShowRewardMenu();
     }
     
-    
     public void OnPauseKey(InputAction.CallbackContext obj)
     {
         if (SC_UIManager.instance.inventoryUI != null || SC_UIManager.instance.rewardUI != null ||

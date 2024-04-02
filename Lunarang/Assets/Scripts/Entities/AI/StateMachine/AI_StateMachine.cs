@@ -66,7 +66,9 @@ public class AI_StateMachine : StateManager<AI_StateMachine.EnemyState>
     public float chaseSpeed = 1;
     [TabGroup("States", "Chase")]
     public bool hasSeenPlayer = false;
-
+    [TabGroup("States", "Chase")]
+    public bool canRotate = true;
+    
     #endregion
 
     #region Attack

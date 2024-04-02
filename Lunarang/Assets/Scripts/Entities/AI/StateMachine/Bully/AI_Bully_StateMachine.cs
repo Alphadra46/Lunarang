@@ -12,6 +12,8 @@ public class AI_Bully_StateMachine : AI_StateMachine
     
     [TabGroup("States", "Attack")]
     public GameObject hurtBox;
+    [TabGroup("States", "Attack")]
+    public bool canAttack = true;
     
     /// <summary>
     /// Initialize all references.
@@ -38,10 +40,11 @@ public class AI_Bully_StateMachine : AI_StateMachine
     /// <summary>
     /// Activate the hurtbox to deal damage to the forward entity.
     /// </summary>
-    public void Attack()
+    public void CanAttack(bool value)
     {
         
-        hurtBox.SetActive(true);
+        canAttack = value;
+        _renderer.SendBoolToAnimator("canAttack", value);
         
     }
     

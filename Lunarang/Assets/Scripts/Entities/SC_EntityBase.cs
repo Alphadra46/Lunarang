@@ -482,8 +482,22 @@ namespace Entities
 
             return modifiedStats;
 
-        } 
-        
+        }
+
+        protected Quaternion GetCurrentForwardVector(Quaternion orientation)
+        {
+
+            Vector3 forward = transform.forward;
+
+            forward.y = 0;
+
+            forward.Normalize();
+
+            Quaternion rotation = Quaternion.LookRotation(forward);
+
+            return rotation;
+
+        }
         
     }
     

@@ -35,6 +35,7 @@ public class SC_InputPrompt : MonoBehaviour
     private void Awake()
     {
         SC_InputManager.newControllerUsed += Init;
+        Init("Keyboard");
     }
 
     public void Init(string controllerName)
