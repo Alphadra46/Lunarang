@@ -9,6 +9,7 @@ public class SC_Door : MonoBehaviour
     public Collider doorCollider;
     public SC_Door doorToConnect;
     public GameObject doorSpawnPoint;
+    public Animator animator;
 
     [HideInInspector] public SC_RoomManager roomManager;
 
@@ -30,13 +31,15 @@ public class SC_Door : MonoBehaviour
 
     public void EnableDoor()
     {
-        doorRenderer.enabled = true;
+        animator.SetBool("isOpen",true);
+        //doorRenderer.enabled = true;
         doorCollider.isTrigger = true;
     }
     
     public void DisableDoor()
     {
-        doorRenderer.enabled = false;
+        animator.SetBool("isOpen",false);
+        //doorRenderer.enabled = false;
         doorCollider.isTrigger = false;
     }
 
