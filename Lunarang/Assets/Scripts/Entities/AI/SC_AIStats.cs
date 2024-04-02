@@ -75,7 +75,6 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         if(!TryGetComponent(out _debuffsBuffsComponent)) return;
         if(!TryGetComponent(out _agent)) return;
         if(!TryGetComponent(out _stateMachine)) return;
-        
     }
 
     /// <summary>
@@ -104,7 +103,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     
     #endregion
 
-    private void ResetStats()
+    public void ResetStats()
     {
 
         currentStats.currentHealth = currentStats.currentMaxHealth;
@@ -145,8 +144,17 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     private void OnEnable()
     {
         ResetStats();
+        if(_agent != null)
+            _agent.enabled = true;
+        _renderer.showStatsUI?.Invoke();
     }
 
+    private void OnDisable()
+    {
+        if(_agent != null)
+            _agent.enabled = false;
+        _renderer.hideStatsUI?.Invoke();
+    }
 
     #region Damage Part
 
@@ -280,6 +288,33 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         
     }
     
+    public void CreateHitBox(SO_HitBox hb)
+    {
+        var hbTransform = transform.GetChild(0).GetChild(2);
+        transform.GetChild(0).GetChild(2).localPosition = hb.center;
+        
+        // print(hb.name);
+        var hits = hb.type switch
+        {
+            HitBoxType.Box => Physics.OverlapBox(hbTransform.position, hb.halfExtents,
+                GetCurrentForwardVector(hb.orientation), hb.layer),
+            HitBoxType.Sphere => Physics.OverlapSphere(hb.pos, hb.radiusSphere, hb.layer),
+            HitBoxType.Capsule => Physics.OverlapCapsule(hb.point0, hb.point1, hb.radiusCapsule, hb.layer),
+            _ => throw new ArgumentOutOfRangeException()
+        };
+        
+
+        foreach (var e in hits)
+        {
+            var aiCurrentAtk = currentStats.currentATK;
+            var aiCurrentMV = moveValues[moveValueIndex];
+
+            var rawDamage = Mathf.Round(aiCurrentMV * aiCurrentAtk);
+            
+            e.GetComponent<IDamageable>().TakeDamage(rawDamage, false, gameObject);
+        }
+
+    }
 
     #endregion
 

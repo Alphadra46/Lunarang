@@ -9,17 +9,21 @@ public class SC_InteractorComponent : MonoBehaviour
     
     #region Variables
 
+    public static Action onInteractionEnd;
+
     [BoxGroup("Interaction")] public float nearInteractableRange = 15f;
     [BoxGroup("Interaction")] public float interactionRange = 2f;
     [BoxGroup("Interaction")]
     [ShowInInspector] private List<GameObject> nearInteractables = new List<GameObject>();
     [BoxGroup("Interaction")] public bool inInteraction;
     [BoxGroup("Interaction")] public GameObject nearestInteractable;
+    
     #endregion
 
     private void Start()
     {
         SC_InputManager.instance.interaction.started += _ => Interact();
+        onInteractionEnd += EndInteraction;
     }
 
     public void Update()
@@ -92,6 +96,12 @@ public class SC_InteractorComponent : MonoBehaviour
             i.Interact(this);
         }
         
+    }
+    
+    
+    private void EndInteraction()
+    {
+        inInteraction = false;
     }
 
     private void OnDrawGizmos()

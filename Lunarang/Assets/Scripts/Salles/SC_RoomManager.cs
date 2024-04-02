@@ -71,7 +71,7 @@ public class SC_RoomManager : MonoBehaviour
 
         if (!isSpecialRoom)
             SetDifficulty();
-        
+
         doorNorth.Initialize(this);
         doorSouth.Initialize(this);
         doorWest.Initialize(this);
@@ -83,8 +83,15 @@ public class SC_RoomManager : MonoBehaviour
         doorEast.DisableDoor();
 
         confiner = FindObjectOfType<CinemachineConfiner>();
-    }
 
+        if (isSpecialRoom)
+        {
+            doorNorth.animator.SetBool("isOpen", true);
+        }
+        
+        
+    }
+    
     public void SetDifficulty()
     {
         RoomDifficulty difficulty = RoomDifficulty.Easy;
@@ -321,6 +328,8 @@ public class SC_RoomManager : MonoBehaviour
     
     public void LockDoors()
     {
+        SC_GameManager.clearRoom += ClearRoom;
+        
         if (activeDoors.Count==0)
         {
             if (doorNorth.doorToConnect!=null)
@@ -344,15 +353,21 @@ public class SC_RoomManager : MonoBehaviour
         foreach (var door in activeDoors)
         {
             door.doorCollider.isTrigger = false;
+            door.animator.SetBool("isOpen", false);
         }
     }
 
     public void UnlockDoors()
     {
+        SC_GameManager.clearRoom -= ClearRoom;
+        
         foreach (var door in activeDoors)
         {
-            if(door.doorCollider != null)
+            if (door.doorCollider != null)
+            {
                 door.doorCollider.isTrigger = true;
+                door.animator.SetBool("isOpen", true);
+            }
         }
     }
 
@@ -362,6 +377,7 @@ public class SC_RoomManager : MonoBehaviour
             return;
 
         totalEnemiesInWave--;
+        enemiesInRoom.Remove(enemy.gameObject);
 
         if (isBonusChallengeActive)
         {
@@ -404,5 +420,22 @@ public class SC_RoomManager : MonoBehaviour
         }
         
     }
-    
+
+    public void ClearRoom()
+    {
+
+        foreach (var enemy in enemiesInRoom)
+        {
+            SC_Pooling.instance.ReturnItemToPool("Ennemis", enemy);
+            enemy.GetComponent<SC_AIStats>().ResetStats();
+            enemy.SetActive(false);
+        }
+        
+        enemiesInRoom.Clear();
+        isClear = true;
+        SC_AIStats.onDeath -= DecreaseEnemiesCount;
+        UnlockDoors();
+        
+    }
+
 }

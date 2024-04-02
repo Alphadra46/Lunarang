@@ -232,6 +232,8 @@ public class SC_ComboController : MonoBehaviour
             HitBoxType.Capsule => Physics.OverlapCapsule(hb.point0, hb.point1, hb.radiusCapsule, hb.layer),
             _ => throw new ArgumentOutOfRangeException()
         };
+        
+        print(hits);
 
         foreach (var e in hits)
         {
@@ -246,14 +248,13 @@ public class SC_ComboController : MonoBehaviour
             
             e.GetComponent<IDamageable>().TakeDamage(isCritical ? effCrit : effDamage, isCritical, gameObject);
             
-            if(e.GetComponent<SC_AIStats>().isDead) return;
+            if(e.GetComponent<SC_AIStats>().isDead) continue;
             
             CheckAllDebuffApplication(e);
         }
 
         currentEnemiesHitted = hits;
 
-        // hbTransform.localPosition = originPos;
     }
 
     /// <summary>
@@ -521,7 +522,7 @@ public class SC_ComboController : MonoBehaviour
         
         // Debug Side
         print("Combo : " + comboCounter + " / Type : " + currentWeapon.type);
-        ComboUpdated?.Invoke(comboCounter == comboMaxLength ? 0 : comboCounter, comboMaxLength);
+        ComboUpdated?.Invoke(comboCounter, comboMaxLength);
         
     }
 

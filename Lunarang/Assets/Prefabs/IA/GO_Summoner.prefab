@@ -1660,6 +1660,7 @@ GameObject:
   - component: {fileID: 6131542437344180434}
   - component: {fileID: 1528931072955324473}
   - component: {fileID: 3430412770760601593}
+  - component: {fileID: 5760290869791784484}
   m_Layer: 10
   m_Name: GO_Summoner
   m_TagString: Entity
@@ -1675,7 +1676,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6131542437344180460}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.04, y: 0, z: -1.04}
+  m_LocalPosition: {x: -7.04, y: 0.05, z: -1.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1750,10 +1751,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TextDamageUI: {fileID: 1572597113138715523, guid: 8438de7327b72914598c1f35d1193d08,
     type: 3}
+  StatsUI: {fileID: 4183580874720806038}
   DamageUIArea: {fileID: 1495245322538181885}
   debugUIHP: {fileID: 8785875799165436390}
   debugUIWeaknesses: {fileID: 159238005916256974}
-  _agent: {fileID: 6131542437344180432}
 --- !u!114 &6131542437344180434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1897,6 +1898,7 @@ MonoBehaviour:
   detectionAreaRadius: 4
   chaseSpeed: 5
   hasSeenPlayer: 0
+  canRotate: 0
   attackRange: 6
   atkSpdBase: 1
   atkCDBase: 3
@@ -1953,6 +1955,8 @@ MonoBehaviour:
   burnTick: 1
   burnHitRequired: 3
   burnHitToProc: 0
+  burnCanProc: 1
+  burnICD: 1
   burnAoEMV: 10
   burnAoESize: 0.75
   burnAoEHitRate: 0
@@ -1971,6 +1975,24 @@ MonoBehaviour:
   dotCritDamage: 0
   dotCritRate: 0
   dotDurationBonus: 0
+--- !u!114 &5760290869791784484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6131542437344180460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 4
+  outlineColor: {r: 0.9339623, g: 0.20705767, b: 0.20705767, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &6150448621816195546
 GameObject:
   m_ObjectHideFlags: 0
@@ -3221,6 +3243,12 @@ MonoBehaviour:
 --- !u!1 &1495245322538181885 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4053164382095202922, guid: 9887b8b3b187d3d4aa79613c02752f62,
+    type: 3}
+  m_PrefabInstance: {fileID: 3242475412030176919}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4183580874720806038 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1652969045808724481, guid: 9887b8b3b187d3d4aa79613c02752f62,
     type: 3}
   m_PrefabInstance: {fileID: 3242475412030176919}
   m_PrefabAsset: {fileID: 0}

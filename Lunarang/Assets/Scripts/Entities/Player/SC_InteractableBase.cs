@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,6 +13,10 @@ public class SC_InteractableBase : MonoBehaviour, IInteractable
     private SC_InteractorComponent interactor;
     
     public bool interactableOnce;
+    
+    [ShowIf("interactableOnce")]
+    public bool destroyOnInteractionEnded;
+    
     private bool wasInteracted;
     
     public bool isInteractionEnded;
@@ -46,6 +51,8 @@ public class SC_InteractableBase : MonoBehaviour, IInteractable
     public void EndInteraction()
     {
         isInteractionEnded = true;
+        SC_InteractorComponent.onInteractionEnd?.Invoke();
+        if(interactableOnce && destroyOnInteractionEnded) Destroy(gameObject);
     }
 
     private bool CheckInteractionStatut()

@@ -13,10 +13,7 @@ public class SC_StatsDebugCommand : SC_Command
         
         if (args.Length == 1)
         {
-            var statsUI = Object.Instantiate(SC_DebugConsole.instance.StatsUI).GetComponent<SC_StatsDebug>();
-            SC_PlayerStats.instance.statsDebug = statsUI;
-            statsUI.LoadStats();
-            statsUI.InsantiateStats();
+            SC_UIManager.instance.ShowStatsDebugUI();
         }
         else
         {

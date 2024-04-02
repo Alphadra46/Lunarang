@@ -19,7 +19,14 @@ public class SC_GodmodeCommand : SC_Command
         else
         {
             SC_PlayerStats.instance.isGod = !SC_PlayerStats.instance.isGod;
-            SC_PlayerStats.instance.gameObject.GetComponent<SC_DebuffsBuffsComponent>().ApplyBuff(Enum_Buff.God);
+            if (SC_PlayerStats.instance.isGod)
+            {
+                SC_PlayerStats.instance.gameObject.GetComponent<SC_DebuffsBuffsComponent>().ApplyBuff(Enum_Buff.God);
+            }
+            else
+            {
+                SC_PlayerStats.instance.gameObject.GetComponent<SC_DebuffsBuffsComponent>().RemoveBuff(Enum_Buff.God);
+            }
             SC_DebugConsole.instance.PrintLine(SC_PlayerStats.instance.isGod
                 ? "<color=#ffac26> > You've been elevated has a god."
                 : "<color=red> > You've just fallen back in with the losers.");

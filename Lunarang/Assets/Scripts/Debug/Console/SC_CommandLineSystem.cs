@@ -8,12 +8,13 @@ public static class SC_CommandLineSystem
     public static readonly Dictionary<string, SC_Command> commands = new Dictionary<string, SC_Command>()
     {
         {"kill", new SC_KillCommand()},
-        {"summon", new SC_SummonCommand()},
+        {"smn", new SC_SummonCommand()},
         {"help", new SC_HelpCommand()},
         {"gm", new SC_GodmodeCommand()},
         {"tp", new SC_TeleportCommand()},
         {"rl", new SC_ReloadSceneCommand()},
-        {"stats", new SC_StatsDebugCommand()}
+        {"stats", new SC_StatsDebugCommand()},
+        {"rm", new SC_RoomManagingCommand()}
     };
     
     /// <summary>

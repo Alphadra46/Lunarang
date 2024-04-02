@@ -18,9 +18,7 @@ public class AI_Summoner_AttackState : BaseState<AI_StateMachine.EnemyState>
     /// </summary>
     public override void EnterState()
     {
-        Debug.Log("TA MERE");
         _aiStateMachine.Attack();
-        _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
     }
 
     public override void ExitState()
@@ -30,7 +28,7 @@ public class AI_Summoner_AttackState : BaseState<AI_StateMachine.EnemyState>
 
     public override void UpdateState()
     {
-        
+        _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
     }
     
     

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -26,7 +27,8 @@ public class SC_Projectile : MonoBehaviour
 
     public Vector3 direction;
     
-    public GameObject sender;
+    public GameObject sender; 
+    public List<string> tags = new List<string>();
     
     private Rigidbody _rb;
 
@@ -59,6 +61,9 @@ public class SC_Projectile : MonoBehaviour
         
         if (!col.TryGetComponent(out IDamageable damageable)) return;
         if (col.gameObject == sender) return;
+        if (!tags.Contains(col.tag)) return;
+        
+        print(col.gameObject.layer);
 
         if (isAoE)
         {

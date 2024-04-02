@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 75451546300128363}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.81, y: 0, z: -0.09}
+  m_LocalPosition: {x: -0.81, y: 0.05, z: -0.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -177,6 +177,7 @@ MonoBehaviour:
     steelBodyDMGReductionModifier: 0
     steelBodyShieldStrengthModifier: 0
   typeID: dummy
+  isElite: 0
   hasShield: 1
   canRegenShield: 0
   delayBeforeRegen: 4
@@ -185,6 +186,7 @@ MonoBehaviour:
   moveValues: []
   moveValueIndex: 0
   onShieldBreaked: {fileID: 11400000, guid: 91102299776b5c448b019d03aa066879, type: 2}
+  isDead: 0
 --- !u!114 &5482220217696511350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,11 +216,18 @@ MonoBehaviour:
   burnTick: 3
   burnHitRequired: 3
   burnHitToProc: 0
+  burnCanProc: 1
+  burnICD: 1
   burnAoEMV: 10
   burnAoESize: 0.75
   burnAoEHitRate: 0
   burnDoTMV: 5
   burnDMGBonus: 0
+  bleedCurrentStacks: 0
+  bleedMaxStacks: 5
+  bleedHits: 5
+  bleedMV: 1
+  bleedDMGBonus: 0
   freezeDuration: 3
   freezeDurationBonus: 0
   unfreezeAoESize: 2
@@ -241,10 +250,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TextDamageUI: {fileID: 1572597113138715523, guid: 8438de7327b72914598c1f35d1193d08,
     type: 3}
+  StatsUI: {fileID: 7600675613621239153}
   DamageUIArea: {fileID: 5166819691225144602}
   debugUIHP: {fileID: 3069667062213326849}
   debugUIWeaknesses: {fileID: 5855150724721505065}
-  _agent: {fileID: 0}
 --- !u!1001 &2034043792707088854
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -280,7 +289,7 @@ PrefabInstance:
     - target: {fileID: 7979858253721007454, guid: c48fc8f4699300a43b376bdf7fa635bd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 7979858253721007454, guid: c48fc8f4699300a43b376bdf7fa635bd,
         type: 3}
@@ -410,12 +419,12 @@ PrefabInstance:
     - target: {fileID: 4806072021058079036, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4806072021058079036, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4806072021058079036, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
@@ -425,7 +434,7 @@ PrefabInstance:
     - target: {fileID: 4806072021058079036, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 5639235307506099298, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
@@ -658,3 +667,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7600675613621239153 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1652969045808724481, guid: 9887b8b3b187d3d4aa79613c02752f62,
+    type: 3}
+  m_PrefabInstance: {fileID: 9190580913740384112}
+  m_PrefabAsset: {fileID: 0}

@@ -28,6 +28,8 @@ public class SC_UIManager : MonoBehaviour
     [BoxGroup("Prefabs References")]
     [SerializeField] private GameObject forgeUIPrefab;
     [BoxGroup("Prefabs References")]
+    [SerializeField] private GameObject libraryUIPrefab;
+    [BoxGroup("Prefabs References")]
     [SerializeField] private GameObject loadingScreenPrefab;
 
     #region Temporary References
@@ -51,6 +53,10 @@ public class SC_UIManager : MonoBehaviour
     // Buildings
     [BoxGroup("Temporary References")]
     [ShowInInspector] private GameObject forgeUI;
+    [BoxGroup("Temporary References")]
+    [ShowInInspector] private GameObject libraryUI;
+
+    private GameObject statsUI;
 
 #endregion
 
@@ -242,6 +248,26 @@ public class SC_UIManager : MonoBehaviour
         Destroy(loadingScreenUI);
         loadingScreenUI = null;
     }
+
+
+    public void ShowStatsDebugUI()
+    {
+        
+        if (statsUI == null)
+        {
+            statsUI = Instantiate(SC_DebugConsole.instance.StatsUI);
+            var statsUIScript = statsUI.GetComponent<SC_StatsDebug>();
+            SC_PlayerStats.instance.statsDebug = statsUIScript;
+            statsUIScript.LoadStats();
+            statsUIScript.InsantiateStats();
+        }
+        else
+        {
+            Destroy(statsUI);
+        }
+        
+    }
+    
     
     public void ResetTempReferences()
     {
@@ -252,7 +278,9 @@ public class SC_UIManager : MonoBehaviour
         pauseUI = null;
         gameOverUI = null;
         forgeUI = null;
+        libraryUI = null;
+
+        statsUI = null;
     }
-    
     
 }

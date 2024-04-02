@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -18,8 +19,9 @@ public class AI_Archer_StateMachine : AI_StateMachine
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("States", "Attack")]
     public Vector3 ProjectileSpawnOffset = new Vector3(0, 0.5f, 0);
+    [TabGroup("States", "Attack")] 
+    public List<string> tags = new List<string>();
     
-
     #region Defense
 
     [TabGroup("States", "Defense")]
@@ -79,6 +81,8 @@ public class AI_Archer_StateMachine : AI_StateMachine
         
         projectile.speed = atkSpdBase;
         projectile.damage = (int)Mathf.Round((_stats.moveValues[_stats.moveValueIndex] * _stats.currentStats.currentATK));
+
+        projectile.tags = tags;
 
     }
 
