@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3353019030451939601}
   - component: {fileID: 3353019030451939604}
   - component: {fileID: 3353019030451939605}
+  - component: {fileID: 6473359399336447984}
   m_Layer: 31
   m_Name: Lou_Prefab_01
   m_TagString: Player
@@ -125,7 +126,11 @@ MonoBehaviour:
   lastComboParameters: 
   currentComboWeapons: []
   lastComboWeapons: []
+  onLastAttack: {fileID: 0}
   canPerformCombo: 1
+  layerAttackable:
+    serializedVersion: 2
+    m_Bits: 0
   currentEnemiesHitted: []
   _animator: {fileID: 660048337441460264}
   vfxParameterList:
@@ -169,23 +174,127 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3430445b760999d4dbc1e09ee2895d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 0
-  maxHealth: 30
-  maxHealthModifier: 0
-  defBase: 1
-  defModifier: 0
-  atkBase: 25
-  atkModifier: 0
-  baseSpeed: 7
-  speedModifier: 0
-  baseCritRate: 5
-  bonusCritRate: 0
-  baseCritDMG: 50
-  bonusCritDMG: 0
-  damageBonus: 0
-  currentDebuffs: 
+  baseStats:
+    currentHealth: 0
+    maxHealth: 0
+    maxHealthModifier: 0
+    defBase: 0
+    defModifier: 0
+    atkBase: 0
+    atkModifier: 0
+    baseCritRate: 0
+    bonusCritRate: 0
+    baseCritDMG: 0
+    bonusCritDMG: 0
+    damageReduction: 0
+    damageTaken: 0
+    dotDamageTaken: 0
+    damageBonus: 0
+    mhDamageBonus: 0
+    aoeDamageBonus: 0
+    projectileDamageBonus: 0
+    dotDamageBonus: 0
+    poisonHitRate: 0
+    freezeHitRate: 0
+    burnHitRate: 0
+    bleedHitRate: 0
+    baseSpeed: 0
+    speedModifier: 0
+    baseATKSpeed: 0
+    atkSpeedModifier: 0
+    healingBonus: 0
+    dishesEffectBonus: 0
+    shieldMaxHP: 0
+    shieldCurrentHP: 0
+    shieldStrength: 0
+    manaOverloadStack: 0
+    manaOverloadMaxStack: 0
+    manaOverloadDamageBoost: 0
+    manaOverloadTick: 0
+    manaOverloadDuration: 0
+    manaOverloadDamage: 0
+    inManaOverload: 0
+    manaFuryMaxHPGate: 0
+    inManaFury: 0
+    steelBodyStackCount: 0
+    steelBodyHPPercentNeeded: 0
+    steelBodyDEFPerStack: 0
+    steelBodyDEFModifier: 0
+    steelBodyDMGReductionModifier: 0
+    steelBodyShieldStrengthModifier: 0
+  currentStats:
+    currentHealth: 0
+    maxHealth: 0
+    maxHealthModifier: 0
+    defBase: 0
+    defModifier: 0
+    atkBase: 0
+    atkModifier: 0
+    baseCritRate: 0
+    bonusCritRate: 0
+    baseCritDMG: 0
+    bonusCritDMG: 0
+    damageReduction: 0
+    damageTaken: 0
+    dotDamageTaken: 0
+    damageBonus: 0
+    mhDamageBonus: 0
+    aoeDamageBonus: 0
+    projectileDamageBonus: 0
+    dotDamageBonus: 0
+    poisonHitRate: 0
+    freezeHitRate: 0
+    burnHitRate: 0
+    bleedHitRate: 0
+    baseSpeed: 0
+    speedModifier: 0
+    baseATKSpeed: 0
+    atkSpeedModifier: 0
+    healingBonus: 0
+    dishesEffectBonus: 0
+    shieldMaxHP: 0
+    shieldCurrentHP: 0
+    shieldStrength: 0
+    manaOverloadStack: 0
+    manaOverloadMaxStack: 0
+    manaOverloadDamageBoost: 0
+    manaOverloadTick: 0
+    manaOverloadDuration: 0
+    manaOverloadDamage: 0
+    inManaOverload: 0
+    manaFuryMaxHPGate: 0
+    inManaFury: 0
+    steelBodyStackCount: 0
+    steelBodyHPPercentNeeded: 0
+    steelBodyDEFPerStack: 0
+    steelBodyDEFModifier: 0
+    steelBodyDMGReductionModifier: 0
+    steelBodyShieldStrengthModifier: 0
   isGod: 0
+  resurectionCounter: 1
+  onDeathEvent: {fileID: 0}
+  onManaFuryEnableEvent: {fileID: 0}
+  onManaFuryDisableEvent: {fileID: 0}
+  debuffsBuffsComponent: {fileID: 0}
   statsDebug: {fileID: 0}
+--- !u!114 &6473359399336447984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3353019030451939603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 4
+  outlineColor: {r: 0.15633336, g: 0.32732293, b: 0.469, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &3353019030740982348
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,6 +826,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pComboController: {fileID: 3353019030451939601}
   pController: {fileID: 3353019030451939604}
+  pFABuilder: {fileID: 0}
 --- !u!4 &6902006825692219986 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0be476ea3c8edbb46be7d2bbd245d33a,

@@ -798,6 +798,7 @@ public class SC_PathCreator : MonoBehaviour
         
         //Then add the real spawn, boos and chest room
 
+        
         var possiblePos = GetAvailableRoomSpace(spawnNodeIndex, out int si, 0, false);
         spawn = Instantiate(floorIndexGeneration<=0?spawnRoomList[Random.Range(0, spawnRoomList.Count)]:stairRoomList[Random.Range(0,stairRoomList.Count)], possiblePos, Quaternion.identity);
 
@@ -837,6 +838,11 @@ public class SC_PathCreator : MonoBehaviour
         nextRoomDoor.EnableDoor();
         spawnRoom.doorNorth.doorToConnect = nextRoomDoor;
         nextRoomDoor.doorToConnect = spawnRoom.doorNorth;
+        var roomRotation = Quaternion.Euler(0,
+            dirNextRoom == Vector3.right ? 0 :
+            dirNextRoom == Vector3.forward ? -90 :
+            dirNextRoom == Vector3.left ? 180 : 90, 0);
+        spawnRoom.transform.rotation = floorIndexGeneration==0?roomRotation:Quaternion.Euler(0,roomRotation.y+180,0);
             
         bossRoom.doorNorth.EnableDoor();
         roomPos = bossRoom.transform.position;
@@ -855,7 +861,11 @@ public class SC_PathCreator : MonoBehaviour
         nextRoomDoor.EnableDoor();
         bossRoom.doorNorth.doorToConnect = nextRoomDoor;
         nextRoomDoor.doorToConnect = bossRoom.doorNorth;
-        
+        roomRotation = Quaternion.Euler(0,
+            dirNextRoom == Vector3.right ? 0 :
+            dirNextRoom == Vector3.forward ? -90 :
+            dirNextRoom == Vector3.left ? 180 : 90, 0);
+        bossRoom.transform.rotation = Quaternion.Euler(0,roomRotation.y+180,0); //TODO - Later when a boss room exist then just apply roomRotation 
         
         chestRoom.doorNorth.EnableDoor();
         roomPos = chestRoom.transform.position;
@@ -874,8 +884,13 @@ public class SC_PathCreator : MonoBehaviour
         nextRoomDoor.EnableDoor();
         chestRoom.doorNorth.doorToConnect = nextRoomDoor;
         nextRoomDoor.doorToConnect = chestRoom.doorNorth;
-        
-        
+        roomRotation = Quaternion.Euler(0,
+            dirNextRoom == Vector3.right ? 0 :
+            dirNextRoom == Vector3.forward ? -90 :
+            dirNextRoom == Vector3.left ? 180 : 90, 0);
+        chestRoom.transform.rotation = roomRotation;
+
+
         }
         catch (Exception e)
         {
