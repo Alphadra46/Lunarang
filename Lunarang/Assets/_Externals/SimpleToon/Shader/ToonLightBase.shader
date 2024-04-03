@@ -4,6 +4,8 @@ Shader "Lpk/LightModel/ToonLightBase"
     {
         _BaseMap            ("Texture", 2D)                       = "white" {}
         _BaseColor          ("Color", Color)                      = (0.5,0.5,0.5,1)
+        [HDR]_DamagedColor  ("Damaged Color",Color)               = (1,1,1,1)
+        _DamageAmount       ("Damage Amount", Range(0,1))         = 0
         
         [Space]
         _ShadowStep         ("ShadowStep", Range(0, 1))           = 0.5
@@ -59,6 +61,8 @@ Shader "Lpk/LightModel/ToonLightBase"
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _BaseColor;
+                float4 _DamagedColor;
+                float _DamageAmount;
                 float _ShadowStep;
                 float _ShadowStepSmooth;
                 float _SpecularStep;
@@ -139,7 +143,7 @@ Shader "Lpk/LightModel/ToonLightBase"
                 NL = NL * 0.5 + 0.5;
 
                 float4 baseMap = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uv);
-
+                baseMap = lerp(baseMap,_DamagedColor,_DamageAmount);
                 // return NH;
                float specularNH = smoothstep((1-_SpecularStep * 0.05)  - _SpecularStepSmooth * 0.05, (1-_SpecularStep* 0.05)  + _SpecularStepSmooth * 0.05, NH) ;
                float shadowNL = smoothstep(_ShadowStep - _ShadowStepSmooth, _ShadowStep + _ShadowStepSmooth, NL);
