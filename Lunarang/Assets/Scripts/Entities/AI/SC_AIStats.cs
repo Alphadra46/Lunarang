@@ -102,6 +102,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         if(_agent != null)
             _agent.enabled = true;
         _renderer.showStatsUI?.Invoke();
+        _renderer.ResetColor();
     }
 
     private void OnDisable()
@@ -170,7 +171,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     /// <param name="trueDamage"></param>
     public void TakeDamage(float rawDamage, bool isCrit, GameObject attacker,bool trueDamage = false)
     {
-        
+        StartCoroutine(_renderer.DamageTaken());
         
         if (hasShield & !isBreaked)
         {
