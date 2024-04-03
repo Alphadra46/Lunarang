@@ -104,9 +104,10 @@ public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
         if (_aiStateMachine.hasSeenPlayer)
         {
             _agent.SetDestination(playerPos);
-            if(_aiStateMachine.canRotate)
-                _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
         }
+        
+        if(_aiStateMachine.canRotate)
+            _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
         
     }
     

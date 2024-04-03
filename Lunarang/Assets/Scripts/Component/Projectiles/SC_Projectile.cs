@@ -59,7 +59,7 @@ public class SC_Projectile : MonoBehaviour
     public virtual void OnTriggerEnter(Collider col)
     {
         
-        if (!col.TryGetComponent(out IDamageable damageable)) return;
+        if (!col.TryGetComponent(out IDamageable damageable)) Destroy(this);
         if (col.gameObject == sender) return;
         if (!tags.Contains(col.tag)) return;
         

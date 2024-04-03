@@ -93,16 +93,23 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         if(_agent != null) _agent.speed = currentStats.currentSpeed;
         
     }
-
-    private void UpdateStats()
+    
+    
+    private void OnEnable()
     {
-        
-        currentStats.currentHealth = currentStats.currentMaxHealth;
-        
+        ResetStats();
+        if(_agent != null)
+            _agent.enabled = true;
+        _renderer.showStatsUI?.Invoke();
+    }
+
+    private void OnDisable()
+    {
+        if(_agent != null)
+            _agent.enabled = false;
+        _renderer.hideStatsUI?.Invoke();
     }
     
-    #endregion
-
     public void ResetStats()
     {
 
@@ -112,6 +119,15 @@ public class SC_AIStats : SC_EntityBase, IDamageable
 
         isDead = false;
     }
+
+    private void UpdateStats()
+    {
+        
+        currentStats.currentHealth = currentStats.currentMaxHealth;
+        
+    }
+    
+    #endregion
 
     #region Shield Part
     
@@ -140,21 +156,6 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     
 
     #endregion
-
-    private void OnEnable()
-    {
-        ResetStats();
-        if(_agent != null)
-            _agent.enabled = true;
-        _renderer.showStatsUI?.Invoke();
-    }
-
-    private void OnDisable()
-    {
-        if(_agent != null)
-            _agent.enabled = false;
-        _renderer.hideStatsUI?.Invoke();
-    }
 
     #region Damage Part
 
@@ -329,4 +330,5 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     }
 
     #endregion
+    
 }

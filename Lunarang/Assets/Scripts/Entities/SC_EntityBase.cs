@@ -487,7 +487,7 @@ namespace Entities
         protected Quaternion GetCurrentForwardVector(Quaternion orientation)
         {
 
-            Vector3 forward = transform.forward;
+            Vector3 forward = transform.GetChild(0).forward;
 
             forward.y = 0;
 
