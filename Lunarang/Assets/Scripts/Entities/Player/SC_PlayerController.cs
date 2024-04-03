@@ -69,6 +69,8 @@ public class SC_PlayerController : MonoBehaviour
     [Tooltip("Current gravity multiplier who impact of the player"), SerializeField] private float gravityMultiplier = 3f;
 
     #endregion
+
+    public bool isAttacking;
     
     #endregion
 
@@ -241,7 +243,7 @@ public class SC_PlayerController : MonoBehaviour
         
         Rotate(); // Rotate the player
         
-        if(isMovementInputPressed)
+        if(isMovementInputPressed && !isAttacking)
             _characterController.Move((IsoVectorConvert(currentMovement) * SC_PlayerStats.instance.currentStats.currentSpeed) * Time.deltaTime); // Move the player
     }
 
