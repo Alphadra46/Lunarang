@@ -81,58 +81,62 @@ public class SC_RewardManager : MonoBehaviour
     /// <returns>The chosen skill</returns>
     private SO_BaseSkill NormalSkillSelection()
     {
+        SO_BaseSkill randomSkill;
+        
         var c = constellations.ToList(); 
         c = c.Where(constel => !SC_GameManager.instance.playerSkillInventory.completedConstellations.Contains(constel)).ToList(); //Remove from the list the constellation that are already completed
-        
-        if (SC_GameManager.instance.playerSkillInventory.ongoingConstellations.Count==0) //Parent skill selected at random between every constellation that is not completed
+        do
         {
-            SC_Constellation selectedConstellation = c[Random.Range(0, c.Count)];
+            if (SC_GameManager.instance.playerSkillInventory.ongoingConstellations.Count==0) //Parent skill selected at random between every constellation that is not completed
+            {
+                SC_Constellation selectedConstellation = c[Random.Range(0, c.Count)];
 
-            return selectedConstellation.GetRandomParentSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
-        }
-        else
-        {
-            SC_Constellation selectedConstellation = SC_GameManager.instance.playerSkillInventory.ongoingConstellations[Random.Range(0, SC_GameManager.instance.playerSkillInventory.ongoingConstellations.Count)];
-            float p = 0f; //The probability to get a skill from an ongoing constellation
+                randomSkill = selectedConstellation.GetRandomParentSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
+            }
+            else
+            {
+                SC_Constellation selectedConstellation = SC_GameManager.instance.playerSkillInventory.ongoingConstellations[Random.Range(0, SC_GameManager.instance.playerSkillInventory.ongoingConstellations.Count)];
+                float p = 0f; //The probability to get a skill from an ongoing constellation
             
-            switch (SC_GameManager.instance.playerSkillInventory.ongoingConstellations.Count)
-            {
-                case 1:
-                    p = 50f;
-                    break;
-                case 2:
-                    p = 80f;
-                    break;
-                case 3:
-                    p = 95f;
-                    break;
-                default:
-                    p = 100f;
-                    break;
-            }
+                switch (SC_GameManager.instance.playerSkillInventory.ongoingConstellations.Count)
+                {
+                    case 1:
+                        p = 50f;
+                        break;
+                    case 2:
+                        p = 80f;
+                        break;
+                    case 3:
+                        p = 95f;
+                        break;
+                    default:
+                        p = 100f;
+                        break;
+                }
 
-            if (Random.Range(1,101) > p) //Random constellation skill from a constellation that the player have not started yet
-            {
-                foreach (var constellation in SC_GameManager.instance.playerSkillInventory.ongoingConstellations)
+                if (Random.Range(1,101) > p) //Random constellation skill from a constellation that the player have not started yet
                 {
-                    c.Remove(constellation);
+                    foreach (var constellation in SC_GameManager.instance.playerSkillInventory.ongoingConstellations)
+                    {
+                        c.Remove(constellation);
+                    }
+                    selectedConstellation = c[Random.Range(0, c.Count)];
+                    randomSkill = selectedConstellation.GetRandomParentSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
                 }
-                selectedConstellation = c[Random.Range(0, c.Count)];
-                return selectedConstellation.GetRandomParentSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
+                else //Ongoing constellation skill
+                {
+                    if (Random.Range(1,101) > 70) //Get a child skill from a already owned parent skill and ongoing constellation
+                    {
+                        randomSkill = selectedConstellation.GetRandomChildSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
+                    }
+                    else //Get a new parent skill from an ongoing constellation
+                    {
+                        randomSkill = selectedConstellation.GetRandomParentSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
+                    }
+                }
             }
-            else //Ongoing constellation skill
-            {
-                if (Random.Range(1,101) > 70) //Get a child skill from a already owned parent skill and ongoing constellation
-                {
-                    return selectedConstellation.GetRandomChildSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
-                }
-                else //Get a new parent skill from an ongoing constellation
-                {
-                    return selectedConstellation.GetRandomParentSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
-                }
-            }
-        }
-        return null;
+        } while (selectedSkills.Contains(randomSkill));
+        return randomSkill;
     }
 
 
