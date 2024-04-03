@@ -18,14 +18,15 @@ public class SC_Constellation : SerializedScriptableObject
     /// </summary>
     /// <param name="playerInventory">The player skill inventory</param>
     /// <returns>The chosen skill</returns>
-    public SO_ChildSkill GetRandomChildSkill(List<SO_BaseSkill> playerInventory)
+    public SO_ChildSkill GetRandomChildSkill(List<SO_BaseSkill> playerInventory, List<SO_BaseSkill> skillsToExclude)
     {
         var l = skills.Keys.ToList();
         l = l.Where(s => playerInventory.Contains(s)).ToList();
         var parentSkill = l[Random.Range(0, l.Count)];
 
         var lc = skills[parentSkill];
-        lc = lc.Where(s => !playerInventory.Contains(s)).ToList();
+        lc = lc.Where(s => !playerInventory.Contains(s)).ToList(); //Ignore the skills that are already in the player inventory
+        lc = lc.Where(s => !skillsToExclude.Contains(s)).ToList(); //Ignore the skills that are already selected 
         
         return lc[Random.Range(0,lc.Count)];
     }
@@ -35,10 +36,11 @@ public class SC_Constellation : SerializedScriptableObject
     /// </summary>
     /// <param name="inventory">The player skill inventory</param>
     /// <returns>The chosen skill</returns>
-    public SO_ParentSkill GetRandomParentSkill(List<SO_BaseSkill> inventory)
+    public SO_ParentSkill GetRandomParentSkill(List<SO_BaseSkill> inventory, List<SO_BaseSkill> skillsToExclude)
     {
         var l = skills.Keys.ToList();
-        l = l.Where(s => !inventory.Contains(s)).ToList();
+        l = l.Where(s => !inventory.Contains(s)).ToList(); //Ignore the skills that are already in the player inventory
+        l = l.Where(s => !skillsToExclude.Contains(s)).ToList(); //Ignore the skills that are already selected 
         return l[Random.Range(0,l.Count)];
     }
 
