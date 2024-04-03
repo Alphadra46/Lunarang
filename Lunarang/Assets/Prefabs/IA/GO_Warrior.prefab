@@ -1225,6 +1225,7 @@ GameObject:
   - component: {fileID: 6131542437344180434}
   - component: {fileID: 6131542437344180436}
   - component: {fileID: 7373014914170996448}
+  - component: {fileID: 7572403053582467588}
   m_Layer: 10
   m_Name: GO_Warrior
   m_TagString: Entity
@@ -1528,6 +1529,24 @@ MonoBehaviour:
   dotCritDamage: 0
   dotCritRate: 0
   dotDurationBonus: 0
+--- !u!114 &7572403053582467588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6131542437344180460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 4
+  outlineColor: {r: 0.9339623, g: 0.20705767, b: 0.20705767, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &6186002076315803703
 GameObject:
   m_ObjectHideFlags: 0
@@ -2063,12 +2082,12 @@ PrefabInstance:
     - target: {fileID: 4806072021058079036, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4806072021058079036, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4806072021058079036, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
@@ -2083,7 +2102,7 @@ PrefabInstance:
     - target: {fileID: 4806072021058079036, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5639235307506099298, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
