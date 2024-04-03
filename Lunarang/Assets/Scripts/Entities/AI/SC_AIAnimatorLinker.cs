@@ -18,5 +18,10 @@ public class SC_AIAnimatorLinker : MonoBehaviour
         stats.CreateHitBox(hb);
         
     }
+
+    public void CreateProjectile(GameObject projectile = null)
+    {
+        stats.CreateProjectile(projectile);
+    }
     
 }

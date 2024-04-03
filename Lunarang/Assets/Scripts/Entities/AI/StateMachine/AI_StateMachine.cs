@@ -82,6 +82,11 @@ public class AI_StateMachine : StateManager<AI_StateMachine.EnemyState>
     [TabGroup("States", "Attack")]
     [Tooltip("Attack Duration")] public float atkDuration = 1f;
     
+    [PropertySpace(SpaceBefore = 20f)]
+    [TabGroup("States", "Attack")]
+    public GameObject projectileGO;
+    [TabGroup("States", "Attack")]
+    public Vector3 projectileSpawnOffset = new Vector3(0, 0.5f, 0);
     
     [PropertySpace(SpaceBefore = 10)]
     

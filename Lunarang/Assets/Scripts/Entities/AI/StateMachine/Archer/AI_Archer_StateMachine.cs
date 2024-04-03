@@ -13,16 +13,8 @@ public class AI_Archer_StateMachine : AI_StateMachine
 
     #region Variables
 
-    [PropertySpace(SpaceBefore = 10)]
     [TabGroup("States", "Attack")]
-    public GameObject projectileGO;
-    [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("States", "Attack")]
-    public Vector3 ProjectileSpawnOffset = new Vector3(0, 0.5f, 0);
-    [TabGroup("States", "Attack")]
-    public float whenProjectileSpawn = 0;
-    [TabGroup("States", "Attack")] 
-    public List<string> tags = new List<string>();
+    public float atkBlockRotationDelay = 1f;
     
     #region Defense
 
@@ -74,9 +66,9 @@ public class AI_Archer_StateMachine : AI_StateMachine
     /// </returns>
     public bool hasLineOfSightTo(Transform target, Transform start)
     {
-        return Physics.SphereCast(start.position + ProjectileSpawnOffset, 0.1f,
-            ((target.position + ProjectileSpawnOffset) -
-             (start.position + ProjectileSpawnOffset)).normalized, out var Hit,
+        return Physics.SphereCast(start.position + projectileSpawnOffset, 0.1f,
+            ((target.position + projectileSpawnOffset) -
+             (start.position + projectileSpawnOffset)).normalized, out var Hit,
             detectionAreaRadius, layersAttackable) && Hit.collider.CompareTag("Player");
     }
 
