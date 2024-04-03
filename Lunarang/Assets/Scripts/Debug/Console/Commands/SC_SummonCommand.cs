@@ -30,9 +30,13 @@ public class SC_SummonCommand : SC_Command
                     var worldPos = hitData.point;
                     entity.transform.position = new Vector3(worldPos.x, 0.5f, worldPos.z);
                     entity.GetComponent<NavMeshAgent>().enabled = true;
+                    
+                    SC_DebugConsole.instance.PrintLine("<color=green> Entity : " + entityID + " summoned at mouse position.");
+                    return;
                 }
                 
-                SC_DebugConsole.instance.PrintLine("<color=green> Entity : " + entityID + " summoned at mouse position.");
+                SC_DebugConsole.instance.PrintLine("<color=red> Entity : " + entityID + " doesn't exist.");
+                
                 break;
             
         }

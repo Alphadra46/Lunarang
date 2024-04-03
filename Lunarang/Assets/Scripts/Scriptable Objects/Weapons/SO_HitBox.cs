@@ -10,7 +10,7 @@ public enum HitBoxType
     
 }
 
-[CreateAssetMenu(menuName = "SO/Weapon/Hitbox Template")]
+[CreateAssetMenu(menuName = "SO/Hitbox Template")]
 public class SO_HitBox : ScriptableObject
 {
 

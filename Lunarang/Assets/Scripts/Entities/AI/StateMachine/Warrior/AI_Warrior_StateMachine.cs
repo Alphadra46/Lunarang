@@ -1,19 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
 
 public class AI_Warrior_StateMachine : AI_StateMachine
 {
 
     #region Variables
-
-    [TabGroup("States", "Attack")]
-    public GameObject hurtBox;
     
     #region Stun
     
@@ -42,18 +33,6 @@ public class AI_Warrior_StateMachine : AI_StateMachine
         States.Add(EnemyState.Freeze, new AI_FreezeState(EnemyState.Freeze, this));
         
         CurrentState = States[EnemyState.Idle];
-    }
-
-    // TODO : Refaire les commentaires.
-
-    /// <summary>
-    /// Activate the hurtbox to deal damage to the forward entity.
-    /// </summary>
-    public void Attack()
-    {
-        
-        hurtBox.SetActive(true);
-        
     }
 
     /// <summary>

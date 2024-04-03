@@ -11,20 +11,18 @@ public class AI_Warrior_AttackState : BaseState<AI_Warrior_StateMachine.EnemySta
     }
     
     private readonly AI_Warrior_StateMachine _aiStateMachine;
-    private NavMeshAgent _agent;
 
     /// <summary>
     /// Call Attack function and launch the coroutine End Attack.
     /// </summary>
     public override void EnterState()
     {
-        _aiStateMachine.Attack();
-        _aiStateMachine.StartCoroutine(EndAttack(_aiStateMachine.atkDuration));
+        _aiStateMachine.StartCoroutine(Attack(_aiStateMachine.atkDuration));
     }
 
     public override void ExitState()
     {
-        
+        _aiStateMachine.StopCoroutine(Attack(_aiStateMachine.atkDuration));
     }
 
     public override void UpdateState()
@@ -34,17 +32,17 @@ public class AI_Warrior_AttackState : BaseState<AI_Warrior_StateMachine.EnemySta
         // _aiStateMachine.StopCoroutine(EndAttack(_aiStateMachine.atkDuration));
         // _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Death);
     }
-
-    /// <summary>
-    /// After a certain delay, deactivate the hurtbox and switch to Chase State.
-    /// </summary>
-    /// <param name="delay">Delay in seconds before switching state.</param>
-    public IEnumerator EndAttack(float delay)
+    
+    private IEnumerator Attack(float delay)
     {
-
+        
+        _aiStateMachine._renderer.SendTriggerToAnimator("Attack_01");
+        _aiStateMachine.canRotate = false;
+        
         yield return new WaitForSeconds(delay);
-        _aiStateMachine.hurtBox.SetActive(false);
-        _aiStateMachine.TryToTransition(AI_Warrior_StateMachine.EnemyState.Chase);
+        
+        _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
+        _aiStateMachine.canRotate = true;
         
     }
     

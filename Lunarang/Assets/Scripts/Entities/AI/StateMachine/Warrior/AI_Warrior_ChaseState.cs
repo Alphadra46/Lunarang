@@ -62,44 +62,35 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
     /// </summary>
     public override void UpdateState()
     {
-        //
-        // if (_aiStateMachine._stats.isDead)
-        // {
-        //     _aiStateMachine.StopCoroutine(AttackCooldown());
-        //     _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Death);
-        // }
 
         var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
         var playerPos = player.transform.position;
         
         if (distance <= _aiStateMachine.attackRange)
         {
-            
             _agent.isStopped = true;
+            _agent.velocity = Vector3.zero;
+            
             if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform, _aiStateMachine.detectionAreaRadius, _aiStateMachine.layersAttackable))
             {
                 _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Attack);
             }
                 
         }
-        else if (distance <= _aiStateMachine.detectionAreaRadius)
+        else if (_aiStateMachine.hasSeenPlayer)
         {
-            
             _agent.isStopped = false;
-            _aiStateMachine.hasSeenPlayer = true;
-
-        }
-
-        if (_aiStateMachine.hasSeenPlayer)
-        {
             _agent.SetDestination(playerPos);
+            _aiStateMachine.canRotate = true;
+
         }
-        // else
-        // {
-        //     _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Patrol);
-        // }
+        else if (distance <= _aiStateMachine.detectionAreaRadius && !_aiStateMachine.hasSeenPlayer)
+        {
+            _aiStateMachine.hasSeenPlayer = true;
+        }
         
-        _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
+        if(_aiStateMachine.canRotate)
+            _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
         
     }
     

@@ -71,7 +71,7 @@ public class SC_RoomManager : MonoBehaviour
 
         if (!isSpecialRoom)
             SetDifficulty();
-        
+
         doorNorth.Initialize(this);
         doorSouth.Initialize(this);
         doorWest.Initialize(this);
@@ -83,6 +83,13 @@ public class SC_RoomManager : MonoBehaviour
         doorEast.DisableDoor();
 
         confiner = FindObjectOfType<CinemachineConfiner>();
+
+        if (isSpecialRoom)
+        {
+            doorNorth.animator.SetBool("isOpen", true);
+        }
+        
+        
     }
     
     public void SetDifficulty()
@@ -346,6 +353,7 @@ public class SC_RoomManager : MonoBehaviour
         foreach (var door in activeDoors)
         {
             door.doorCollider.isTrigger = false;
+            door.animator.SetBool("isOpen", false);
         }
     }
 
@@ -358,6 +366,7 @@ public class SC_RoomManager : MonoBehaviour
             if (door.doorCollider != null)
             {
                 door.doorCollider.isTrigger = true;
+                door.animator.SetBool("isOpen", true);
             }
         }
     }

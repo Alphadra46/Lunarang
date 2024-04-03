@@ -16,6 +16,8 @@ public class SC_AIRenderer : MonoBehaviour
     [BoxGroup("Damage Area")]
     public GameObject TextDamageUI;
     [BoxGroup("Damage Area")]
+    public GameObject StatsUI;
+    [BoxGroup("Damage Area")]
     public GameObject DamageUIArea;
     
     #region Debug
@@ -30,15 +32,21 @@ public class SC_AIRenderer : MonoBehaviour
 
 
     private Animator _animator;
-    [SerializeField] private NavMeshAgent _agent;
+    private NavMeshAgent _agent;
+
+    public Action hideStatsUI;
+    public Action showStatsUI;
     
     #endregion
 
     private void Awake()
     {
         if(!transform.GetChild(0).TryGetComponent(out _animator)) return;
-    }
+        if(!TryGetComponent(out _agent)) return;
 
+        hideStatsUI += HideStatsUI;
+        showStatsUI += ShowStatsUI;
+    }
 
     #region Debug
 
@@ -107,6 +115,15 @@ public class SC_AIRenderer : MonoBehaviour
 
     }
 
+    public void HideStatsUI()
+    {
+        StatsUI.SetActive(false);
+    }
+    public void ShowStatsUI()
+    {
+        StatsUI.SetActive(true);
+    }
+    
     #endregion
 
     #region Functions

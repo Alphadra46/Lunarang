@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4656920790845478726}
   - component: {fileID: 1196731655303487353}
   - component: {fileID: 2536632435366346763}
+  - component: {fileID: 11906929182288298}
   m_Layer: 10
   m_Name: GO_BadKyu
   m_TagString: Entity
@@ -106,10 +107,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TextDamageUI: {fileID: 1572597113138715523, guid: 8438de7327b72914598c1f35d1193d08,
     type: 3}
+  StatsUI: {fileID: 1985222542713393404}
   DamageUIArea: {fileID: 3838140501428433047}
   debugUIHP: {fileID: 6372117095855461772}
   debugUIWeaknesses: {fileID: 2573323259474665124}
-  _agent: {fileID: 1606403381203952583}
 --- !u!114 &4656920790845478726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,8 +227,8 @@ MonoBehaviour:
   isBreaked: 0
   hasThorns: 0
   moveValues:
-  - 100
-  - 200
+  - 15
+  - 20
   moveValueIndex: 0
   onShieldBreaked: {fileID: 0}
   isDead: 0
@@ -254,6 +255,7 @@ MonoBehaviour:
   detectionAreaRadius: 7
   chaseSpeed: 4
   hasSeenPlayer: 0
+  canRotate: 0
   attackRange: 5
   atkSpdBase: 15
   atkCDBase: 1
@@ -325,6 +327,24 @@ MonoBehaviour:
   dotCritDamage: 0
   dotCritRate: 0
   dotDurationBonus: 0
+--- !u!114 &11906929182288298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5590704412886723240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 4
+  outlineColor: {r: 0.9339623, g: 0.20705767, b: 0.20705767, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &6856365523101571936
 GameObject:
   m_ObjectHideFlags: 0
@@ -3978,6 +3998,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9887b8b3b187d3d4aa79613c02752f62, type: 3}
+--- !u!1 &1985222542713393404 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1652969045808724481, guid: 9887b8b3b187d3d4aa79613c02752f62,
+    type: 3}
+  m_PrefabInstance: {fileID: 971770317647293181}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2573323259474665124 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3371555831544706137, guid: 9887b8b3b187d3d4aa79613c02752f62,
