@@ -14,7 +14,8 @@ public static class SC_CommandLineSystem
         {"tp", new SC_TeleportCommand()},
         {"rl", new SC_ReloadSceneCommand()},
         {"stats", new SC_StatsDebugCommand()},
-        {"rm", new SC_RoomManagingCommand()}
+        {"rm", new SC_RoomManagingCommand()},
+        {"sm", new SC_SkillManagingCommand()}
     };
     
     /// <summary>
