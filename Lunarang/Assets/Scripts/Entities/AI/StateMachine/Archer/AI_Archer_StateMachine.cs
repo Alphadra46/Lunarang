@@ -13,14 +13,8 @@ public class AI_Archer_StateMachine : AI_StateMachine
 
     #region Variables
 
-    [PropertySpace(SpaceBefore = 10)]
     [TabGroup("States", "Attack")]
-    public GameObject projectileGO;
-    [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("States", "Attack")]
-    public Vector3 ProjectileSpawnOffset = new Vector3(0, 0.5f, 0);
-    [TabGroup("States", "Attack")] 
-    public List<string> tags = new List<string>();
+    public float atkBlockRotationDelay = 1f;
     
     #region Defense
 
@@ -61,30 +55,6 @@ public class AI_Archer_StateMachine : AI_StateMachine
         
         CurrentState = States[EnemyState.Idle];
     }
-    
-    /// <summary>
-    /// Summon a projectile from the spawn offset.
-    /// Set all the settings of the projectile.
-    /// </summary>
-    public void SpawnProjectile()
-    {
-        
-        var projectile = Instantiate(projectileGO).GetComponent<SC_Projectile>();
-
-        projectile.sender = gameObject;
-        
-        projectile.transform.position = centerPoint.position + ProjectileSpawnOffset;
-        projectile.transform.forward = centerPoint.forward;
-
-        projectile.direction = centerPoint.forward;
-        projectile.hitNumber = 1;
-        
-        projectile.speed = atkSpdBase;
-        projectile.damage = (int)Mathf.Round((_stats.moveValues[_stats.moveValueIndex] * _stats.currentStats.currentATK));
-
-        projectile.tags = tags;
-
-    }
 
     /// <summary>
     /// Check if the target is in line of sight.
@@ -96,9 +66,9 @@ public class AI_Archer_StateMachine : AI_StateMachine
     /// </returns>
     public bool hasLineOfSightTo(Transform target, Transform start)
     {
-        return Physics.SphereCast(start.position + ProjectileSpawnOffset, 0.1f,
-            ((target.position + ProjectileSpawnOffset) -
-             (start.position + ProjectileSpawnOffset)).normalized, out var Hit,
+        return Physics.SphereCast(start.position + projectileSpawnOffset, 0.1f,
+            ((target.position + projectileSpawnOffset) -
+             (start.position + projectileSpawnOffset)).normalized, out var Hit,
             detectionAreaRadius, layersAttackable) && Hit.collider.CompareTag("Player");
     }
 

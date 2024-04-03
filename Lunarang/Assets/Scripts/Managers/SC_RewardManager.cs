@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class SC_RewardManager : MonoBehaviour
+public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range check if there is no more skills to get / one left
 {
     public static SC_RewardManager instance;
     
@@ -81,14 +81,15 @@ public class SC_RewardManager : MonoBehaviour
     /// <returns>The chosen skill</returns>
     private SO_BaseSkill NormalSkillSelection()
     {
-        var c = constellations.ToList(); 
+        SO_BaseSkill randomSkill;
+        var c = constellations.ToList();
         c = c.Where(constel => !SC_GameManager.instance.playerSkillInventory.completedConstellations.Contains(constel)).ToList(); //Remove from the list the constellation that are already completed
         
         if (SC_GameManager.instance.playerSkillInventory.ongoingConstellations.Count==0) //Parent skill selected at random between every constellation that is not completed
         {
             SC_Constellation selectedConstellation = c[Random.Range(0, c.Count)];
 
-            return selectedConstellation.GetRandomParentSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
+            randomSkill = selectedConstellation.GetRandomParentSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned, selectedSkills);
         }
         else
         {
@@ -118,21 +119,21 @@ public class SC_RewardManager : MonoBehaviour
                     c.Remove(constellation);
                 }
                 selectedConstellation = c[Random.Range(0, c.Count)];
-                return selectedConstellation.GetRandomParentSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
+                randomSkill = selectedConstellation.GetRandomParentSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned, selectedSkills);
             }
             else //Ongoing constellation skill
             {
                 if (Random.Range(1,101) > 70) //Get a child skill from a already owned parent skill and ongoing constellation
                 {
-                    return selectedConstellation.GetRandomChildSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
+                    randomSkill = selectedConstellation.GetRandomChildSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned, selectedSkills);
                 }
                 else //Get a new parent skill from an ongoing constellation
                 {
-                    return selectedConstellation.GetRandomParentSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned);
+                    randomSkill = selectedConstellation.GetRandomParentSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned, selectedSkills);
                 }
             }
         }
-        return null;
+        return randomSkill;
     }
 
 

@@ -5,7 +5,8 @@ using System.Linq;
 using Entities;
 using Enum;
 using Sirenix.OdinInspector;
-using TMPro;
+    using Sirenix.Utilities;
+    using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -93,16 +94,24 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         if(_agent != null) _agent.speed = currentStats.currentSpeed;
         
     }
-
-    private void UpdateStats()
+    
+    
+    private void OnEnable()
     {
-        
-        currentStats.currentHealth = currentStats.currentMaxHealth;
-        
+        ResetStats();
+        if(_agent != null)
+            _agent.enabled = true;
+        _renderer.showStatsUI?.Invoke();
+        _renderer.ResetColor();
+    }
+
+    private void OnDisable()
+    {
+        if(_agent != null)
+            _agent.enabled = false;
+        _renderer.hideStatsUI?.Invoke();
     }
     
-    #endregion
-
     public void ResetStats()
     {
 
@@ -112,6 +121,15 @@ public class SC_AIStats : SC_EntityBase, IDamageable
 
         isDead = false;
     }
+
+    private void UpdateStats()
+    {
+        
+        currentStats.currentHealth = currentStats.currentMaxHealth;
+        
+    }
+    
+    #endregion
 
     #region Shield Part
     
@@ -141,21 +159,6 @@ public class SC_AIStats : SC_EntityBase, IDamageable
 
     #endregion
 
-    private void OnEnable()
-    {
-        ResetStats();
-        if(_agent != null)
-            _agent.enabled = true;
-        _renderer.showStatsUI?.Invoke();
-    }
-
-    private void OnDisable()
-    {
-        if(_agent != null)
-            _agent.enabled = false;
-        _renderer.hideStatsUI?.Invoke();
-    }
-
     #region Damage Part
 
     /// <summary>
@@ -168,11 +171,12 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     /// <param name="trueDamage"></param>
     public void TakeDamage(float rawDamage, bool isCrit, GameObject attacker,bool trueDamage = false)
     {
-        
+        StartCoroutine(_renderer.DamageTaken());
         
         if (hasShield & !isBreaked)
         {
-            
+            SC_CameraShake.instance.StopAllCoroutines();
+            StartCoroutine(SC_CameraShake.instance.ShakeCamera(5f, 1f, 0.3f));
             isBreaked = true;
             onShieldBreaked.RaiseEvent();
             _renderer.UpdateShieldBar(isBreaked);
@@ -316,6 +320,25 @@ public class SC_AIStats : SC_EntityBase, IDamageable
 
     }
 
+    public void CreateProjectile(GameObject projectileGO = null)
+    {
+        if (projectileGO == null) projectileGO = _stateMachine.projectileGO;
+        
+        var projectile = Instantiate(projectileGO).GetComponent<SC_Projectile>();
+
+        var centerPoint = transform.GetChild(0);
+
+        projectile.sender = gameObject;
+        
+        projectile.transform.position = centerPoint.position + _stateMachine.projectileSpawnOffset;
+        projectile.transform.forward = centerPoint.forward;
+
+        projectile.direction = centerPoint.forward;
+        
+        projectile.damage = (int)Mathf.Round((moveValues[moveValueIndex] * currentStats.currentATK));
+        
+    }
+
     #endregion
 
     #region Debug
@@ -329,4 +352,5 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     }
 
     #endregion
+    
 }

@@ -375,6 +375,7 @@ namespace Entities
                 
                 case StatTypes.PoisonHitRate:
                     modifiedStats.poisonHitRate = modOperation(baseStats.poisonHitRate, statMod.ModificationValue);
+                    print("Poison + " + statMod.ModificationValue);
                     break;
                 case StatTypes.PoisonStackByHit:
                     debuffsBuffsComponent.poisonStackByHit =
@@ -487,7 +488,7 @@ namespace Entities
         protected Quaternion GetCurrentForwardVector(Quaternion orientation)
         {
 
-            Vector3 forward = transform.forward;
+            Vector3 forward = transform.GetChild(0).forward;
 
             forward.y = 0;
 

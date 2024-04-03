@@ -37,6 +37,7 @@ public class SO_SkillInventory : ScriptableObject
             return;
         
         skillsOwned.Add(skill);
+        skill.Init();
 
         foreach (var constellation in ongoingConstellations)
         {
@@ -56,6 +57,9 @@ public class SO_SkillInventory : ScriptableObject
             return;
         }
         skillsOwned.Add(skill);
+        skill.Init();
+        
+        
 
     }
 

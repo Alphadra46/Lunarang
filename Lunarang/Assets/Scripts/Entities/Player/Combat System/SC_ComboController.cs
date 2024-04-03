@@ -167,10 +167,10 @@ public class SC_ComboController : MonoBehaviour
         
         if(SC_GameManager.instance.isPause || !canAttack) return;
 
-
         if (!canPerformCombo) return;
         
         canAttack = false;
+        _controller.isAttacking = true;
             
         lastComboWeapons = currentComboWeapons.ToArray().ToList();
         lastComboParameters = currentComboParameters.ToArray().ToList();
@@ -254,6 +254,9 @@ public class SC_ComboController : MonoBehaviour
         }
 
         currentEnemiesHitted = hits;
+
+        if (currentEnemiesHitted.Length > 0)
+            StartCoroutine(SC_CameraShake.instance.ShakeCamera(1f, 1f, 0.2f));
 
     }
 
@@ -409,6 +412,7 @@ public class SC_ComboController : MonoBehaviour
     public void CanPerformCombo()
     {
         canAttack = true;
+        _controller.isAttacking = false;
         canPerformCombo = true;
 
         // if (inputBufferedWeapon == null) return;

@@ -36,12 +36,6 @@ public class AI_Summoner_StateMachine : AI_StateMachine
     public float projectileDamage = 2f;
     [TabGroup("States/Attack/Subtab", "Attack")]
     public float delayBetweenProjectiles = 0.1f;
-    [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("States/Attack/Subtab", "Attack")]
-    public GameObject projectileGO;
-    [PropertySpace(SpaceBefore = 10)]
-    [TabGroup("States/Attack/Subtab", "Attack")]
-    public Vector3 ProjectileSpawnOffset = new Vector3(0, 0.5f, 0);
 
     #endregion
     
@@ -138,19 +132,7 @@ public class AI_Summoner_StateMachine : AI_StateMachine
     {
         for (var i = 0; i < projectileNumbers; i++)
         {
-            var projectile = Instantiate(projectileGO).GetComponent<SC_Projectile>();
-
-            projectile.sender = gameObject;
-            
-            projectile.transform.position = centerPoint.position + ProjectileSpawnOffset;
-            projectile.transform.forward = centerPoint.forward;
-
-            projectile.direction = centerPoint.forward;
-
-            projectile.hitNumber = 1;
-        
-            projectile.speed = projectileSpeed;
-            projectile.damage = (int)Mathf.Round(((projectileDamage/100) * _stats.currentStats.currentATK));
+            _stats.CreateProjectile(projectileGO);
             
             yield return new WaitForSeconds(delayBetweenProjectiles);
         }
@@ -197,9 +179,9 @@ public class AI_Summoner_StateMachine : AI_StateMachine
     /// </returns>
     public bool hasLineOfSightTo(Transform target, Transform start)
     {
-        return Physics.SphereCast(start.position + ProjectileSpawnOffset, 0.1f,
-            ((target.position + ProjectileSpawnOffset) -
-             (start.position + ProjectileSpawnOffset)).normalized, out var Hit,
+        return Physics.SphereCast(start.position + projectileSpawnOffset, 0.1f,
+            ((target.position + projectileSpawnOffset) -
+             (start.position + projectileSpawnOffset)).normalized, out var Hit,
             detectionAreaRadius, layersAttackable) && Hit.collider.CompareTag("Player");
     }
     

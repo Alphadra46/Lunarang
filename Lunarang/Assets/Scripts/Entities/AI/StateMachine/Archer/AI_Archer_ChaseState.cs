@@ -81,6 +81,7 @@ public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
         if (distance <= _aiStateMachine.defenseAreaRadius)
         {
             _agent.isStopped = true;
+            _agent.velocity = Vector3.zero;
             if (canDefense)
             {
                 _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Defense);
@@ -89,24 +90,28 @@ public class AI_Archer_ChaseState : BaseState<AI_StateMachine.EnemyState>
         else if (distance <= _aiStateMachine.attackRange)
         {
             _agent.isStopped = true;
+            _agent.velocity = Vector3.zero;
             if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform))
             {
+                _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
                 _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Attack);
             }
                 
         }
-        else if (distance <= _aiStateMachine.detectionAreaRadius)
+        else if (distance <= _aiStateMachine.detectionAreaRadius && !_aiStateMachine.hasSeenPlayer)
+        {
+            
+            _aiStateMachine.hasSeenPlayer = true;
+
+        }
+        else if (_aiStateMachine.hasSeenPlayer)
         {
             _agent.isStopped = false;
-            _agent.SetDestination(player.transform.position);
+            _agent.SetDestination(playerPos);
         }
         
-        if (_aiStateMachine.hasSeenPlayer)
-        {
-            _agent.SetDestination(playerPos);
-            if(_aiStateMachine.canRotate)
-                _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
-        }
+        if(_aiStateMachine.canRotate)
+            _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
         
     }
     

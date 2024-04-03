@@ -50,7 +50,6 @@ public class SO_BaseSkill : SerializedScriptableObject
     public virtual void Init()
     {
         
-        // StatsChanges(statsChangedOnInit);
         StatsChanges(statsChangedOnInit);
         ApplyBuffs(buffsAppliedOnInit);
 

@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody))]
-public class SC_Projectile : MonoBehaviour
+public class SC_Projectile : SerializedMonoBehaviour
 {
     
     #region Variables
@@ -16,16 +17,17 @@ public class SC_Projectile : MonoBehaviour
     
     public float distanceMax;
     
-    public float damage;
-    public bool isCrit;
-    public WeaponType weaponType;
+    [HideInInspector]  public float damage;
+    [HideInInspector]  public bool isCrit;
+    
+    [HideInInspector] public WeaponType weaponType;
 
     public bool isAoE;
     
     public float areaSize;
     public int hitNumber;
 
-    public Vector3 direction;
+    [HideInInspector] public Vector3 direction;
     
     public GameObject sender; 
     public List<string> tags = new List<string>();
@@ -59,7 +61,12 @@ public class SC_Projectile : MonoBehaviour
     public virtual void OnTriggerEnter(Collider col)
     {
         
-        if (!col.TryGetComponent(out IDamageable damageable)) return;
+        if (!col.TryGetComponent(out IDamageable damageable))
+        {
+            print("DESTTROOOOOOY");
+            Destroy(gameObject);
+            return;
+        }
         if (col.gameObject == sender) return;
         if (!tags.Contains(col.tag)) return;
         
@@ -99,6 +106,8 @@ public class SC_Projectile : MonoBehaviour
 
             }
         }
+        
+        Destroy(gameObject);
         
     }
 
