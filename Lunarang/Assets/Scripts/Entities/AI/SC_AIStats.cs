@@ -174,7 +174,8 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         
         if (hasShield & !isBreaked)
         {
-            
+            SC_CameraShake.instance.StopAllCoroutines();
+            StartCoroutine(SC_CameraShake.instance.ShakeCamera(5f, 1f, 0.3f));
             isBreaked = true;
             onShieldBreaked.RaiseEvent();
             _renderer.UpdateShieldBar(isBreaked);
