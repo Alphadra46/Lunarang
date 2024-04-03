@@ -19,6 +19,7 @@ public class AI_Archer_AttackState : BaseState<AI_StateMachine.EnemyState>
     public override void EnterState()
     {
         _aiStateMachine.SpawnProjectile();
+        _aiStateMachine.StartCoroutine(Attack(_aiStateMachine.atkDuration));
     }
 
     public override void ExitState()
