@@ -106,10 +106,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TextDamageUI: {fileID: 1572597113138715523, guid: 8438de7327b72914598c1f35d1193d08,
     type: 3}
+  StatsUI: {fileID: 0}
   DamageUIArea: {fileID: 188533532464053393}
   debugUIHP: {fileID: 8048021526013942154}
   debugUIWeaknesses: {fileID: 1470523761975775906}
-  _agent: {fileID: 1753954169216546175}
 --- !u!114 &1753954169216546173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +219,7 @@ MonoBehaviour:
     steelBodyDMGReductionModifier: 0
     steelBodyShieldStrengthModifier: 0
   typeID: archer
+  isElite: 0
   hasShield: 0
   canRegenShield: 0
   delayBeforeRegen: 4
@@ -252,6 +253,7 @@ MonoBehaviour:
   detectionAreaRadius: 10
   chaseSpeed: 6
   hasSeenPlayer: 0
+  canRotate: 1
   attackRange: 7
   atkSpdBase: 40
   atkCDBase: 3
@@ -266,6 +268,7 @@ MonoBehaviour:
   projectileGO: {fileID: 8993542559262429342, guid: 0cd81e12f35ccf4489ed1adba314bb9a,
     type: 3}
   ProjectileSpawnOffset: {x: 0, y: 0.5, z: 0}
+  tags: []
   defenseAreaRadius: 4
   defenseCDBase: 6
   dashSpeed: 12
@@ -299,6 +302,8 @@ MonoBehaviour:
   burnTick: 1
   burnHitRequired: 3
   burnHitToProc: 0
+  burnCanProc: 1
+  burnICD: 1
   burnAoEMV: 10
   burnAoESize: 0.75
   burnAoEHitRate: 0

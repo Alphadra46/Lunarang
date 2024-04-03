@@ -11,7 +11,6 @@ public class AI_Bully_AttackState : BaseState<AI_Bully_StateMachine.EnemyState>
     }
     
     private readonly AI_Bully_StateMachine _aiStateMachine;
-    private NavMeshAgent _agent;
 
     /// <summary>
     /// Call Attack function and launch the coroutine End Attack.
@@ -37,6 +36,9 @@ public class AI_Bully_AttackState : BaseState<AI_Bully_StateMachine.EnemyState>
     private IEnumerator Attack(float delay)
     {
 
+        _aiStateMachine.agent.isStopped = true;
+        _aiStateMachine.agent.velocity = Vector3.zero;
+        
         _aiStateMachine._renderer.SendTriggerToAnimator("Attack_01");
         _aiStateMachine.canRotate = false;
 

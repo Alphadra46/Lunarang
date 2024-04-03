@@ -7,10 +7,10 @@ public class AI_Archer_AttackState : BaseState<AI_StateMachine.EnemyState>
 {
     public AI_Archer_AttackState(AI_StateMachine.EnemyState key, AI_Archer_StateMachine manager) : base(key, manager)
     {
-        _aiArcherStateMachine = manager;
+        _aiStateMachine = manager;
     }
     
-    private readonly AI_Archer_StateMachine _aiArcherStateMachine;
+    private readonly AI_Archer_StateMachine _aiStateMachine;
     private NavMeshAgent _agent;
 
     /// <summary>
@@ -18,8 +18,8 @@ public class AI_Archer_AttackState : BaseState<AI_StateMachine.EnemyState>
     /// </summary>
     public override void EnterState()
     {
-        _aiArcherStateMachine.SpawnProjectile();
-        
+        _aiStateMachine.SpawnProjectile();
+        _aiStateMachine.StartCoroutine(Attack(_aiStateMachine.atkDuration));
     }
 
     public override void ExitState()
@@ -29,18 +29,26 @@ public class AI_Archer_AttackState : BaseState<AI_StateMachine.EnemyState>
 
     public override void UpdateState()
     {
-        _aiArcherStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
+        _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
     }
     
     /// <summary>
     /// After a certain delay, deactivate the hurtbox and switch to Chase State.
     /// </summary>
     /// <param name="delay">Delay in seconds before switching state.</param>
-    public IEnumerator EndAttack(float delay)
+    private IEnumerator Attack(float delay)
     {
 
+        _aiStateMachine.agent.isStopped = true;
+        _aiStateMachine.agent.velocity = Vector3.zero;
+        
+        _aiStateMachine._renderer.SendTriggerToAnimator("Attack_01");
+        _aiStateMachine.canRotate = false;
+        
         yield return new WaitForSeconds(delay);
-        _aiArcherStateMachine.TransitionToState(AI_Archer_StateMachine.EnemyState.Chase);
+        
+        _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
+        _aiStateMachine.canRotate = true;
         
     }
 
