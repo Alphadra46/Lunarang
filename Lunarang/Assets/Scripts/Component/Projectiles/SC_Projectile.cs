@@ -61,7 +61,12 @@ public class SC_Projectile : SerializedMonoBehaviour
     public virtual void OnTriggerEnter(Collider col)
     {
         
-        if (!col.TryGetComponent(out IDamageable damageable)) Destroy(gameObject);
+        if (!col.TryGetComponent(out IDamageable damageable))
+        {
+            print("DESTTROOOOOOY");
+            Destroy(gameObject);
+            return;
+        }
         if (col.gameObject == sender) return;
         if (!tags.Contains(col.tag)) return;
         

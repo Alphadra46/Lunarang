@@ -375,6 +375,7 @@ namespace Entities
                 
                 case StatTypes.PoisonHitRate:
                     modifiedStats.poisonHitRate = modOperation(baseStats.poisonHitRate, statMod.ModificationValue);
+                    print("Poison + " + statMod.ModificationValue);
                     break;
                 case StatTypes.PoisonStackByHit:
                     debuffsBuffsComponent.poisonStackByHit =
