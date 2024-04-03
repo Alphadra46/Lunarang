@@ -5,7 +5,8 @@ using System.Linq;
 using Entities;
 using Enum;
 using Sirenix.OdinInspector;
-using TMPro;
+    using Sirenix.Utilities;
+    using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -316,6 +317,25 @@ public class SC_AIStats : SC_EntityBase, IDamageable
             e.GetComponent<IDamageable>().TakeDamage(rawDamage, false, gameObject);
         }
 
+    }
+
+    public void CreateProjectile(GameObject projectileGO = null)
+    {
+        if (projectileGO == null) projectileGO = _stateMachine.projectileGO;
+        
+        var projectile = Instantiate(projectileGO).GetComponent<SC_Projectile>();
+
+        var centerPoint = transform.GetChild(0);
+
+        projectile.sender = gameObject;
+        
+        projectile.transform.position = centerPoint.position + _stateMachine.projectileSpawnOffset;
+        projectile.transform.forward = centerPoint.forward;
+
+        projectile.direction = centerPoint.forward;
+        
+        projectile.damage = (int)Mathf.Round((moveValues[moveValueIndex] * currentStats.currentATK));
+        
     }
 
     #endregion

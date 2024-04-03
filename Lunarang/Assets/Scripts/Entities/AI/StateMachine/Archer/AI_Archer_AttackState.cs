@@ -18,7 +18,7 @@ public class AI_Archer_AttackState : BaseState<AI_StateMachine.EnemyState>
     /// </summary>
     public override void EnterState()
     {
-        _aiStateMachine.StartCoroutine(Attack(_aiStateMachine.atkDuration));
+        _aiStateMachine.StartCoroutine(Attack());
     }
 
     public override void ExitState()
@@ -35,16 +35,19 @@ public class AI_Archer_AttackState : BaseState<AI_StateMachine.EnemyState>
     /// After a certain delay, deactivate the hurtbox and switch to Chase State.
     /// </summary>
     /// <param name="delay">Delay in seconds before switching state.</param>
-    private IEnumerator Attack(float delay)
+    private IEnumerator Attack()
     {
 
         _aiStateMachine.agent.isStopped = true;
         _aiStateMachine.agent.velocity = Vector3.zero;
         
         _aiStateMachine._renderer.SendTriggerToAnimator("Attack_01");
+
+        yield return new WaitForSeconds(_aiStateMachine.atkBlockRotationDelay);
+        
         _aiStateMachine.canRotate = false;
         
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(_aiStateMachine.atkDuration);
         
         _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
         _aiStateMachine.canRotate = true;
