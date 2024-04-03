@@ -256,7 +256,7 @@ public class SC_ComboController : MonoBehaviour
         currentEnemiesHitted = hits;
 
         if (currentEnemiesHitted.Length > 0)
-            StartCoroutine(SC_CameraShake.instance.ShakeCamera(2f, 1f, 0.2f));
+            StartCoroutine(SC_CameraShake.instance.ShakeCamera(1f, 1f, 0.2f));
 
     }
 

@@ -19,7 +19,10 @@ public class SC_AIRenderer : MonoBehaviour
     public GameObject StatsUI;
     [BoxGroup("Damage Area")]
     public GameObject DamageUIArea;
-    
+
+    [BoxGroup("Damage Area")] 
+    [SerializeField] private List<SkinnedMeshRenderer> _meshRenderer;
+
     #region Debug
 
     [Space(10)]
@@ -29,7 +32,6 @@ public class SC_AIRenderer : MonoBehaviour
     public TextMeshProUGUI debugUIWeaknesses;
     
     #endregion
-
 
     private Animator _animator;
     private NavMeshAgent _agent;
@@ -178,6 +180,35 @@ public class SC_AIRenderer : MonoBehaviour
         
     }
 
+    public IEnumerator DamageTaken()
+    {
+        foreach (var meshRenderer in _meshRenderer)
+        {
+            var materials = meshRenderer.materials;
+        
+            foreach (var material in materials)
+            {
+                material.SetFloat("_DamageAmount", 0.7f);
+            }
+            yield return new WaitForSeconds(0.3f);
+            foreach (var material in materials)
+            {
+                material.SetFloat("_DamageAmount", 0f);
+            }
+        }
+    }
+
+    public void ResetColor()
+    {
+        foreach (var meshRenderer in _meshRenderer)
+        {
+            foreach (var material in meshRenderer.materials)
+            {
+                material.SetFloat("_DamageAmount",0);
+            }
+        }
+    }
+    
     #endregion
     
 }

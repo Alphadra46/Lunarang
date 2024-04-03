@@ -59,6 +59,11 @@ public class SC_GameManager : MonoBehaviour
         SC_InputManager.instance.pause.started += OnPauseKey;
     }
 
+    private void OnEnable()
+    {
+        playerSkillInventory.ClearInventory();
+    }
+
     private void OnDisable()
     {
         SC_InputManager.instance.pause.started -= OnPauseKey;
@@ -97,6 +102,7 @@ public class SC_GameManager : MonoBehaviour
                 if (isPause) SetPause();
                 SC_UIManager.instance.CreateLoadingScreen(1);
                 SC_UIManager.instance.ResetTempReferences();
+                playerSkillInventory.ClearInventory();
                 break;
             case GameState.RUN:
                 if (isPause) SetPause();
