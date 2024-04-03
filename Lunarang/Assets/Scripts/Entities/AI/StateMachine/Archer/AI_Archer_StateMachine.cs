@@ -19,6 +19,8 @@ public class AI_Archer_StateMachine : AI_StateMachine
     [PropertySpace(SpaceBefore = 10)]
     [TabGroup("States", "Attack")]
     public Vector3 ProjectileSpawnOffset = new Vector3(0, 0.5f, 0);
+    [TabGroup("States", "Attack")]
+    public float whenProjectileSpawn = 0;
     [TabGroup("States", "Attack")] 
     public List<string> tags = new List<string>();
     
@@ -60,30 +62,6 @@ public class AI_Archer_StateMachine : AI_StateMachine
         States.Add(EnemyState.Freeze, new AI_FreezeState(EnemyState.Freeze, this));
         
         CurrentState = States[EnemyState.Idle];
-    }
-    
-    /// <summary>
-    /// Summon a projectile from the spawn offset.
-    /// Set all the settings of the projectile.
-    /// </summary>
-    public void SpawnProjectile()
-    {
-        
-        var projectile = Instantiate(projectileGO).GetComponent<SC_Projectile>();
-
-        projectile.sender = gameObject;
-        
-        projectile.transform.position = centerPoint.position + ProjectileSpawnOffset;
-        projectile.transform.forward = centerPoint.forward;
-
-        projectile.direction = centerPoint.forward;
-        projectile.hitNumber = 1;
-        
-        projectile.speed = atkSpdBase;
-        projectile.damage = (int)Mathf.Round((_stats.moveValues[_stats.moveValueIndex] * _stats.currentStats.currentATK));
-
-        projectile.tags = tags;
-
     }
 
     /// <summary>
