@@ -70,7 +70,7 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
         {
             
             _agent.isStopped = true;
-            _agent.velocity = Vector3.zero;
+            _agent.SetDestination(_transform.position);
             
             if (_aiStateMachine.canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _aiStateMachine.centerPoint, _aiStateMachine.detectionAreaRadius, _aiStateMachine.layersAttackable))
             {

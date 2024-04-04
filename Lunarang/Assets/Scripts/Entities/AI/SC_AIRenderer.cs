@@ -180,6 +180,13 @@ public class SC_AIRenderer : MonoBehaviour
         
     }
 
+    public void PauseAnimator(bool value)
+    {
+
+        _animator.speed = value ? 0 : 1;
+
+    }
+    
     public IEnumerator DamageTaken()
     {
         foreach (var meshRenderer in _meshRenderer)
