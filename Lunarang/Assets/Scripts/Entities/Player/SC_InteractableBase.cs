@@ -51,8 +51,7 @@ public class SC_InteractableBase : MonoBehaviour, IInteractable
     public void EndInteraction()
     {
         isInteractionEnded = true;
-        SC_InteractorComponent.onInteractionEnd?.Invoke();
-        if(interactableOnce && destroyOnInteractionEnded) Destroy(gameObject);
+        SC_InteractorComponent.onInteractionEnd?.Invoke(gameObject, interactableOnce && destroyOnInteractionEnded);
     }
 
     private bool CheckInteractionStatut()

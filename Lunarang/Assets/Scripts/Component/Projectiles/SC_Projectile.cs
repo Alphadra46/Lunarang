@@ -60,17 +60,16 @@ public class SC_Projectile : SerializedMonoBehaviour
     /// <param name="col"></param>
     public virtual void OnTriggerEnter(Collider col)
     {
-        
-        if (!col.TryGetComponent(out IDamageable damageable))
+
+        if (col.CompareTag("Obstacle"))
         {
-            print("DESTTROOOOOOY");
+            print("Destroy");
             Destroy(gameObject);
-            return;
         }
+        
+        if (!col.TryGetComponent(out IDamageable damageable)) return;
         if (col.gameObject == sender) return;
         if (!tags.Contains(col.tag)) return;
-        
-        print(col.gameObject.layer);
 
         if (isAoE)
         {

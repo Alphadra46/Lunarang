@@ -180,6 +180,13 @@ public class SC_AIRenderer : MonoBehaviour
         
     }
 
+    public void PauseAnimator(bool value)
+    {
+
+        _animator.speed = value ? 0 : 1;
+
+    }
+    
     public IEnumerator DamageTaken()
     {
         foreach (var meshRenderer in _meshRenderer)
@@ -188,9 +195,13 @@ public class SC_AIRenderer : MonoBehaviour
         
             foreach (var material in materials)
             {
-                material.SetFloat("_DamageAmount", 0.7f);
+                material.SetFloat("_DamageAmount", 1f);
             }
-            yield return new WaitForSeconds(0.3f);
+        }
+        yield return new WaitForSeconds(0.3f);
+        foreach (var meshRenderer in _meshRenderer)
+        {
+            var materials = meshRenderer.materials;
             foreach (var material in materials)
             {
                 material.SetFloat("_DamageAmount", 0f);
