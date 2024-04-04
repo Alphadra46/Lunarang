@@ -17,7 +17,7 @@ public class AI_Bully_AttackState : BaseState<AI_Bully_StateMachine.EnemyState>
     /// </summary>
     public override void EnterState()
     {
-        _aiStateMachine.StartCoroutine(Attack(_aiStateMachine.atkDuration));
+        _aiStateMachine.StartCoroutine(Attack());
     }
 
     public override void ExitState()
@@ -33,11 +33,12 @@ public class AI_Bully_AttackState : BaseState<AI_Bully_StateMachine.EnemyState>
     /// After a certain delay, deactivate the hurtbox and switch to Chase State.
     /// </summary>
     /// <param name="delay">Delay in seconds before switching state.</param>
-    private IEnumerator Attack(float delay)
+    private IEnumerator Attack()
     {
 
         _aiStateMachine.agent.isStopped = true;
         _aiStateMachine.agent.velocity = Vector3.zero;
+        _aiStateMachine.agent.SetDestination(_aiStateMachine.transform.position);
         
         _aiStateMachine._renderer.SendTriggerToAnimator("Attack_01");
         _aiStateMachine.canRotate = false;
@@ -45,9 +46,10 @@ public class AI_Bully_AttackState : BaseState<AI_Bully_StateMachine.EnemyState>
         yield return new WaitForEndOfFrame();
         _aiStateMachine.CanAttack(false);
         
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(_aiStateMachine.atkDuration);
         
         _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
+        _aiStateMachine.agent.enabled = true;
         _aiStateMachine.canRotate = true;
         _aiStateMachine.CanAttack(true);
         

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Entities;
 using Enum;
 using Sirenix.OdinInspector;
@@ -33,12 +34,15 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     
     public static Action<float, float> onHealthChange;
     public static Action<float, float> onShieldHPChange;
-    
+
+    public List<SkinnedMeshRenderer> _meshRenderer;
     private SC_PlayerController _controller;
     private SC_ComboController _comboController;
     [HideInInspector] public SC_DebuffsBuffsComponent debuffsBuffsComponent;
 
     public SC_StatsDebug statsDebug = null;
+
+    private Coroutine damageTakenCoroutine = null;
 
     #endregion
 
@@ -96,7 +100,8 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     /// <param name="trueDamage"></param>
     public void TakeDamage(float rawDamage, bool isCrit, GameObject attacker, bool trueDamage = false)
     {
-        
+        if (damageTakenCoroutine != null) StopCoroutine(damageTakenCoroutine);
+        damageTakenCoroutine = StartCoroutine(DamageTaken());
         if(_controller.isDashing || isGod) return;
 
         var damageTakenMultiplier = (1 + (currentStats.damageTaken/100));
@@ -155,6 +160,30 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         
         #endregion
         
+    }
+
+    private IEnumerator DamageTaken()
+    {
+        foreach (var meshRenderer in _meshRenderer)
+        {
+            var materials = meshRenderer.materials;
+        
+            foreach (var material in materials)
+            {
+                material.SetFloat("_DamageAmount", 0.7f);
+            }
+        }
+        yield return new WaitForSeconds(0.2f);
+        foreach (var meshRenderer in _meshRenderer)
+        {
+            var materials = meshRenderer.materials;
+            foreach (var material in materials)
+            {
+                material.SetFloat("_DamageAmount", 0f);
+            }
+        }
+
+        damageTakenCoroutine = null;
     }
     
     public void TakeDoTDamage(float rawDamage, bool isCrit, Enum_Debuff dotType)
