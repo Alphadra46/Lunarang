@@ -74,6 +74,7 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
             
             if (_aiStateMachine.canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _aiStateMachine.centerPoint, _aiStateMachine.detectionAreaRadius, _aiStateMachine.layersAttackable))
             {
+                _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
                 _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Attack);
             }
                 

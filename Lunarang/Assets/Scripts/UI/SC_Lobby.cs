@@ -16,4 +16,9 @@ public class SC_Lobby : MonoBehaviour
         SC_UIManager.instance.CreateLoadingScreen(3);
         SC_GameManager.instance.ChangeState(GameState.RUN);
     }
+    
+    public void MainMenu()
+    {
+        SC_UIManager.instance.CreateLoadingScreen(0);
+    }
 }

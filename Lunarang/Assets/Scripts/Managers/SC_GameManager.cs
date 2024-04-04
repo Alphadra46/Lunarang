@@ -135,6 +135,10 @@ public class SC_GameManager : MonoBehaviour
                 Application.Quit();
         #endif
     }
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
+    }
     
     
     public void OpenInventory()
