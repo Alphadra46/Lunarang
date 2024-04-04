@@ -9,7 +9,7 @@ public class SC_InteractorComponent : MonoBehaviour
     
     #region Variables
 
-    public static Action onInteractionEnd;
+    public static Action<GameObject,bool> onInteractionEnd;
 
     [BoxGroup("Interaction")] public float nearInteractableRange = 15f;
     [BoxGroup("Interaction")] public float interactionRange = 2f;
@@ -99,8 +99,11 @@ public class SC_InteractorComponent : MonoBehaviour
     }
     
     
-    private void EndInteraction()
+    private void EndInteraction(GameObject go, bool canDestroy)
     {
+        nearInteractables.Remove(go);
+        SC_GameManager.instance.allInteractables.Remove(go);
+        if (canDestroy) Destroy(go,0.1f);
         inInteraction = false;
     }
 
