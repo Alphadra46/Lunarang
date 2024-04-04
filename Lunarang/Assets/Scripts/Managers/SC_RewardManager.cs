@@ -64,9 +64,12 @@ public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range
         for (int i = 0; i < numberOfNormalSkill; i++) //Normal skill selection
         {
             selectedSkills.Add(NormalSkillSelection());
+            if (selectedSkills[Mathf.Clamp(i,0,selectedSkills.Count)] == null)
+                selectedSkills.Remove(selectedSkills[Mathf.Clamp(i,0,selectedSkills.Count)]);
         }
         
-        selectedSkills.Add(lunarSkills[Random.Range(0, lunarSkills.Count)]);
+        if(lunarSkills.Count>0)
+            selectedSkills.Add(lunarSkills[Random.Range(0, lunarSkills.Count)]);
         
         rewardUI.rewardRessources.Add(moonFragment);
         rewardUI.rewardSkills = selectedSkills.ToList();
@@ -84,6 +87,9 @@ public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range
         SO_BaseSkill randomSkill;
         var c = constellations.ToList();
         c = c.Where(constel => !SC_GameManager.instance.playerSkillInventory.completedConstellations.Contains(constel)).ToList(); //Remove from the list the constellation that are already completed
+
+        if (c.Count <= 0)
+            return null;
         
         if (SC_GameManager.instance.playerSkillInventory.ongoingConstellations.Count==0) //Parent skill selected at random between every constellation that is not completed
         {

@@ -24,7 +24,7 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
         transform.rotation = rot;
     }
 
-    private void SetText(int comboCounter, int comboMaxLength)
+    private void SetText(int comboCounter, int comboMaxLength, ParameterType attackParameter)
     {
 
         _tmp.text = comboCounter + "/" + comboMaxLength;
