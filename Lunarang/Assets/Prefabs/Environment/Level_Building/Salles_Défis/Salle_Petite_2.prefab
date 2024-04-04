@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2637850102394482449}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Meshes_Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,9 +76,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2031678709929682753}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Meshes_Room
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,11 +97,6 @@ Transform:
   m_Children:
   - {fileID: 6216013393103786941}
   - {fileID: 6216013392360636889}
-  - {fileID: 6216013392393678810}
-  - {fileID: 6703587749391708320}
-  - {fileID: 6216013392872387576}
-  - {fileID: 6216013392947800955}
-  - {fileID: 6216013393268073452}
   - {fileID: 8656936493293913761}
   - {fileID: 557176801230796893}
   - {fileID: 8656936492227686005}
@@ -147,6 +142,11 @@ Transform:
   - {fileID: 7095725928932593384}
   - {fileID: 2031678709929682753}
   - {fileID: 2637850102394482449}
+  - {fileID: 1499119796229037648}
+  - {fileID: 6979827751365477021}
+  - {fileID: 6832655921445901541}
+  - {fileID: 2865462531752363694}
+  - {fileID: 8717811174387924932}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 8234518842453287345}
   - component: {fileID: 8234518842453287346}
   - component: {fileID: 8234518842453287347}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: PolyShape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -830,6 +830,306 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1001 &2866751384044266982
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8234518841674333747}
+    m_Modifications:
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.085
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5502901518873705921, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_wall_little_02_corner_03
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f36fb3a9070c0d247926032de5fec0ad, type: 3}
+--- !u!4 &6979827751365477021 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+    type: 3}
+  m_PrefabInstance: {fileID: 2866751384044266982}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6041608488434546987
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8234518841674333747}
+    m_Modifications:
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.852
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.887
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5502901518873705921, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_wall_little_02_corner_02
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f36fb3a9070c0d247926032de5fec0ad, type: 3}
+--- !u!4 &1499119796229037648 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+    type: 3}
+  m_PrefabInstance: {fileID: 6041608488434546987}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6104355250119108780
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8234518841674333747}
+    m_Modifications:
+    - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_wall_little_02_base
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00000047683716
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.2880144
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 43d10771d749be44cae57ac5abcee0e2, type: 3}
+--- !u!4 &6832655921445901541 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+    type: 3}
+  m_PrefabInstance: {fileID: 6104355250119108780}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6976570154785595861
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8234518841674333747}
+    m_Modifications:
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5502901518873705921, guid: f36fb3a9070c0d247926032de5fec0ad,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_wall_little_02_corner_04
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f36fb3a9070c0d247926032de5fec0ad, type: 3}
+--- !u!4 &2865462531752363694 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
+    type: 3}
+  m_PrefabInstance: {fileID: 6976570154785595861}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8234518841339563665
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -915,7 +1215,7 @@ PrefabInstance:
     - target: {fileID: 8502125511569827096, guid: fae5cbc2a360c0343a7a2e4e2178b9fe,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8502125511569827096, guid: fae5cbc2a360c0343a7a2e4e2178b9fe,
         type: 3}
@@ -972,16 +1272,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_wall_little_02_corner_1
       objectReference: {fileID: 0}
-    - target: {fileID: 9130571845955207074, guid: fae5cbc2a360c0343a7a2e4e2178b9fe,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 9130571845955207074, guid: fae5cbc2a360c0343a7a2e4e2178b9fe,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fae5cbc2a360c0343a7a2e4e2178b9fe, type: 3}
 --- !u!4 &557176801230796893 stripped
@@ -1002,20 +1292,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_wall_little_02_base_3
       objectReference: {fileID: 0}
-    - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
     - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
         type: 3}
@@ -1097,20 +1377,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_wall_little_02_base
       objectReference: {fileID: 0}
-    - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
     - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
         type: 3}
@@ -1182,20 +1452,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_wall_03_corner
       objectReference: {fileID: 0}
-    - target: {fileID: 2597132659399268884, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2597132659399268884, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
     - target: {fileID: 3405019046041567406, guid: 10713680f50ee6a4591d308e13640ff2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 3405019046041567406, guid: 10713680f50ee6a4591d308e13640ff2,
         type: 3}
@@ -1332,16 +1592,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_wall_03_base_1
       objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3172d8ca50cb43a4ea24faa2528393c5, type: 3}
 --- !u!4 &6216013393103786941 stripped
@@ -1362,20 +1612,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_wall_little_02_base_1
       objectReference: {fileID: 0}
-    - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
     - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
         type: 3}
@@ -1457,20 +1697,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_wall_little_02_base_4
       objectReference: {fileID: 0}
-    - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
     - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
         type: 3}
@@ -1530,176 +1760,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8234518842329129529}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &8234518842347286558
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 2031678709929682753}
-    m_Modifications:
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 5.31
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.03
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -8.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_Name
-      value: Moonset_FBX_wall_03_base_7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3172d8ca50cb43a4ea24faa2528393c5, type: 3}
---- !u!4 &6216013393268073452 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-    type: 3}
-  m_PrefabInstance: {fileID: 8234518842347286558}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &8234518842697054345
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 2031678709929682753}
-    m_Modifications:
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 4.43
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.043018233
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -8.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_Name
-      value: Moonset_FBX_wall_03_base_6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3172d8ca50cb43a4ea24faa2528393c5, type: 3}
---- !u!4 &6216013392947800955 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-    type: 3}
-  m_PrefabInstance: {fileID: 8234518842697054345}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8234518842740262147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1710,7 +1770,7 @@ PrefabInstance:
     - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
         type: 3}
@@ -1767,16 +1827,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_wall_03_base
       objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3172d8ca50cb43a4ea24faa2528393c5, type: 3}
 --- !u!4 &6216013392906671857 stripped
@@ -1795,7 +1845,7 @@ PrefabInstance:
     - target: {fileID: 5991339411255561192, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5991339411255561192, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e,
         type: 3}
@@ -1872,16 +1922,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_pillar_03
       objectReference: {fileID: 0}
-    - target: {fileID: 6372122743812378962, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6372122743812378962, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e, type: 3}
 --- !u!4 &2405872390300197579 stripped
@@ -1889,101 +1929,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5991339411255561192, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e,
     type: 3}
   m_PrefabInstance: {fileID: 8234518842750855459}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &8234518842772299786
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 2031678709929682753}
-    m_Modifications:
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.006000001
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.006000001
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 9.49
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.04
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -4.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_Name
-      value: Moonset_FBX_wall_03_base_5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3172d8ca50cb43a4ea24faa2528393c5, type: 3}
---- !u!4 &6216013392872387576 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-    type: 3}
-  m_PrefabInstance: {fileID: 8234518842772299786}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8234518842809366401
 PrefabInstance:
@@ -2165,7 +2110,7 @@ PrefabInstance:
     - target: {fileID: 5991339411255561192, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5991339411255561192, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e,
         type: 3}
@@ -2242,16 +2187,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_pillar_02
       objectReference: {fileID: 0}
-    - target: {fileID: 6372122743812378962, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6372122743812378962, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e, type: 3}
 --- !u!4 &2405872390183005107 stripped
@@ -2259,91 +2194,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5991339411255561192, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e,
     type: 3}
   m_PrefabInstance: {fileID: 8234518842901569627}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &8234518842904702990
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 2031678709929682753}
-    m_Modifications:
-    - target: {fileID: 2597132659399268884, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_Name
-      value: Moonset_FBX_wall_03_corner_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2597132659399268884, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2597132659399268884, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
-    - target: {fileID: 3405019046041567406, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3405019046041567406, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3405019046041567406, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.04414333
-      objectReference: {fileID: 0}
-    - target: {fileID: 3405019046041567406, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -7.16
-      objectReference: {fileID: 0}
-    - target: {fileID: 3405019046041567406, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3405019046041567406, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3405019046041567406, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3405019046041567406, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3405019046041567406, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3405019046041567406, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3405019046041567406, guid: 10713680f50ee6a4591d308e13640ff2,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 10713680f50ee6a4591d308e13640ff2, type: 3}
---- !u!4 &6703587749391708320 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3405019046041567406, guid: 10713680f50ee6a4591d308e13640ff2,
-    type: 3}
-  m_PrefabInstance: {fileID: 8234518842904702990}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8234518843053892016
 PrefabInstance:
@@ -2430,7 +2280,7 @@ PrefabInstance:
     - target: {fileID: 8502125511569827096, guid: fae5cbc2a360c0343a7a2e4e2178b9fe,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8502125511569827096, guid: fae5cbc2a360c0343a7a2e4e2178b9fe,
         type: 3}
@@ -2497,16 +2347,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_wall_little_02_corner
       objectReference: {fileID: 0}
-    - target: {fileID: 9130571845955207074, guid: fae5cbc2a360c0343a7a2e4e2178b9fe,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 9130571845955207074, guid: fae5cbc2a360c0343a7a2e4e2178b9fe,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fae5cbc2a360c0343a7a2e4e2178b9fe, type: 3}
 --- !u!4 &557176800675861634 stripped
@@ -2514,101 +2354,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8502125511569827096, guid: fae5cbc2a360c0343a7a2e4e2178b9fe,
     type: 3}
   m_PrefabInstance: {fileID: 8234518843074572698}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &8234518843217460264
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 2031678709929682753}
-    m_Modifications:
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.006000001
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.006000001
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 9.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.043018233
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.36
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_Name
-      value: Moonset_FBX_wall_03_base_4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3172d8ca50cb43a4ea24faa2528393c5, type: 3}
---- !u!4 &6216013392393678810 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-    type: 3}
-  m_PrefabInstance: {fileID: 8234518843217460264}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8234518843250479659
 PrefabInstance:
@@ -2687,16 +2432,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_wall_03_base_2
       objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3408808005246830920, guid: 3172d8ca50cb43a4ea24faa2528393c5,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3172d8ca50cb43a4ea24faa2528393c5, type: 3}
 --- !u!4 &6216013392360636889 stripped
@@ -2717,20 +2452,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_wall_little_02_base_2
       objectReference: {fileID: 0}
-    - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
-        type: 3}
-      propertyPath: m_TagString
-      value: Obstacle
-      objectReference: {fileID: 0}
     - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
         type: 3}
@@ -2799,4 +2524,79 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
     type: 3}
   m_PrefabInstance: {fileID: 8234518843351601724}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8259212004287431565
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8234518841674333747}
+    m_Modifications:
+    - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_wall_little_02_base_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.021
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00000047683716
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.498
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 43d10771d749be44cae57ac5abcee0e2, type: 3}
+--- !u!4 &8717811174387924932 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
+    type: 3}
+  m_PrefabInstance: {fileID: 8259212004287431565}
   m_PrefabAsset: {fileID: 0}
