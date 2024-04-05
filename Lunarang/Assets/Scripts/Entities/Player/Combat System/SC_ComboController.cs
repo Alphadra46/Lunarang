@@ -78,7 +78,7 @@ public class SC_ComboController : MonoBehaviour
 
     #region Events
 
-    public static Action<int, int> ComboUpdated;
+    public static Action<int, int, ParameterType> ComboUpdated;
 
     [TabGroup("Settings", "Events")]
     public SO_Event onLastAttack;
@@ -106,7 +106,7 @@ public class SC_ComboController : MonoBehaviour
     private SC_PlayerStats _stats;
     private SC_FinalATK_Builder _finalBuilder;
     private SC_DebuffsBuffsComponent _debuffsBuffsComponent;
-    [SerializeField] private List<VisualEffect> vfxParameterList = new List<VisualEffect>();
+    //[SerializeField] private List<VisualEffect> vfxParameterList = new List<VisualEffect>();
 
     public bool canAttack = true;
     
@@ -256,7 +256,7 @@ public class SC_ComboController : MonoBehaviour
         currentEnemiesHitted = hits;
 
         if (currentEnemiesHitted.Length > 0)
-            StartCoroutine(SC_CameraShake.instance.ShakeCamera(1f, 1f, 0.2f));
+            StartCoroutine(SC_CameraShake.instance.ShakeCamera(currentWeapon.parameter==ParameterType.AreaOfEffect?2f:1f, 1f, 0.2f));
 
     }
 
@@ -479,6 +479,7 @@ public class SC_ComboController : MonoBehaviour
         currentComboParameters.Add(currentWeapon.parameter);
         currentComboWeapons.Add(currentWeapon);
         
+        /*
         //Only spawn 1 VFX depending on the parameter of the hit
         if (comboCounter<=2)
         {
@@ -518,7 +519,8 @@ public class SC_ComboController : MonoBehaviour
             }
 
         }
-
+        */
+            
         if (comboCounter == comboMaxLength)
         {
             onLastAttack.RaiseEvent();
@@ -526,7 +528,7 @@ public class SC_ComboController : MonoBehaviour
         
         // Debug Side
         print("Combo : " + comboCounter + " / Type : " + currentWeapon.type);
-        ComboUpdated?.Invoke(comboCounter, comboMaxLength);
+        ComboUpdated?.Invoke(comboCounter, comboMaxLength, currentWeapon.parameter);
         
     }
 

@@ -334,7 +334,7 @@ public class SC_PathCreator : MonoBehaviour
         try
         {
             //Create rooms and doors for each path
-        foreach (var node in spawnToBossPath.path)
+        foreach (var node in spawnToBossPath.path) //TODO - add a SetBool for the active doors to open these doors  
         {
             var i = spawnToBossPath.path.IndexOf(node);
         
@@ -484,7 +484,7 @@ public class SC_PathCreator : MonoBehaviour
             
         }
         
-        foreach (var node in spawnToChestPath.path)
+        foreach (var node in spawnToChestPath.path) //TODO - add a SetBool for the active doors to open these doors  
         {
             var i = spawnToChestPath.path.IndexOf(node);
         
@@ -636,7 +636,7 @@ public class SC_PathCreator : MonoBehaviour
             
         }
         
-        foreach (var node in bossToChestPath.path)
+        foreach (var node in bossToChestPath.path) //TODO - add a SetBool for the active doors to open these doors  
         {
         
             var i = bossToChestPath.path.IndexOf(node);
