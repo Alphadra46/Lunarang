@@ -28,7 +28,7 @@ public class AI_Archer_AttackState : BaseState<AI_StateMachine.EnemyState>
 
     public override void UpdateState()
     {
-        _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
+        
     }
     
     /// <summary>
@@ -39,7 +39,7 @@ public class AI_Archer_AttackState : BaseState<AI_StateMachine.EnemyState>
     {
 
         _aiStateMachine.agent.isStopped = true;
-        _aiStateMachine.agent.velocity = Vector3.zero;
+        _aiStateMachine.agent.SetDestination(_aiStateMachine.transform.position);
         
         _aiStateMachine._renderer.SendTriggerToAnimator("Attack_01");
 

@@ -20,11 +20,14 @@ public class AI_FreezeState : BaseState<AI_StateMachine.EnemyState>
         _aiStateMachine.agent.isStopped = true;
         _aiStateMachine.agent.SetDestination(_aiStateMachine.transform.position);
         _aiStateMachine.agent.velocity = Vector3.zero;
+        
+        _aiStateMachine._renderer.PauseAnimator(true);
     }
 
     public override void ExitState()
     {
         _aiStateMachine.agent.isStopped = false;
+        _aiStateMachine._renderer.PauseAnimator(false);
     }
 
     public override void UpdateState()
