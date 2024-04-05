@@ -64,6 +64,11 @@ public class SC_RoomManager : MonoBehaviour
     
     private void OnEnable()
     {
+        if (isSpecialRoom)
+        {
+            doorNorth.animator.SetBool("isOpen", true);
+        }
+        
         if (isInit)
             return;
 
@@ -83,13 +88,6 @@ public class SC_RoomManager : MonoBehaviour
         doorEast.DisableDoor();
 
         confiner = FindObjectOfType<CinemachineConfiner>();
-
-        if (isSpecialRoom)
-        {
-            doorNorth.animator.SetBool("isOpen", true);
-        }
-        
-        
     }
     
     public void SetDifficulty()
