@@ -204,6 +204,7 @@ public class SC_RoomManager : MonoBehaviour
             
             enemy.SetActive(true);
             enemy.GetComponent<AI_StateMachine>().TransitionToState(AI_StateMachine.EnemyState.Idle);
+            enemy.GetComponent<AI_StateMachine>().CanAttack(true);
         }
         
         

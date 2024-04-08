@@ -23,7 +23,7 @@ public class AI_Bully_AttackState : BaseState<AI_Bully_StateMachine.EnemyState>
 
     public override void ExitState()
     {
-        // _aiStateMachine.StopCoroutine(Attack(_aiStateMachine.atkDuration));
+        _aiStateMachine.StartCoroutine(_aiStateMachine.AttackCD());
     }
 
     public override void UpdateState()
