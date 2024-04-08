@@ -96,16 +96,17 @@ public class SC_PlayerController : MonoBehaviour
     {
         InitControllerInputs();
     }
-
+    
+    
     #endregion
     
     #region Functions
 
     public void InitControllerInputs()
     {
-        SC_InputManager.instance.move.started += OnMove;
-        SC_InputManager.instance.move.performed += OnMove;
-        SC_InputManager.instance.move.canceled += OnMove;
+        //SC_InputManager.instance.move.started += OnMove;
+        //SC_InputManager.instance.move.performed += OnMove;
+        //SC_InputManager.instance.move.canceled += OnMove;
 
         SC_InputManager.instance.dash.started += Dash;
 
@@ -132,18 +133,18 @@ public class SC_PlayerController : MonoBehaviour
             return;
         if (isDashing)
             return;
+
         
-        isDashing = true;
         if(_animator != null)
             _animator.SetBool("isDashing", true);
-        if (!SC_ComboController.instance.canAttack && !SC_ComboController.instance.canPerformCombo)
+        
+        //canDash = false;
+        isDashing = true;
+        
+        if (isAttacking)
         {
             SC_ComboController.instance.CancelAttack();
             print("Cancel");
-        }
-        else if(SC_ComboController.instance.canPerformCombo)
-        {
-            SC_ComboController.instance.canPerformCombo = true;
         }
         
         if(this != null)
@@ -164,8 +165,8 @@ public class SC_PlayerController : MonoBehaviour
             _characterController.Move(transform.forward * (dashSpeed * Time.deltaTime));
             yield return null;
         }
-        isDashing = false;
-        SC_ComboController.instance.canPerformCombo = true;
+        
+        
         _animator.SetBool("isDashing", false);
     }
     
@@ -231,6 +232,7 @@ public class SC_PlayerController : MonoBehaviour
     {
         if(SC_GameManager.instance.isPause) return;
         
+        Move();
         isMovementInputPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0; // Set a boolean to check if the player is pressing the input
 
         _animator.SetBool("isMoving", isMovementInputPressed);
@@ -240,6 +242,7 @@ public class SC_PlayerController : MonoBehaviour
         if (!canMove) return;
             
         Gravity();
+
         
         Rotate(); // Rotate the player
         
@@ -292,6 +295,8 @@ public class SC_PlayerController : MonoBehaviour
     {
         if(!canMove) return;
         
+        isAttacking = false;
+        
         currentMovementInput = ctx.ReadValue<Vector2>(); // Read the input value
         currentMovement.x = currentMovementInput.x; // Set the current movement vector x with the input value
         currentMovement.z = currentMovementInput.y; // Set the current movement vector y with the input value
@@ -300,6 +305,22 @@ public class SC_PlayerController : MonoBehaviour
         
         SC_ComboController.instance.CanPerformCombo();
 
+    }
+
+    public void Move()
+    {
+        if (!canMove)
+            return;
+
+        isAttacking = false;
+        
+        currentMovementInput = SC_InputManager.instance.move.ReadValue<Vector2>();
+        currentMovement.x = currentMovementInput.x;
+        currentMovement.z = currentMovementInput.y;
+        
+        if (SC_ComboController.instance.canAttack) return;
+        
+        SC_ComboController.instance.CanPerformCombo();
     }
     
     #endregion

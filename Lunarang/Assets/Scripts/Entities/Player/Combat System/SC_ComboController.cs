@@ -164,12 +164,14 @@ public class SC_ComboController : MonoBehaviour
     /// <param name="usedWeapon">Weapon used in this attack</param>
     private void Attack(SC_Weapon usedWeapon)
     {
-        
-        if(SC_GameManager.instance.isPause || !canAttack) return;
+        if(SC_GameManager.instance.isPause) return;
 
-        if (!canPerformCombo) return;
+        if (_controller.isDashing)
+            return;
         
-        canAttack = false;
+        //if (!canPerformCombo) return;
+        
+        //canAttack = false;
         _controller.isAttacking = true;
             
         lastComboWeapons = currentComboWeapons.ToArray().ToList();
@@ -188,10 +190,19 @@ public class SC_ComboController : MonoBehaviour
     /// </summary>
     private void UpdateAnimator()
     {
+        if (!canPerformCombo)
+            return;
+
         
         _animator.SetInteger("Combo", comboCounter);
         if (currentWeapon != null)
+        {
+            foreach (var animatorControllerParameter in _animator.parameters.Where(p => p.name!=currentWeapon.id && p.type == AnimatorControllerParameterType.Trigger).ToList())
+            {
+                _animator.ResetTrigger(animatorControllerParameter.name);
+            }
             _animator.SetTrigger(currentWeapon.id);
+        }
         
         if (currentComboParameters.Count > 0)
         {
@@ -413,7 +424,7 @@ public class SC_ComboController : MonoBehaviour
     {
         canAttack = true;
         _controller.isAttacking = false;
-        canPerformCombo = true;
+        //canPerformCombo = true;
 
         // if (inputBufferedWeapon == null) return;
         //
@@ -427,7 +438,7 @@ public class SC_ComboController : MonoBehaviour
     /// </summary>
     public void CantPerformCombo()
     {
-        canPerformCombo = false;
+        //canPerformCombo = false;
     }
 
     public void CancelAttack()
@@ -457,6 +468,11 @@ public class SC_ComboController : MonoBehaviour
     /// <param name="newWeapon">New weapon to add to the current combo list</param>
     private void IncrementCombo(SC_Weapon newWeapon)
     {
+        if (!canPerformCombo)
+            return;
+
+        //canPerformCombo = false;
+        
         
         // Reset Combo after reach its max length.
         if (comboCounter+1 > comboMaxLength)
