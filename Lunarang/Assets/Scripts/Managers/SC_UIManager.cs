@@ -194,6 +194,28 @@ public class SC_UIManager : MonoBehaviour
         }
         
     }
+    
+    /// <summary>
+    /// Instanciate Forge UI Prefab, disabling the render of the HUD.
+    /// </summary>
+    public void ShowLibrary()
+    {
+        
+        if (libraryUI == null)
+        {
+            libraryUI = Instantiate(libraryUIPrefab);
+            libraryUI.name = "LibraryUI";
+            if(hudUI != null)
+                ShowHUD();
+        }
+        else
+        {
+            Destroy(libraryUI);
+            if(hudUI != null)
+                ShowHUD();
+        }
+        
+    }
 
     public void ShowGameOverUI()
     {

@@ -14,6 +14,12 @@ public class AI_Bully_StateMachine : AI_StateMachine
     public GameObject hurtBox;
     [TabGroup("States", "Attack")]
     public bool canAttack = true;
+    [TabGroup("States", "Attack")]
+    public bool canCharge = false;
+
+    public bool obstacleHitted = false;
+    public float chargeSpeed = 10f;
+    
     
     /// <summary>
     /// Initialize all references.
@@ -34,9 +40,7 @@ public class AI_Bully_StateMachine : AI_StateMachine
         CurrentState = States[EnemyState.Idle];
         
     }
-
-    // TODO : Refaire les commentaires.
-
+    
     /// <summary>
     /// Activate the hurtbox to deal damage to the forward entity.
     /// </summary>
@@ -47,6 +51,20 @@ public class AI_Bully_StateMachine : AI_StateMachine
         _renderer.SendBoolToAnimator("canAttack", value);
         
     }
+
+    public bool ObstacleHitted()
+    {
+        return obstacleHitted;
+    }
+
+    public IEnumerator AttackCD()
+    {
+        
+        CanAttack(false);
+        yield return new WaitForSeconds(atkCDBase);
+        CanAttack(true);
+
+    }
     
     /// <summary>
     /// Switch to Stun State when Player's Hurtbox touche him.
@@ -54,8 +72,13 @@ public class AI_Bully_StateMachine : AI_StateMachine
     /// <param name="other"></param>
     public void OnTriggerEnter(Collider other)
     {
-        
-        if(!other.CompareTag("HurtBox_Player")) return;
+
+        if (!other.CompareTag("HurtBox_Player"))
+        {
+            obstacleHitted = true;
+            print("AIE");
+            return;
+        }
 
         if (!other.TryGetComponent(out SC_ComboController playerCombo)) return;
         

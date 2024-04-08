@@ -39,6 +39,8 @@ public class SC_GameManager : MonoBehaviour
     [HideInInspector] public SC_ResourcesInventory playerResourceInventory;
     [HideInInspector] public SO_SkillInventory playerSkillInventory;
     [HideInInspector] public SO_ConsumablesInventory playerConsumablesInventory;
+
+    [HideInInspector] public SO_ArchiveInventory archivesInventory;
     
     [ShowInInspector] public List<SO_BaseSkill> allSkills = new List<SO_BaseSkill>();
     
@@ -52,6 +54,8 @@ public class SC_GameManager : MonoBehaviour
         playerResourceInventory = Resources.Load<SC_ResourcesInventory>("ResourceInventory");
         playerSkillInventory = Resources.Load<SO_SkillInventory>("SkillInventory");
         playerConsumablesInventory = Resources.Load<SO_ConsumablesInventory>("ConsumableInventory");
+
+        archivesInventory = Resources.Load<SO_ArchiveInventory>("ArchiveInventory");
     }
 
     private void Start()
@@ -156,7 +160,7 @@ public class SC_GameManager : MonoBehaviour
     public void OpenLibrary()
     {
         SetPause();
-        
+        SC_UIManager.instance.ShowLibrary();
     }
     
     public void OpenRewardChest()

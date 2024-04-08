@@ -79,7 +79,7 @@ public class AI_Summoner_StateMachine : AI_StateMachine
     /// </summary>
     public void Attack()
     {
-        var playerPos = player.transform.position;
+        
         if(canSummon){
             Summon();
         }
@@ -103,6 +103,7 @@ public class AI_Summoner_StateMachine : AI_StateMachine
             kyuEnemyList = kyuEnemyList.Where(e => e.subPoolTransform.gameObject.name == "GO_BadKyu").ToList();
             
             var summon = SC_Pooling.instance.GetItemFromPool("Ennemis", kyuEnemyList[Random.Range(0, kyuEnemyList.Count)].subPoolTransform.gameObject.name);
+            summon.SetActive(true);
             
             summon.GetComponent<NavMeshAgent>().enabled = false;
             var angle = Mathf.PI * (i+1) / (numbersOfSummons+1);
@@ -192,7 +193,6 @@ public class AI_Summoner_StateMachine : AI_StateMachine
     {
         TryToTransition(EnemyState.Chase);
     }
-
     
     protected override void OnDrawGizmos()
     {

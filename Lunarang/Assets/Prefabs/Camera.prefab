@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3297444764942174081}
   m_LocalRotation: {x: 0.27781588, y: 0.36497167, z: -0.1150751, w: 0.8811196}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.06, y: 0, z: -35.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 3297444765261791432}
   - component: {fileID: 3297444765261791434}
   - component: {fileID: 3297444765261791435}
+  - component: {fileID: 3951902792028427293}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -244,6 +245,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Damping: 0
+--- !u!114 &3951902792028427293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3297444765261791433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &3297444765344218777
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,6 +304,7 @@ GameObject:
   - component: {fileID: 3297444765933131951}
   - component: {fileID: 3297444765933131948}
   - component: {fileID: 3297444765933131950}
+  - component: {fileID: 5020898210060963688}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -365,3 +384,15 @@ MonoBehaviour:
   m_BoundingShape2D: {fileID: 0}
   m_ConfineScreenEdges: 1
   m_Damping: 0
+--- !u!114 &5020898210060963688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3297444765933131949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bf15f1a3e2cf9408d3ce0cfb089fac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

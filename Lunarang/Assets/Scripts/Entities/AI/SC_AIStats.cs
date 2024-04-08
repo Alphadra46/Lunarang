@@ -87,7 +87,6 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         currentStats = baseStats;
         
         UpdateStats();
-        InitShield();
         
         _renderer.UpdateHealthBar(currentStats.currentHealth, currentStats.currentMaxHealth);
         
@@ -136,11 +135,12 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     /// <summary>
     /// Initialize the Weaknesses and create a shield that should be broken before apply damage to the Entity.
     /// </summary>
-    private void InitShield()
+    public void InitShield()
     {
-        if(!hasShield) return;
         
+        hasShield = true;
         _renderer.UpdateShieldBar(isBreaked);
+        
     }
 
     /// <summary>

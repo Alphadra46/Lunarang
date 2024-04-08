@@ -374,7 +374,7 @@ MonoBehaviour:
   moveValues:
   - 0.4
   moveValueIndex: 0
-  onShieldBreaked: {fileID: 0}
+  onShieldBreaked: {fileID: 11400000, guid: 91102299776b5c448b019d03aa066879, type: 2}
   isDead: 0
 --- !u!114 &4441644008162919000
 MonoBehaviour:
@@ -415,6 +415,9 @@ MonoBehaviour:
   _rb: {fileID: 0}
   hurtBox: {fileID: 6131542438275865336}
   canAttack: 1
+  canCharge: 0
+  obstacleHitted: 0
+  chargeSpeed: 10
 --- !u!114 &1207472025469663819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -663,7 +666,7 @@ PrefabInstance:
     - target: {fileID: 4806072021058079036, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 74.77
       objectReference: {fileID: 0}
     - target: {fileID: 4806072021058079036, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}

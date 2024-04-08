@@ -68,12 +68,6 @@ public class AI_Summoner_ChaseState : BaseState<AI_StateMachine.EnemyState>
     /// </summary>
     public override void UpdateState()
     {
-        // if (_aiStateMachine._stats.isDead)
-        // {
-        //     _aiStateMachine.StopCoroutine(AttackCooldown());
-        //     _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
-        //     return;
-        // }
         
         var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
         var playerPos = player.transform.position;
@@ -100,12 +94,6 @@ public class AI_Summoner_ChaseState : BaseState<AI_StateMachine.EnemyState>
             _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
             
         }
-        
-        
-        // else
-        // {
-        //     _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Patrol);
-        // }
         
     }
     

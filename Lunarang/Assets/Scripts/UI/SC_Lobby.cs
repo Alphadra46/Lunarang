@@ -21,4 +21,11 @@ public class SC_Lobby : MonoBehaviour
     {
         SC_UIManager.instance.CreateLoadingScreen(0);
     }
+
+    public void Library()
+    {
+        
+        SC_GameManager.instance.OpenLibrary();
+        
+    }
 }

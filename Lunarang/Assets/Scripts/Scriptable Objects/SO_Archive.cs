@@ -13,13 +13,26 @@ public enum ArchiveType
     
 }
 
+public enum ArchiveState
+{
+    
+    Hidden,
+    Discover,
+    New
+    
+}
+
 [CreateAssetMenu(menuName = "Ressources/Archive", fileName = "Archive")]
 public class SO_Archive : SerializedScriptableObject
 {
     
-    public string id;
+    public string archiveID;
+    
+    public string archiveName;
 
-    public ArchiveType type; 
+    public ArchiveType archiveType;
+
+    public ArchiveState archiveState;
 
     [PropertySpace(SpaceBefore = 10f)]
     public string collectionID;
@@ -32,22 +45,22 @@ public class SO_Archive : SerializedScriptableObject
 
     #region Weapon & Enemies
     [PropertySpace(SpaceBefore = 25f)]
-    [ShowIf("type", ArchiveType.Weapon)]
+    [ShowIf("archiveType", ArchiveType.Weapon)]
     public ParameterType weaponType;
     
-    [ShowIf("@this.type != ArchiveType.Story"), TextArea]
+    [ShowIf("@this.archiveType != ArchiveType.Story"), TextArea]
     public string behaviorDescription;
-    [ShowIf("@this.type != ArchiveType.Story")]
+    [ShowIf("@this.archiveType != ArchiveType.Story")]
     public Sprite splashArt;
     
-    [ShowIf("@this.type == ArchiveType.Enemies")]
+    [ShowIf("@this.archiveType == ArchiveType.Enemies")]
     public string enemiesType;
 
     #endregion
 
     #region Story
     [PropertySpace(SpaceBefore = 25f)]
-    [ShowIf("@this.type == ArchiveType.Story"), TextArea]
+    [ShowIf("@this.archiveType == ArchiveType.Story"), TextArea]
     public List<string> storyText = new List<string>();
 
     #endregion

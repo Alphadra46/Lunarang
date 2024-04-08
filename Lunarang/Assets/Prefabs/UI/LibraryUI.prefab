@@ -739,6 +739,7 @@ GameObject:
   - component: {fileID: 849478285251608054}
   - component: {fileID: 849478285251608053}
   - component: {fileID: 849478285251608052}
+  - component: {fileID: 8435441808409223566}
   m_Layer: 0
   m_Name: LibraryUI
   m_TagString: Untagged
@@ -831,7 +832,26 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 3258287487
+--- !u!114 &8435441808409223566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849478285251608050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55f2e5a0f6295e54880cbf48898df07f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectionSeparatorPrefab: {fileID: 7485870369805037658, guid: b211ec9d46a0fc5439dc5f4005e8feab,
+    type: 3}
+  collectionPrefab: {fileID: 4636946761986937803, guid: faa4f5fa76c5c1a4b84224548913f757,
+    type: 3}
+  collectionsContent: {fileID: 1785067450568590868}
+  collectionsGO: []
+  scrollbar: {fileID: 318633860972127600}
 --- !u!1 &971132025666773620
 GameObject:
   m_ObjectHideFlags: 0
@@ -1478,12 +1498,12 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 10
   m_Viewport: {fileID: 2586961538988071226}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 318633860972127600}
   m_HorizontalScrollbarVisibility: 2
-  m_VerticalScrollbarVisibility: 1
+  m_VerticalScrollbarVisibility: 0
   m_HorizontalScrollbarSpacing: -3
   m_VerticalScrollbarSpacing: -3
   m_OnValueChanged:
@@ -2169,14 +2189,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5261137670784973882}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2205,7 +2225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -3899,7 +3919,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8380412307357374229}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
