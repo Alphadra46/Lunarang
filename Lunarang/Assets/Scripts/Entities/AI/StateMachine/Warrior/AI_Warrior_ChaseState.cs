@@ -23,7 +23,6 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
 
     private GameObject player;
     
-    private bool canAttack = true;
     // private bool canBeStun = true;
 
     #endregion
@@ -71,7 +70,7 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
             _agent.isStopped = true;
             _agent.velocity = Vector3.zero;
             
-            if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform, _aiStateMachine.detectionAreaRadius, _aiStateMachine.layersAttackable))
+            if (_aiStateMachine.canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform, _aiStateMachine.detectionAreaRadius, _aiStateMachine.layersAttackable))
             {
                 _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Attack);
             }
@@ -94,8 +93,6 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
         
     }
     
-
-
     public override AI_Warrior_StateMachine.EnemyState GetNextState()
     {
         return AI_Warrior_StateMachine.EnemyState.Chase;
@@ -107,9 +104,9 @@ public class AI_Warrior_ChaseState : BaseState<AI_Warrior_StateMachine.EnemyStat
     public IEnumerator AttackCooldown()
     {
         
-        canAttack = false;
+        _aiStateMachine.canAttack = false;
         yield return new WaitForSeconds(_aiStateMachine.atkCDBase);
-        canAttack = true;
+        _aiStateMachine.canAttack = true;
 
     }
     

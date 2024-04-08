@@ -54,6 +54,8 @@ public class SC_Door : MonoBehaviour
             roomManager.LockDoors();
             SC_AIStats.onDeath += roomManager.DecreaseEnemiesCount;
         }
+        
+        SC_MiniMapComponent.changeRoomTransform?.Invoke(roomManager.MinimapPosition);
     }
 
     public void OnExitRoom()

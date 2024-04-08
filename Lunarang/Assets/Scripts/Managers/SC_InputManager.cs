@@ -23,6 +23,7 @@ public class SC_InputManager : MonoBehaviour
     [HideInInspector] public InputAction inventory;
     [HideInInspector] public InputAction consumable_use;
     [HideInInspector] public InputAction consumable_switch;
+    [HideInInspector] public InputAction minimap_mode;
     
     [Header("UI")]
     [HideInInspector] public InputAction navigate;
@@ -131,6 +132,8 @@ public class SC_InputManager : MonoBehaviour
         
         consumable_use = playerInputActions.General.Consumable_Use;
         consumable_switch = playerInputActions.General.Consumable_Switch;
+
+        minimap_mode = playerInputActions.General.MinimapMode;
     }
 
     /// <summary>
@@ -152,6 +155,8 @@ public class SC_InputManager : MonoBehaviour
         
         consumable_switch.Enable();
         consumable_use.Enable();
+        
+        minimap_mode.Enable();
     }
 
     /// <summary>
@@ -173,6 +178,8 @@ public class SC_InputManager : MonoBehaviour
         
         consumable_switch.Disable();
         consumable_use.Disable();
+        
+        minimap_mode.Disable();
     }
     
     /// <summary>

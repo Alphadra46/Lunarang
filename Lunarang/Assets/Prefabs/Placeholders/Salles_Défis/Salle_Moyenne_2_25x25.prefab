@@ -91,8 +91,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 11.281352, y: 1, z: 15.285448}
-  m_Center: {x: 0.640676, y: 0, z: -0.87313914}
+  m_Size: {x: 11.208552, y: 1, z: 22.725513}
+  m_Center: {x: 0.67707586, y: 0, z: -0.7824249}
 --- !u!1 &1838833008777859751
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,8 +260,39 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 1, z: 10}
+  m_Size: {x: 5, y: 1, z: 5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &6241547410902808987
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3454460777286160202}
+  m_Layer: 0
+  m_Name: MinimapPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3454460777286160202
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6241547410902808987}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7205860742274942541}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7205860741407223815
 GameObject:
   m_ObjectHideFlags: 0
@@ -3129,6 +3160,7 @@ Transform:
   - {fileID: 2918897985935145955}
   - {fileID: 7428568861251078077}
   - {fileID: 4231571667908528615}
+  - {fileID: 3454460777286160202}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3152,6 +3184,7 @@ MonoBehaviour:
   doorSouth: {fileID: 2844832218765135688}
   doorWest: {fileID: 4146342128805756238}
   doorEast: {fileID: 2378069609977611852}
+  MinimapPosition: {fileID: 6241547410902808987}
   globalSpawnArea:
   - {fileID: 658366257331222585}
   eliteSpawnArea:
@@ -9146,8 +9179,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 26.938889, y: 1, z: 27.019693}
-  m_Center: {x: -5.5285797, y: 0, z: 4.7393064}
+  m_Size: {x: 30.61097, y: 1, z: 25.076675}
+  m_Center: {x: -3.6925392, y: 0, z: 5.710815}
 --- !u!1001 &2275626192617214353
 PrefabInstance:
   m_ObjectHideFlags: 0

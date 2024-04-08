@@ -93,6 +93,10 @@ public class AI_StateMachine : StateManager<AI_StateMachine.EnemyState>
     [TabGroup("States", "Attack")]
     public LayerMask layersAttackable;
     
+    [PropertySpace(SpaceBefore = 10)]
+    [TabGroup("States", "Attack")]
+    public bool canAttack = true;
+    
     
     #endregion
 
@@ -115,6 +119,16 @@ public class AI_StateMachine : StateManager<AI_StateMachine.EnemyState>
     public virtual void OnDamageTaken()
     {}
     
+    /// <summary>
+    /// Activate the hurtbox to deal damage to the forward entity.
+    /// </summary>
+    public void CanAttack(bool value)
+    {
+        
+        canAttack = value;
+        _renderer.SendBoolToAnimator("canAttack", value);
+        
+    }
     
     public void TryToTransition(EnemyState newState, bool isFreezeBreak = false)
     {

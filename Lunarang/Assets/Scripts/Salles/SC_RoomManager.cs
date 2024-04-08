@@ -22,6 +22,9 @@ public class SC_RoomManager : MonoBehaviour
     [TabGroup("Settings", "Global Settings")] public SC_Door doorSouth;
     [TabGroup("Settings", "Global Settings")] public SC_Door doorWest;
     [TabGroup("Settings", "Global Settings")] public SC_Door doorEast;
+    
+    [Header("Minimap Position")]
+    [TabGroup("Settings", "Global Settings")] public GameObject MinimapPosition;
 
     [Header("Enemies spawn area")] 
     [TabGroup("Settings", "Wave Settings"), HideIf("isSpecialRoom")] public List<GameObject> globalSpawnArea;

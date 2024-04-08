@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &284475379390420911
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2745983885339371045}
+  m_Layer: 0
+  m_Name: MinimapPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2745983885339371045
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284475379390420911}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1174294689664053555}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1174294688527611287
 GameObject:
   m_ObjectHideFlags: 0
@@ -6777,6 +6808,7 @@ Transform:
   - {fileID: 1381561104895660467}
   - {fileID: 152610328800961094}
   - {fileID: 8022831421066847968}
+  - {fileID: 2745983885339371045}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6800,6 +6832,7 @@ MonoBehaviour:
   doorSouth: {fileID: 6177682398342978400}
   doorWest: {fileID: 6793386812336651178}
   doorEast: {fileID: 9138009171831099628}
+  MinimapPosition: {fileID: 284475379390420911}
   globalSpawnArea:
   - {fileID: 7129876638075253696}
   - {fileID: 8586515833802250091}
@@ -7438,8 +7471,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.816116, y: 1, z: 3.8581438}
-  m_Center: {x: -1.1718259, y: 0, z: -0.22039199}
+  m_Size: {x: 4.0912366, y: 1, z: 5.4490643}
+  m_Center: {x: 3.1276834, y: 0, z: -1.015852}
 --- !u!1 &8586515833802250091
 GameObject:
   m_ObjectHideFlags: 0
@@ -7483,8 +7516,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.816116, y: 1, z: 3.8581438}
-  m_Center: {x: -1.1718259, y: 0, z: -0.22039199}
+  m_Size: {x: 10.889531, y: 1, z: 7.8694196}
+  m_Center: {x: 1.864883, y: 0, z: -2.226031}
 --- !u!1001 &8939308469893652678
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7591,6 +7624,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2596684303871057097, guid: 1941a9b5ee23a6545a55ba23844da954,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2738891906207966007, guid: 1941a9b5ee23a6545a55ba23844da954,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2764867931321740397, guid: 1941a9b5ee23a6545a55ba23844da954,
         type: 3}
@@ -7792,6 +7835,16 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3587275588253045965, guid: 1941a9b5ee23a6545a55ba23844da954,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5114800234818024752, guid: 1941a9b5ee23a6545a55ba23844da954,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6468902147145051738, guid: 1941a9b5ee23a6545a55ba23844da954,
         type: 3}
       propertyPath: m_Layer
@@ -7866,6 +7919,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7211750172778660741, guid: 1941a9b5ee23a6545a55ba23844da954,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7833796655365213158, guid: 1941a9b5ee23a6545a55ba23844da954,
         type: 3}
@@ -7936,6 +7994,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8564279686523392462, guid: 1941a9b5ee23a6545a55ba23844da954,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1941a9b5ee23a6545a55ba23844da954, type: 3}

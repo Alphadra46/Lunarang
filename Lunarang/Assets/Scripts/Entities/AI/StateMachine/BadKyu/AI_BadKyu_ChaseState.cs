@@ -23,7 +23,6 @@ public class AI_BadKyu_ChaseState : BaseState<AI_StateMachine.EnemyState>
 
     private GameObject player;
     
-    private bool canAttack = true;
     private bool canDefense = true;
 
     #endregion
@@ -95,7 +94,7 @@ public class AI_BadKyu_ChaseState : BaseState<AI_StateMachine.EnemyState>
         if (distance <= _aiStateMachine.attackRange)
         {
             _agent.isStopped = true;
-            if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform))
+            if (_aiStateMachine.canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform))
             {
                 _aiStateMachine.centerPoint.LookAt(new Vector3(player.transform.position.x, _aiStateMachine.centerPoint.position.y + _aiStateMachine.ProjectileSpawnOffset.y, player.transform.position.z));
                 _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Attack);
@@ -123,9 +122,10 @@ public class AI_BadKyu_ChaseState : BaseState<AI_StateMachine.EnemyState>
     /// </summary>
     public IEnumerator AttackCooldown()
     {
-        canAttack = false;
+        
+        _aiStateMachine.canAttack = false;
         yield return new WaitForSeconds(_aiStateMachine.atkCDBase);
-        canAttack = true;
+        _aiStateMachine.canAttack = true;
 
     }
     

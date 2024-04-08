@@ -28,6 +28,8 @@ public class AI_FreezeState : BaseState<AI_StateMachine.EnemyState>
     {
         _aiStateMachine.agent.isStopped = false;
         _aiStateMachine._renderer.PauseAnimator(false);
+
+        _aiStateMachine.canAttack = true;
     }
 
     public override void UpdateState()

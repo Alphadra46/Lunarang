@@ -116,6 +116,15 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MinimapMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""e5713199-99bc-44ba-9ffb-76f6925b6aab"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -424,6 +433,28 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Consumable_Use"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0084a52-af9a-4a1b-8746-be7f67087a89"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MinimapMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e2a83cb2-5ca0-4fe9-b33d-44c0aadd3fc3"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MinimapMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1043,6 +1074,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_General_Interaction = m_General.FindAction("Interaction", throwIfNotFound: true);
         m_General_Consumable_Switch = m_General.FindAction("Consumable_Switch", throwIfNotFound: true);
         m_General_Consumable_Use = m_General.FindAction("Consumable_Use", throwIfNotFound: true);
+        m_General_MinimapMode = m_General.FindAction("MinimapMode", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1129,6 +1161,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_General_Interaction;
     private readonly InputAction m_General_Consumable_Switch;
     private readonly InputAction m_General_Consumable_Use;
+    private readonly InputAction m_General_MinimapMode;
     public struct GeneralActions
     {
         private @InputMap m_Wrapper;
@@ -1143,6 +1176,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @Interaction => m_Wrapper.m_General_Interaction;
         public InputAction @Consumable_Switch => m_Wrapper.m_General_Consumable_Switch;
         public InputAction @Consumable_Use => m_Wrapper.m_General_Consumable_Use;
+        public InputAction @MinimapMode => m_Wrapper.m_General_MinimapMode;
         public InputActionMap Get() { return m_Wrapper.m_General; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1182,6 +1216,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Consumable_Use.started += instance.OnConsumable_Use;
             @Consumable_Use.performed += instance.OnConsumable_Use;
             @Consumable_Use.canceled += instance.OnConsumable_Use;
+            @MinimapMode.started += instance.OnMinimapMode;
+            @MinimapMode.performed += instance.OnMinimapMode;
+            @MinimapMode.canceled += instance.OnMinimapMode;
         }
 
         private void UnregisterCallbacks(IGeneralActions instance)
@@ -1216,6 +1253,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Consumable_Use.started -= instance.OnConsumable_Use;
             @Consumable_Use.performed -= instance.OnConsumable_Use;
             @Consumable_Use.canceled -= instance.OnConsumable_Use;
+            @MinimapMode.started -= instance.OnMinimapMode;
+            @MinimapMode.performed -= instance.OnMinimapMode;
+            @MinimapMode.canceled -= instance.OnMinimapMode;
         }
 
         public void RemoveCallbacks(IGeneralActions instance)
@@ -1409,6 +1449,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnInteraction(InputAction.CallbackContext context);
         void OnConsumable_Switch(InputAction.CallbackContext context);
         void OnConsumable_Use(InputAction.CallbackContext context);
+        void OnMinimapMode(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

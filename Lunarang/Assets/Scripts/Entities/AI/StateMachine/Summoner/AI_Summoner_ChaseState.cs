@@ -23,7 +23,6 @@ public class AI_Summoner_ChaseState : BaseState<AI_StateMachine.EnemyState>
 
     private GameObject player;
     
-    private bool canAttack = true;
     // private bool canBeStun = true;
 
     #endregion
@@ -76,7 +75,7 @@ public class AI_Summoner_ChaseState : BaseState<AI_StateMachine.EnemyState>
         {
             _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
             _agent.isStopped = true;
-            if (canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform))
+            if (_aiStateMachine.canAttack && _aiStateMachine.hasLineOfSightTo(player.transform, _transform))
             {
                 _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Attack);
             }
@@ -109,9 +108,9 @@ public class AI_Summoner_ChaseState : BaseState<AI_StateMachine.EnemyState>
     private IEnumerator AttackCooldown()
     {
         
-        canAttack = false;
+        _aiStateMachine.canAttack = false;
         yield return new WaitForSeconds(_aiStateMachine.atkCDBase);
-        canAttack = true;
+        _aiStateMachine.canAttack = true;
 
     }
     

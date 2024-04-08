@@ -13,8 +13,6 @@ public class AI_Bully_StateMachine : AI_StateMachine
     [TabGroup("States", "Attack")]
     public GameObject hurtBox;
     [TabGroup("States", "Attack")]
-    public bool canAttack = true;
-    [TabGroup("States", "Attack")]
     public bool canCharge = false;
 
     public bool obstacleHitted = false;
@@ -38,17 +36,6 @@ public class AI_Bully_StateMachine : AI_StateMachine
         States.Add(EnemyState.Freeze, new AI_FreezeState(EnemyState.Freeze, this));
         
         CurrentState = States[EnemyState.Idle];
-        
-    }
-    
-    /// <summary>
-    /// Activate the hurtbox to deal damage to the forward entity.
-    /// </summary>
-    public void CanAttack(bool value)
-    {
-        
-        canAttack = value;
-        _renderer.SendBoolToAnimator("canAttack", value);
         
     }
 
