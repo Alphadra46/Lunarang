@@ -18,7 +18,8 @@ public enum ArchiveState
     
     Hidden,
     Discover,
-    New
+    New,
+    Special
     
 }
 

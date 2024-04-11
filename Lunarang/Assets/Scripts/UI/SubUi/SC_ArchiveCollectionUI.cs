@@ -20,6 +20,7 @@ public class SC_ArchiveCollectionUI : MonoBehaviour
 
     public void Init(SO_ArchiveCollection newCollection)
     {
+        
         collection = newCollection;
         
         title.text = collection.collectionName;
@@ -28,11 +29,18 @@ public class SC_ArchiveCollectionUI : MonoBehaviour
 
         foreach (var archive in collection.allArchives)
         {
+            
             var archiveGO = Instantiate(archivePrefab, archivesParent).GetComponent<SC_ArchiveButtonUI>();
 
-            archiveGO.name.text = archive.archiveName;
+            archiveGO.Init(archive);
 
         }
+
+        if (!collection.hasBonusArchive) return;
+        
+        var specialGO = Instantiate(archivePrefab, archivesParent).GetComponent<SC_ArchiveButtonUI>();
+        
+        specialGO.Init(collection.bonusArchive);
 
     }
 

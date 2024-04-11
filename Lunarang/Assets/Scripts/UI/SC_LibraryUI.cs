@@ -38,25 +38,38 @@ public class SC_LibraryUI : MonoBehaviour
 
             Instantiate(collectionSeparatorPrefab, collectionsContent.transform);
 
-            var collectionGO = Instantiate(collectionPrefab, collectionsContent.transform).GetComponent<SC_ArchiveCollectionUI>();
-
-            collectionGO.Init(collection);
+            var collectionGO = Instantiate(collectionPrefab, collectionsContent.transform);
+            var collectionGOScript = collectionGO.GetComponent<SC_ArchiveCollectionUI>();
+            
+            collectionGOScript.Init(collection);
+            
+            collectionsGO.Add(collectionGO);
+            
+            collectionGO.SetActive(false);
+            
+            SwitchType((int) typeShowed);
             
         }
         
     }
 
-    public void SwitchType(ArchiveType newType)
+    public void SwitchType(int newType)
     {
-
-        typeShowed = newType;
+        
+        typeShowed = (ArchiveType) newType;
         collectionsGOShowed.Clear();
-
-        foreach (var collection in collectionsGO.FindAll(o => o.GetComponent<SC_ArchiveCollectionUI>().collection.collectionType == typeShowed))
+        
+        foreach (var collection in collectionsGO)
         {
-            collectionsGOShowed.Add(collection);
-            collection.SetActive(false);
             
+            collection.SetActive(false);
+
+            if (collection.GetComponent<SC_ArchiveCollectionUI>().collection.collectionType != typeShowed) continue;
+            
+            collectionsGOShowed.Add(collection);
+            collection.SetActive(true);
+
+
         }
 
     }
