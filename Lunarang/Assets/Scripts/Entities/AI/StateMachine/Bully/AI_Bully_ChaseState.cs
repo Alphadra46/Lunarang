@@ -96,6 +96,17 @@ public class AI_Bully_ChaseState : BaseState<AI_Bully_StateMachine.EnemyState>
             _aiStateMachine.centerPoint.LookAt(new Vector3(playerPos.x, _aiStateMachine.centerPoint.position.y, playerPos.z));
     }
     
+    /// <summary>
+    /// Internal Cooldown before next attack.
+    /// </summary>
+    public IEnumerator AttackCooldown()
+    {
+        
+        _aiStateMachine.canAttack = false;
+        yield return new WaitForSeconds(_aiStateMachine.atkCDBase);
+        _aiStateMachine.canAttack = true;
+
+    }
 
     public override AI_StateMachine.EnemyState GetNextState()
     {
