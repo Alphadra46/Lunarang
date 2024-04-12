@@ -37,5 +37,12 @@ public class SC_ArchiveButtonUI : SerializedMonoBehaviour
         }
 
     }
+
+    public void OnClick()
+    {
+        
+        SC_LibraryUI.showInformations?.Invoke(archive);
+        
+    }
     
 }
