@@ -8,18 +8,21 @@ public class SC_LibraryUI : MonoBehaviour
 {
 
     #region Prefabs
-
+    
+    [BoxGroup("Prefab")]
     public GameObject collectionSeparatorPrefab;
-    public GameObject collectionPrefab;
+    [BoxGroup("Prefab")]public GameObject collectionPrefab;
     
     #endregion
     
     [PropertySpace(SpaceBefore = 15f)]
     public GameObject collectionsContent;
-
+    
+    [BoxGroup("List")]
     public List<GameObject> collectionsGO = new List<GameObject>();
+    [BoxGroup("List")]
     public List<GameObject> collectionsGOShowed = new List<GameObject>();
-
+    
     public ArchiveType typeShowed = ArchiveType.Story;
 
     public Scrollbar scrollbar;
