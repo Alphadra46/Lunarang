@@ -35,11 +35,9 @@ public class SC_LibraryUI : MonoBehaviour
 
     public void Init()
     {
-
+        
         foreach (var collection in SC_GameManager.instance.archivesInventory.collections)
         {
-
-            Instantiate(collectionSeparatorPrefab, collectionsContent.transform);
 
             var collectionGO = Instantiate(collectionPrefab, collectionsContent.transform);
             var collectionGOScript = collectionGO.GetComponent<SC_ArchiveCollectionUI>();
@@ -47,12 +45,9 @@ public class SC_LibraryUI : MonoBehaviour
             collectionGOScript.Init(collection);
             
             collectionsGO.Add(collectionGO);
-            
-            collectionGO.SetActive(false);
-            
-            SwitchType((int) typeShowed);
-            
         }
+        
+        SwitchType((int) typeShowed);
         
     }
 
@@ -62,19 +57,23 @@ public class SC_LibraryUI : MonoBehaviour
         typeShowed = (ArchiveType) newType;
         collectionsGOShowed.Clear();
         
-        foreach (var collection in collectionsGO)
+        foreach (var collectionGO in collectionsGO)
         {
             
-            collection.SetActive(false);
-
-            if (collection.GetComponent<SC_ArchiveCollectionUI>().collection.collectionType != typeShowed) continue;
+            collectionGO.SetActive(collectionGO.GetComponent<SC_ArchiveCollectionUI>().collection.collectionType ==
+                                   typeShowed);
             
-            collectionsGOShowed.Add(collection);
-            collection.SetActive(true);
-
-
+            if(collectionGO.activeInHierarchy) collectionsGOShowed.Add(collectionGO);
+            
         }
 
+    }
+
+    public void BackToLobby()
+    {
+        
+        Destroy(gameObject);
+        
     }
     
 }
