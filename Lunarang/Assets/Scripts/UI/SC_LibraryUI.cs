@@ -59,6 +59,8 @@ public class SC_LibraryUI : MonoBehaviour
     {
         scrollbar.Select();
         Init();
+        
+        LayoutRebuilder.ForceRebuildLayoutImmediate(unlockedContent.GetComponent<RectTransform>());
     }
 
     public void Init()
@@ -117,8 +119,7 @@ public class SC_LibraryUI : MonoBehaviour
         else
         {
             lockedContent.SetActive(false);
-            unlockedContent.SetActive(true);
-
+            
             var collectionNameTMP = unlockedContent.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             var archiveNameTMP = unlockedContent.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
             var archiveImage = unlockedContent.transform.GetChild(3).GetComponent<Image>();
@@ -129,15 +130,27 @@ public class SC_LibraryUI : MonoBehaviour
                 SC_GameManager.instance.archivesInventory.collections.FirstOrDefault(o =>
                     o.collectionID == archiveToDisplay.collectionID);
 
-            if (collection != null) collectionNameTMP.text = collection.collectionName;
+            if (collection != null)
+            {
+                collectionNameTMP.text = collection.collectionName;
+                collectionNameTMP.CalculateLayoutInputVertical();
+            }
 
             archiveNameTMP.text = archiveToDisplay.archiveName;
+            archiveNameTMP.CalculateLayoutInputVertical();
 
             archiveImage.sprite = archiveToDisplay.splashArt;
+            archiveImage.CalculateLayoutInputVertical();
 
             archiveDescTMP.text = archiveToDisplay.shortDescription;
+            archiveDescTMP.CalculateLayoutInputVertical();
 
             archiveLoreTMP.text = archiveToDisplay.loreDescription;
+            archiveLoreTMP.CalculateLayoutInputVertical();
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(unlockedContent.GetComponent<RectTransform>());
+            
+            unlockedContent.SetActive(true);
 
         }
         
