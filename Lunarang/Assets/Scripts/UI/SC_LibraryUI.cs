@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class SC_LibraryUI : MonoBehaviour
 {
+    #region Variables
 
     #region Actions
 
@@ -19,10 +20,13 @@ public class SC_LibraryUI : MonoBehaviour
     
     [BoxGroup("Prefab")]
     public GameObject collectionSeparatorPrefab;
-    [BoxGroup("Prefab")]public GameObject collectionPrefab;
+    [BoxGroup("Prefab")] public GameObject collectionPrefab;
+    [BoxGroup("Prefab")]public GameObject enemiesCollectionPrefab;
     
     #endregion
-    
+
+    #region References
+
     [PropertySpace(SpaceBefore = 15f)]
     public GameObject collectionsContent;
     
@@ -31,6 +35,19 @@ public class SC_LibraryUI : MonoBehaviour
     
     [PropertySpace(SpaceBefore = 15f)]
     public GameObject unlockedContent;
+    
+    [PropertySpace(SpaceBefore = 15f)]
+    public GameObject unselectedContent;
+    
+    [PropertySpace(SpaceBefore = 15f)]
+    public Image counterImage;
+    [PropertySpace(SpaceBefore = 15f)]
+    public Sprite counterSprite;
+    [PropertySpace(SpaceBefore = 5f)]
+    public TextMeshProUGUI counterText;
+    
+
+    #endregion
 
     #region Lists
 
@@ -45,6 +62,9 @@ public class SC_LibraryUI : MonoBehaviour
 
     public Scrollbar scrollbar;
 
+    #endregion
+
+    
     private void OnEnable()
     {
         showInformations += ShowInformations;
@@ -60,7 +80,8 @@ public class SC_LibraryUI : MonoBehaviour
         scrollbar.Select();
         Init();
         
-        LayoutRebuilder.ForceRebuildLayoutImmediate(unlockedContent.GetComponent<RectTransform>());
+        SwitchInformationsPanelState("unselected");
+        
     }
 
     public void Init()
@@ -68,23 +89,37 @@ public class SC_LibraryUI : MonoBehaviour
         
         foreach (var collection in SC_GameManager.instance.archivesInventory.collections)
         {
-
+            
             var collectionGO = Instantiate(collectionPrefab, collectionsContent.transform);
             var collectionGOScript = collectionGO.GetComponent<SC_ArchiveCollectionUI>();
-            
-            collectionGOScript.Init(collection);
-            
+                
+            if(collection.collectionType == ArchiveType.Enemies) collectionGOScript.InitEnemiesCollection(collection);
+            else collectionGOScript.InitStantardCollection(collection);
+                
             collectionsGO.Add(collectionGO);
+            
         }
         
-        SwitchType((int) typeShowed);
         
-    }
 
+        counterImage.sprite = counterSprite;
+        var rect = counterImage.GetComponent<RectTransform>().rect;
+        rect.height = 50f;
+        rect.width = 50f;
+        
+        counterText.text = SC_GameManager.instance.archivesInventory.GetNumbersOfDiscovoredArchives() + "/" +
+                           SC_GameManager.instance.archivesInventory.GetNumbersOfArchives();
+        
+        SwitchType((int) typeShowed);
+
+    }
+    
+    
     public void SwitchType(int newType)
     {
         
         typeShowed = (ArchiveType) newType;
+        
         collectionsGOShowed.Clear();
         
         foreach (var collectionGO in collectionsGO)
@@ -96,7 +131,7 @@ public class SC_LibraryUI : MonoBehaviour
             if(collectionGO.activeInHierarchy) collectionsGOShowed.Add(collectionGO);
             
         }
-
+        
     }
 
     public void BackToLobby()
@@ -108,17 +143,15 @@ public class SC_LibraryUI : MonoBehaviour
 
     public void ShowInformations(SO_Archive archiveToDisplay)
     {
-
+        
         if (archiveToDisplay.archiveState is ArchiveState.Hidden)
         {
-            
-            unlockedContent.SetActive(false);
-            lockedContent.SetActive(true);
+            SwitchInformationsPanelState("locked");
             
         }
         else
         {
-            lockedContent.SetActive(false);
+            SwitchInformationsPanelState("unlocked");
             
             var collectionNameTMP = unlockedContent.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             var archiveNameTMP = unlockedContent.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
@@ -149,11 +182,38 @@ public class SC_LibraryUI : MonoBehaviour
             archiveLoreTMP.CalculateLayoutInputVertical();
 
             LayoutRebuilder.ForceRebuildLayoutImmediate(unlockedContent.GetComponent<RectTransform>());
-            
-            unlockedContent.SetActive(true);
 
         }
         
+        
+    }
+
+    public void SwitchInformationsPanelState(string state)
+    {
+
+        switch (state)
+        {
+            case "unselected":
+                lockedContent.SetActive(false);
+                unlockedContent.SetActive(false);
+                unselectedContent.SetActive(true);
+                break;
+            
+            case "locked":
+                unselectedContent.SetActive(false);
+                unlockedContent.SetActive(false);
+                lockedContent.SetActive(true);
+                break;
+            
+            case "unlocked":
+                unselectedContent.SetActive(false);
+                lockedContent.SetActive(false);
+                unlockedContent.SetActive(true);
+                break;
+            
+            default:
+                break;
+        }
         
     }
     
