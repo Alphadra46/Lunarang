@@ -23,6 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1045893024492032250}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -30,7 +31,6 @@ Transform:
   m_Children:
   - {fileID: 8234518842453287356}
   m_Father: {fileID: 8234518841674333747}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5920497028890321441
 GameObject:
@@ -55,6 +55,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5920497028890321441}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -65,7 +66,52 @@ Transform:
   - {fileID: 2815100251643601286}
   - {fileID: 2815100252497134336}
   m_Father: {fileID: 8234518841674333747}
-  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7359437107314474568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6239111868066389986}
+  m_Layer: 0
+  m_Name: ground
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6239111868066389986
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7359437107314474568}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.0615015, y: 3.0614614, z: -0.020000458}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3968213313090947908}
+  - {fileID: 7832896840586952567}
+  - {fileID: 7104224153158881726}
+  - {fileID: 4176363524624765034}
+  - {fileID: 206450729871876092}
+  - {fileID: 3188950516976705938}
+  - {fileID: 242260919833709287}
+  - {fileID: 6659302548534316409}
+  - {fileID: 1260466218469624331}
+  - {fileID: 6560505422758749217}
+  - {fileID: 1494912567824879437}
+  - {fileID: 474516565147886179}
+  - {fileID: 5686078902481273032}
+  - {fileID: 3438410663852986064}
+  - {fileID: 6701476354698365827}
+  m_Father: {fileID: 8234518841674333747}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7453250740987914904
 GameObject:
@@ -90,6 +136,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7453250740987914904}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -109,7 +156,6 @@ Transform:
   - {fileID: 6703587747380240886}
   - {fileID: 6216013392906671857}
   m_Father: {fileID: 8234518841674333747}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8234518841674333756
 GameObject:
@@ -134,6 +180,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8234518841674333756}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -147,8 +194,8 @@ Transform:
   - {fileID: 6832655921445901541}
   - {fileID: 2865462531752363694}
   - {fileID: 8717811174387924932}
+  - {fileID: 6239111868066389986}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8234518842453287357
 GameObject:
@@ -178,13 +225,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8234518842453287357}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -8, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2637850102394482449}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8234518842453287351
 MonoBehaviour:
@@ -824,17 +871,268 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8234518842453287357}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 4
+  serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1001 &2038719306400103502
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6239111868066389986}
+    m_Modifications:
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_little_dalle_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.473
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.076
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.784
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 243d42a0553d28047bde86f3bacc0303, type: 3}
+--- !u!4 &206450729871876092 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+    type: 3}
+  m_PrefabInstance: {fileID: 2038719306400103502}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2125325701938408071
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6239111868066389986}
+    m_Modifications:
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.008710899
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.644
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.107
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.089
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_little_dalle_10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e04e5cc8ec224224eae3b37912e4020a, type: 3}
+--- !u!4 &4176363524624765034 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+    type: 3}
+  m_PrefabInstance: {fileID: 2125325701938408071}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2312864503661620715
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6239111868066389986}
+    m_Modifications:
+    - target: {fileID: 8526246010452049106, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_alpha_motif_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.0069063995
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.0069063995
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.0069063995
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7033948
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.71079946
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e60cd46aa57012142abfc9a1058a8ba6, type: 3}
+--- !u!4 &6701476354698365827 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2312864503661620715}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2866751384044266982
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8234518841674333747}
     m_Modifications:
     - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
@@ -898,6 +1196,9 @@ PrefabInstance:
       value: Moonset_FBX_wall_little_02_corner_03
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f36fb3a9070c0d247926032de5fec0ad, type: 3}
 --- !u!4 &6979827751365477021 stripped
 Transform:
@@ -905,11 +1206,565 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2866751384044266982}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3464188326418571194
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6239111868066389986}
+    m_Modifications:
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.988
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 885371544334274116, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_dalle_01
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: af85fde0bd2c83545a48531684c30090, type: 3}
+--- !u!4 &3968213313090947908 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+    type: 3}
+  m_PrefabInstance: {fileID: 3464188326418571194}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3663366213631115808
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6239111868066389986}
+    m_Modifications:
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_little_dalle_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.113
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 243d42a0553d28047bde86f3bacc0303, type: 3}
+--- !u!4 &3188950516976705938 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
+    type: 3}
+  m_PrefabInstance: {fileID: 3663366213631115808}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3814096143735890218
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6239111868066389986}
+    m_Modifications:
+    - target: {fileID: 4013493667895798733, guid: ec4000a67205e234fb47236b18e421e4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.0615015
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013493667895798733, guid: ec4000a67205e234fb47236b18e421e4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.0614614
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013493667895798733, guid: ec4000a67205e234fb47236b18e421e4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.020000458
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013493667895798733, guid: ec4000a67205e234fb47236b18e421e4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013493667895798733, guid: ec4000a67205e234fb47236b18e421e4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013493667895798733, guid: ec4000a67205e234fb47236b18e421e4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013493667895798733, guid: ec4000a67205e234fb47236b18e421e4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013493667895798733, guid: ec4000a67205e234fb47236b18e421e4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013493667895798733, guid: ec4000a67205e234fb47236b18e421e4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013493667895798733, guid: ec4000a67205e234fb47236b18e421e4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4393573239943934327, guid: ec4000a67205e234fb47236b18e421e4,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_dalle_03
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ec4000a67205e234fb47236b18e421e4, type: 3}
+--- !u!4 &242260919833709287 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4013493667895798733, guid: ec4000a67205e234fb47236b18e421e4,
+    type: 3}
+  m_PrefabInstance: {fileID: 3814096143735890218}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4117866545086737554
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6239111868066389986}
+    m_Modifications:
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.009760656
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.009999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.8535013
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.0984614
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.5080004
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927691042542959441, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_little_dalle_08
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 88c7bf1d74443324b8461390e1048ed2, type: 3}
+--- !u!4 &6659302548534316409 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+    type: 3}
+  m_PrefabInstance: {fileID: 4117866545086737554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4486879632212018634
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6239111868066389986}
+    m_Modifications:
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.010624999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.009999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.1254616
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927691042542959441, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_little_dalle_07
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 88c7bf1d74443324b8461390e1048ed2, type: 3}
+--- !u!4 &6560505422758749217 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+    type: 3}
+  m_PrefabInstance: {fileID: 4486879632212018634}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5052060433589644115
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6239111868066389986}
+    m_Modifications:
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.084
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_little_dalle_09
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e04e5cc8ec224224eae3b37912e4020a, type: 3}
+--- !u!4 &7104224153158881726 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+    type: 3}
+  m_PrefabInstance: {fileID: 5052060433589644115}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5958033016037763256
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6239111868066389986}
+    m_Modifications:
+    - target: {fileID: 8526246010452049106, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_alpha_motif_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.0069063995
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.0069063995
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.0069063995
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.59380054
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.6500006
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e60cd46aa57012142abfc9a1058a8ba6, type: 3}
+--- !u!4 &3438410663852986064 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5958033016037763256}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6041608488434546987
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8234518841674333747}
     m_Modifications:
     - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
@@ -973,6 +1828,9 @@ PrefabInstance:
       value: Moonset_FBX_wall_little_02_corner_02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f36fb3a9070c0d247926032de5fec0ad, type: 3}
 --- !u!4 &1499119796229037648 stripped
 Transform:
@@ -985,6 +1843,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8234518841674333747}
     m_Modifications:
     - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
@@ -1048,6 +1907,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43d10771d749be44cae57ac5abcee0e2, type: 3}
 --- !u!4 &6832655921445901541 stripped
 Transform:
@@ -1060,6 +1922,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8234518841674333747}
     m_Modifications:
     - target: {fileID: 5122258991717345147, guid: f36fb3a9070c0d247926032de5fec0ad,
@@ -1123,6 +1986,9 @@ PrefabInstance:
       value: Moonset_FBX_wall_little_02_corner_04
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f36fb3a9070c0d247926032de5fec0ad, type: 3}
 --- !u!4 &2865462531752363694 stripped
 Transform:
@@ -1130,11 +1996,333 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6976570154785595861}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7195296321434829704
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6239111868066389986}
+    m_Modifications:
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.009999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.009999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.878499
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.1254616
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.4000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927691042542959441, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_little_dalle_01
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 88c7bf1d74443324b8461390e1048ed2, type: 3}
+--- !u!4 &474516565147886179 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+    type: 3}
+  m_PrefabInstance: {fileID: 7195296321434829704}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7665903551157041701
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6239111868066389986}
+    m_Modifications:
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.008498947
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.451502
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.1254616
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.8600006
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_little_dalle_03
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e04e5cc8ec224224eae3b37912e4020a, type: 3}
+--- !u!4 &5686078902481273032 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2633409550843362029, guid: e04e5cc8ec224224eae3b37912e4020a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7665903551157041701}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7761569382132493193
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6239111868066389986}
+    m_Modifications:
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 885371544334274116, guid: af85fde0bd2c83545a48531684c30090,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_dalle_02
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: af85fde0bd2c83545a48531684c30090, type: 3}
+--- !u!4 &7832896840586952567 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 505150920946406654, guid: af85fde0bd2c83545a48531684c30090,
+    type: 3}
+  m_PrefabInstance: {fileID: 7761569382132493193}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8210623575365381798
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6239111868066389986}
+    m_Modifications:
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.009999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.009999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.0015016
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.1254616
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.4000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927691042542959441, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_little_dalle_06
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 88c7bf1d74443324b8461390e1048ed2, type: 3}
+--- !u!4 &1494912567824879437 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+    type: 3}
+  m_PrefabInstance: {fileID: 8210623575365381798}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8234518841339563665
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 7095725928932593384}
     m_Modifications:
     - target: {fileID: 6149627365896528560, guid: 81df11717ff9e6f429e9877b4ac692d1,
@@ -1198,6 +2386,9 @@ PrefabInstance:
       value: Moonset_FBX_door_03
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81df11717ff9e6f429e9877b4ac692d1, type: 3}
 --- !u!4 &2815100252930370593 stripped
 Transform:
@@ -1210,6 +2401,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2031678709929682753}
     m_Modifications:
     - target: {fileID: 8502125511569827096, guid: fae5cbc2a360c0343a7a2e4e2178b9fe,
@@ -1273,6 +2465,9 @@ PrefabInstance:
       value: Moonset_FBX_wall_little_02_corner_1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fae5cbc2a360c0343a7a2e4e2178b9fe, type: 3}
 --- !u!4 &557176801230796893 stripped
 Transform:
@@ -1285,6 +2480,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2031678709929682753}
     m_Modifications:
     - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
@@ -1358,6 +2554,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43d10771d749be44cae57ac5abcee0e2, type: 3}
 --- !u!4 &8656936493422701700 stripped
 Transform:
@@ -1370,6 +2569,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2031678709929682753}
     m_Modifications:
     - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
@@ -1433,6 +2633,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43d10771d749be44cae57ac5abcee0e2, type: 3}
 --- !u!4 &8656936493380282966 stripped
 Transform:
@@ -1445,6 +2648,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2031678709929682753}
     m_Modifications:
     - target: {fileID: 2597132659399268884, guid: 10713680f50ee6a4591d308e13640ff2,
@@ -1518,6 +2722,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10713680f50ee6a4591d308e13640ff2, type: 3}
 --- !u!4 &6703587747380240886 stripped
 Transform:
@@ -1530,6 +2737,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2031678709929682753}
     m_Modifications:
     - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
@@ -1593,6 +2801,9 @@ PrefabInstance:
       value: Moonset_FBX_wall_03_base_1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3172d8ca50cb43a4ea24faa2528393c5, type: 3}
 --- !u!4 &6216013393103786941 stripped
 Transform:
@@ -1605,6 +2816,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2031678709929682753}
     m_Modifications:
     - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
@@ -1678,6 +2890,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43d10771d749be44cae57ac5abcee0e2, type: 3}
 --- !u!4 &8656936493293913761 stripped
 Transform:
@@ -1690,6 +2905,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2031678709929682753}
     m_Modifications:
     - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
@@ -1753,6 +2969,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43d10771d749be44cae57ac5abcee0e2, type: 3}
 --- !u!4 &8656936493214506608 stripped
 Transform:
@@ -1765,6 +2984,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2031678709929682753}
     m_Modifications:
     - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
@@ -1828,6 +3048,9 @@ PrefabInstance:
       value: Moonset_FBX_wall_03_base
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3172d8ca50cb43a4ea24faa2528393c5, type: 3}
 --- !u!4 &6216013392906671857 stripped
 Transform:
@@ -1840,6 +3063,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2031678709929682753}
     m_Modifications:
     - target: {fileID: 5991339411255561192, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e,
@@ -1923,6 +3147,9 @@ PrefabInstance:
       value: Moonset_FBX_pillar_03
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e, type: 3}
 --- !u!4 &2405872390300197579 stripped
 Transform:
@@ -1935,6 +3162,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 7095725928932593384}
     m_Modifications:
     - target: {fileID: 6149627365896528560, guid: 81df11717ff9e6f429e9877b4ac692d1,
@@ -2008,6 +3236,9 @@ PrefabInstance:
       value: Moonset_FBX_door_04
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81df11717ff9e6f429e9877b4ac692d1, type: 3}
 --- !u!4 &2815100251682182449 stripped
 Transform:
@@ -2020,6 +3251,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 7095725928932593384}
     m_Modifications:
     - target: {fileID: 6149627365896528560, guid: 81df11717ff9e6f429e9877b4ac692d1,
@@ -2093,6 +3325,9 @@ PrefabInstance:
       value: Moonset_FBX_door_02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81df11717ff9e6f429e9877b4ac692d1, type: 3}
 --- !u!4 &2815100251643601286 stripped
 Transform:
@@ -2105,6 +3340,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2031678709929682753}
     m_Modifications:
     - target: {fileID: 5991339411255561192, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e,
@@ -2188,6 +3424,9 @@ PrefabInstance:
       value: Moonset_FBX_pillar_02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2939bcfc9a9d854f9c2c7c4e34bc24e, type: 3}
 --- !u!4 &2405872390183005107 stripped
 Transform:
@@ -2200,6 +3439,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 7095725928932593384}
     m_Modifications:
     - target: {fileID: 6149627365896528560, guid: 81df11717ff9e6f429e9877b4ac692d1,
@@ -2263,6 +3503,9 @@ PrefabInstance:
       value: Moonset_FBX_door_01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81df11717ff9e6f429e9877b4ac692d1, type: 3}
 --- !u!4 &2815100252497134336 stripped
 Transform:
@@ -2275,6 +3518,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2031678709929682753}
     m_Modifications:
     - target: {fileID: 8502125511569827096, guid: fae5cbc2a360c0343a7a2e4e2178b9fe,
@@ -2348,6 +3592,9 @@ PrefabInstance:
       value: Moonset_FBX_wall_little_02_corner
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fae5cbc2a360c0343a7a2e4e2178b9fe, type: 3}
 --- !u!4 &557176800675861634 stripped
 Transform:
@@ -2360,6 +3607,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2031678709929682753}
     m_Modifications:
     - target: {fileID: 2595573657951441906, guid: 3172d8ca50cb43a4ea24faa2528393c5,
@@ -2433,6 +3681,9 @@ PrefabInstance:
       value: Moonset_FBX_wall_03_base_2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3172d8ca50cb43a4ea24faa2528393c5, type: 3}
 --- !u!4 &6216013392360636889 stripped
 Transform:
@@ -2445,6 +3696,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2031678709929682753}
     m_Modifications:
     - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
@@ -2518,6 +3770,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43d10771d749be44cae57ac5abcee0e2, type: 3}
 --- !u!4 &8656936492227686005 stripped
 Transform:
@@ -2530,6 +3785,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8234518841674333747}
     m_Modifications:
     - target: {fileID: 85196970302580467, guid: 43d10771d749be44cae57ac5abcee0e2,
@@ -2593,10 +3849,97 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43d10771d749be44cae57ac5abcee0e2, type: 3}
 --- !u!4 &8717811174387924932 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 749144129902181449, guid: 43d10771d749be44cae57ac5abcee0e2,
     type: 3}
   m_PrefabInstance: {fileID: 8259212004287431565}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8372494023421783008
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6239111868066389986}
+    m_Modifications:
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.010624999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.009999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.6984987
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.1254616
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.630001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927691042542959441, guid: 88c7bf1d74443324b8461390e1048ed2,
+        type: 3}
+      propertyPath: m_Name
+      value: Moonset_FBX_little_dalle_05
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 88c7bf1d74443324b8461390e1048ed2, type: 3}
+--- !u!4 &1260466218469624331 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7300055361474650603, guid: 88c7bf1d74443324b8461390e1048ed2,
+    type: 3}
+  m_PrefabInstance: {fileID: 8372494023421783008}
   m_PrefabAsset: {fileID: 0}

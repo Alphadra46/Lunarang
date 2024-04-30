@@ -37,5 +37,13 @@ public class SC_ArchiveButtonUI : SerializedMonoBehaviour
         }
 
     }
+
+    public void OnClick()
+    {
+        
+        if (archive.archiveState == ArchiveState.New) archive.archiveState = ArchiveState.Discover;
+        SC_LibraryUI.showInformations?.Invoke(archive);
+        
+    }
     
 }

@@ -13,13 +13,22 @@ public class SC_ArchiveCollectionUI : MonoBehaviour
     public TextMeshProUGUI desc;
 
     public Transform archivesParent;
+    
+    public Transform normalEnemiesParent;
+    public Transform eliteEnemiesParent;
+    public Transform bossEnemiesParent;
 
     public List<SC_ArchiveButtonUI> archivesGO = new List<SC_ArchiveButtonUI>();
 
+    public GameObject standardCollectionPanel;
+    public GameObject enemiesCollectionPanel;
+
     public SO_ArchiveCollection collection;
 
-    public void Init(SO_ArchiveCollection newCollection)
+    public void InitStantardCollection(SO_ArchiveCollection newCollection)
     {
+        
+        standardCollectionPanel.SetActive(true);
         
         collection = newCollection;
         
@@ -41,6 +50,33 @@ public class SC_ArchiveCollectionUI : MonoBehaviour
         var specialGO = Instantiate(archivePrefab, archivesParent).GetComponent<SC_ArchiveButtonUI>();
         
         specialGO.Init(collection.bonusArchive);
+
+    }
+    
+    public void InitEnemiesCollection(SO_ArchiveCollection newCollection)
+    {
+        
+        enemiesCollectionPanel.SetActive(true);
+        
+        collection = newCollection;
+        
+        title.text = collection.collectionName;
+
+        desc.text = collection.collectionShortDesc;
+
+        foreach (var archive in collection.allArchives)
+        {
+            
+            var archiveGO = Instantiate(archivePrefab, archive.enemiesType switch
+            {
+                "Normal" => normalEnemiesParent,
+                "Elite" => eliteEnemiesParent,
+                _ => bossEnemiesParent
+            }).GetComponent<SC_ArchiveButtonUI>();
+
+            archiveGO.Init(archive);
+
+        }
 
     }
 
