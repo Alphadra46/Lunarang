@@ -20,7 +20,8 @@ public class AI_DeathState : BaseState<AI_StateMachine.EnemyState>
     {
         //TODO Replace this by Death Animation
         
-        // _aiStateMachine._renderer.SendTriggerToAnimator("Death");
+        _aiStateMachine._renderer.SendTriggerToAnimator("Death");
+        _aiStateMachine._renderer.hideStatsUI?.Invoke();
         _aiStateMachine._stats.Invoke(nameof(SC_AIStats.Death), 1f);
     }
 

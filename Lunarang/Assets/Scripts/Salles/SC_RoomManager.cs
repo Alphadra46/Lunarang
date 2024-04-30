@@ -209,6 +209,7 @@ public class SC_RoomManager : MonoBehaviour
         
         
         Debug.Log($"Spawning wave {actualWave} !");
+        SC_FeedbackRoomStatusUI.roomNewWave?.Invoke(actualWave);
     }
 
     public void HellChallenge()
@@ -362,6 +363,7 @@ public class SC_RoomManager : MonoBehaviour
     public void UnlockDoors()
     {
         SC_GameManager.clearRoom -= ClearRoom;
+        SC_FeedbackRoomStatusUI.roomCleared?.Invoke();
         
         foreach (var door in activeDoors)
         {

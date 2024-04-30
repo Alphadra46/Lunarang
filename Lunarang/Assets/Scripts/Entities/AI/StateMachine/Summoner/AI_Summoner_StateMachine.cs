@@ -96,11 +96,14 @@ public class AI_Summoner_StateMachine : AI_StateMachine
     /// </summary>
     private void Summon()
     {
+        var enemyPool = SC_Pooling.instance.poolList.Find(s => s.poolName == "Ennemis");
+        var kyuEnemyList = enemyPool.subPoolsList.ToList();
+        kyuEnemyList = kyuEnemyList.Where(e => e.subPoolTransform.gameObject.name == "GO_BadKyu").ToList();
+        
+        if(kyuEnemyList.Count < 0) return;
+            
         for (var i = 0; i < numbersOfSummons; i++)
         {
-            var enemyPool = SC_Pooling.instance.poolList.Find(s => s.poolName == "Ennemis");
-            var kyuEnemyList = enemyPool.subPoolsList.ToList();
-            kyuEnemyList = kyuEnemyList.Where(e => e.subPoolTransform.gameObject.name == "GO_BadKyu").ToList();
             
             var summon = SC_Pooling.instance.GetItemFromPool("Ennemis", kyuEnemyList[Random.Range(0, kyuEnemyList.Count)].subPoolTransform.gameObject.name);
             summon.SetActive(true);
@@ -119,11 +122,14 @@ public class AI_Summoner_StateMachine : AI_StateMachine
             
             summon.transform.position = transform.position + pos;
             summon.GetComponent<NavMeshAgent>().enabled = true;
+            summon.GetComponent<AI_StateMachine>().TransitionToState(AI_StateMachine.EnemyState.Idle);
+            summon.GetComponent<AI_StateMachine>().CanAttack(true);
             
         }
 
         StartCoroutine(SummonCooldown());
         print("Summoning");
+        
     }
 
     /// <summary>
