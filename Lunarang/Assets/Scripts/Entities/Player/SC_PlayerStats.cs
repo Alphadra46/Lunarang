@@ -32,6 +32,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     
     #endregion
     
+    public static Action<float, float> onHealthInit;
     public static Action<float, float> onHealthChange;
     public static Action<float, float> onShieldHPChange;
 
@@ -69,7 +70,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     private void Start()
     {
         currentStats.currentHealth = currentStats.currentMaxHealth;
-        onHealthChange?.Invoke(currentStats.currentHealth, currentStats.currentMaxHealth);
+        onHealthInit?.Invoke(currentStats.currentHealth, currentStats.currentMaxHealth);
     }
 
     private void Update()
