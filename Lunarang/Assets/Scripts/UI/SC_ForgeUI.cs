@@ -46,7 +46,7 @@ public class SC_ForgeUI : MonoBehaviour
     public void LoadWeaponInventory()
     {
 
-        foreach (var VARIABLE in SC_GameManager.instance.)
+        foreach (var weapon in SC_GameManager.instance.weaponInventory.weaponsOwned)
         {
             
         }
