@@ -28,4 +28,11 @@ public class SC_Lobby : MonoBehaviour
         SC_GameManager.instance.OpenLibrary();
         
     }
+    
+    public void Forge()
+    {
+        
+        SC_GameManager.instance.OpenForge();
+        
+    }
 }

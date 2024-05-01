@@ -31,6 +31,8 @@ public class SC_UIManager : MonoBehaviour
     [SerializeField] private GameObject libraryUIPrefab;
     [BoxGroup("Prefabs References")]
     [SerializeField] private GameObject loadingScreenPrefab;
+    [BoxGroup("Prefabs References")]
+    [SerializeField] private GameObject settingsPrefab;
 
     #region Temporary References
     
@@ -49,6 +51,8 @@ public class SC_UIManager : MonoBehaviour
     [ShowInInspector] public GameObject winUI;
     [BoxGroup("Temporary References")]
     [ShowInInspector] public GameObject loadingScreenUI;
+    [BoxGroup("Temporary References")]
+    [ShowInInspector] public GameObject settingsUI;
     
     // Buildings
     [BoxGroup("Temporary References")]
@@ -183,14 +187,12 @@ public class SC_UIManager : MonoBehaviour
         
         if (forgeUI == null)
         {
-            forgeUI = Instantiate(forgeUIPrefab, UIParent.transform);
+            forgeUI = Instantiate(forgeUIPrefab);
             forgeUI.name = "ForgeUI";
-            ShowHUD();
         }
         else
         {
             Destroy(forgeUI);
-            ShowHUD();
         }
         
     }
@@ -264,6 +266,21 @@ public class SC_UIManager : MonoBehaviour
         if(hudUI != null) ShowHUD();
 
     }
+    
+    public void ShowSettings()
+    {
+
+        if (settingsUI == null)
+        {
+            settingsUI = Instantiate(settingsPrefab);
+            settingsUI.name = "SettingsUI";
+        }
+        else
+        {
+            Destroy(settingsUI);
+        }
+
+    }
 
     public void DestroyLoadingScreen()
     {
@@ -301,6 +318,7 @@ public class SC_UIManager : MonoBehaviour
         gameOverUI = null;
         forgeUI = null;
         libraryUI = null;
+        settingsUI = null;
 
         statsUI = null;
     }

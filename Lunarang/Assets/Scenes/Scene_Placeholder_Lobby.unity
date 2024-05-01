@@ -309,7 +309,7 @@ GameObject:
   - component: {fileID: 176889849}
   - component: {fileID: 176889848}
   m_Layer: 5
-  m_Name: Button_building_1
+  m_Name: Button_Forge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -357,7 +357,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0, g: 0, b: 0, a: 1}
+    m_NormalColor: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -375,14 +375,14 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1749221463}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 196372004}
         m_TargetAssemblyTypeName: SC_Lobby, Assembly-CSharp
-        m_MethodName: Temple
+        m_MethodName: Forge
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1630,6 +1630,12 @@ PrefabInstance:
       propertyPath: UIParent
       value: 
       objectReference: {fileID: 1566859598}
+    - target: {fileID: 3926022923171039169, guid: a15fe9ee3c0b8c5439cd93c69cfb1876,
+        type: 3}
+      propertyPath: settingsPrefab
+      value: 
+      objectReference: {fileID: 3185834659062854091, guid: 2d23976ebaec7e64986de33813acb638,
+        type: 3}
     - target: {fileID: 3926022923171039172, guid: a15fe9ee3c0b8c5439cd93c69cfb1876,
         type: 3}
       propertyPath: m_RootOrder
@@ -1708,7 +1714,7 @@ GameObject:
   - component: {fileID: 1102976574}
   - component: {fileID: 1102976573}
   m_Layer: 5
-  m_Name: Button_building_4
+  m_Name: Button_Library
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2808,8 +2814,7 @@ MonoBehaviour:
   m_text: Forge (WIP)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6c6ef7d484a46c2438d49bba11ad9d0f, type: 2}
-  m_sharedMaterial: {fileID: -3620833440429558230, guid: 6c6ef7d484a46c2438d49bba11ad9d0f,
-    type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: e62392c31a2c18b47a8204ddaa686bf0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3068,7 +3073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.6862745}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3286,8 +3291,7 @@ MonoBehaviour:
   m_text: "Biblioth\xE8que (WIP)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6c6ef7d484a46c2438d49bba11ad9d0f, type: 2}
-  m_sharedMaterial: {fileID: -3620833440429558230, guid: 6c6ef7d484a46c2438d49bba11ad9d0f,
-    type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: e62392c31a2c18b47a8204ddaa686bf0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

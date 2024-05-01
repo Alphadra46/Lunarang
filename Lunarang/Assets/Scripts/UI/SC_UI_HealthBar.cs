@@ -79,7 +79,6 @@ public class SC_UI_HealthBar : MonoBehaviour
         {
             canLerp = false;
             lerpCoroutine = null;
-            print("LERP");
         }
         else
         {
