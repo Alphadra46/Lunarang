@@ -7,7 +7,9 @@ using UnityEngine.Rendering;
 
 public class SC_ModifierPanel : SerializedMonoBehaviour
 {
-    
+
+    #region Variables
+
     [FoldoutGroup("Settings")]
     public Sprite downArrowSprite;
     [FoldoutGroup("Settings")]
@@ -27,14 +29,15 @@ public class SC_ModifierPanel : SerializedMonoBehaviour
     private Dictionary<Enum_Buff, GameObject> currentBuffsWidgets = new Dictionary<Enum_Buff, GameObject>();
     private Dictionary<Enum_Debuff,GameObject> currentDebuffsWidgets = new Dictionary<Enum_Debuff, GameObject>();
 
+    #endregion
 
     #region Actions
 
-    public Action<Enum_Debuff> debuffAdded;
-    public Action<Enum_Buff> buffAdded;
+    [ReadOnly] public Action<Enum_Debuff> debuffAdded;
+    [ReadOnly] public Action<Enum_Buff> buffAdded;
     
-    public Action<Enum_Debuff> debuffRemoved;
-    public Action<Enum_Buff> buffRemoved;
+    [ReadOnly] public Action<Enum_Debuff> debuffRemoved;
+    [ReadOnly] public Action<Enum_Buff> buffRemoved;
 
     #endregion
 
@@ -45,7 +48,6 @@ public class SC_ModifierPanel : SerializedMonoBehaviour
         debuffRemoved += DebuffRemoved;
         buffRemoved += BuffRemoved;
     }
-
 
     private void BuffAdded(Enum_Buff buff)
     {

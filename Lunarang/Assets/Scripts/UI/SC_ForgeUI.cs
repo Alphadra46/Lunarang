@@ -10,6 +10,8 @@ using UnityEngine.UI;
 public class SC_ForgeUI : MonoBehaviour
 {
 
+    #region Variables
+
     public GameObject leftInformationPanel;
     public GameObject rightInformationPanel;
     
@@ -24,11 +26,8 @@ public class SC_ForgeUI : MonoBehaviour
     public SC_Weapon weaponTest;
 
     private List<GameObject> weaponInventorySlots = new List<GameObject>();
-    
-    private void Awake()
-    {
-        
-    }
+
+    #endregion
 
     private void Start()
     {
@@ -61,6 +60,13 @@ public class SC_ForgeUI : MonoBehaviour
         {
             weaponInventorySlots.Add(weaponGO);
         }
+    }
+
+    public void Close()
+    {
+        
+        SC_UIManager.instance.ShowForge();
+        
     }
 
     

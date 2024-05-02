@@ -132,12 +132,14 @@ public class SC_LibraryUI : MonoBehaviour
             
         }
         
+        LayoutRebuilder.ForceRebuildLayoutImmediate(collectionsContent.GetComponent<RectTransform>());
+        
     }
 
     public void BackToLobby()
     {
         
-        Destroy(gameObject);
+        SC_UIManager.instance.ShowLibrary();
         
     }
 

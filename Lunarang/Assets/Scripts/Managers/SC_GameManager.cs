@@ -149,19 +149,16 @@ public class SC_GameManager : MonoBehaviour
     
     public void OpenInventory()
     {
-        SetPause();
         SC_UIManager.instance.ShowInventory();
     }
 
     public void OpenForge()
     {
-        SetPause();
         SC_UIManager.instance.ShowForge();
     }
     
     public void OpenLibrary()
     {
-        SetPause();
         SC_UIManager.instance.ShowLibrary();
     }
     
