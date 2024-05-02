@@ -23,7 +23,9 @@ public class SC_ModifierWidget : MonoBehaviour
 
     public void Init(Sprite iconSpr, Sprite arrowSpr, Color32 color)
     {
-
+        if(iconImg == null) return;
+        if(arrowImg == null) return;
+        
         iconImg.sprite = iconSpr;
         arrowImg.sprite = arrowSpr;
         arrowImg.color = color;

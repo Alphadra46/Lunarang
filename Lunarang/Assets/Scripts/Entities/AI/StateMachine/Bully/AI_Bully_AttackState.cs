@@ -68,8 +68,6 @@ public class AI_Bully_AttackState : BaseState<AI_Bully_StateMachine.EnemyState>
             
             _aiStateMachine._rb.isKinematic = false;
 
-            var timer = 3f;
-            
             // while (timer > 0)
             // {
             //

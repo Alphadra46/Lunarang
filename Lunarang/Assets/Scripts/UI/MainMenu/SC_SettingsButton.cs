@@ -20,7 +20,6 @@ public class SC_SettingsButton : MonoBehaviour
         
         //And de-activating the main menu panel while activating the setting panel
         SC_MainMenuManager.instance.mainMenu.SetActive(false);
-        SC_MainMenuManager.instance.settingsMenu.SetActive(true);
     }
     
 }

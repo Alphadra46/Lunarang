@@ -99,7 +99,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     {
         ResetStats();
         if(_agent != null)
-            _agent.enabled = true;
+            _agent.enabled = false;
         _renderer.showStatsUI?.Invoke();
         _renderer.ResetColor();
     }

@@ -41,6 +41,7 @@ public class SC_GameManager : MonoBehaviour
     [HideInInspector] public SO_ConsumablesInventory playerConsumablesInventory;
 
     [HideInInspector] public SO_ArchiveInventory archivesInventory;
+    [HideInInspector] public SO_WeaponInventory weaponInventory;
     
     [ShowInInspector] public List<SO_BaseSkill> allSkills = new List<SO_BaseSkill>();
     
@@ -56,6 +57,7 @@ public class SC_GameManager : MonoBehaviour
         playerConsumablesInventory = Resources.Load<SO_ConsumablesInventory>("ConsumableInventory");
 
         archivesInventory = Resources.Load<SO_ArchiveInventory>("ArchiveInventory");
+        weaponInventory = Resources.Load<SO_WeaponInventory>("WeaponInventory");
     }
 
     private void Start()

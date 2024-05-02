@@ -5,6 +5,7 @@ using System.Linq;
 using Cinemachine;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 public class SC_RoomManager : MonoBehaviour
@@ -209,6 +210,7 @@ public class SC_RoomManager : MonoBehaviour
         
         
         Debug.Log($"Spawning wave {actualWave} !");
+        SC_FeedbackRoomStatusUI.roomNewWave?.Invoke(actualWave);
     }
 
     public void HellChallenge()
@@ -323,7 +325,8 @@ public class SC_RoomManager : MonoBehaviour
             spawnBounds = spawnArea.bounds;
             enemy.transform.position = new Vector3(spawnBounds.center.x + Random.Range(-spawnBounds.extents.x,spawnBounds.extents.x), enemy.transform.position.y, spawnBounds.center.z + Random.Range(-spawnBounds.extents.z, spawnBounds.extents.z));
         }
-            
+        
+        enemy.GetComponent<NavMeshAgent>().enabled = true;
         enemy.SetActive(true);
         enemy.GetComponent<AI_StateMachine>().TransitionToState(AI_StateMachine.EnemyState.Idle);
     }
@@ -362,6 +365,7 @@ public class SC_RoomManager : MonoBehaviour
     public void UnlockDoors()
     {
         SC_GameManager.clearRoom -= ClearRoom;
+        SC_FeedbackRoomStatusUI.roomCleared?.Invoke();
         
         foreach (var door in activeDoors)
         {

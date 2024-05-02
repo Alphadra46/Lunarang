@@ -78,6 +78,8 @@ public class SC_ModifierPanel : SerializedMonoBehaviour
     
     private void RemoveWidget(Enum_Debuff debuff)
     {
+        if(currentDebuffsWidgets.Count < 1) return;
+        
         Destroy(currentDebuffsWidgets[debuff]);
         currentDebuffsWidgets.Remove(debuff);
 
@@ -85,6 +87,8 @@ public class SC_ModifierPanel : SerializedMonoBehaviour
 
     private void RemoveWidget(Enum_Buff buff)
     {
+        if(currentBuffsWidgets.Count < 1) return;
+        
         Destroy(currentBuffsWidgets[buff]);
         currentBuffsWidgets.Remove(buff);
     }
