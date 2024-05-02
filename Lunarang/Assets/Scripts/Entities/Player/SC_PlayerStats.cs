@@ -77,6 +77,8 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     {
         if(Input.GetKeyDown(KeyCode.Keypad9)) TakeDamage(5, false, null, false);
         if(Input.GetKeyDown(KeyCode.Keypad8)) Heal(10);
+        
+        if(Input.GetKeyDown(KeyCode.Keypad4)) SC_GameManager.instance.playerSkillInventory.AddSkill(SC_GameManager.instance.playerSkillInventory.FindSkillByName("Fracture Glaciaire"));
     }
 
 

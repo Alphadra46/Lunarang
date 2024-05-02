@@ -208,7 +208,7 @@ public class SC_DoT_States
         else
         {
             if(self._aiStats.TryGetComponent(out AI_StateMachine stateMachine))
-                stateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase, true);
+                stateMachine.TryToTransition(AI_StateMachine.EnemyState.Patrol, true);
         }
         
         self.currentDebuffs.Remove(Enum_Debuff.Freeze);

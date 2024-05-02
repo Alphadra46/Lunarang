@@ -28,6 +28,8 @@ public class AI_FreezeState : BaseState<AI_StateMachine.EnemyState>
     {
         _aiStateMachine.agent.isStopped = false;
         _aiStateMachine._renderer.PauseAnimator(false);
+        _aiStateMachine.agent.SetDestination(_aiStateMachine.transform.position);
+        _aiStateMachine.agent.velocity = Vector3.zero;
 
         _aiStateMachine.canAttack = true;
     }
