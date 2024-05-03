@@ -86,7 +86,7 @@ public class SC_UIManager : MonoBehaviour
     {
         ResetTempReferences();
     }
-
+    
     private void InstantiateHUD()
     {
         if (hudUI == null)

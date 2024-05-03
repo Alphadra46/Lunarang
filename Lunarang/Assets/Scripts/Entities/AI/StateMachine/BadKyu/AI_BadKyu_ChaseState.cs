@@ -72,13 +72,6 @@ public class AI_BadKyu_ChaseState : BaseState<AI_StateMachine.EnemyState>
     /// </summary>
     public override void UpdateState()
     {
-
-        if (_aiStateMachine.currentProjectiles >= _aiStateMachine.maxProjectiles)
-        {
-            _aiStateMachine._stats.isDead = true;
-            _aiStateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
-            return;
-        }
         
         var distance = Vector3.Distance(_aiStateMachine.transform.position, player.transform.position);
         var playerPos = player.transform.position;

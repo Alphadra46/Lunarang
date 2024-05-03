@@ -23,5 +23,12 @@ public class SC_AIAnimatorLinker : MonoBehaviour
     {
         stats.CreateProjectile(projectile);
     }
+
+    public void Death()
+    {
+        
+        stats.Death();
+        
+    }
     
 }

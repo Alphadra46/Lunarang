@@ -103,7 +103,7 @@ public class AI_BadKyu_StateMachine : AI_StateMachine
         {
             print("MEURT");
             // _stats.isDead = true;
-            TransitionToState(EnemyState.Death);
+            _stats.Death();
             transform.GetChild(0).gameObject.SetActive(false);
         }
         

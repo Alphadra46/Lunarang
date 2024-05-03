@@ -45,6 +45,8 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
 
     private Coroutine damageTakenCoroutine = null;
 
+    private bool isInvincible = false;
+
     #endregion
 
     #region Init
@@ -78,7 +80,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         if(Input.GetKeyDown(KeyCode.Keypad9)) TakeDamage(5, false, null, false);
         if(Input.GetKeyDown(KeyCode.Keypad8)) Heal(10);
         
-        if(Input.GetKeyDown(KeyCode.Keypad4)) SC_GameManager.instance.playerSkillInventory.AddSkill(SC_GameManager.instance.playerSkillInventory.FindSkillByName("Fracture Glaciaire"));
+        if(Input.GetKeyDown(KeyCode.Keypad4)) SC_GameManager.instance.playerSkillInventory.AddSkill(SC_GameManager.instance.playerSkillInventory.FindSkillByName("Souffle de Résurrection"));
     }
 
 
@@ -103,6 +105,8 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     /// <param name="trueDamage"></param>
     public void TakeDamage(float rawDamage, bool isCrit, GameObject attacker, bool trueDamage = false)
     {
+        if(isInvincible) return;
+        
         if (damageTakenCoroutine != null) StopCoroutine(damageTakenCoroutine);
         damageTakenCoroutine = StartCoroutine(DamageTaken());
         if(_controller.isDashing || isGod) return;
@@ -167,6 +171,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
 
     private IEnumerator DamageTaken()
     {
+        
         foreach (var meshRenderer in _meshRenderer)
         {
             var materials = meshRenderer.materials;
@@ -332,8 +337,14 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         
         if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Souffle de Résurrection") && resurectionCounter > 0)
         {
+            
             resurectionCounter--;
+            SC_FeedbackRoomStatusUI.resurected?.Invoke();
+
+            StartCoroutine(Invicibility(1.5f));
+            
             return;
+            
         }
 
         SC_GameManager.instance.ChangeState(GameState.DEFEAT);
@@ -406,6 +417,18 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         
         currentStats.damageBonus -= (currentStats.manaOverloadDamageBoost * tempStacks);
         currentStats.inManaOverload = false;
+    }
+
+
+    private IEnumerator Invicibility(float duration)
+    {
+
+        isInvincible = true;
+        
+        yield return new WaitForSeconds(duration);
+
+        isInvincible = false;
+
     }
     
     public void ResetModifiers()
