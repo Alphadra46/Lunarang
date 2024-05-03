@@ -32,6 +32,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     
     #endregion
     
+    public static Action<float, float> onHealthInit;
     public static Action<float, float> onHealthChange;
     public static Action<float, float> onShieldHPChange;
 
@@ -69,13 +70,15 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     private void Start()
     {
         currentStats.currentHealth = currentStats.currentMaxHealth;
-        onHealthChange?.Invoke(currentStats.currentHealth, currentStats.currentMaxHealth);
+        onHealthInit?.Invoke(currentStats.currentHealth, currentStats.currentMaxHealth);
     }
 
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Keypad9)) TakeDamage(5, false, null, false);
         if(Input.GetKeyDown(KeyCode.Keypad8)) Heal(10);
+        
+        if(Input.GetKeyDown(KeyCode.Keypad4)) SC_GameManager.instance.playerSkillInventory.AddSkill(SC_GameManager.instance.playerSkillInventory.FindSkillByName("Fracture Glaciaire"));
     }
 
 

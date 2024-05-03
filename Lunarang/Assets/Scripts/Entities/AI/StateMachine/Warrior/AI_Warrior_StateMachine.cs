@@ -24,7 +24,7 @@ public class AI_Warrior_StateMachine : AI_StateMachine
 
         base.Awake();
         
-        States.Add(EnemyState.Idle, new AI_Warrior_IdleState(EnemyState.Idle, this));
+        States.Add(EnemyState.Idle, new AI_IdleState(EnemyState.Idle, this));
         States.Add(EnemyState.Patrol, new AI_Warrior_PatrolState(EnemyState.Patrol, this));
         States.Add(EnemyState.Chase, new AI_Warrior_ChaseState(EnemyState.Chase, this));
         States.Add(EnemyState.Attack, new AI_Warrior_AttackState(EnemyState.Attack, this));

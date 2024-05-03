@@ -13,14 +13,33 @@ public class SO_ArchiveInventory : SerializedScriptableObject
     {
         archive.archiveState = ArchiveState.New;
         archivesOwned.Add(archive);
+    }
+    
+    public int GetNumbersOfDiscovoredArchives()
+    {
+        return archivesOwned.Count(archive => archive.archiveState != ArchiveState.Hidden);
+    }
+    
+    public int GetNumbersOfArchives()
+    {
+        var cnt = collections.Sum(collection => collection.allArchives.Count);
         
-        
+        return cnt;
     }
     
     [Button]
-    public void ClearResourceInventory()
+    public void ClearArchiveOwnedInventory()
     {
         archivesOwned.Clear();
+    }
+    
+    [Button]
+    public void ResetArchiveOwnedState()
+    {
+        foreach (var archive in archivesOwned)
+        {
+            archive.archiveState = ArchiveState.New;
+        }
     }
 }
 

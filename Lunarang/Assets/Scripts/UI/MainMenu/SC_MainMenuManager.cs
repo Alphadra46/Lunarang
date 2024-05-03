@@ -11,9 +11,9 @@ public class SC_MainMenuManager : MonoBehaviour
 
     [Header("Menus")]
     public GameObject mainMenu; //The main menu panel
-    [Space(3f)]
-    public GameObject settingsMenu; //The settings panel
-
+    
+    public GameObject settingsPrefab;
+    public Canvas canvas;
     //Used for the back button. Chose to use a Stack (FILO) so that the first selection the user make will be the last one when we use the back button.
     public readonly Stack<GameObject> previousSelectedGameObject = new Stack<GameObject>(); 
     
@@ -23,9 +23,24 @@ public class SC_MainMenuManager : MonoBehaviour
         instance = this;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void OpenSettings()
     {
+        
+        Instantiate(settingsPrefab, canvas.transform).name = "SettingsUI";
+        
+    }
+
+    public void CloseSettings()
+    {
+        
+        
+        
+    }
+
+    public void Play()
+    {
+        
+        SC_UIManager.instance.CreateLoadingScreen(1);
         
     }
 

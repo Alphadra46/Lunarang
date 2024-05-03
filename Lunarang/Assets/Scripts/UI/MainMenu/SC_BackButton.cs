@@ -34,7 +34,6 @@ public class SC_BackButton : MonoBehaviour
             if (lastUI == SC_MainMenuManager.instance.mainMenu) //Check if the last UI is the main menu
             {
                 SC_MainMenuManager.instance.mainMenu.SetActive(true); // If it's true, activate the main menu panel
-                SC_MainMenuManager.instance.settingsMenu.SetActive(false); //and then de-activate the settings panel
             }
             EventSystem.current.SetSelectedGameObject(lastUI.transform.GetComponentInChildren<Button>().gameObject);
         }

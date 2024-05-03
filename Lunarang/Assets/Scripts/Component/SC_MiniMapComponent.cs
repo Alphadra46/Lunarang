@@ -24,7 +24,10 @@ public class SC_MiniMapComponent : MonoBehaviour
     private void OnEnable()
     {
         changeRoomTransform += ChangeRoomTransform;
-        SC_InputManager.instance.minimapMode.started += ChangeMode;
+
+		if(SC_InputManager.instance == null) return;
+
+		SC_InputManager.instance.minimapMode.started += ChangeMode;
     }
 
     private void OnDisable()

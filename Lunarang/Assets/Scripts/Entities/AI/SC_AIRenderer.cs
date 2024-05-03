@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class SC_AIRenderer : MonoBehaviour
@@ -20,18 +21,12 @@ public class SC_AIRenderer : MonoBehaviour
     [BoxGroup("Damage Area")]
     public GameObject DamageUIArea;
 
+    public Slider HPBar;
+    public TextMeshProUGUI HPText;
+    public TextMeshProUGUI ShieldText;
+
     [BoxGroup("Damage Area")] 
     [SerializeField] private List<SkinnedMeshRenderer> _meshRenderer;
-
-    #region Debug
-
-    [Space(10)]
-    [BoxGroup("Debug Settings")] 
-    public TextMeshProUGUI debugUIHP;
-    [BoxGroup("Debug Settings")]
-    public TextMeshProUGUI debugUIWeaknesses;
-    
-    #endregion
 
     private Animator _animator;
     private NavMeshAgent _agent;
@@ -137,7 +132,9 @@ public class SC_AIRenderer : MonoBehaviour
     /// <param name="maxHP">Maximal amount of Health Point.</param>
     public void UpdateHealthBar(float currentHP, float maxHP)
     {
-        debugUIHP.text = currentHP + "/" + maxHP;
+        HPText.text = currentHP + "/" + maxHP;
+
+        HPBar.value = currentHP / maxHP;
     }
     
     /// <summary>
@@ -145,7 +142,7 @@ public class SC_AIRenderer : MonoBehaviour
     /// </summary>
     public void UpdateShieldBar(bool isBreaked)
     {
-        debugUIWeaknesses.text = isBreaked ? "Breaked" : "Shielded";
+        ShieldText.text = isBreaked ? "Breaked" : "Shielded";
     }
 
     private void Update()
