@@ -40,6 +40,9 @@ public class SC_LibraryUI : MonoBehaviour
     public GameObject unselectedContent;
     
     [PropertySpace(SpaceBefore = 15f)]
+    public Button backToLobbyButton;
+    
+    [PropertySpace(SpaceBefore = 15f)]
     public Image counterImage;
     [PropertySpace(SpaceBefore = 15f)]
     public Sprite counterSprite;
@@ -81,6 +84,8 @@ public class SC_LibraryUI : MonoBehaviour
         Init();
         
         SwitchInformationsPanelState("unselected");
+        
+        backToLobbyButton.Select();
         
     }
 
