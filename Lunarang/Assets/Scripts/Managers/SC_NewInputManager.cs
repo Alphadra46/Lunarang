@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public class SC_InputManager : MonoBehaviour
+public class SC_NewInputManager : MonoBehaviour
 {
-    public static SC_InputManager instance;
+    public static SC_NewInputManager instance;
     public static Action<string> newControllerUsed;
     [HideInInspector] public string lastDeviceUsed;
     private InputMap InputMap;
@@ -35,7 +35,6 @@ public class SC_InputManager : MonoBehaviour
     [HideInInspector] public InputAction rightClick;
     [HideInInspector] public InputAction trackedDevicePosition;
     [HideInInspector] public InputAction trackedDeviceOrientation;
-    [HideInInspector] public InputAction develop;
 
     [Header("Debug")]
     [HideInInspector] public InputAction console;
@@ -85,7 +84,6 @@ public class SC_InputManager : MonoBehaviour
         rightClick = InputMap.UI.RightClick;
         trackedDevicePosition = InputMap.UI.TrackedDevicePosition;
         trackedDeviceOrientation = InputMap.UI.TrackedDeviceOrientation;
-        develop = InputMap.UI.Develop;
     }
 
     public void InitDebugInputs()
@@ -119,7 +117,6 @@ public class SC_InputManager : MonoBehaviour
         rightClick.Enable();
         trackedDevicePosition.Enable();
         trackedDeviceOrientation.Enable();
-        develop.Enable();
     }
     public void EnableDebugInputs()
     {
@@ -152,7 +149,6 @@ public class SC_InputManager : MonoBehaviour
         rightClick.Disable();
         trackedDevicePosition.Disable();
         trackedDeviceOrientation.Disable();
-        develop.Disable();
     }
     public void DisableDebugInputs()
     {
@@ -182,7 +178,6 @@ public class SC_InputManager : MonoBehaviour
         rightClick.started += DetectDevice;
         trackedDevicePosition.started += DetectDevice;
         trackedDeviceOrientation.started += DetectDevice;
-        develop.started += DetectDevice;
         console.started += DetectDevice;
     }
 
