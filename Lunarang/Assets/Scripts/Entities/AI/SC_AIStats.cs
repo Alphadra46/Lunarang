@@ -276,6 +276,8 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     public void Death()
     {
         onDeath?.Invoke(this);
+        _renderer.hideStatsUI?.Invoke();
+        
         _debuffsBuffsComponent.ResetAllBuffsAndDebuffs();
         
         SC_RewardManager.instance.ResourceDropSelection(isElite ? "Elite" : "Base");

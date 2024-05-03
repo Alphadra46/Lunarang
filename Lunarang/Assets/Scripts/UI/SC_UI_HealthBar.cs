@@ -95,7 +95,7 @@ public class SC_UI_HealthBar : MonoBehaviour
                 }
             }
 
-            if(lerpCoroutine == null) lerpCoroutine = StartCoroutine(LerpAnticipationSlider());
+            lerpCoroutine ??= StartCoroutine(LerpAnticipationSlider());
         }
 
     }
