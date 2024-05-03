@@ -18,7 +18,14 @@ public class AI_Summoner_AttackState : BaseState<AI_StateMachine.EnemyState>
     /// </summary>
     public override void EnterState()
     {
-        _aiStateMachine.Attack();
+        if (_aiStateMachine.canSummon)
+        {
+            _aiStateMachine.StartCoroutine(Summon());
+        }
+        else
+        {
+            _aiStateMachine.StartCoroutine(Attack());
+        }
     }
 
     public override void ExitState()
@@ -28,9 +35,35 @@ public class AI_Summoner_AttackState : BaseState<AI_StateMachine.EnemyState>
 
     public override void UpdateState()
     {
-        _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
     }
     
+    /// <summary>
+    /// After a certain delay, deactivate the hurtbox and switch to Chase State.
+    /// </summary>
+    /// <param name="delay">Delay in seconds before switching state.</param>
+    private IEnumerator Summon()
+    {
+        
+        _aiStateMachine._renderer.SendTriggerToAnimator("Attack_01");
+        _aiStateMachine.Attack();
+        
+        yield return new WaitForSeconds(_aiStateMachine.atkDuration);
+        
+        _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
+        
+    }
+    
+    private IEnumerator Attack()
+    {
+        
+        // _aiStateMachine._renderer.SendTriggerToAnimator("Attack_01");
+        
+        _aiStateMachine.Attack();
+        yield return new WaitForEndOfFrame();
+        
+        _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
+        
+    }
     
     public override AI_StateMachine.EnemyState GetNextState()
     {

@@ -630,7 +630,7 @@ public class SC_ComboController : MonoBehaviour
 
         var freezeHitRate = isLastHit ? baseFreezeHitRate + 50f + freezeHitRateBonus : baseFreezeHitRate;
             
-        print(freezeHitRate);
+        // print(freezeHitRate);
             
         if(Random.Range(1, 100) < freezeHitRate)
         {
@@ -648,7 +648,7 @@ public class SC_ComboController : MonoBehaviour
 
         var burnHitRate = isLastHit ? baseBurnHitRate + 50f + burnHitRateBonus : baseBurnHitRate;
         
-        print(burnHitRate);
+        // print(burnHitRate);
         
         if(Random.Range(1, 100) < burnHitRate)
         {
@@ -665,7 +665,7 @@ public class SC_ComboController : MonoBehaviour
 
         var bleedHitRate = isLastHit ? baseBleedHitRate + 50f + bleedHitRateBonus : baseBleedHitRate;
         
-        print(bleedHitRate);
+        // print(bleedHitRate);
         
         if(Random.Range(1, 100) < bleedHitRate)
         {
