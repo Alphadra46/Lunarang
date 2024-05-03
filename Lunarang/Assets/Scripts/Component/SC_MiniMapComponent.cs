@@ -24,16 +24,16 @@ public class SC_MiniMapComponent : MonoBehaviour
     private void OnEnable()
     {
         changeRoomTransform += ChangeRoomTransform;
-        
-        if(SC_InputManager.instance == null) return;
-        
-        SC_InputManager.instance.minimap_mode.started += ChangeMode;
+
+		if(SC_InputManager.instance == null) return;
+
+		SC_InputManager.instance.minimapMode.started += ChangeMode;
     }
 
     private void OnDisable()
     {
         changeRoomTransform -= ChangeRoomTransform;
-        SC_InputManager.instance.minimap_mode.started -= ChangeMode;
+        SC_InputManager.instance.minimapMode.started -= ChangeMode;
     }
 
     private void Update()

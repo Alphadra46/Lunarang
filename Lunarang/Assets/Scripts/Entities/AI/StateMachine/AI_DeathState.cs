@@ -19,10 +19,17 @@ public class AI_DeathState : BaseState<AI_StateMachine.EnemyState>
     public override void EnterState()
     {
         //TODO Replace this by Death Animation
+
+        if (_aiStateMachine._stats.typeID == "summoner")
+        {
+            _aiStateMachine._stats.Invoke("Death", 0.5f);
+        }
+        else
+        {
+            _aiStateMachine._renderer.SendTriggerToAnimator("Death");
+        }
         
-        _aiStateMachine._renderer.SendTriggerToAnimator("Death");
-        _aiStateMachine._renderer.hideStatsUI?.Invoke();
-        _aiStateMachine._stats.Invoke(nameof(SC_AIStats.Death), 1f);
+        
     }
 
     public override void ExitState()
