@@ -10,8 +10,8 @@ public class SC_ConsumableComponent : MonoBehaviour
 
     public void Start()
     {
-        SC_InputManager.instance.consumable_switch.started += SwitchSelectedConsumable;
-        SC_InputManager.instance.consumable_use.started += ConsumeConsumable;
+        //SC_InputManager.instance.consumable_switch.started += SwitchSelectedConsumable;
+        //SC_InputManager.instance.consumable_use.started += ConsumeConsumable;
     }
 
     private void SwitchSelectedConsumable(InputAction.CallbackContext ctx)

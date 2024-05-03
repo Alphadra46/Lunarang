@@ -1,30 +1,29 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 
 public class SC_InputManager : MonoBehaviour
 {
     public static SC_InputManager instance;
-
     public static Action<string> newControllerUsed;
-
-    private InputMap playerInputActions;
-
     [HideInInspector] public string lastDeviceUsed;
-        
+    private InputMap InputMap;
     [Header("General")]
     [HideInInspector] public InputAction weaponA;
     [HideInInspector] public InputAction weaponB;
     [HideInInspector] public InputAction weaponC;
     [HideInInspector] public InputAction move;
     [HideInInspector] public InputAction dash;
-    [HideInInspector] public InputAction interaction;
     [HideInInspector] public InputAction pause;
     [HideInInspector] public InputAction inventory;
-    [HideInInspector] public InputAction consumable_use;
-    [HideInInspector] public InputAction consumable_switch;
-    [HideInInspector] public InputAction minimap_mode;
-    
+    [HideInInspector] public InputAction interaction;
+    [HideInInspector] public InputAction consumable_Switch;
+    [HideInInspector] public InputAction consumable_Use;
+    [HideInInspector] public InputAction minimapMode;
+
     [Header("UI")]
     [HideInInspector] public InputAction navigate;
     [HideInInspector] public InputAction submit;
@@ -36,51 +35,78 @@ public class SC_InputManager : MonoBehaviour
     [HideInInspector] public InputAction rightClick;
     [HideInInspector] public InputAction trackedDevicePosition;
     [HideInInspector] public InputAction trackedDeviceOrientation;
+    [HideInInspector] public InputAction develop;
 
     [Header("Debug")]
     [HideInInspector] public InputAction console;
 
-
-    private void Awake()
+    void Awake()
     {
-        if(instance != null) Destroy(this.gameObject);
+        if (instance!=null) Destroy(this.gameObject);
         instance = this;
-        playerInputActions = new InputMap();
-        
-        InitUIInputs();
-        EnableUIInputs();
+        InputMap = new InputMap();
 
         InitGeneralInputs();
         EnableGeneralInputs();
-        
+
+        InitUIInputs();
+        EnableUIInputs();
+
         InitDebugInputs();
         EnableDebugInputs();
 
         AttachToDeviceDetection();
-        
-        // DontDestroyOnLoad(this.gameObject);
     }
 
-    /// <summary>
-    /// Init all fo the Inputs int the UI map from the custom PlayerInputActions
-    /// </summary>
-    private void InitUIInputs()
+    public void InitGeneralInputs()
     {
-        navigate = playerInputActions.UI.Navigate;
-        submit = playerInputActions.UI.Submit;
-        cancel = playerInputActions.UI.Cancel;
-        point = playerInputActions.UI.Point;
-        click = playerInputActions.UI.Click;
-        scrollWheel = playerInputActions.UI.ScrollWheel;
-        middleClick = playerInputActions.UI.MiddleClick;
-        rightClick = playerInputActions.UI.RightClick;
-        trackedDevicePosition = playerInputActions.UI.TrackedDevicePosition;
-        trackedDeviceOrientation = playerInputActions.UI.TrackedDevicePosition;
+        weaponA = InputMap.General.WeaponA;
+        weaponB = InputMap.General.WeaponB;
+        weaponC = InputMap.General.WeaponC;
+        move = InputMap.General.Move;
+        dash = InputMap.General.Dash;
+        pause = InputMap.General.Pause;
+        inventory = InputMap.General.Inventory;
+        interaction = InputMap.General.Interaction;
+        consumable_Switch = InputMap.General.Consumable_Switch;
+        consumable_Use = InputMap.General.Consumable_Use;
+        minimapMode = InputMap.General.MinimapMode;
     }
-    
-    /// <summary>
-    /// Used to enable all of the Inputs in the UI map from the custom PlayerInputActions
-    /// </summary>
+
+    public void InitUIInputs()
+    {
+        navigate = InputMap.UI.Navigate;
+        submit = InputMap.UI.Submit;
+        cancel = InputMap.UI.Cancel;
+        point = InputMap.UI.Point;
+        click = InputMap.UI.Click;
+        scrollWheel = InputMap.UI.ScrollWheel;
+        middleClick = InputMap.UI.MiddleClick;
+        rightClick = InputMap.UI.RightClick;
+        trackedDevicePosition = InputMap.UI.TrackedDevicePosition;
+        trackedDeviceOrientation = InputMap.UI.TrackedDeviceOrientation;
+        develop = InputMap.UI.Develop;
+    }
+
+    public void InitDebugInputs()
+    {
+        console = InputMap.Debug.Console;
+    }
+
+    public void EnableGeneralInputs()
+    {
+        weaponA.Enable();
+        weaponB.Enable();
+        weaponC.Enable();
+        move.Enable();
+        dash.Enable();
+        pause.Enable();
+        inventory.Enable();
+        interaction.Enable();
+        consumable_Switch.Enable();
+        consumable_Use.Enable();
+        minimapMode.Enable();
+    }
     public void EnableUIInputs()
     {
         navigate.Enable();
@@ -93,11 +119,27 @@ public class SC_InputManager : MonoBehaviour
         rightClick.Enable();
         trackedDevicePosition.Enable();
         trackedDeviceOrientation.Enable();
+        develop.Enable();
     }
-    
-    /// <summary>
-    /// Used to disable all of the Inputs in the UI map from the custom PlayerInputActions
-    /// </summary>
+    public void EnableDebugInputs()
+    {
+        console.Enable();
+    }
+
+    public void DisableGeneralInputs()
+    {
+        weaponA.Disable();
+        weaponB.Disable();
+        weaponC.Disable();
+        move.Disable();
+        dash.Disable();
+        pause.Disable();
+        inventory.Disable();
+        interaction.Disable();
+        consumable_Switch.Disable();
+        consumable_Use.Disable();
+        minimapMode.Disable();
+    }
     public void DisableUIInputs()
     {
         navigate.Disable();
@@ -110,128 +152,42 @@ public class SC_InputManager : MonoBehaviour
         rightClick.Disable();
         trackedDevicePosition.Disable();
         trackedDeviceOrientation.Disable();
+        develop.Disable();
     }
-
-
-    /// <summary>
-    /// Init all fo the Inputs int the General map from the custom PlayerInputActions
-    /// </summary>
-    private void InitGeneralInputs()
-    {
-        weaponA = playerInputActions.General.WeaponA;
-        weaponB = playerInputActions.General.WeaponB;
-        weaponC = playerInputActions.General.WeaponC;
-
-        move = playerInputActions.General.Move;
-        dash = playerInputActions.General.Dash;
-
-        interaction = playerInputActions.General.Interaction;
-
-        pause = playerInputActions.General.Pause;
-        inventory = playerInputActions.General.Inventory;
-        
-        consumable_use = playerInputActions.General.Consumable_Use;
-        consumable_switch = playerInputActions.General.Consumable_Switch;
-
-        minimap_mode = playerInputActions.General.MinimapMode;
-    }
-
-    /// <summary>
-    /// Used to enable all of the Inputs in the General map from the custom PlayerInputActions
-    /// </summary>
-    public void EnableGeneralInputs()
-    {
-        weaponA.Enable();
-        weaponB.Enable();
-        weaponC.Enable();
-
-        move.Enable();
-        dash.Enable();
-        
-        interaction.Enable();
-        
-        pause.Enable();
-        inventory.Enable();
-        
-        consumable_switch.Enable();
-        consumable_use.Enable();
-        
-        minimap_mode.Enable();
-    }
-
-    /// <summary>
-    /// Used to disable all of the Inputs in the General map from the custom PlayerInputActions
-    /// </summary>
-    public void DisableGeneralInputs()
-    {
-        weaponA.Disable();
-        weaponB.Disable();
-        weaponC.Disable();
-
-        move.Disable();
-        dash.Disable();
-        
-        interaction.Disable();
-        
-        pause.Disable();
-        inventory.Disable();
-        
-        consumable_switch.Disable();
-        consumable_use.Disable();
-        
-        minimap_mode.Disable();
-    }
-    
-    /// <summary>
-    /// Init all fo the Inputs int the Debug map from the custom PlayerInputActions
-    /// </summary>
-    private void InitDebugInputs()
-    {
-        console = playerInputActions.Debug.Console;
-    }
-    
-    /// <summary>
-    /// Used to enable all of the Inputs in the Debug map from the custom PlayerInputActions
-    /// </summary>
-    public void EnableDebugInputs()
-    {
-        console.Enable();
-    }
-
-    /// <summary>
-    /// Used to disable all of the Inputs in the Debug map from the custom PlayerInputActions
-    /// </summary>
     public void DisableDebugInputs()
     {
         console.Disable();
     }
 
-    /// <summary>
-    /// Attach input to the DetectDevice function
-    /// </summary>
     private void AttachToDeviceDetection()
     {
         weaponA.started += DetectDevice;
         weaponB.started += DetectDevice;
         weaponC.started += DetectDevice;
-
         move.started += DetectDevice;
         dash.started += DetectDevice;
-
-        interaction.started += DetectDevice;
-
         pause.started += DetectDevice;
         inventory.started += DetectDevice;
+        interaction.started += DetectDevice;
+        consumable_Switch.started += DetectDevice;
+        consumable_Use.started += DetectDevice;
+        minimapMode.started += DetectDevice;
+        navigate.started += DetectDevice;
+        submit.started += DetectDevice;
+        cancel.started += DetectDevice;
+        point.started += DetectDevice;
+        click.started += DetectDevice;
+        scrollWheel.started += DetectDevice;
+        middleClick.started += DetectDevice;
+        rightClick.started += DetectDevice;
+        trackedDevicePosition.started += DetectDevice;
+        trackedDeviceOrientation.started += DetectDevice;
+        develop.started += DetectDevice;
+        console.started += DetectDevice;
     }
-    
-    /// <summary>
-    /// Detect which device is the input used from
-    /// </summary>
+
     private void DetectDevice(InputAction.CallbackContext context)
     {
-        // Debug.Log(context.action.activeControl.device.name);
-        // print(context.action.name);
-
         lastDeviceUsed = context.action.activeControl.device.name;
         newControllerUsed?.Invoke(lastDeviceUsed);
     }
