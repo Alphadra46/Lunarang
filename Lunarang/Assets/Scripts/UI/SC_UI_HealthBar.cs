@@ -86,7 +86,6 @@ public class SC_UI_HealthBar : MonoBehaviour
             {
                 if(timer > 0f) {
                     anticipationSlider.value = Mathf.Lerp(anticipationSlider.value, mainSlider.value, anticipationSpeed);
-
                     timer -= Time.fixedDeltaTime;
                 }
                 else

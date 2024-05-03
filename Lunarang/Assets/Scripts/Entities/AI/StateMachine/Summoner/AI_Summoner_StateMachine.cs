@@ -96,34 +96,43 @@ public class AI_Summoner_StateMachine : AI_StateMachine
     /// </summary>
     private void Summon()
     {
-        var enemyPool = SC_Pooling.instance.poolList.Find(s => s.poolName == "Ennemis");
-        var kyuEnemyList = enemyPool.subPoolsList.ToList();
-        kyuEnemyList = kyuEnemyList.Where(e => e.subPoolTransform.gameObject.name == "GO_BadKyu").ToList();
         
-        if(kyuEnemyList.Count < 0) return;
-            
-        for (var i = 0; i < numbersOfSummons; i++)
+        if (SC_Pooling.instance != null)
         {
+            var enemyPool = SC_Pooling.instance.poolList.Find(s => s.poolName == "Ennemis");
+            var kyuEnemyList = enemyPool.subPoolsList.ToList();
+            kyuEnemyList = kyuEnemyList.Where(e => e.subPoolTransform.gameObject.name == "GO_BadKyu").ToList();
+        
+            if(kyuEnemyList.Count < 0) return;
             
-            var summon = SC_Pooling.instance.GetItemFromPool("Ennemis", kyuEnemyList[Random.Range(0, kyuEnemyList.Count)].subPoolTransform.gameObject.name);
-            summon.SetActive(true);
+            for (var i = 0; i < numbersOfSummons; i++)
+            {
             
-            summon.GetComponent<NavMeshAgent>().enabled = false;
-            var angle = Mathf.PI * (i+1) / (numbersOfSummons+1);
-            print(angle);
+                var summon = SC_Pooling.instance.GetItemFromPool("Ennemis", kyuEnemyList[Random.Range(0, kyuEnemyList.Count)].subPoolTransform.gameObject.name);
+                summon.SetActive(true);
+            
+                summon.GetComponent<NavMeshAgent>().enabled = false;
+                var angle = Mathf.PI * (i+1) / (numbersOfSummons+1);
+                print(angle);
                 
-            var x = Mathf.Sin(angle) * detectionAreaRadius;
-            var z = Mathf.Cos(angle) * detectionAreaRadius;
-            var pos = new Vector3(x, 0.5f, z);
+                var x = Mathf.Sin(angle) * detectionAreaRadius;
+                var z = Mathf.Cos(angle) * detectionAreaRadius;
+                var pos = new Vector3(x, 0.5f, z);
             
-            var centerDirection = Quaternion.LookRotation(-centerPoint.right, centerPoint.up);
+                var centerDirection = Quaternion.LookRotation(-centerPoint.right, centerPoint.up);
             
-            pos = centerDirection * pos;
+                pos = centerDirection * pos;
             
-            summon.transform.position = transform.position + pos;
-            summon.GetComponent<NavMeshAgent>().enabled = true;
-            summon.GetComponent<AI_StateMachine>().TransitionToState(AI_StateMachine.EnemyState.Idle);
-            summon.GetComponent<AI_StateMachine>().CanAttack(true);
+                summon.transform.position = transform.position + pos;
+                summon.GetComponent<NavMeshAgent>().enabled = true;
+                summon.GetComponent<AI_StateMachine>().TransitionToState(AI_StateMachine.EnemyState.Idle);
+                summon.GetComponent<AI_StateMachine>().CanAttack(true);
+            
+            }
+        }
+        else
+        {
+            print("SUMMON");
             
         }
 
