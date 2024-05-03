@@ -6,14 +6,26 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Image = UnityEngine.UIElements.Image;
 
 public class SC_SkillButton : MonoBehaviour
 {
     [HideInInspector] public GameObject tooltip;
 
+    [SerializeField] private Sprite unknownSkill;
+    [SerializeField] private Sprite unusableSkill;
+    [SerializeField] private Sprite usableSkill;
+    [SerializeField] private Sprite equippedSkill;
+
+    private Image imageSlot;
+
+    private bool isKnown;
+    private bool isUsable;
+    
     private void Start()
     {
         tooltip = transform.GetChild(0).gameObject;
+        imageSlot = GetComponent<Image>();
         SC_InputManager.instance.develop.started += ToggleTooltip;
     }
 
@@ -43,7 +55,6 @@ public class SC_SkillButton : MonoBehaviour
     {
         tooltip.SetActive(true);
     }
-
 
     public void HideTooltip()
     {
