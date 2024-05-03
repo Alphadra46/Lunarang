@@ -19,7 +19,6 @@ public class AI_BadKyu_AttackState : BaseState<AI_StateMachine.EnemyState>
     public override void EnterState()
     {
         _aiStateMachine.SpawnProjectile();
-        if(_aiStateMachine.currentProjectiles == 3) _aiStateMachine._renderer.SendTriggerToAnimator("Attack_01");
     }
 
     public override void ExitState()
