@@ -24,12 +24,14 @@ public class SO_BaseSkill : SerializedScriptableObject
     
     [MultiLineProperty] public string shortDescription;
     [MultiLineProperty] public string longDescription;
+    public int spCost;
     
     [FoldoutGroup("BaseSkill")]
     [PropertySpace(SpaceBefore = 5)]
     public List<SC_StatModification> statsChangedOnInit = new List<SC_StatModification>();
     [FoldoutGroup("BaseSkill")]
     public Dictionary<Enum_Buff, string> buffsAppliedOnInit = new Dictionary<Enum_Buff, string>();
+    
     
     [FoldoutGroup("BaseSkill")]
     [PropertySpace(SpaceBefore = 5)]
@@ -46,9 +48,14 @@ public class SO_BaseSkill : SerializedScriptableObject
     
     [FoldoutGroup("BaseSkill")]
     private Dictionary<StatTypes, string> tempStatsSave = new Dictionary<StatTypes, string>();
+
+    public bool isKnown;
     
     public virtual void Init()
     {
+        if (!isKnown) //Used to change the skill icon on the skill tree UI
+            isKnown = true;
+        
         
         StatsChanges(statsChangedOnInit);
         ApplyBuffs(buffsAppliedOnInit);
@@ -87,6 +94,9 @@ public class SO_BaseSkill : SerializedScriptableObject
     
     public void ApplyBuffs(Dictionary<Enum_Buff, string> buffsList)
     {
+        if (SC_PlayerStats.instance == null)
+            return;
+        
         if (!SC_PlayerStats.instance.gameObject.TryGetComponent(out SC_DebuffsBuffsComponent debuffsBuffsComponent)) return;
 
         foreach (var buff in buffsList)

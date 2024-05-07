@@ -626,7 +626,7 @@ public class SC_ComboController : MonoBehaviour
                                  + (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_3_Freeze") 
                                      ? float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_3_Freeze").buffsParentEffect["freezeHitRate"]) : 0);
 
-        var baseFreezeHitRate = currentWeapon.id == "hammer" ? 40f : 0f;
+        var baseFreezeHitRate = currentWeapon.id == "hammer" ? 100f : 0f;
 
         var freezeHitRate = isLastHit ? baseFreezeHitRate + 50f + freezeHitRateBonus : baseFreezeHitRate;
             
