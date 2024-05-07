@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using Object = System.Object;
 
 public class SC_SkillBranchUI : MonoBehaviour
 {
@@ -13,20 +14,39 @@ public class SC_SkillBranchUI : MonoBehaviour
     [SerializeField] private GameObject parentSkillSlot;
     [SerializeField] private List<GameObject> childrenSkillSlots = new List<GameObject>();
 
+    private List<SC_SkillButton> skillsButtons = new List<SC_SkillButton>();
+    
     private SC_ConstellationUI selectedConstellation;
 
-    public void SkillBranchSetup(SO_ParentSkill parentSkill, List<SO_ChildSkill> childrenSkills)
+    public EventHandler updateIcons;
+
+    public void SkillBranchSetup(SO_ParentSkill parentSkill, List<SO_ChildSkill> childrenSkills, SC_Constellation constellation)
     {
         this.parentSkill = parentSkill;
         this.childrenSkills = childrenSkills;
+        updateIcons += UpdateBranchIcons;
 
         if (parentSkillSlot.TryGetComponent(out SC_SkillButton skillButton))
-            skillButton.InitTooltip(parentSkill);
+        {
+            skillButton.InitTooltip(parentSkill, constellation, this);
+            skillsButtons.Add(skillButton);
+        }
         
         for (int i = 0; i < childrenSkillSlots.Count; i++)
         {
-            childrenSkillSlots[i].GetComponent<SC_SkillButton>().InitTooltip(childrenSkills[i]);
+            var c = childrenSkillSlots[i].GetComponent<SC_SkillButton>();
+            c.InitTooltip(childrenSkills[i], constellation, this);
+            skillsButtons.Add(c);
         }
     }
 
+    private void UpdateBranchIcons(Object sender, EventArgs e)
+    {
+        Debug.Log("Updated");
+        foreach (var skillButton in skillsButtons)
+        {
+            skillButton.SkillIcon();
+        }
+    }
+    
 }
