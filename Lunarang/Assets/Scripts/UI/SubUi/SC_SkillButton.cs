@@ -19,7 +19,7 @@ public class SC_SkillButton : MonoBehaviour
 
     private Image imageSlot;
 
-    private bool isKnown;
+    private bool isKnown; //TODO - Move it on SO_BaseSkill
     private bool isUsable;
     
     private void Start()
