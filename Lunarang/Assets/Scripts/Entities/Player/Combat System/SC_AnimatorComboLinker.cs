@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BgTools.CastVisualizer;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.VFX;
 using Random = UnityEngine.Random;
 
 public class SC_AnimatorComboLinker : MonoBehaviour
@@ -54,6 +55,13 @@ public class SC_AnimatorComboLinker : MonoBehaviour
     {
         pController.FreezeMovement(false);
         pController.FreezeDash(false);
+    }
+
+    public void PlayVFX(VisualEffect vfx)
+    {
+        
+        vfx.Play();
+        
     }
     
 }
