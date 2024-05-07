@@ -65,6 +65,27 @@ public class SO_SkillInventory : ScriptableObject
 
     }
 
+    public void RemoveSkill(SO_BaseSkill skill)
+    {
+        if (!skillsOwned.Contains(skill))
+            return;
+
+        skillsOwned.Remove(skill);
+
+        foreach (var constellation in completedConstellations)
+        {
+            if (!constellation.IsConstellationCompleted(skillsOwned))
+            {
+                completedConstellations.Remove(constellation);
+                ongoingConstellations.Add(constellation);
+                return;
+            }
+        }
+        return;
+    }
+    
+    
+    
     /// <summary>
     /// Clear the player's inventory
     /// </summary>

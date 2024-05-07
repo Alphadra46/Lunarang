@@ -183,6 +183,11 @@ public class SC_AIRenderer : MonoBehaviour
         _animator.speed = value ? 0 : 1;
 
     }
+
+    public void StopAnimator()
+    {
+        _animator.enabled = false;
+    }
     
     public IEnumerator DamageTaken()
     {

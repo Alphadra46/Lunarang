@@ -17,7 +17,7 @@ public class SC_ConstellationUI : MonoBehaviour
         {
             skillBranches.Add(skillBranch);
             var branchParent = constellation.skills.Keys.ToList()[i];
-            skillBranch.SkillBranchSetup(branchParent, constellation.skills[branchParent].ToList());
+            skillBranch.SkillBranchSetup(branchParent, constellation.skills[branchParent].ToList(), constellation);
             i++;
         }
     }

@@ -29,6 +29,11 @@ public class SC_MainMenuManager : MonoBehaviour
         versionText.text = SC_GameManager.instance.gameVersion;
     }
 
+    private void Start()
+    {
+        versionText.text = SC_GameManager.instance.gameVersion;
+    }
+
     public void OpenSettings()
     {
         

@@ -133,8 +133,6 @@ public class SC_DoT_States
         // Bonus from Skills when Unfrozen
         if (applicator.isPlayer && SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Fracture Glaciaire"))
         {
-
-            Debug.Log("AOOOOE");
             
             var rawDamage = MathF.Round((applicator.unfreezeAoEMV/100) * applicator._playerStats.currentStats.currentATK, MidpointRounding.AwayFromZero);
             var effDamage = rawDamage * (1 + (applicator._playerStats.currentStats.dotDamageBonus / 100));
@@ -207,8 +205,12 @@ public class SC_DoT_States
         }
         else
         {
-            if(self._aiStats.TryGetComponent(out AI_StateMachine stateMachine))
-                stateMachine.TryToTransition(AI_StateMachine.EnemyState.Patrol, true);
+            if (self._aiStats.TryGetComponent(out AI_StateMachine stateMachine))
+            {
+                stateMachine.TryToTransition(AI_StateMachine.EnemyState.Idle, true);
+                // stateMachine._renderer.StopAnimator();
+            }
+                
         }
         
         self.currentDebuffs.Remove(Enum_Debuff.Freeze);
