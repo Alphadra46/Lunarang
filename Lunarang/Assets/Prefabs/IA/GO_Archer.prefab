@@ -205,7 +205,7 @@ MonoBehaviour:
     atkModifier: 0
     baseCritRate: 0
     bonusCritRate: 0
-    baseCritDMG: 0
+    baseCritDMG: 50
     bonusCritDMG: 0
     damageReduction: 0
     damageTaken: 0
@@ -408,8 +408,8 @@ VisualEffect:
   m_GameObject: {fileID: 4317238965827760237}
   m_Enabled: 1
   m_Asset: {fileID: 8926484042661614526, guid: bb357e9dc1c645147bac9cf31bb5b206, type: 3}
-  m_InitialEventName: OnPlay
-  m_InitialEventNameOverriden: 0
+  m_InitialEventName: 
+  m_InitialEventNameOverriden: 1
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
   m_AllowInstancing: 1
@@ -987,6 +987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
+  renderer: {fileID: 0}
 --- !u!4 &1042136382930640882 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b36b1161cb351a54e979dfe7015d7ff5,
@@ -1155,6 +1156,16 @@ PrefabInstance:
     - target: {fileID: 4990222845824381847, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309822333406293664, guid: 9887b8b3b187d3d4aa79613c02752f62,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309822333406293664, guid: 9887b8b3b187d3d4aa79613c02752f62,
+        type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5639235307506099298, guid: 9887b8b3b187d3d4aa79613c02752f62,

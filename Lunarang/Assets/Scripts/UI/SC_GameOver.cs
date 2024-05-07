@@ -6,11 +6,13 @@ public class SC_GameOver : MonoBehaviour
 {
     public void Retry()
     {
+        SC_UIManager.instance.CreateLoadingScreen(3);
         SC_GameManager.instance.ChangeState(GameState.RUN);
     }
 
     public void ReturnToLobby()
     {
+        SC_UIManager.instance.CreateLoadingScreen(1);
         SC_GameManager.instance.ChangeState(GameState.LOBBY);
     }
 

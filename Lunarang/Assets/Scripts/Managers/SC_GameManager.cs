@@ -44,7 +44,9 @@ public class SC_GameManager : MonoBehaviour
     [HideInInspector] public SO_WeaponInventory weaponInventory;
     
     [ShowInInspector] public List<SO_BaseSkill> allSkills = new List<SO_BaseSkill>();
-    
+
+    [Title("Settings"),PropertySpace(SpaceBefore = 15f)] 
+    [ShowInInspector] public string gameVersion = "v0.0.5";
     #endregion
     
     private void Awake()
