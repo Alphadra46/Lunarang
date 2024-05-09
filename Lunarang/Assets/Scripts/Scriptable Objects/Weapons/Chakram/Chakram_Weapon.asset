@@ -12,6 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba9ee450943a0b43ad8763338ad469e, type: 3}
   m_Name: Chakram_Weapon
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: levelUpPrice
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.Collections.Generic.List`1[[SC_Ressource,
+        Assembly-CSharp]], mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   id: chakram
   weaponPrefab: {fileID: 1129129205431698344, guid: e1349157dcfaa854c95dcdb490392422,
     type: 3}
@@ -22,12 +51,15 @@ MonoBehaviour:
   areaRadius: 180
   areaSize: 1
   MovesValues:
-  - 25
-  - 30
-  - 45
+  - 70
+  - 90
+  - 110
+  currentLevel: 1
+  levelUpStatsRate: 0
   atkSpeed: 1
   hits: 0
   projectilesNumbers: 2
   projectilePrefab: {fileID: 8993542559262429342, guid: de1d3d16d2ccc194fbec0a4d0603cf25,
     type: 3}
   projectileSpeed: 4
+  effectValue: 40
