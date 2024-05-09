@@ -129,11 +129,12 @@ public class SC_PlayerController : MonoBehaviour
     {
         if (SC_GameManager.instance.isPause) return;
         
+        if(!CheckCanDashForward()) return;
+        
         if(!canDash)
             return;
         if (isDashing)
             return;
-
         
         if(_animator != null)
             _animator.SetBool("isDashing", true);
@@ -163,9 +164,11 @@ public class SC_PlayerController : MonoBehaviour
         while (Time.time < startTime+dashTime)
         {
             _characterController.Move(transform.forward * (dashSpeed * Time.deltaTime));
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("IA"), true);
             yield return null;
         }
         
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("IA"), false);
         
         _animator.SetBool("isDashing", false);
     }
@@ -250,6 +253,7 @@ public class SC_PlayerController : MonoBehaviour
             _characterController.Move((IsoVectorConvert(currentMovement) * SC_PlayerStats.instance.currentStats.currentSpeed) * Time.deltaTime); // Move the player
     }
 
+    
     public void FreezeMovement(bool value)
     {
 
@@ -268,6 +272,7 @@ public class SC_PlayerController : MonoBehaviour
         canDash = !value;
     }
 
+    
     public void TakeKnockback()
     {
         // TODO
@@ -282,6 +287,15 @@ public class SC_PlayerController : MonoBehaviour
         
         transform.position = loc;
         canMove = true;
+    }
+
+    public bool CheckCanDashForward()
+    {
+
+        // Physics.OverlapSphere();
+
+        return true;
+
     }
 
     #endregion
