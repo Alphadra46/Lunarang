@@ -13,6 +13,7 @@ public class SC_Lobby : MonoBehaviour
 
     public void Temple()
     {
+        Resources.Load<SO_SkillInventory>("SkillInventory").SavePreSelectedSkills();
         SC_UIManager.instance.CreateLoadingScreen(3);
         SC_GameManager.instance.ChangeState(GameState.RUN);
     }
