@@ -40,6 +40,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     private SC_PlayerController _controller;
     private SC_ComboController _comboController;
     [HideInInspector] public SC_DebuffsBuffsComponent debuffsBuffsComponent;
+    private SC_SFXPlayerComponent sfxPlayer;
 
     public SC_StatsDebug statsDebug = null;
 
@@ -64,6 +65,8 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         if(!TryGetComponent(out _controller)) return;
         if(!TryGetComponent(out _comboController)) return;
         if(!TryGetComponent(out debuffsBuffsComponent)) return;
+        if(!TryGetComponent(out sfxPlayer)) return;
+
     }
 
     /// <summary>
@@ -137,7 +140,10 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
             }
             
             onHealthChange?.Invoke(currentStats.currentHealth, currentStats.currentMaxHealth);
-            
+
+            var clips = new List<string>() { "SD_LouDegat_1", "SD_LouDegat_2" };
+            sfxPlayer.PlayRandomClip(clips);
+
         }
 
         #region Thorns
@@ -220,7 +226,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     /// Heal the player by a certain amount
     /// </summary>
     /// <param name="healAmount"></param>
-    private void Heal(float healAmount)
+    public void Heal(float healAmount)
     {
         // Check if the heal don't exceed the Max HP limit, if yes, set to max hp, else increment currentHP by healAmount.
         currentStats.currentHealth = currentStats.currentHealth + healAmount > currentStats.maxHealth ? currentStats.maxHealth : currentStats.currentHealth + healAmount;

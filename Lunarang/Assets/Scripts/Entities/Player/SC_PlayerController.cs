@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Numerics;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class SC_PlayerController : MonoBehaviour
     
     private CharacterController _characterController;
     public Animator _animator;
+    private SC_SFXPlayerComponent _sfxPlayer;
 
     #region Movements
 
@@ -87,6 +89,8 @@ public class SC_PlayerController : MonoBehaviour
         instance = this;
         
         _characterController = GetComponent<CharacterController>();
+        
+        if(!TryGetComponent(out _sfxPlayer)) return;
     }
 
     /// <summary>
@@ -133,7 +137,11 @@ public class SC_PlayerController : MonoBehaviour
             return;
         if (isDashing)
             return;
-
+        
+        if(!CheckCanDashForward()) return;
+        
+        var clips = new List<string>() { "SD_Dash_1","SD_Dash_2","SD_Dash_3" };
+        _sfxPlayer.PlayRandomClip(clips);
         
         if(_animator != null)
             _animator.SetBool("isDashing", true);
@@ -149,7 +157,9 @@ public class SC_PlayerController : MonoBehaviour
         
         if(this != null)
             StartCoroutine(DashCoroutine());
+
         
+
     }
 
     /// <summary>
@@ -163,9 +173,11 @@ public class SC_PlayerController : MonoBehaviour
         while (Time.time < startTime+dashTime)
         {
             _characterController.Move(transform.forward * (dashSpeed * Time.deltaTime));
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("IA"), true);
             yield return null;
         }
         
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("IA"), false);
         
         _animator.SetBool("isDashing", false);
     }
@@ -250,6 +262,7 @@ public class SC_PlayerController : MonoBehaviour
             _characterController.Move((IsoVectorConvert(currentMovement) * SC_PlayerStats.instance.currentStats.currentSpeed) * Time.deltaTime); // Move the player
     }
 
+    
     public void FreezeMovement(bool value)
     {
 
@@ -268,6 +281,7 @@ public class SC_PlayerController : MonoBehaviour
         canDash = !value;
     }
 
+    
     public void TakeKnockback()
     {
         // TODO
@@ -282,6 +296,15 @@ public class SC_PlayerController : MonoBehaviour
         
         transform.position = loc;
         canMove = true;
+    }
+
+    public bool CheckCanDashForward()
+    {
+
+        Physics.OverlapSphere((transform.position * (dashSpeed * dashTime)), 0.5f);
+
+        return true;
+
     }
 
     #endregion

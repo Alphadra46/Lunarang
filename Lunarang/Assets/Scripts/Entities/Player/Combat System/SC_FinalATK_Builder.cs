@@ -132,7 +132,6 @@ public class SC_FinalATK_Builder : MonoBehaviour
                     break;
                 case "P":
                     projectilesNumbers = (currentLevel * currentStrength);
-                    print("Added Projectiles");
                     break;
             }
 
