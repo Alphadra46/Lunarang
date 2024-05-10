@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Numerics;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class SC_PlayerController : MonoBehaviour
     
     private CharacterController _characterController;
     public Animator _animator;
+    private SC_SFXPlayerComponent _sfxPlayer;
 
     #region Movements
 
@@ -87,6 +89,8 @@ public class SC_PlayerController : MonoBehaviour
         instance = this;
         
         _characterController = GetComponent<CharacterController>();
+        
+        if(!TryGetComponent(out _sfxPlayer)) return;
     }
 
     /// <summary>
@@ -129,12 +133,15 @@ public class SC_PlayerController : MonoBehaviour
     {
         if (SC_GameManager.instance.isPause) return;
         
-        if(!CheckCanDashForward()) return;
-        
         if(!canDash)
             return;
         if (isDashing)
             return;
+        
+        if(!CheckCanDashForward()) return;
+        
+        var clips = new List<string>() { "SD_Dash_1","SD_Dash_2","SD_Dash_3" };
+        _sfxPlayer.PlayRandomClip(clips);
         
         if(_animator != null)
             _animator.SetBool("isDashing", true);
@@ -150,7 +157,9 @@ public class SC_PlayerController : MonoBehaviour
         
         if(this != null)
             StartCoroutine(DashCoroutine());
+
         
+
     }
 
     /// <summary>
