@@ -292,7 +292,7 @@ public class SC_PlayerController : MonoBehaviour
     public bool CheckCanDashForward()
     {
 
-        // Physics.OverlapSphere();
+        Physics.OverlapSphere((transform.position * (dashSpeed * dashTime)), 0.5f);
 
         return true;
 
