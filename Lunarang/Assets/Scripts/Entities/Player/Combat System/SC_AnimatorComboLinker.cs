@@ -43,6 +43,8 @@ public class SC_AnimatorComboLinker : MonoBehaviour
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public void CreateHitBox(SO_HitBox hb)
     {
+        if(hb == null) return;
+        
         pComboController.CreateHitBox(hb);
     }
 
