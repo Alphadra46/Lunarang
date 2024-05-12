@@ -23,7 +23,8 @@ public class SC_ForgeUI : MonoBehaviour
     [PropertySpace(SpaceBefore = 5f)]
     public GameObject weaponInventorySlotPrefab;
     
-    public SC_Weapon weaponTest;
+    private int indexHoverWeapon;
+    private int indexSelectedWeapon;
 
     private List<GameObject> weaponInventorySlots = new List<GameObject>();
 
@@ -31,12 +32,14 @@ public class SC_ForgeUI : MonoBehaviour
 
     private void Start()
     {
+        
         LayoutRebuilder.ForceRebuildLayoutImmediate(leftInformationPanel.GetComponent<RectTransform>());
         LayoutRebuilder.ForceRebuildLayoutImmediate(rightInformationPanel.GetComponent<RectTransform>());
         
         LayoutRebuilder.ForceRebuildLayoutImmediate(inputPromptsPanel.GetComponent<RectTransform>());
         
         LoadWeaponInventory();
+        LoadSelectedWeaponInformationPanel(SC_GameManager.instance.weaponInventory.weaponsEquipped[indexSelectedWeapon]);
     }
 
 
@@ -60,6 +63,22 @@ public class SC_ForgeUI : MonoBehaviour
         {
             weaponInventorySlots.Add(weaponGO);
         }
+    }
+
+
+    public void LoadSelectedWeaponInformationPanel(SC_Weapon weapon)
+    {
+        
+        if(!leftInformationPanel.transform.GetChild(0).TryGetComponent(out TextMeshProUGUI type)) return;
+        if(!leftInformationPanel.transform.GetChild(2).TryGetComponent(out TextMeshProUGUI shortDesc)) return;
+        if(!leftInformationPanel.transform.GetChild(4).TryGetComponent(out TextMeshProUGUI stats)) return;
+        if(!leftInformationPanel.transform.GetChild(6).TryGetComponent(out TextMeshProUGUI effect)) return;
+
+        type.text = weapon.type.ToString();
+        shortDesc.text = weapon.shortDesc;
+        stats.text = $"VITESSE  {weapon.atkSpeed}\nAOE  {weapon.areaSize}\nNB PROJECTILES  {weapon.projectilesNumbers}\nNB COUPS  {weapon.hits}";
+        effect.text = weapon.effectDesc;
+
     }
 
     public void Close()

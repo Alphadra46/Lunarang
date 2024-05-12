@@ -36,10 +36,7 @@ public class SC_ComboController : MonoBehaviour
     [TabGroup("Settings", "Weapon"), ShowInInspector, ReadOnly]
     public readonly Dictionary<string ,GameObject> equippedWeaponsGO = new Dictionary<string, GameObject>();
     
-    [TabGroup("Settings", "Weapon")]
-    public List<SC_Weapon> equippedWeapons = new List<SC_Weapon>();
     [PropertySpace(SpaceAfter = 5)]
-    
     [TabGroup("Settings", "Weapon"), ShowInInspector, ReadOnly]
     public SC_Weapon currentWeapon;
     
@@ -97,11 +94,14 @@ public class SC_ComboController : MonoBehaviour
 
     #endregion
     
+    [PropertySpace(SpaceBefore = 15f)]
     public LayerMask layerAttackable;
-
+    [PropertySpace(SpaceBefore = 15f)]
     public Collider[] currentEnemiesHitted;
     
-    public Animator _animator;
+    [PropertySpace(SpaceBefore = 15f)]
+    [HideInInspector] public Animator _animator;
+    
     private SC_PlayerController _controller;
     private SC_PlayerStats _stats;
     private SC_FinalATK_Builder _finalBuilder;
@@ -128,7 +128,7 @@ public class SC_ComboController : MonoBehaviour
     private void Start()
     {
         AttachInputToAttack();
-        if (equippedWeapons.Count == 3)
+        if (SC_GameManager.instance.weaponInventory.weaponsEquipped.Count == 3)
         {
             AttachWeaponsToSocket();
         }
@@ -140,16 +140,16 @@ public class SC_ComboController : MonoBehaviour
     /// </summary>
     public void AttachInputToAttack()
     {
-        SC_InputManager.instance.weaponA.performed += _ => Attack(equippedWeapons[0]);
-        SC_InputManager.instance.weaponB.performed += _ => Attack(equippedWeapons[1]);
-        SC_InputManager.instance.weaponC.performed += _ => Attack(equippedWeapons[2]);
+        SC_InputManager.instance.weaponA.performed += _ => Attack(SC_GameManager.instance.weaponInventory.weaponsEquipped[0]);
+        SC_InputManager.instance.weaponB.performed += _ => Attack(SC_GameManager.instance.weaponInventory.weaponsEquipped[1]);
+        SC_InputManager.instance.weaponC.performed += _ => Attack(SC_GameManager.instance.weaponInventory.weaponsEquipped[2]);
     }
     
     public void DettachInputToAttack()
     {
-        SC_InputManager.instance.weaponA.performed -= _ => Attack(equippedWeapons[0]);
-        SC_InputManager.instance.weaponB.performed -= _ => Attack(equippedWeapons[1]);
-        SC_InputManager.instance.weaponC.performed -= _ => Attack(equippedWeapons[2]);
+        SC_InputManager.instance.weaponA.performed -= _ => Attack(SC_GameManager.instance.weaponInventory.weaponsEquipped[0]);
+        SC_InputManager.instance.weaponB.performed -= _ => Attack(SC_GameManager.instance.weaponInventory.weaponsEquipped[1]);
+        SC_InputManager.instance.weaponC.performed -= _ => Attack(SC_GameManager.instance.weaponInventory.weaponsEquipped[2]);
     }
     
     #endregion
@@ -218,9 +218,9 @@ public class SC_ComboController : MonoBehaviour
 
     private void AttachWeaponsToSocket()
     {
-        for (var i = 0; i < equippedWeapons.Count; i++)
+        for (var i = 0; i < SC_GameManager.instance.weaponInventory.weaponsEquipped.Count; i++)
         {
-            var weapon = equippedWeapons[i];
+            var weapon = SC_GameManager.instance.weaponInventory.weaponsEquipped[i];
             var go = Instantiate(weapon.weaponPrefab, weaponSockets[i]);
             
             equippedWeaponsGO.Add(weapon.id,go);
@@ -626,7 +626,7 @@ public class SC_ComboController : MonoBehaviour
                                  + (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_3_Freeze") 
                                      ? float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_3_Freeze").buffsParentEffect["freezeHitRate"]) : 0);
 
-        var baseFreezeHitRate = currentWeapon.id == "hammer" ? 40f : 0f;
+        var baseFreezeHitRate = currentWeapon.id == "hammer" ? currentWeapon.effectValue : 0f;
 
         var freezeHitRate = isLastHit ? baseFreezeHitRate + 50f + freezeHitRateBonus : baseFreezeHitRate;
             
@@ -644,7 +644,7 @@ public class SC_ComboController : MonoBehaviour
         
         var burnHitRateBonus = 0f;
 
-        var baseBurnHitRate = currentWeapon.id == "chakram" ? 40f : 0f;
+        var baseBurnHitRate = currentWeapon.id == "chakram" ? currentWeapon.effectValue : 0f;
 
         var burnHitRate = isLastHit ? baseBurnHitRate + 50f + burnHitRateBonus : baseBurnHitRate;
         
@@ -661,7 +661,7 @@ public class SC_ComboController : MonoBehaviour
     {
         var bleedHitRateBonus = 0f;
 
-        var baseBleedHitRate = currentWeapon.id == "rapier" ? 40f : 0f;
+        var baseBleedHitRate = currentWeapon.id == "rapier" ? currentWeapon.effectValue : 0f;
 
         var bleedHitRate = isLastHit ? baseBleedHitRate + 50f + bleedHitRateBonus : baseBleedHitRate;
         
