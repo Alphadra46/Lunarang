@@ -193,8 +193,8 @@ public class SC_ComboController : MonoBehaviour
         if (!canPerformCombo)
             return;
 
+        if(_animator != null) _animator.SetInteger("Combo", comboCounter);
         
-        _animator.SetInteger("Combo", comboCounter);
         if (currentWeapon != null)
         {
             foreach (var animatorControllerParameter in _animator.parameters.Where(p => p.name!=currentWeapon.id && p.type == AnimatorControllerParameterType.Trigger).ToList())
@@ -311,7 +311,7 @@ public class SC_ComboController : MonoBehaviour
             var isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
             
             var rawDamage = MathF.Round((moveValue/100) * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
-            var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus/100));
+            var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus/100) + (_stats.currentStats.projectileDamageBonus/100) + (isAoE ? _stats.currentStats.projectileDamageBonus : 0/100));
             var effCrit = effDamage * (1 + (_stats.currentStats.critDMG/100));
             
             p.damage = isCritical ? effCrit : effDamage;
@@ -337,7 +337,7 @@ public class SC_ComboController : MonoBehaviour
         var currentMV = ((currentWeapon.MovesValues[comboCounter - 1] + (currentWeapon.levelUpStatsRate * currentWeapon.currentLevel-1)) / 100);
 
         var rawDamage = MathF.Round(currentMV * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
-        var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus / 100));
+        var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus / 100) + (_stats.currentStats.mhDamageBonus / 100));
         var effCrit = effDamage * (1 + (_stats.currentStats.critDMG / 100));
         
         foreach (var e in currentEnemiesHitted)
@@ -371,7 +371,7 @@ public class SC_ComboController : MonoBehaviour
     {
 
         var rawDamage = MathF.Round(currentMV * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
-        var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus / 100));
+        var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus / 100) + (_stats.currentStats.aoeDamageBonus / 100));
         var effCrit = effDamage * (1 + (_stats.currentStats.critDMG / 100));
         
         var effDoTDamage = Mathf.Round(rawDamage * (1 + (_debuffsBuffsComponent.burnDMGBonus + (_debuffsBuffsComponent._playerStats.currentStats.dotDamageBonus))/100));
@@ -494,48 +494,6 @@ public class SC_ComboController : MonoBehaviour
         currentComboWeaponTypes.Add(currentWeapon.type);
         currentComboParameters.Add(currentWeapon.parameter);
         currentComboWeapons.Add(currentWeapon);
-        
-        /*
-        //Only spawn 1 VFX depending on the parameter of the hit
-        if (comboCounter<=2)
-        {
-            switch (newWeapon.parameter)
-            {
-                case ParameterType.MultiHit:
-                    vfxParameterList[0].Play();
-                    break;
-                case ParameterType.AreaOfEffect:
-                    vfxParameterList[1].Play();
-                    break;
-                case ParameterType.Projectile:
-                    vfxParameterList[2].Play();
-                    break;
-                default:
-                    break;
-            }
-        }
-        else //Spawn VFX depending on the current combo parameters for the finisher
-        {
-            foreach (var comboParameter in currentComboParameters)
-            {
-                switch (comboParameter)
-                {
-                    case ParameterType.MultiHit:
-                        vfxParameterList[0].Play();
-                        break;
-                    case ParameterType.AreaOfEffect:
-                        vfxParameterList[1].Play();
-                        break;
-                    case ParameterType.Projectile:
-                        vfxParameterList[2].Play();
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-        }
-        */
             
         if (comboCounter == comboMaxLength)
         {

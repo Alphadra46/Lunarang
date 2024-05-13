@@ -36,9 +36,7 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
         if(_coroutine != null) StopCoroutine(_coroutine);
         else
         {
-
-            _coroutine = StartCoroutine(ResetCounter(comboMaxLength));
-
+            _coroutine ??= StartCoroutine(ResetCounter(comboMaxLength));
         }
 
     }
@@ -47,6 +45,7 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
     {
         
         yield return new WaitForSeconds(0.75f);
+        
         _tmp.text = 0 + "/" + comboMaxLength;
         _coroutine = null;
 
