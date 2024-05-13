@@ -105,6 +105,7 @@ public class AI_StateMachine : StateManager<AI_StateMachine.EnemyState>
     public SC_AIStats _stats;
     public SC_AIRenderer _renderer;
     public Rigidbody _rb;
+    public CapsuleCollider _collider;
     
     #endregion
 
@@ -114,6 +115,7 @@ public class AI_StateMachine : StateManager<AI_StateMachine.EnemyState>
         if (!TryGetComponent(out _stats)) return;
         if (!TryGetComponent(out _renderer)) return;
         if (!TryGetComponent(out _rb)) return;
+        if (!TryGetComponent(out _collider)) return;
     }
 
     public virtual void OnDamageTaken()

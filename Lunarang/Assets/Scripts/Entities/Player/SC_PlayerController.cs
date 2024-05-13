@@ -95,15 +95,16 @@ public class SC_PlayerController : MonoBehaviour
         if(!TryGetComponent(out _sfxPlayer)) return;
     }
 
-    /// <summary>
-    /// Assign functions to an input
-    /// </summary>
-    private void Start()
+    private void OnEnable()
     {
         InitControllerInputs();
     }
-    
-    
+
+    private void OnDisable()
+    {
+        RemoveControllerInputs();
+    }
+
     #endregion
     
     #region Functions
@@ -157,9 +158,7 @@ public class SC_PlayerController : MonoBehaviour
         
         if(this != null)
             StartCoroutine(DashCoroutine());
-
         
-
     }
 
     /// <summary>
@@ -225,17 +224,7 @@ public class SC_PlayerController : MonoBehaviour
     private void Gravity()
     {
         float velocity;
-        
-        if (_characterController.isGrounded)
-        {
-            velocity = -1f;
-        }
-        else
-        {
-            // velocity = gravity * gravityMultiplier * Time.deltaTime;
-            velocity = 0;
-        }
-        currentMovement.y = velocity;
+        currentMovement.y = -1;
     }
     
     /// <summary>
@@ -243,6 +232,7 @@ public class SC_PlayerController : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        
         if(SC_GameManager.instance.isPause) return;
         
         Move();
@@ -255,12 +245,12 @@ public class SC_PlayerController : MonoBehaviour
         if (!canMove) return;
             
         Gravity();
-
         
         Rotate(); // Rotate the player
         
         if(isMovementInputPressed && !isAttacking)
             _characterController.Move((IsoVectorConvert(currentMovement) * SC_PlayerStats.instance.currentStats.currentSpeed) * Time.deltaTime); // Move the player
+        
     }
 
     

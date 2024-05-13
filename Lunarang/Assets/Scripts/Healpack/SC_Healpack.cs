@@ -1,24 +1,35 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 
 public class SC_Healpack : MonoBehaviour
 {
-#region Variables
+    #region Variables
+
+    [Title("Setup")]
     [SerializeField]
-    private float healAmount; 
+    private float healAmount;
     [SerializeField]
     private int playerLayerMask;
-    [SerializeField]
     private bool canInteract;
     [SerializeField]
-    private Animator animator;
+    public GameObject uiInteract;
+
+    [Title("Animations")]
+    public Animator animator;
     public String startTrigger;
     public String endTrigger;
-#endregion
+    [Title("Sounds")]
+    public AudioClip activateSound;
+    [Title("VFX")]
+    public ParticleSystem activateParticule;
 
-#region Détection de collision
+    #endregion
+
+    #region Player in range
     //trigger if the player is in range
     private void OnTriggerEnter(Collider other) 
     {
@@ -36,27 +47,29 @@ public class SC_Healpack : MonoBehaviour
             PlayerOutOfRange();
         }   
     }
-#endregion
+    
     private void PlayerInRange()
     {
-        canInteract = true;
-        Debug.Log("Loü est à portée");
         StartAnim();
     }
 
     private void PlayerOutOfRange()
     {
-        Debug.Log("Rien à portée");
-        canInteract = false;
         EndAnim();
     }
 
-    private void ActivateHealpack()
+#endregion
+    
+    public void ActivateHealpack()
     {
         SC_PlayerStats.instance.Heal(healAmount);
+        canInteract = false;
+        uiInteract.SetActive(false);
+        PlayActivateSound();
+        PlayActivateVFX();
     }
 
-#region Animations et FX
+    #region Animations et FX
     public void StartAnim()
     {
         animator.SetTrigger(startTrigger);
@@ -66,6 +79,17 @@ public class SC_Healpack : MonoBehaviour
     {
         animator.SetTrigger(endTrigger);
     }
+
+    public void PlayActivateSound()
+    {
+        //ajouter le déclenchement du son d'activation
+    }
+
+    public void PlayActivateVFX()
+    {
+        //ajouter le déclenchement des VFX d'activation
+    }
+
 
 #endregion
 }

@@ -16,10 +16,16 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
     {
         rot = transform.rotation;
         
+        
+    }
+
+    private void Start()
+    {
         if(!transform.GetChild(0).TryGetComponent(out _tmp))return;
 
         SC_ComboController.ComboUpdated += SetText;
     }
+
 
     private void LateUpdate()
     {
@@ -36,7 +42,9 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
         if(_coroutine != null) StopCoroutine(_coroutine);
         else
         {
-            _coroutine ??= StartCoroutine(ResetCounter(comboMaxLength));
+
+            _coroutine = StartCoroutine(ResetCounter(comboMaxLength));
+
         }
 
     }
@@ -45,9 +53,12 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
     {
         
         yield return new WaitForSeconds(0.75f);
+        if (_tmp != null)
+        {
+            _tmp.text = 0 + "/" + comboMaxLength;
+            
+        }
         
-        _tmp.text = 0 + "/" + comboMaxLength;
         _coroutine = null;
-
     }
 }
