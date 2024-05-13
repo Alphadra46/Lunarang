@@ -36,4 +36,9 @@ public class SC_Lobby : MonoBehaviour
         SC_GameManager.instance.OpenForge();
         
     }
+
+    public void Altar()
+    {
+        SC_GameManager.instance.OpenAltar();
+    }
 }

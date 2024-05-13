@@ -93,6 +93,7 @@ public class SO_SkillInventory : ScriptableObject
     /// </summary>
     [Button]
     public void ClearInventory()
+    
     {
         completedConstellations.Clear();
         ongoingConstellations.Clear();

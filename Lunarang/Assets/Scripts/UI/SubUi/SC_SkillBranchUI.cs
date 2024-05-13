@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using Object = System.Object;
 
 public class SC_SkillBranchUI : MonoBehaviour
@@ -18,10 +19,13 @@ public class SC_SkillBranchUI : MonoBehaviour
     
     private SC_ConstellationUI selectedConstellation;
 
+    private Image background;
+    
     public EventHandler updateIcons;
 
     public void SkillBranchSetup(SO_ParentSkill parentSkill, List<SO_ChildSkill> childrenSkills, SC_Constellation constellation)
     {
+        background = GetComponent<Image>();
         this.parentSkill = parentSkill;
         this.childrenSkills = childrenSkills;
         updateIcons += UpdateBranchIcons;
@@ -40,6 +44,17 @@ public class SC_SkillBranchUI : MonoBehaviour
         }
     }
 
+    public void PanelSelection()
+    {
+        EventSystem.current.SetSelectedGameObject(parentSkillSlot);
+        background.enabled = true;
+    }
+
+    public void PanelDeselection()
+    {
+        background.enabled = false;
+    }
+    
     private void UpdateBranchIcons(Object sender, EventArgs e)
     {
         Debug.Log("Updated");
