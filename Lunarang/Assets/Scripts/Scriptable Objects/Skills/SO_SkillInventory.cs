@@ -12,6 +12,8 @@ public class SO_SkillInventory : ScriptableObject
     public List<SC_Constellation> completedConstellations = new List<SC_Constellation>();
     public List<SO_BaseSkill> skillsOwned = new List<SO_BaseSkill>();
 
+    private List<SO_BaseSkill> preSelectedSkills = new List<SO_BaseSkill>();
+
     /// <summary>
     /// Add a constellation to the ongoing constellation list
     /// </summary>
@@ -91,6 +93,7 @@ public class SO_SkillInventory : ScriptableObject
     /// </summary>
     [Button]
     public void ClearInventory()
+    
     {
         completedConstellations.Clear();
         ongoingConstellations.Clear();
@@ -116,6 +119,22 @@ public class SO_SkillInventory : ScriptableObject
     {
         return (SO_ChildSkill) SC_GameManager.instance.allSkills.FirstOrDefault(skill => skill.skillName == childSkillName);
     }
-    
+
+    public void SavePreSelectedSkills()
+    {
+        preSelectedSkills = skillsOwned.ToList();
+    }
+
+    public void ResetSkills()
+    {
+        ClearInventory();
+
+        foreach (var skill in preSelectedSkills)
+        {
+            AddSkill(skill);
+        }
+        
+        preSelectedSkills.Clear();
+    }
     
 }

@@ -36,6 +36,8 @@ public class SC_InputManager : MonoBehaviour
     [HideInInspector] public InputAction trackedDevicePosition;
     [HideInInspector] public InputAction trackedDeviceOrientation;
     [HideInInspector] public InputAction develop;
+    [HideInInspector] public InputAction switchToRight;
+    [HideInInspector] public InputAction switchToLeft;
 
     [Header("Debug")]
     [HideInInspector] public InputAction console;
@@ -86,6 +88,8 @@ public class SC_InputManager : MonoBehaviour
         trackedDevicePosition = InputMap.UI.TrackedDevicePosition;
         trackedDeviceOrientation = InputMap.UI.TrackedDeviceOrientation;
         develop = InputMap.UI.Develop;
+        switchToRight = InputMap.UI.SwitchToRight;
+        switchToLeft = InputMap.UI.SwitchToLeft;
     }
 
     public void InitDebugInputs()
@@ -120,6 +124,8 @@ public class SC_InputManager : MonoBehaviour
         trackedDevicePosition.Enable();
         trackedDeviceOrientation.Enable();
         develop.Enable();
+        switchToRight.Enable();
+        switchToLeft.Enable();
     }
     public void EnableDebugInputs()
     {
@@ -153,6 +159,8 @@ public class SC_InputManager : MonoBehaviour
         trackedDevicePosition.Disable();
         trackedDeviceOrientation.Disable();
         develop.Disable();
+        switchToRight.Disable();
+        switchToLeft.Disable();
     }
     public void DisableDebugInputs()
     {
@@ -183,6 +191,8 @@ public class SC_InputManager : MonoBehaviour
         trackedDevicePosition.started += DetectDevice;
         trackedDeviceOrientation.started += DetectDevice;
         develop.started += DetectDevice;
+        switchToRight.started += DetectDevice;
+        switchToLeft.started += DetectDevice;
         console.started += DetectDevice;
     }
 
