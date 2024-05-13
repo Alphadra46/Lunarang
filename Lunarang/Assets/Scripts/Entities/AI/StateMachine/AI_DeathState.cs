@@ -23,10 +23,12 @@ public class AI_DeathState : BaseState<AI_StateMachine.EnemyState>
         if (_aiStateMachine._stats.typeID == "summoner")
         {
             _aiStateMachine._stats.Invoke("Death", 0.5f);
+            _aiStateMachine._collider.enabled = false;
         }
         else
         {
             _aiStateMachine._renderer.SendTriggerToAnimator("Death");
+            _aiStateMachine._collider.enabled = false;
         }
         
         

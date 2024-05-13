@@ -19,6 +19,7 @@ public class AI_IdleState : BaseState<AI_StateMachine.EnemyState>
     public override void EnterState()
     {
         _aiStateMachine.agent.enabled = true;
+        _aiStateMachine._collider.enabled = true;
         _aiStateMachine.StartCoroutine(TransitionPatrol());
     }
 
