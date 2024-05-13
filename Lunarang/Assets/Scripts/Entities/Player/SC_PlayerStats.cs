@@ -76,14 +76,13 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     {
         currentStats.currentHealth = currentStats.currentMaxHealth;
         onHealthInit?.Invoke(currentStats.currentHealth, currentStats.currentMaxHealth);
+        SC_GameManager.clearRoom += ClearRoom;
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Keypad9)) TakeDamage(5, false, null, false);
+        if(Input.GetKeyDown(KeyCode.Keypad9)) TakeDamage(5, false, null, true);
         if(Input.GetKeyDown(KeyCode.Keypad8)) Heal(10);
-        
-        if(Input.GetKeyDown(KeyCode.Keypad4)) SC_GameManager.instance.playerSkillInventory.AddSkill(SC_GameManager.instance.playerSkillInventory.FindSkillByName("Souffle de Résurrection"));
     }
 
 
@@ -292,7 +291,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Protection Épineuse"))
         {
 
-            currentStats.damageReduction += (15 + 
+            currentStats.shieldStrength += (15 + 
                                              (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_1_Tank") 
                                               && SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_1_Tank").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
                                                  ? float.Parse(value1) : 0));
@@ -321,7 +320,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Protection Épineuse"))
         {
 
-            currentStats.damageReduction -= (15 + 
+            currentStats.shieldStrength -= (15 + 
                                              (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_1_Tank") 
                                               && SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_1_Tank").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
                                                  ? float.Parse(value1) : 0));
@@ -383,6 +382,16 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
             
         }
         
+        
+    }
+    
+    private void ClearRoom()
+    {
+        
+        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Regeneration"))
+        {
+            Heal(2);    
+        }
         
     }
 
