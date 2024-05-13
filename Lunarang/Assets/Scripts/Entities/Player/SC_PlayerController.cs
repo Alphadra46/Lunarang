@@ -23,6 +23,8 @@ public class SC_PlayerController : MonoBehaviour
     public Animator _animator;
     private SC_SFXPlayerComponent _sfxPlayer;
 
+    public Vector3 lastPos;
+
     #region Movements
 
     [TabGroup("Tabs","Movement")]
@@ -138,8 +140,6 @@ public class SC_PlayerController : MonoBehaviour
         if (isDashing)
             return;
         
-        if(!CheckCanDashForward()) return;
-        
         var clips = new List<string>() { "SD_Dash_1","SD_Dash_2","SD_Dash_3" };
         _sfxPlayer.PlayRandomClip(clips);
         
@@ -232,7 +232,8 @@ public class SC_PlayerController : MonoBehaviour
         }
         else
         {
-            velocity = gravity * gravityMultiplier * Time.deltaTime;
+            // velocity = gravity * gravityMultiplier * Time.deltaTime;
+            velocity = 0;
         }
         currentMovement.y = velocity;
     }
@@ -296,15 +297,6 @@ public class SC_PlayerController : MonoBehaviour
         
         transform.position = loc;
         canMove = true;
-    }
-
-    public bool CheckCanDashForward()
-    {
-
-        Physics.OverlapSphere((transform.position * (dashSpeed * dashTime)), 0.5f);
-
-        return true;
-
     }
 
     #endregion

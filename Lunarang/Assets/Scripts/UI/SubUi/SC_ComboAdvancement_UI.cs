@@ -9,6 +9,8 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
     private TextMeshProUGUI _tmp;
 
     private Quaternion rot;
+
+    private Coroutine _coroutine;
     
     private void Awake()
     {
@@ -28,6 +30,25 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
     {
 
         _tmp.text = comboCounter + "/" + comboMaxLength;
+
+        if (comboCounter != comboMaxLength) return;
+        
+        if(_coroutine != null) StopCoroutine(_coroutine);
+        else
+        {
+
+            _coroutine = StartCoroutine(ResetCounter(comboMaxLength));
+
+        }
+
+    }
+
+    private IEnumerator ResetCounter(int comboMaxLength)
+    {
+        
+        yield return new WaitForSeconds(0.75f);
+        _tmp.text = 0 + "/" + comboMaxLength;
+        _coroutine = null;
 
     }
 }
