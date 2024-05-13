@@ -142,8 +142,6 @@ public class SC_PlayerController : MonoBehaviour
         
         var clips = new List<string>() { "SD_Dash_1","SD_Dash_2","SD_Dash_3" };
         _sfxPlayer.PlayRandomClip(clips);
-
-        lastPos = transform.position;
         
         if(_animator != null)
             _animator.SetBool("isDashing", true);
@@ -176,12 +174,10 @@ public class SC_PlayerController : MonoBehaviour
         {
             _characterController.Move(transform.forward * (dashSpeed * Time.deltaTime));
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("IA"), true);
-            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Traversable"), true);
             yield return null;
         }
         
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("IA"), false);
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Traversable"), false);
         
         _animator.SetBool("isDashing", false);
     }

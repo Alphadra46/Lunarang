@@ -562,6 +562,24 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchToRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""1a61279e-d5f2-4f8c-8b61-b56cd44b3eb8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchToLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""51f4503c-c18c-4748-a224-32299a805437"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -831,17 +849,6 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b5333034-3c8f-4f02-9047-6d5d927cbd87"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Submit"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""cc43e5f6-8426-42e2-8f33-c1751eff85bd"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -1037,6 +1044,50 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""action"": ""Develop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4558416f-35fb-4bf1-99ad-72151ee13fec"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchToRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4a5ae94-ae03-4217-9efb-2bf37e7384fc"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchToRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c38ea21d-01bb-45b6-983c-937f473f3c99"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchToLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d1e12d4c-0523-48fe-b05f-7cc61eca0365"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchToLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1119,6 +1170,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         m_UI_Develop = m_UI.FindAction("Develop", throwIfNotFound: true);
+        m_UI_SwitchToRight = m_UI.FindAction("SwitchToRight", throwIfNotFound: true);
+        m_UI_SwitchToLeft = m_UI.FindAction("SwitchToLeft", throwIfNotFound: true);
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_Console = m_Debug.FindAction("Console", throwIfNotFound: true);
@@ -1320,6 +1373,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
     private readonly InputAction m_UI_Develop;
+    private readonly InputAction m_UI_SwitchToRight;
+    private readonly InputAction m_UI_SwitchToLeft;
     public struct UIActions
     {
         private @InputMap m_Wrapper;
@@ -1335,6 +1390,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
         public InputAction @Develop => m_Wrapper.m_UI_Develop;
+        public InputAction @SwitchToRight => m_Wrapper.m_UI_SwitchToRight;
+        public InputAction @SwitchToLeft => m_Wrapper.m_UI_SwitchToLeft;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1377,6 +1434,12 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Develop.started += instance.OnDevelop;
             @Develop.performed += instance.OnDevelop;
             @Develop.canceled += instance.OnDevelop;
+            @SwitchToRight.started += instance.OnSwitchToRight;
+            @SwitchToRight.performed += instance.OnSwitchToRight;
+            @SwitchToRight.canceled += instance.OnSwitchToRight;
+            @SwitchToLeft.started += instance.OnSwitchToLeft;
+            @SwitchToLeft.performed += instance.OnSwitchToLeft;
+            @SwitchToLeft.canceled += instance.OnSwitchToLeft;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1414,6 +1477,12 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Develop.started -= instance.OnDevelop;
             @Develop.performed -= instance.OnDevelop;
             @Develop.canceled -= instance.OnDevelop;
+            @SwitchToRight.started -= instance.OnSwitchToRight;
+            @SwitchToRight.performed -= instance.OnSwitchToRight;
+            @SwitchToRight.canceled -= instance.OnSwitchToRight;
+            @SwitchToLeft.started -= instance.OnSwitchToLeft;
+            @SwitchToLeft.performed -= instance.OnSwitchToLeft;
+            @SwitchToLeft.canceled -= instance.OnSwitchToLeft;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1504,6 +1573,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
         void OnDevelop(InputAction.CallbackContext context);
+        void OnSwitchToRight(InputAction.CallbackContext context);
+        void OnSwitchToLeft(InputAction.CallbackContext context);
     }
     public interface IDebugActions
     {

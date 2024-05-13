@@ -33,6 +33,8 @@ public class SC_UIManager : MonoBehaviour
     [SerializeField] private GameObject loadingScreenPrefab;
     [BoxGroup("Prefabs References")]
     [SerializeField] private GameObject settingsPrefab;
+    [BoxGroup("Prefabs References")]
+    [SerializeField] private GameObject altarUIPrefab;
 
     #region Temporary References
     
@@ -59,6 +61,9 @@ public class SC_UIManager : MonoBehaviour
     [ShowInInspector] private GameObject forgeUI;
     [BoxGroup("Temporary References")]
     [ShowInInspector] private GameObject libraryUI;
+
+    [BoxGroup("Temporary References")] 
+    [SerializeField] private GameObject altarUI;
 
     private GameObject statsUI;
 
@@ -195,6 +200,19 @@ public class SC_UIManager : MonoBehaviour
             Destroy(forgeUI);
         }
         
+    }
+
+    public void ShowAltar()
+    {
+        if (altarUI == null)
+        {
+            altarUI = Instantiate(altarUIPrefab);
+            altarUI.name = "AltarUI";
+        }
+        else
+        {
+            Destroy(altarUI);
+        }
     }
     
     /// <summary>

@@ -3,14 +3,9 @@ using UnityEngine;
 
 public class SC_VoidCollision : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
-
-        if (other.collider.CompareTag("Player"))
-        {
+        if(other.CompareTag("Player"))
             SC_PlayerController.instance.Teleport(SC_PlayerController.instance.lastPos);
-        }
-
     }
-    
 }

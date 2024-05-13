@@ -69,7 +69,7 @@ public class SC_GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        playerSkillInventory.ClearInventory();
+        
     }
 
     private void OnDisable()
@@ -110,7 +110,6 @@ public class SC_GameManager : MonoBehaviour
                 if (isPause) SetPause();
                 SC_UIManager.instance.CreateLoadingScreen(1);
                 SC_UIManager.instance.ResetTempReferences();
-                playerSkillInventory.ClearInventory();
                 break;
             case GameState.RUN:
                 if (isPause) SetPause();
@@ -162,6 +161,11 @@ public class SC_GameManager : MonoBehaviour
     public void OpenLibrary()
     {
         SC_UIManager.instance.ShowLibrary();
+    }
+
+    public void OpenAltar()
+    {
+        SC_UIManager.instance.ShowAltar();
     }
     
     public void OpenRewardChest()
