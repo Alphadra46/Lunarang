@@ -16,10 +16,16 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
     {
         rot = transform.rotation;
         
+        
+    }
+
+    private void Start()
+    {
         if(!transform.GetChild(0).TryGetComponent(out _tmp))return;
 
         SC_ComboController.ComboUpdated += SetText;
     }
+
 
     private void LateUpdate()
     {
@@ -47,8 +53,12 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
     {
         
         yield return new WaitForSeconds(0.75f);
-        _tmp.text = 0 + "/" + comboMaxLength;
+        if (_tmp != null)
+        {
+            _tmp.text = 0 + "/" + comboMaxLength;
+            
+        }
+        
         _coroutine = null;
-
     }
 }
