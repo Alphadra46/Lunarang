@@ -11,6 +11,7 @@ using UnityEngine.Serialization;
 public enum GameState
 {
     LOBBY,
+    TRAINING,
     RUN,
     DEFEAT,
     WIN
@@ -111,8 +112,20 @@ public class SC_GameManager : MonoBehaviour
                 SC_UIManager.instance.CreateLoadingScreen(1);
                 SC_UIManager.instance.ResetTempReferences();
                 break;
+            case GameState.TRAINING:
+                if (isPause) SetPause();
+                SC_UIManager.instance.CreateLoadingScreen(2);
+                if (SC_PlayerController.instance != null)
+                {
+                    SC_PlayerController.instance.FreezeMovement(false);
+                    SC_PlayerController.instance.FreezeDash(false);
+                }
+                SC_UIManager.instance.ResetTempReferences();
+                break;
             case GameState.RUN:
                 if (isPause) SetPause();
+                Resources.Load<SO_SkillInventory>("SkillInventory").SavePreSelectedSkills();
+                SC_UIManager.instance.CreateLoadingScreen(3);
                 if (SC_PlayerController.instance != null)
                 {
                     SC_PlayerController.instance.FreezeMovement(false);
