@@ -191,12 +191,14 @@ public class SC_GameManager : MonoBehaviour
     
     public void OnPauseKey(InputAction.CallbackContext obj)
     {
-        if(state != GameState.RUN) return;
+        if (state != GameState.TRAINING && state != GameState.RUN) return;
         
         if (SC_UIManager.instance.inventoryUI != null || SC_UIManager.instance.rewardUI != null ||
             SC_UIManager.instance.winUI != null || SC_UIManager.instance.gameOverUI != null) return;
+        
         SetPause();
         SC_UIManager.instance.ShowPauseMenu();
+
     }
     
 }

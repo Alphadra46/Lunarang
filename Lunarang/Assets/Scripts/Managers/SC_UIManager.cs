@@ -144,7 +144,7 @@ public class SC_UIManager : MonoBehaviour
             pauseUI.name = "PauseUI";
             ShowHUD();
             
-            EventSystem.current.SetSelectedGameObject(pauseUI.transform.GetChild(1).gameObject);
+            EventSystem.current.SetSelectedGameObject(pauseUI.transform.GetChild(1).GetChild(0).gameObject);
             
         }
         else

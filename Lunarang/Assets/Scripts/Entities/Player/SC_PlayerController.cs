@@ -95,6 +95,11 @@ public class SC_PlayerController : MonoBehaviour
         if(!TryGetComponent(out _sfxPlayer)) return;
     }
 
+    private void Start()
+    {
+        InitControllerInputs();
+    }
+
     private void OnEnable()
     {
         InitControllerInputs();

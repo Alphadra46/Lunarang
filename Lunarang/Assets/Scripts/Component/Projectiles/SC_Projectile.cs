@@ -51,7 +51,9 @@ public class SC_Projectile : SerializedMonoBehaviour
 
     private void Start()
     {
-        _rb.AddForce(direction * speed, ForceMode.VelocityChange);
+        transform.forward = direction;
+        
+        _rb.AddForce(transform.forward * speed, ForceMode.VelocityChange);
     }
 
     /// <summary>

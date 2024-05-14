@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Enum;
@@ -190,10 +191,12 @@ public class SC_ComboController : MonoBehaviour
     /// </summary>
     private void UpdateAnimator()
     {
+        if(_animator == null) return;
+        
         if (!canPerformCombo)
             return;
 
-        if(_animator != null) _animator.SetInteger("Combo", comboCounter);
+        _animator.SetInteger("Combo", comboCounter);
         
         if (currentWeapon != null)
         {
@@ -285,45 +288,86 @@ public class SC_ComboController : MonoBehaviour
     /// <param name="isAoE"></param>
     public void CreateProjectile(GameObject projectilePrefab, int number, float areaSize, int hitNumber, float moveValue, float speed, float distanceMax, Vector3 direction, bool isAoE = false)
     {
+        if(number == 3)
+            for (var i = 0; i < number; i++)
+            {
+                var p = Instantiate(projectilePrefab).GetComponent<SC_Projectile>();
+                
+                var angle = Mathf.PI * (i+1) / (number+1);
+                    
+                var x = Mathf.Sin(angle) * 2;
+                var z = Mathf.Cos(angle) * 2;
+                var pos = new Vector3(x, 0, z);
+                
+                var centerDirection = Quaternion.LookRotation(-transform.GetChild(1).right, transform.GetChild(1).up);
 
-        for (var i = 0; i < number; i++)
+                pos = centerDirection * pos;
+                
+                p.transform.position = transform.position + new Vector3(pos.x, transform.localScale.y, pos.z);
+                
+                p.hitNumber = hitNumber;
+                
+                p.areaSize = areaSize;
+                p.isAoE = isAoE;
+                
+                var isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
+                
+                var rawDamage = MathF.Round((moveValue/100) * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
+                var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus/100) + (_stats.currentStats.projectileDamageBonus/100) + (isAoE ? _stats.currentStats.projectileDamageBonus : 0/100));
+                var effCrit = effDamage * (1 + (_stats.currentStats.critDMG/100));
+                
+                p.damage = isCritical ? effCrit : effDamage;
+                p.isCrit = isCritical;
+                p.weaponType = currentWeapon.type;
+                
+                p.sender = gameObject;
+                
+                p.speed = speed;
+                p.distanceMax = distanceMax;
+                p.direction = pos;
+
+            }
+        else
+        {
+            StartCoroutine(ProjectileInline(projectilePrefab, number, areaSize, hitNumber, moveValue, speed, distanceMax, direction, isAoE));
+        }
+        
+    }
+
+    public IEnumerator ProjectileInline(GameObject projectilePrefab, int numberTotal, float areaSize, int hitNumber, float moveValue, float speed, float distanceMax, Vector3 direction, bool isAoE = false)
+    {
+        var number = 0;
+        
+        while (number != numberTotal)
         {
             var p = Instantiate(projectilePrefab).GetComponent<SC_Projectile>();
-            var angle = Mathf.PI * (i+1) / (number+1);
-            // print(angle);
-                
-            var x = Mathf.Sin(angle) * 2;
-            var z = Mathf.Cos(angle) * 2;
-            var pos = new Vector3(x, 0, z);
-            
-            var centerDirection = Quaternion.LookRotation(-transform.GetChild(1).right, transform.GetChild(1).up);
 
-            pos = centerDirection * pos;
-            
-            
-            p.transform.position = transform.position + new Vector3(pos.x, transform.localScale.y, pos.z);
-            
+            p.transform.position = new Vector3(transform.GetChild(1).position.x, transform.localScale.y,
+                transform.GetChild(1).position.z);
+                
             p.hitNumber = hitNumber;
-            
+                
             p.areaSize = areaSize;
             p.isAoE = isAoE;
-            
+                
             var isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
-            
+                
             var rawDamage = MathF.Round((moveValue/100) * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
             var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus/100) + (_stats.currentStats.projectileDamageBonus/100) + (isAoE ? _stats.currentStats.projectileDamageBonus : 0/100));
             var effCrit = effDamage * (1 + (_stats.currentStats.critDMG/100));
-            
+                
             p.damage = isCritical ? effCrit : effDamage;
             p.isCrit = isCritical;
             p.weaponType = currentWeapon.type;
-            
+                
             p.sender = gameObject;
-            
+                
             p.speed = speed;
             p.distanceMax = distanceMax;
-            p.direction = pos;
+            p.direction = transform.GetChild(1).forward;
 
+            number++;
+            yield return new WaitForSeconds(0.25f);
         }
         
     }

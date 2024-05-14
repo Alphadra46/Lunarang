@@ -34,7 +34,8 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
 
     private void SetText(int comboCounter, int comboMaxLength, ParameterType attackParameter)
     {
-
+        if(_tmp == null) return;
+        
         _tmp.text = comboCounter + "/" + comboMaxLength;
 
         if (comboCounter != comboMaxLength) return;
