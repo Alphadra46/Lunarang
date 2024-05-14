@@ -170,7 +170,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Interact
+  m_text: "Int\xE9ragir"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6c6ef7d484a46c2438d49bba11ad9d0f, type: 2}
   m_sharedMaterial: {fileID: -3620833440429558230, guid: 6c6ef7d484a46c2438d49bba11ad9d0f,
@@ -198,8 +198,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.4
-  m_fontSizeBase: 0.4
+  m_fontSize: 0.3
+  m_fontSizeBase: 0.3
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -266,17 +266,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3847493409657268726}
-  m_LocalRotation: {x: -0, y: -0.92387944, z: -0, w: 0.38268372}
-  m_LocalPosition: {x: 0, y: 0, z: 0.01}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.35355338, y: 0.35355338, z: -0.1464466, w: 0.8535535}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5421732093216201634}
   m_Father: {fileID: 1372531706228547836}
-  m_LocalEulerAnglesHint: {x: 0, y: -135, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 45, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.01, y: 1.01}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2.7429, y: 0.7029}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2391860838752722315
@@ -351,9 +351,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5233166723047339687}
-  - component: {fileID: 532653892311172319}
   - component: {fileID: 8663334440089617558}
   - component: {fileID: 5850981696456018177}
+  - component: {fileID: 532653892311172319}
+  - component: {fileID: 7835467690595302249}
   m_Layer: 0
   m_Name: HealPack
   m_TagString: Untagged
@@ -378,23 +379,6 @@ Transform:
   - {fileID: 1372531706228547836}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &532653892311172319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4505214430088245656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3a918631202f5e4a87ed273031f0117, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerLayerMask: 31
-  canInteract: 0
-  animator: {fileID: 0}
-  startTrigger: 
-  endTrigger: 
 --- !u!135 &8663334440089617558
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -414,7 +398,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 4.83
+  m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &5850981696456018177
 Animator:
@@ -437,6 +421,56 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &532653892311172319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4505214430088245656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a918631202f5e4a87ed273031f0117, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healAmount: 30
+  playerLayerMask: 31
+  uiInteract: {fileID: 8563018471528333422}
+  animator: {fileID: 5850981696456018177}
+  startTrigger: Start
+  endTrigger: End
+  activateSound: {fileID: 0}
+  activateParticule: {fileID: 0}
+--- !u!114 &7835467690595302249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4505214430088245656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d97ddd89b9dde24394abdacfa6908f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 532653892311172319}
+        m_TargetAssemblyTypeName: SC_Healpack, Assembly-CSharp
+        m_MethodName: ActivateHealpack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  interactableOnce: 1
+  destroyOnInteractionEnded: 0
+  isInteractionEnded: 0
 --- !u!1 &8563018471528333422
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,7 +496,7 @@ Transform:
   m_GameObject: {fileID: 8563018471528333422}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.44, z: 0}
+  m_LocalPosition: {x: 0, y: 1.08, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
