@@ -11,12 +11,14 @@ using Matrix4x4 = UnityEngine.Matrix4x4;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
+using UnityEngine.VFX;
 
 public class SC_PlayerController : MonoBehaviour
 {
-    
+
     #region Variables
 
+    [SerializeField] private VisualEffect dashVFX;
     public static SC_PlayerController instance;
     
     private CharacterController _characterController;
@@ -154,7 +156,9 @@ public class SC_PlayerController : MonoBehaviour
         
         //canDash = false;
         isDashing = true;
-        
+
+        dashVFX.SendEvent("Dash_Trigger");
+
         if (isAttacking)
         {
             SC_ComboController.instance.CancelAttack();
