@@ -68,11 +68,6 @@ public class SC_GameManager : MonoBehaviour
         SC_InputManager.instance.pause.started += OnPauseKey;
     }
 
-    private void OnEnable()
-    {
-        
-    }
-
     private void OnDisable()
     {
         SC_InputManager.instance.pause.started -= OnPauseKey;
