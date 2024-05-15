@@ -144,6 +144,8 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
             sfxPlayer.PlayRandomClip(clips);
 
         }
+        SC_CameraShake.instance.StopAllCoroutines();
+        StartCoroutine(SC_CameraShake.instance.ShakeCamera(4f, 1, 0.3f));
 
         #region Thorns
         

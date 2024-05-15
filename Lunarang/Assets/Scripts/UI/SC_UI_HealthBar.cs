@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class SC_UI_HealthBar : MonoBehaviour
 {
@@ -28,7 +29,20 @@ public class SC_UI_HealthBar : MonoBehaviour
     
     [PropertySpace(SpaceBefore = 15f)]
     [ShowInInspector, ReadOnly] private TextMeshProUGUI tmpHP;
+
+    [PropertySpace(SpaceBefore = 15f)]
+    [SerializeField] private float scaleOnDamage = 1.15f;
+    [SerializeField] private float punchAngle = 5;
+    [SerializeField] private float transition = 0.15f;
+    [SerializeField] private float scaleTransition = 0.15f;
+    [SerializeField] private Ease scaleEase = Ease.OutBack;
     
+    [PropertySpace(SpaceBefore = 15f)]
+    [SerializeField] private Material lowLifeMaterial;
+    [SerializeField] private float feTransitionDuration = 0.5f;
+
+
+    [PropertySpace(SpaceBefore = 15f)]
     public float anticipationSpeed;
     public float anticipationDuration;
     public float lerpDelay;
@@ -39,6 +53,9 @@ public class SC_UI_HealthBar : MonoBehaviour
     [ShowInInspector] private bool canLerp = false;
     private float actualAnticipationValue;
     private float actualMainValue;
+
+    [ShowInInspector] private Coroutine feEnableCoroutine;
+    [ShowInInspector] private Coroutine feDisableCoroutine;
 
     #endregion
 
@@ -63,7 +80,57 @@ public class SC_UI_HealthBar : MonoBehaviour
     {
         
         mainBorder.color = value == maxHP ? new Color32(255, 255, 255, 0) : new Color32(255, 255, 255, 255);
+        transform.DOScale(scaleOnDamage, scaleTransition).SetEase(scaleEase);
+        DOTween.Kill(2, true);
+        transform.DOPunchRotation(Vector3.forward * punchAngle, transition, 20, 1).SetId(2);
 
+        if (feDisableCoroutine == null && currentHP >= maxHP/3)
+        {
+            if (feEnableCoroutine != null)
+                StopCoroutine(feEnableCoroutine);
+            
+            feDisableCoroutine = StartCoroutine(FEDisable());
+        }
+
+        if (feEnableCoroutine == null && currentHP < maxHP/3) 
+        {
+            if (feDisableCoroutine != null)
+                StopCoroutine(feDisableCoroutine);
+            
+            feEnableCoroutine = StartCoroutine(FEEnable());
+        }
+    }
+
+    private IEnumerator FEEnable()
+    {
+        feDisableCoroutine = null;
+        float timer = feTransitionDuration;
+        float baseIntensity = lowLifeMaterial.GetFloat("_VignetteIntensity");
+        while (timer>0)
+        {
+            lowLifeMaterial.SetFloat("_VignetteIntensity", Mathf.Lerp(baseIntensity,1.38f,1-(timer/feTransitionDuration)));
+            yield return null;
+            timer -= Time.deltaTime;
+        }
+
+        feEnableCoroutine = null;
+        yield return null;
+    }
+
+    private IEnumerator FEDisable()
+    {
+        feEnableCoroutine = null;
+        float timer = feTransitionDuration;
+        float baseIntensity = lowLifeMaterial.GetFloat("_VignetteIntensity");
+        while (timer>0)
+        {
+            lowLifeMaterial.SetFloat("_VignetteIntensity", Mathf.Lerp(baseIntensity,0f,1-(timer/feTransitionDuration)));
+            yield return null;
+            timer -= Time.deltaTime;
+        }
+
+        feDisableCoroutine = null;
+        yield return null;
     }
     
     private void OnAnticipationValueChanged(float value)
