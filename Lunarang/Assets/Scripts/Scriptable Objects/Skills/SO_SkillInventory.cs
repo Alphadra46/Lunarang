@@ -46,6 +46,8 @@ public class SO_SkillInventory : ScriptableObject
             return;
         
         skillsOwned.Add(skill);
+        if(skill.constellationSC != null)
+            AddConstellation(skill.constellationSC);
         skill.Init();
 
         foreach (var constellation in ongoingConstellations)
@@ -140,6 +142,16 @@ public class SO_SkillInventory : ScriptableObject
         }
         
         preSelectedSkills.Clear();
+    }
+    
+    public void ReloadSkills()
+    {
+
+        foreach (var skill in skillsOwned)
+        {
+            skill.Init();
+        }
+        
     }
     
 }
