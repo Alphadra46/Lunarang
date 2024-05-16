@@ -26,6 +26,11 @@ public class SO_SkillInventory : ScriptableObject
         ongoingConstellations.Add(constellation);
     }
 
+    public SC_Constellation FindConstellationByName(string constellationName)
+    {
+        return Resources.LoadAll<SC_Constellation>("Constellations").ToList().FirstOrDefault(constellation => constellation.name == constellationName);
+    }
+
     /// <summary>
     /// Add a skill to the inventory
     /// </summary>

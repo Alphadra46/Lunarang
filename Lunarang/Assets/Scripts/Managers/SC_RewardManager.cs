@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range check if there is no more skills to get / one left
@@ -39,7 +40,7 @@ public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range
 
     
     
-    [HideInInspector] public SC_Ressource moonFragment;
+    [HideInInspector] public SC_Ressource essenceFragment;
     private List<SC_Ressource> ressources = new List<SC_Ressource>();
     private List<SC_Constellation> constellations = new List<SC_Constellation>();
     [HideInInspector] public List<SO_BaseSkill> selectedSkills = new List<SO_BaseSkill>();
@@ -50,7 +51,7 @@ public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range
     {
         instance = this;
         constellations = Resources.LoadAll<SC_Constellation>("Constellations").ToList();
-        moonFragment = Resources.Load<SC_Ressource>("Ressources/MoonFragment");
+        essenceFragment = Resources.Load<SC_Ressource>("Ressources/EssenceFragment");
         ressources = Resources.LoadAll<SC_Ressource>("Ressources/Base").ToList();
         lunarSkills = Resources.LoadAll<SO_BaseSkill>("Skills").ToList();
     }
@@ -71,7 +72,7 @@ public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range
         if(lunarSkills.Count>0)
             selectedSkills.Add(lunarSkills[Random.Range(0, lunarSkills.Count)]);
         
-        rewardUI.rewardRessources.Add(moonFragment);
+        rewardUI.rewardRessources.Add(essenceFragment);
         rewardUI.rewardSkills = selectedSkills.ToList();
         rewardUI.Init();
         
@@ -175,7 +176,7 @@ public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range
 
         if (canDropMoonFragment && Random.Range(1, 101) <= moonFragmentEliteDropRate)
         {
-            SC_GameManager.instance.playerResourceInventory.AddResource(moonFragment,1); 
+            SC_GameManager.instance.playerResourceInventory.AddResource(essenceFragment,1); 
             //TODO - Display resource
         }
 
