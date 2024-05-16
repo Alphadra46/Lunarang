@@ -13,7 +13,9 @@ public enum ConstellationName
     DoT,
     Berserker,
     Tank,
-    Freeze
+    Freeze,
+    Burn,
+    Bleed
 }
 
 public class SO_BaseSkill : SerializedScriptableObject
@@ -21,9 +23,12 @@ public class SO_BaseSkill : SerializedScriptableObject
     
     public string skillName;
     public ConstellationName constellation;
+    public SC_Constellation constellationSC;
     
     [MultiLineProperty] public string shortDescription;
     [MultiLineProperty] public string longDescription;
+    public Sprite crystal;
+    public Sprite crystalIcon;
     public int spCost;
     
     [FoldoutGroup("BaseSkill")]

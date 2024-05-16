@@ -29,9 +29,11 @@ public class SC_Constellation : SerializedScriptableObject
 
         var lc = skills[parentSkill];
         lc = lc.Where(s => !playerInventory.Contains(s)).ToList(); //Ignore the skills that are already in the player inventory
-        lc = lc.Where(s => !skillsToExclude.Contains(s)).ToList(); //Ignore the skills that are already selected 
+        lc = lc.Where(s => !skillsToExclude.Contains(s)).ToList(); //Ignore the skills that are already selected
+        var sc = lc[Random.Range(0, lc.Count)];
+        sc.constellationSC = this;
         
-        return lc[Random.Range(0,lc.Count)];
+        return sc;
     }
     
     /// <summary>
@@ -43,8 +45,10 @@ public class SC_Constellation : SerializedScriptableObject
     {
         var l = skills.Keys.ToList();
         l = l.Where(s => !inventory.Contains(s)).ToList(); //Ignore the skills that are already in the player inventory
-        l = l.Where(s => !skillsToExclude.Contains(s)).ToList(); //Ignore the skills that are already selected 
-        return l[Random.Range(0,l.Count)];
+        l = l.Where(s => !skillsToExclude.Contains(s)).ToList(); //Ignore the skills that are already selected
+        var s = l[Random.Range(0, l.Count)];
+        s.constellationSC = this;
+        return s;
     }
 
     /// <summary>
