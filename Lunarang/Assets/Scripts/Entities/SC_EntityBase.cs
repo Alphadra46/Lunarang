@@ -19,7 +19,7 @@ namespace Entities
         public int maxHealth;
         [TabGroup("Stats", "HP")]
         public float maxHealthModifier;
-        [TabGroup("Stats", "HP")] public float currentMaxHealth => maxHealth * (1 + (maxHealthModifier/100));
+        [TabGroup("Stats", "HP"), ShowInInspector] public float currentMaxHealth => MathF.Ceiling(maxHealth * (1 + (maxHealthModifier/100)));
         
         #endregion
 
@@ -296,7 +296,6 @@ namespace Entities
                 case StatTypes.HPMAX:
                     modifiedStats.maxHealthModifier =
                         modOperation(baseStats.maxHealthModifier, statMod.ModificationValue);
-                    
                     break;
                 
                 case StatTypes.Healing:
@@ -483,7 +482,6 @@ namespace Entities
             }
 
             return modifiedStats;
-
         }
 
         protected Quaternion GetCurrentForwardVector(Quaternion orientation)
