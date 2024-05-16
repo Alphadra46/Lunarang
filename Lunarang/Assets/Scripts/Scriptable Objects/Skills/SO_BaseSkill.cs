@@ -95,6 +95,7 @@ public class SO_BaseSkill : SerializedScriptableObject
             playerStats.currentStats = modifiedStats;
         }
         
+        SC_PlayerStats.onUpdatedStats?.Invoke();
     }
     
     public void ApplyBuffs(Dictionary<Enum_Buff, string> buffsList)
