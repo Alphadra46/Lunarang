@@ -296,6 +296,7 @@ namespace Entities
                 case StatTypes.HPMAX:
                     modifiedStats.maxHealthModifier =
                         modOperation(baseStats.maxHealthModifier, statMod.ModificationValue);
+                    
                     break;
                 
                 case StatTypes.Healing:
