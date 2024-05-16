@@ -7,6 +7,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skills/LunarSkill", fileName = "LunarSkill")]
 public class SO_LunarSkill : SO_BaseSkill
 {
+    public Sprite lunarIcon;
+    
     [FoldoutGroup("LunarSkill")]
     public bool isUpgradable = false;
     

@@ -9,4 +9,5 @@ public class SC_Ressource : ScriptableObject
     public string name;
     [TextArea] public string description;
     [Range(0,6)] public int rarityLevel;
+    public Sprite sprite;
 }

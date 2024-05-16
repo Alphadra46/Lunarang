@@ -11,6 +11,9 @@ using Random = UnityEngine.Random;
 public class SC_Constellation : SerializedScriptableObject
 {
     public string name;
+    public string description;
+    public Color32 color;
+    public Sprite splashArt;
     public Dictionary<SO_ParentSkill, List<SO_ChildSkill>> skills = new Dictionary<SO_ParentSkill, List<SO_ChildSkill>>();
 
     /// <summary>

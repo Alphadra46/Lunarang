@@ -102,10 +102,10 @@ public class SC_PlayerController : MonoBehaviour
         InitControllerInputs();
     }
 
-    private void OnEnable()
-    {
-        InitControllerInputs();
-    }
+    // private void OnEnable()
+    // {
+    //     InitControllerInputs();
+    // }
 
     private void OnDisable()
     {
