@@ -25,6 +25,7 @@ public class SC_Constellation : SerializedScriptableObject
     {
         var l = skills.Keys.ToList();
         l = l.Where(s => playerInventory.Contains(s)).ToList();
+        // l = l.Where(s => skills[s].ToList().Where(sc => !playerInventory.Contains(sc))).ToList();
         var parentSkill = l[Random.Range(0, l.Count)];
 
         var lc = skills[parentSkill];

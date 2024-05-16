@@ -35,6 +35,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     public static Action<float, float> onHealthInit;
     public static Action<float, float> onHealthChange;
     public static Action<float, float> onShieldHPChange;
+    public static Action onUpdatedStats;
 
     public List<SkinnedMeshRenderer> _meshRenderer;
     private SC_PlayerController _controller;
@@ -89,11 +90,13 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     private void OnEnable()
     {
         SC_AIStats.onDeath += onEnemyKilled;
+        onUpdatedStats += UpdateStats;
     }
 
     private void OnDisable()
     {
         SC_AIStats.onDeath -= onEnemyKilled;
+        onUpdatedStats -= UpdateStats;
     }
 
     #endregion
@@ -230,7 +233,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     public void Heal(float healAmount)
     {
         // Check if the heal don't exceed the Max HP limit, if yes, set to max hp, else increment currentHP by healAmount.
-        currentStats.currentHealth = currentStats.currentHealth + healAmount > currentStats.maxHealth ? currentStats.maxHealth : currentStats.currentHealth + healAmount;
+        currentStats.currentHealth = currentStats.currentHealth + healAmount > currentStats.currentMaxHealth ? currentStats.currentMaxHealth : currentStats.currentHealth + healAmount;
 
         HealthCheck();
         
@@ -459,6 +462,14 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         currentStats.bonusCritRate = 0;
         
         currentStats.currentHealth = currentStats.currentMaxHealth;
+    }
+
+    public void UpdateStats()
+    {
+     
+        print("Update");
+        onHealthChange?.Invoke(currentStats.currentHealth, currentStats.currentMaxHealth);
+        
     }
     
     
