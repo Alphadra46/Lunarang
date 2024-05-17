@@ -11,6 +11,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using UnityEngine.VFX;
+using UnityEngine.VFX.Utility;
 
 public class SC_AIStats : SC_EntityBase, IDamageable
 {
@@ -281,7 +283,9 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         _debuffsBuffsComponent.ResetAllBuffsAndDebuffs();
         
         SC_RewardManager.instance.ResourceDropSelection(isElite ? "Elite" : "Base");
-        
+
+        DropRessources(SC_PlayerController.instance.transform.position);
+
         if(SC_Pooling.instance != null) {
             SC_Pooling.instance.ReturnItemToPool("Ennemis", gameObject);
             ResetStats();
@@ -339,6 +343,34 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         
         projectile.damage = (int)Mathf.Round((moveValues[moveValueIndex] * currentStats.currentATK));
         
+    }
+
+    public void DropRessources(Vector3 goalPosition)
+    {
+        VisualEffect dropRessourcesVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_RessourcesLoot").GetComponent<VisualEffect>();
+        dropRessourcesVFX.gameObject.SetActive(true);
+        dropRessourcesVFX.transform.position = transform.position;
+        dropRessourcesVFX.SetVector3("Spawn Position", transform.position);
+        SC_PlayerController.instance.StartCoroutine(UpdateTargetPosition(dropRessourcesVFX));
+        dropRessourcesVFX.Play();
+
+        SC_Pooling.instance.ReturnItemToPool("VFX", dropRessourcesVFX.gameObject);
+    }
+
+    private IEnumerator UpdateTargetPosition(VisualEffect vfx)
+    {
+        var totalTimer = vfx.GetFloat("Particles Life") + 3f;
+        var timer = totalTimer;
+
+        print("S T A R T");
+        while (timer > 0)
+        {
+            vfx.SetVector3("Target Position", SC_PlayerController.instance.transform.position);
+            yield return null;
+            timer -= Time.deltaTime;
+            print("ON GOING");
+        }
+        yield return null;
     }
 
     #endregion
