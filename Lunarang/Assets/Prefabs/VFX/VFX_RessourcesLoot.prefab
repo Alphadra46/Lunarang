@@ -11,9 +11,6 @@ GameObject:
   - component: {fileID: 9030049537709397002}
   - component: {fileID: 7575422300923267719}
   - component: {fileID: 3624901738406528939}
-  - component: {fileID: 4535816838705321651}
-  - component: {fileID: 8550642020966603784}
-  - component: {fileID: 948736106057623104}
   m_Layer: 0
   m_Name: VFX_RessourcesLoot
   m_TagString: Untagged
@@ -45,15 +42,21 @@ VisualEffect:
   m_GameObject: {fileID: 7904510647356669196}
   m_Enabled: 1
   m_Asset: {fileID: 8926484042661614526, guid: 2a94643e60f64f34ebd76b2d2559c69e, type: 3}
-  m_InitialEventName: OnPlay
-  m_InitialEventNameOverriden: 0
+  m_InitialEventName: 
+  m_InitialEventNameOverriden: 1
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
   m_AllowInstancing: 1
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
-      m_Array: []
+      m_Array:
+      - m_Value: 1.25
+        m_Name: Particles Life
+        m_Overridden: 1
+      - m_Value: 50
+        m_Name: Attractive strenght
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
@@ -63,7 +66,10 @@ VisualEffect:
     m_Uint:
       m_Array: []
     m_Int:
-      m_Array: []
+      m_Array:
+      - m_Value: 3
+        m_Name: Particles Number
+        m_Overridden: 1
     m_Matrix4x4f:
       m_Array: []
     m_AnimationCurve:
@@ -114,50 +120,3 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &4535816838705321651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7904510647356669196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdafc37f32b176349b1684c4455b98e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ExecuteInEditor: 1
-  m_Bindings:
-  - {fileID: 8550642020966603784}
-  - {fileID: 948736106057623104}
-  m_VisualEffect: {fileID: 7575422300923267719}
---- !u!114 &8550642020966603784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7904510647356669196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24279ee835d6c4c48ae512c6e29b9808, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Property:
-    m_Name: Target Position
-  Target: {fileID: 0}
---- !u!114 &948736106057623104
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7904510647356669196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24279ee835d6c4c48ae512c6e29b9808, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Property:
-    m_Name: Position Spawn
-  Target: {fileID: 0}
