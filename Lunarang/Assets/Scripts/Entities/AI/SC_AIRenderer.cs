@@ -14,7 +14,7 @@ public class SC_AIRenderer : MonoBehaviour
     
     #region Variables
     
-    [BoxGroup("Damage Area")]
+        [BoxGroup("Damage Area")]
     public GameObject TextDamageUI;
     [BoxGroup("Damage Area")]
     public GameObject StatsUI;

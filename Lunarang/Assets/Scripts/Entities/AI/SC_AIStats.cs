@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+//using UnityEngine.VFX;
 
 public class SC_AIStats : SC_EntityBase, IDamageable
 {
@@ -65,6 +66,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     private SC_DebuffsBuffsComponent _debuffsBuffsComponent;
 
     [ShowInInspector] public bool isDead = false;
+    //[SerializeField] private VisualEffect dropRessourcesVFX;
     #endregion
 
 
@@ -340,6 +342,11 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         projectile.damage = (int)Mathf.Round((moveValues[moveValueIndex] * currentStats.currentATK));
         
     }
+
+    //public void dropRessources(VisualEffect lootVFX, Vector3 goalPosition)
+    //{
+
+    //}
 
     #endregion
 
