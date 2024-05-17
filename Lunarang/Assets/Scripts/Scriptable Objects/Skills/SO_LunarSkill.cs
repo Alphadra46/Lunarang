@@ -65,8 +65,10 @@ public class SO_LunarSkill : SO_BaseSkill
             
             playerStats.ModifyStats(playerStats.currentStats, out var updatedStats, statModification);
             playerStats.currentStats = updatedStats;
+            
         }
         
+        SC_PlayerStats.onUpdatedStats?.Invoke();
     }
 
     public void SetModifiedValueToBaseValue()
@@ -78,6 +80,8 @@ public class SO_LunarSkill : SO_BaseSkill
             statModification.ModificationValue = baseValue[statModification.StatToModify];
 
         }
+        
+        SC_PlayerStats.onUpdatedStats?.Invoke();
     }
     
 }

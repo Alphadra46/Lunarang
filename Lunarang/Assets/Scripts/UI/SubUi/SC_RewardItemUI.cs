@@ -78,9 +78,9 @@ public class SC_RewardItemUI : SerializedMonoBehaviour
         
         skill = newSkill;
         
-        
         SetTitle(skill.skillName);
         SetDescription(skill.shortDescription);
+        SetImage(skill.crystal);
         SetColor(skill.constellation);
         if (skill.constellation != ConstellationName.Lunar) return;
         
@@ -96,6 +96,8 @@ public class SC_RewardItemUI : SerializedMonoBehaviour
     
     private void SetImage(Sprite newSprite)
     {
+        if(newSprite == null) return;
+        
         crystal.sprite = newSprite;
     }
     
@@ -117,14 +119,12 @@ public class SC_RewardItemUI : SerializedMonoBehaviour
             case ConstellationName.Lunar:
                 outline.color = baseColors["Lunar"];
                 crystal.color = baseColors["Lunar"];
-                
                 var crystalColor = crystal.color;
                 crystalColor.a = 0.75f;
                 crystal.color = crystalColor;
                 break;
             case ConstellationName.DoT:
                 outline.color = SC_GameManager.instance.playerSkillInventory.FindConstellationByName("DoT").color;
-                crystal.color = SC_GameManager.instance.playerSkillInventory.FindConstellationByName("DoT").color;
                 break;
             case ConstellationName.Berserker:
                 outline.color = SC_GameManager.instance.playerSkillInventory.FindConstellationByName("Berserk").color;
@@ -137,6 +137,10 @@ public class SC_RewardItemUI : SerializedMonoBehaviour
             case ConstellationName.Freeze:
                 outline.color = SC_GameManager.instance.playerSkillInventory.FindConstellationByName("Freeze").color;
                 crystal.color = SC_GameManager.instance.playerSkillInventory.FindConstellationByName("Freeze").color;
+                break;
+            case ConstellationName.Burn:
+                outline.color = SC_GameManager.instance.playerSkillInventory.FindConstellationByName("Burn").color;
+                crystal.color = SC_GameManager.instance.playerSkillInventory.FindConstellationByName("Burn").color;
                 break;
             default:
                 outline.color = baseColors["Default"];

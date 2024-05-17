@@ -27,25 +27,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 1|SC_StatModification, Assembly-CSharp
-    - Name: StatToModify
-      Entry: 3
-      Data: 15
-    - Name: ModificationType
-      Entry: 3
-      Data: 1
-    - Name: ModificationValue
-      Entry: 4
-      Data: 10
-    - Name: timer
-      Entry: 4
       Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -54,11 +36,11 @@ MonoBehaviour:
       Data: 
     - Name: buffsAppliedOnInit
       Entry: 7
-      Data: 2|System.Collections.Generic.Dictionary`2[[Enum.Enum_Buff, Assembly-CSharp],[System.String,
+      Data: 1|System.Collections.Generic.Dictionary`2[[Enum.Enum_Buff, Assembly-CSharp],[System.String,
         mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 3|System.Collections.Generic.EnumEqualityComparer`1[[Enum.Enum_Buff,
+      Data: 2|System.Collections.Generic.EnumEqualityComparer`1[[Enum.Enum_Buff,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -80,7 +62,7 @@ MonoBehaviour:
       Data: 
     - Name: statsChangedOnEvent
       Entry: 7
-      Data: 4|System.Collections.Generic.List`1[[SC_StatModification, Assembly-CSharp]],
+      Data: 3|System.Collections.Generic.List`1[[SC_StatModification, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -93,11 +75,11 @@ MonoBehaviour:
       Data: 
     - Name: buffsAppliedOnEvent
       Entry: 7
-      Data: 5|System.Collections.Generic.Dictionary`2[[Enum.Enum_Buff, Assembly-CSharp],[System.String,
+      Data: 4|System.Collections.Generic.Dictionary`2[[Enum.Enum_Buff, Assembly-CSharp],[System.String,
         mscorlib]], mscorlib
     - Name: comparer
       Entry: 9
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 12
       Data: 0
@@ -109,11 +91,11 @@ MonoBehaviour:
       Data: 
     - Name: baseValue
       Entry: 7
-      Data: 6|System.Collections.Generic.Dictionary`2[[StatTypes, Assembly-CSharp],[System.Single,
+      Data: 5|System.Collections.Generic.Dictionary`2[[StatTypes, Assembly-CSharp],[System.Single,
         mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 7|System.Collections.Generic.EnumEqualityComparer`1[[StatTypes, Assembly-CSharp]],
+      Data: 6|System.Collections.Generic.EnumEqualityComparer`1[[StatTypes, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -147,14 +129,17 @@ MonoBehaviour:
       Data: 
   skillName: "R\xE9g\xE9n\xE9ration"
   constellation: 0
+  constellationSC: {fileID: 0}
   shortDescription: "Permet de regagner <b>quelques</b> points de vie \xE0 chaque
     changement de salle."
   longDescription: "Permet de regagner <b>2<b> points de vie \xE0 chaque <b>changement
     de salle</b>."
+  crystal: {fileID: 0}
+  crystalIcon: {fileID: 0}
   spCost: 0
   eventEnabler: {fileID: 0}
   eventDisabler: {fileID: 0}
-  isKnown: 0
+  isKnown: 1
   lunarIcon: {fileID: 21300000, guid: 6ba4f47604f688040bafc8b29f5d3e8f, type: 3}
   isUpgradable: 1
   currentLevel: 1

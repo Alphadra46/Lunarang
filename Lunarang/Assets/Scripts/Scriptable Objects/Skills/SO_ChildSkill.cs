@@ -13,6 +13,8 @@ public class SO_ChildSkill : SO_BaseSkill
     public override void Init()
     {
         base.Init();
+
+        crystal = parentSkill.crystal;
     }
     
 }

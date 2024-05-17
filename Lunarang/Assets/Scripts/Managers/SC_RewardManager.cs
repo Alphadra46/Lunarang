@@ -130,7 +130,17 @@ public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range
             }
             else //Ongoing constellation skill
             {
-                if (Random.Range(1,101) > 70) //Get a child skill from a already owned parent skill and ongoing constellation
+                var r = Random.Range(1, 101);
+                var i = selectedConstellation.skills.Keys.ToList().Count;
+
+                foreach (var parentSkill in selectedConstellation.skills.Keys.ToList())
+                {
+                    if (SC_GameManager.instance.playerSkillInventory.CheckHasSkill(parentSkill)) i--;
+                }
+
+                if (i <= 0) r = 100;
+                
+                if (r > 70) //Get a child skill from a already owned parent skill and ongoing constellation
                 {
                     randomSkill = selectedConstellation.GetRandomChildSkill(SC_GameManager.instance.playerSkillInventory.skillsOwned, selectedSkills);
                 }
