@@ -73,7 +73,7 @@ public class SC_UI_HealthBar : MonoBehaviour
         
         if(!transform.GetChild(1).TryGetComponent(out shieldSlider)) return;
         
-        if(!transform.GetChild(5).TryGetComponent(out tmpHP)) return;
+        if(!transform.GetChild(5).GetChild(0).TryGetComponent(out tmpHP)) return;
     }
 
     private void OnHealthValueChanged(float value)
