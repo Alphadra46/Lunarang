@@ -20,7 +20,9 @@ public class SC_ResourcesInventory : SerializedScriptableObject
         {
             resourceInventory.Add(resource, amount);
         }
-        
+
+        SC_NotificationManager.addRessourceNotification(resource, amount);
+
     }
 
     public void RemoveResource(SC_Ressource resource, int amount)
@@ -37,5 +39,11 @@ public class SC_ResourcesInventory : SerializedScriptableObject
     public void ClearResourceInventory()
     {
         resourceInventory.Clear();
+    }
+    
+    [Button]
+    public void AddResourceInventory()
+    {
+        AddResource(Resources.Load<SC_Ressource>("Ressources/Base/Ressource_1"), Random.Range(1 , 10));
     }
 }
