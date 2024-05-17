@@ -108,7 +108,7 @@ public class SC_UI_HealthBar : MonoBehaviour
         float baseIntensity = lowLifeMaterial.GetFloat("_VignetteIntensity");
         while (timer>0)
         {
-            lowLifeMaterial.SetFloat("_VignetteIntensity", Mathf.Lerp(baseIntensity,1.38f,1-(timer/feTransitionDuration)));
+            lowLifeMaterial.SetFloat("_VignetteIntensity", Mathf.Lerp(baseIntensity,1.45f,1-(timer/feTransitionDuration)));
             yield return null;
             timer -= Time.deltaTime;
         }
