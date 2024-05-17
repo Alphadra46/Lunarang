@@ -16,7 +16,7 @@ public class SC_NotificationManager : MonoBehaviour
     public static Action<SC_Ressource, int> addRessourceNotification;
     public static Action<Sprite, string> addNotification;
     
-    public static Action<GameObject> removeNotification;
+    public static Action<SC_NotificationUI> removeNotification;
 
     [ShowInInspector] private Dictionary<SC_Ressource,GameObject> ressourceNotificationList = new Dictionary<SC_Ressource,GameObject>();
     [ShowInInspector] private List<GameObject> notificationList = new List<GameObject>();
@@ -27,6 +27,7 @@ public class SC_NotificationManager : MonoBehaviour
     {
         addNotification += AddNotification;
         addRessourceNotification += AddRessourceNotification;
+        removeNotification += RemoveNotification;
     }
 
     public bool CheckRessourceNotificationExist(SC_Ressource ressource)
@@ -54,52 +55,55 @@ public class SC_NotificationManager : MonoBehaviour
             
         }
         
-        var notification = Instantiate(notificationPrefab, notificationTransform);
+        if(this == null) return;
+        
+        var notification = Instantiate(notificationPrefab, transform);
         if(!notification.TryGetComponent(out SC_NotificationUI notificationUI)) return;
 
         var finalPrompt = $"{ressource.name} x{amount}";
         
-        notificationUI.Init(ressource.sprite, finalPrompt);
+        notificationUI.Init(ressource, amount);
         
         ressourceNotificationList.Add(ressource, notification);
 
     }
 
-    private void UpdateRessourceNotification(SC_Ressource ressource, int amount)
+    private void UpdateRessourceNotification(SC_Ressource ressource, int newAmount)
     {
     
         var notification = ressourceNotificationList[ressource];
-        if(!notification.TryGetComponent(out SC_NotificationUI notificationUI)) return;
-            
-        var finalPrompt = $"{ressource.name} x{amount}";
+        if(notification == null) return;
         
-        notificationUI.UpdateNotification(finalPrompt);
+        if(!notification.TryGetComponent(out SC_NotificationUI notificationUI)) return;
+        
+        notificationUI.UpdateNotification(ressource, newAmount);
 
     }
 
     private void AddNotification(Sprite sprite, string prompt)
     {
-       
-        var notification = Instantiate(notificationPrefab, notificationTransform);
+        if(this == null) return;
+        
+        var notification = Instantiate(notificationPrefab, transform);
         if(!notification.TryGetComponent(out SC_NotificationUI notificationUI)) return;
         
         notificationUI.Init(sprite, prompt);
         
     }
 
-    public void RemoveNotification(GameObject go)
+    public void RemoveNotification(SC_NotificationUI notifUI)
     {
 
-        if (ressourceNotificationList.ContainsValue(go))
+        if (ressourceNotificationList.ContainsValue(notifUI.gameObject))
         {
-            var notif = ressourceNotificationList.FirstOrDefault(x => x.Value == go).Key;
+            var notif = ressourceNotificationList.FirstOrDefault(x => x.Value == notifUI.gameObject).Key;
             ressourceNotificationList.Remove(notif);
-            Destroy(go);
+            notifUI.Destroy();
         }
-        else if(CheckNotificationExist(go))
+        else if(CheckNotificationExist(notifUI.gameObject))
         {
-            notificationList.Remove(go);
-            Destroy(go);
+            notificationList.Remove(notifUI.gameObject);
+            notifUI.Destroy();
         }
         
     }
