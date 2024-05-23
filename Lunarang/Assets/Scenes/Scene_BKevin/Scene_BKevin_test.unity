@@ -12141,7 +12141,7 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
 --- !u!2083052967 &535978715
 VisualEffect:
   m_ObjectHideFlags: 0
@@ -12159,7 +12159,34 @@ VisualEffect:
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
-      m_Array: []
+      m_Array:
+      - m_Value: 0.5
+        m_Name: Spike_size
+        m_Overridden: 1
+      - m_Value: 0.4
+        m_Name: ground_IceSize
+        m_Overridden: 1
+      - m_Value: 0.6
+        m_Name: delay
+        m_Overridden: 1
+      - m_Value: 0.7
+        m_Name: radius
+        m_Overridden: 1
+      - m_Value: 2.5
+        m_Name: Ground_size
+        m_Overridden: 1
+      - m_Value: 3
+        m_Name: spike_count
+        m_Overridden: 1
+      - m_Value: 3
+        m_Name: GroundIce_Count
+        m_Overridden: 1
+      - m_Value: 3
+        m_Name: GroundCount
+        m_Overridden: 1
+      - m_Value: 1.5
+        m_Name: Distance
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
@@ -12189,7 +12216,7 @@ Transform:
   m_GameObject: {fileID: 535978713}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.643, y: 0.1, z: -5.26}
+  m_LocalPosition: {x: 3.42, y: 0.1, z: 6.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -27981,6 +28008,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3136400204869750809, guid: e79abad9c4e02fc4f993956ea874bd73,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 3496560424702636492, guid: e79abad9c4e02fc4f993956ea874bd73,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7441829592953240036, guid: e79abad9c4e02fc4f993956ea874bd73,
         type: 3}
