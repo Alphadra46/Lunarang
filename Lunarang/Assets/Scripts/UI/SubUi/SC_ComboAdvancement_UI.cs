@@ -59,7 +59,8 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
             _tmp.text = 0 + "/" + comboMaxLength;
             
         }
-        
+
+        SC_ComboController.instance.ManageComboVFX(SC_ComboController.instance.comboCounterVFX, 0);
         _coroutine = null;
     }
 }

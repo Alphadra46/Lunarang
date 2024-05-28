@@ -26,6 +26,8 @@ public class SC_ComboController : MonoBehaviour
     [PropertySpace(SpaceBefore = 5, SpaceAfter = 5)]
     public int comboCounter = 0;
 
+    public VisualEffect comboCounterVFX;
+
     [HideInInspector] public StateMachineBehaviour currentState;
     
     #endregion
@@ -479,6 +481,7 @@ public class SC_ComboController : MonoBehaviour
         
         // Increment combo, switch the weapon type to current type and add this to a list.
         comboCounter++;
+        ManageComboVFX(comboCounterVFX, comboCounter);
         currentWeapon = newWeapon;
         
         UpdateAnimator();
@@ -619,8 +622,20 @@ public class SC_ComboController : MonoBehaviour
         
     }
 
+    public void ManageComboVFX(VisualEffect vfx, int orbNumber)
+    {
+
+        vfx.SetInt("Orb Number", orbNumber);
+        vfx.SetFloat("Rotation Speed", orbNumber);
+        if (orbNumber != 0)
+        {
+            vfx.SetFloat("Trail Size", 1f / orbNumber);
+        }
+        vfx.Reinit();
+    }
+
     #endregion
-    
+
 }
 
 
