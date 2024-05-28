@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Waterfall_shadergraph 1
-  m_Shader: {fileID: -6465566751694194690, guid: ef6a4b01ebf8bff44a11850cec3cfae3,
+  m_Name: Water_fall_scroll
+  m_Shader: {fileID: -6465566751694194690, guid: a6ff6a7f2b465234cadff0e86b1ee194,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -17,13 +17,21 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3013
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _MainText:
+        m_Texture: {fileID: 2800000, guid: f05bf23d4513fdc4ea6ad1d9bb1d34c5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: 29db117ded7dabd4ab061707e6642850, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -38,20 +46,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Bottom_Brightness: 2
-    - _Bottom_strenght: 5
+    - _DistortionAmount: 0.1
     - _QueueControl: 0
-    - _QueueOffset: 0
-    - _VertexOffsetAmount: 0
-    - _ripple_amount: 2
-    - _transparency_mask: 1.86
-    - _voronoid_scale: 10
-    - _voronoid_speed: 2
+    - _QueueOffset: 13
     m_Colors:
-    - _ripple_color: {r: 0.00798971, g: 0.74901956, b: 0.53266484, a: 1}
-    - _ripple_speed: {r: 0, g: 0.2, b: 0, a: 0}
+    - _Color: {r: 0.5746315, g: 0.9547169, b: 0.8870577, a: 0}
+    - _Scroll_speed: {r: 0.2, g: 0, b: 0, a: 0}
+    - _Voronoid_speed: {r: 0, g: 0.2, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &2323365600357737800
+--- !u!114 &947583484074070346
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
