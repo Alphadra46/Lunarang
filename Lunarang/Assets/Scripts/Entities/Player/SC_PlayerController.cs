@@ -158,7 +158,7 @@ public class SC_PlayerController : MonoBehaviour
         isDashing = true;
 
         dashVFX.SendEvent("Dash_Trigger");
-
+        
         if (isAttacking)
         {
             //SC_ComboController.instance.CancelAttack();
