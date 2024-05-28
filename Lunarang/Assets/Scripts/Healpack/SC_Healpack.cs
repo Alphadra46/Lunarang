@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class SC_Healpack : MonoBehaviour
 {
