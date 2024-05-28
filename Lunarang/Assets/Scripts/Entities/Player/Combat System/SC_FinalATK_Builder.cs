@@ -149,8 +149,8 @@ public class SC_FinalATK_Builder : MonoBehaviour
     private void Result()
     {
         var pos = Vector3.zero;
-        var currentWeaponGO = _comboController.equippedWeaponsGO[_comboController.currentWeapon.id];
-        var weaponImpactPoint = currentWeaponGO.transform.Find("ImpactPoint");
+        var currentWeaponGO = SC_GameManager.instance.weaponInventory.weaponsEquipped[SC_GameManager.instance.weaponInventory.weaponsEquipped.IndexOf(_comboController.currentWeapon)]; //_comboController.equippedWeaponsGO[_comboController.currentWeapon.id];
+        var weaponImpactPoint = currentWeaponGO.weaponPrefab.transform.Find("ImpactPoint");
 
         var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100);
 

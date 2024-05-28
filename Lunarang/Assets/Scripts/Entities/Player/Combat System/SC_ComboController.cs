@@ -20,12 +20,14 @@ public class SC_ComboController : MonoBehaviour
     #region Combos
 
     [TabGroup("Settings", "Combo")]
-    [SerializeField] private int comboMaxLength = 3;
+    public int comboMaxLength = 3;
     
     [TabGroup("Settings", "Combo")]
     [PropertySpace(SpaceBefore = 5, SpaceAfter = 5)]
     public int comboCounter = 0;
 
+    [HideInInspector] public StateMachineBehaviour currentState;
+    
     #endregion
 
 
@@ -34,8 +36,8 @@ public class SC_ComboController : MonoBehaviour
     [TabGroup("Settings", "Weapon")]
     public List<Transform> weaponSockets = new List<Transform>();
     
-    [TabGroup("Settings", "Weapon"), ShowInInspector, ReadOnly]
-    public readonly Dictionary<string ,GameObject> equippedWeaponsGO = new Dictionary<string, GameObject>();
+    // [TabGroup("Settings", "Weapon"), ShowInInspector, ReadOnly]
+    // public readonly Dictionary<string ,GameObject> equippedWeaponsGO = new Dictionary<string, GameObject>();
     
     [PropertySpace(SpaceAfter = 5)]
     [TabGroup("Settings", "Weapon"), ShowInInspector, ReadOnly]
@@ -45,25 +47,6 @@ public class SC_ComboController : MonoBehaviour
 
 
     #region Types & Parameters
-
-    [TabGroup("Settings", "Weapon")]
-    [PropertySpace(SpaceBefore = 5, SpaceAfter = 5), ReadOnly]
-    public WeaponType currentType;
-    
-    [TabGroup("Settings", "Weapon")]
-    [PropertySpace(SpaceAfter = 5), ReadOnly]
-    public List<WeaponType> currentComboWeaponTypes = new List<WeaponType>();
-    
-    [TabGroup("Settings", "Weapon")]
-    [PropertySpace(SpaceAfter = 5), ReadOnly]
-    public List<WeaponType> lastComboWeaponTypes = new List<WeaponType>();
-    
-    [TabGroup("Settings", "Weapon")]
-    [PropertySpace(SpaceAfter = 5), ReadOnly]
-    public List<ParameterType> currentComboParameters;
-    [TabGroup("Settings", "Weapon")]
-    [PropertySpace(SpaceAfter = 5), ReadOnly]
-    public List<ParameterType> lastComboParameters;
     
     [TabGroup("Settings", "Weapon")]
     [PropertySpace(SpaceAfter = 5), ReadOnly]
@@ -76,7 +59,7 @@ public class SC_ComboController : MonoBehaviour
 
     #region Events
 
-    public static Action<int, int, ParameterType> ComboUpdated;
+    public static Action<int, int, ParameterType> ComboUpdated; //UI
 
     [TabGroup("Settings", "Events")]
     public SO_Event onLastAttack;
@@ -128,7 +111,7 @@ public class SC_ComboController : MonoBehaviour
 
     private void Start()
     {
-        AttachInputToAttack();
+        //AttachInputToAttack();
         if (SC_GameManager.instance.weaponInventory.weaponsEquipped.Count == 3)
         {
             AttachWeaponsToSocket();
@@ -175,12 +158,10 @@ public class SC_ComboController : MonoBehaviour
         //canAttack = false;
         _controller.isAttacking = true;
             
-        lastComboWeapons = currentComboWeapons.ToArray().ToList();
-        lastComboParameters = currentComboParameters.ToArray().ToList();
-        lastComboWeaponTypes = currentComboWeaponTypes.ToArray().ToList();
+        lastComboWeapons = currentComboWeapons.ToList();
         
-        IncrementCombo(usedWeapon);
-        UpdateAnimator();
+        //IncrementCombo(usedWeapon);
+        //UpdateAnimator();
             
         _controller.FreezeMovement(true);
         
@@ -192,31 +173,8 @@ public class SC_ComboController : MonoBehaviour
     private void UpdateAnimator()
     {
         if(_animator == null) return;
-        
-        if (!canPerformCombo)
-            return;
 
         _animator.SetInteger("Combo", comboCounter);
-        
-        if (currentWeapon != null)
-        {
-            foreach (var animatorControllerParameter in _animator.parameters.Where(p => p.name!=currentWeapon.id && p.type == AnimatorControllerParameterType.Trigger).ToList())
-            {
-                _animator.ResetTrigger(animatorControllerParameter.name);
-            }
-            _animator.SetTrigger(currentWeapon.id);
-        }
-        
-        if (currentComboParameters.Count > 0)
-        {
-            _animator.SetInteger("Parameter_1", (int) currentComboParameters[0]);
-        }
-        else if (currentComboParameters.Count > 1)
-        {
-            _animator.SetInteger("Parameter_1", (int) currentComboParameters[0]);
-            _animator.SetInteger("Parameter_2", (int) currentComboParameters[1]);
-        }
-        
     }
 
     private void AttachWeaponsToSocket()
@@ -225,8 +183,6 @@ public class SC_ComboController : MonoBehaviour
         {
             var weapon = SC_GameManager.instance.weaponInventory.weaponsEquipped[i];
             var go = Instantiate(weapon.weaponPrefab, weaponSockets[i]);
-            
-            equippedWeaponsGO.Add(weapon.id,go);
         }
     }
 
@@ -460,64 +416,57 @@ public class SC_ComboController : MonoBehaviour
     
     
     #region Combo Part
-    
-    /// <summary>
-    /// Set combo to performable.
-    /// </summary>
-    public void CanPerformCombo()
+
+
+    public void ExitPreviousState(StateMachineBehaviour newState)
     {
-        canAttack = true;
-        _controller.isAttacking = false;
-        //canPerformCombo = true;
+        if (currentState == null)
+            return;
 
-        // if (inputBufferedWeapon == null) return;
-        //
-        // Attack(inputBufferedWeapon);
-        // inputBufferedWeapon = null;
+        var idleState = currentState as SC_Idle;
+        if (idleState != null)
+            ((SC_Idle)currentState).Exit();
 
+        var attackState = currentState as SC_Attack;
+        if (attackState != null)
+            ((SC_Attack)currentState).Exit();
+
+        currentState = newState;
     }
     
-    /// <summary>
-    /// Set combo to not performable.
-    /// </summary>
-    public void CantPerformCombo()
-    {
-        //canPerformCombo = false;
-    }
-
     public void CancelAttack()
     {
         var lastCounter = comboCounter-1;
         
         comboCounter = lastCounter;
         currentWeapon = null;
-        currentType = WeaponType.Null;
         
-        currentComboWeapons = lastComboWeapons.ToArray().ToList();
-        currentComboParameters = lastComboParameters.ToArray().ToList();
-        currentComboWeaponTypes = lastComboWeaponTypes.ToArray().ToList();
+        //currentComboWeapons = lastComboWeapons.ToList();
         
-        lastComboWeapons.Clear();
-        lastComboParameters.Clear();
-        lastComboWeaponTypes.Clear();
-        
-        CanPerformCombo();
+        //lastComboWeapons.Clear();
+        UpdateAnimator();
+        ComboUpdated?.Invoke(comboCounter, comboMaxLength, ParameterType.Projectile);
+        //CanPerformCombo();
     }
 
+    public void EnableDash()
+    {
+        SC_PlayerController.instance.canDash = true;
+    }
+    
+    public void DisableDash()
+    {
+        SC_PlayerController.instance.canDash = false;
+    }
+    
     /// <summary>
     /// Check if the current combo reach its max length.
     /// Else increment combo, switch the weapon type to current type and add this to a list.
     /// Add parameters of the current combo to a list.
     /// </summary>
     /// <param name="newWeapon">New weapon to add to the current combo list</param>
-    private void IncrementCombo(SC_Weapon newWeapon)
+    public void IncrementCombo(SC_Weapon newWeapon)
     {
-        if (!canPerformCombo)
-            return;
-
-        //canPerformCombo = false;
-        
-        
         // Reset Combo after reach its max length.
         if (comboCounter+1 > comboMaxLength)
         {
@@ -525,18 +474,15 @@ public class SC_ComboController : MonoBehaviour
             
             //Reset save of last Incrementation of the combo
             lastComboWeapons.Clear();
-            lastComboParameters.Clear();
-            lastComboWeaponTypes.Clear();
             _finalBuilder.Reset();
         }
         
         // Increment combo, switch the weapon type to current type and add this to a list.
         comboCounter++;
         currentWeapon = newWeapon;
-        currentType = newWeapon.type;
         
-        currentComboWeaponTypes.Add(currentWeapon.type);
-        currentComboParameters.Add(currentWeapon.parameter);
+        UpdateAnimator();
+        
         currentComboWeapons.Add(currentWeapon);
             
         if (comboCounter == comboMaxLength)
@@ -557,11 +503,8 @@ public class SC_ComboController : MonoBehaviour
     {
         comboCounter = 0;
         currentWeapon = null;
-        currentType = WeaponType.Null;
-        currentComboWeaponTypes.Clear();
-        currentComboParameters.Clear();
         currentComboWeapons.Clear();
-        UpdateAnimator();
+        //UpdateAnimator();
     }
 
     #endregion

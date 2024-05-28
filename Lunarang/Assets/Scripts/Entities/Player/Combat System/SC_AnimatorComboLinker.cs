@@ -21,16 +21,6 @@ public class SC_AnimatorComboLinker : MonoBehaviour
         pComboController.ResetCombo();
     }
 
-    public void CanPerformCombo()
-    {
-        pComboController.CanPerformCombo();
-    }
-    
-    public void CantPerformCombo()
-    {
-        pComboController.CantPerformCombo();
-    }
-
     public void FinalAttack()
     {
         pFABuilder.GetInfosFromLastAttacks(pComboController.currentComboWeapons, pComboController);
@@ -59,6 +49,16 @@ public class SC_AnimatorComboLinker : MonoBehaviour
         pController.FreezeDash(false);
     }
 
+    public void EnableDash()
+    {
+        SC_ComboController.instance.EnableDash();
+    }
+
+    public void DisableDash()
+    {
+        SC_ComboController.instance.DisableDash();
+    }
+    
     public void PlayVFX(VisualEffect vfx)
     {
         

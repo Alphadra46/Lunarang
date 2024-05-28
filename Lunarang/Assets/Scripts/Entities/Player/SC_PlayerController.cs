@@ -161,7 +161,7 @@ public class SC_PlayerController : MonoBehaviour
 
         if (isAttacking)
         {
-            SC_ComboController.instance.CancelAttack();
+            //SC_ComboController.instance.CancelAttack();
             print("Cancel");
         }
         
@@ -317,7 +317,6 @@ public class SC_PlayerController : MonoBehaviour
 
         if (SC_ComboController.instance.canAttack) return;
         
-        SC_ComboController.instance.CanPerformCombo();
 
     }
 
@@ -334,7 +333,6 @@ public class SC_PlayerController : MonoBehaviour
         
         if (SC_ComboController.instance.canAttack) return;
         
-        SC_ComboController.instance.CanPerformCombo();
     }
     
     #endregion
