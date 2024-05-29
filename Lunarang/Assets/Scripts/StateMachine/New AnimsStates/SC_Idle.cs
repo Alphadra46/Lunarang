@@ -67,24 +67,8 @@ public class SC_Idle : StateMachineBehaviour
         
         SC_ComboController.instance.IncrementCombo(weaponUsed);
         isAttackLaunched = true;
-        
-        string trigger = "";
-        switch (weaponUsed.type)
-        {
-            case WeaponType.WeaponA:
-                trigger = "chakram";
-                break;
-            case WeaponType.WeaponB:
-                trigger = "rapier";
-                break;
-            case WeaponType.WeaponC:
-                trigger = "hammer";
-                break;
-            default:
-                break;
-        }
-        
-        _animator.SetTrigger(trigger);
+
+        _animator.SetTrigger(weaponUsed.id);
         
     }
     
