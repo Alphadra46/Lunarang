@@ -19,6 +19,7 @@ public class SC_PlayerController : MonoBehaviour
     #region Variables
 
     [SerializeField] private VisualEffect dashVFX;
+    public TrailRenderer dashTrail;
     public static SC_PlayerController instance;
     
     private CharacterController _characterController;
@@ -158,6 +159,7 @@ public class SC_PlayerController : MonoBehaviour
         isDashing = true;
 
         dashVFX.SendEvent("Dash_Trigger");
+        dashTrail.time = 1;
         
         if (isAttacking)
         {
@@ -183,11 +185,13 @@ public class SC_PlayerController : MonoBehaviour
             _characterController.Move(transform.forward * (dashSpeed * Time.deltaTime));
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("IA"), true);
             yield return null;
+            dashTrail.time = 1 - dashTime;
         }
         
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("IA"), false);
         
         _animator.SetBool("isDashing", false);
+        dashTrail.time = 0;
     }
     
     /// <summary>

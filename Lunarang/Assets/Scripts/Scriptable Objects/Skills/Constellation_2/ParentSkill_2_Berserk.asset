@@ -81,15 +81,15 @@ MonoBehaviour:
       Data: 
   skillName: Surcharge d'Essence
   constellation: 2
-  shortDescription: "Lorsque un ennemi est <b>purifi\xE9</b>, Lo\xFC devient <b>plus
-    puissant</b> mais <b>perdra des PV</b> pendant un temps donn\xE9. Cet effet est
-    <b>cumulable</b>."
-  longDescription: "Quand Lo\xFC purifie un ennemi, il obtient <b>1</b> charge de
-    <b>Surcharge d'Essence</b>.\r\n\r\nChaque charge de <b>Surcharge d'Essence</b>
-    augmente de <b>20%</b> les <b>d\xE9g\xE2ts totaux</b> de Lo\xFC durant <b>5</b>s
-    (le timer se r\xE9initialise \xE0 chaque nouvelle charge obtenue). Le nombre
-    maximum de charges est de <b>2</b>. Cependant, toutes les <b>0,5</b>s les PV
-    de Lo\xFC diminuent de <b>5%</b> tant qu'il a plus de <b>1</b> charge."
+  constellationSC: {fileID: 0}
+  shortDescription: "Lo\xFC obtient <i>Surcharge d'Essence</i> pour les <b>2</b>
+    prochains ennemis purifi\xE9s."
+  longDescription: "Quand un ennemi est purifi\xE9, applique <i>Surcharge d'Essence</i>
+    : Lo\xFC perd <b>5%</b> de ses <b>PV Max</b> et obtient <b>1</b> charge. Chaque
+    charge augmente les <b>d\xE9g\xE2ts inflig\xE9s</b> de <b>20%</b>, dans une limite
+    de <b>2</b> charges."
+  crystal: {fileID: 0}
+  crystalIcon: {fileID: 0}
   spCost: 1
   eventEnabler: {fileID: 0}
   eventDisabler: {fileID: 0}
