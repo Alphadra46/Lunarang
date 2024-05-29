@@ -91,13 +91,17 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  skillName: "Souffle de R\xE9surrection"
+  skillName: "R\xE9veil du Cristal"
   constellation: 2
-  shortDescription: "Lorsque Lo\xFC <b>meurt</b>, celui-ci <b>revient \xE0 la vie</b>
-    et re\xE7ois de <b>nombreux bonus</b> pour un <b>temps donn\xE9</b>."
-  longDescription: "En cas de mort, l'Essence r\xE9anime Lo\xFC avec <b>5%</b> de
-    ses PV Max, lui appliquant le bonus <b>Seconde chance</b> pendant <b>15s</b>.
-    Possible qu'<b>une seule fois</b> par Exploration."
+  constellationSC: {fileID: 0}
+  shortDescription: "En cas d'\xE9chec Lo\xFC est r\xE9anim\xE9 et re\xE7oit le bonus
+    temporaire <i>R\xE9veil du Cristal</i>. Disponible <b>1</b> fois par <b>exploration</b>."
+  longDescription: "<b>1</b> fois par <b>exploration</b> l'Essence r\xE9anime Lo\xFC
+    et applique <i>R\xE9veil du Cristal</i> pendant <b>15s</b> : moins <b>30%</b>
+    des <b>d\xE9g\xE2ts subis</b>, plus <b>25%</b> d'<b>attaque</b>, plus <b>30%</b>
+    des <b>d\xE9g\xE2ts totaux</b>, plus <b>10%</b> de <b>vitesse</b>."
+  crystal: {fileID: 0}
+  crystalIcon: {fileID: 0}
   spCost: 1
   eventEnabler: {fileID: 11400000, guid: f837962aa1e7a73469b5b0aa065d14a9, type: 2}
   eventDisabler: {fileID: 0}
