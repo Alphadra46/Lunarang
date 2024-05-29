@@ -104,7 +104,7 @@ public class SC_Attack : StateMachineBehaviour
         SC_ComboController.instance.EnableDash();
         animator.SetTrigger("canSwitchState");
     }
-    //TODO - Make dash cancel actually work
+    
     private void Attack(SC_Weapon weaponUsed)
     {
         if (SC_GameManager.instance.isPause)
@@ -121,23 +121,7 @@ public class SC_Attack : StateMachineBehaviour
             _animator.ResetTrigger(animatorControllerParameter.name);
         }
 
-        string triggerName = "";
-        switch (weaponUsed.type)
-        {
-            case WeaponType.WeaponA:
-                triggerName = "chakram";
-                break;
-            case WeaponType.WeaponB:
-                triggerName = "rapier";
-                break;
-            case WeaponType.WeaponC:
-                triggerName = "hammer";
-                break;
-            default:
-                break;
-        }
-        
-        _animator.SetTrigger(triggerName);
+        _animator.SetTrigger(weaponUsed.id);
     }
     
     
