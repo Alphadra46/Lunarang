@@ -298,11 +298,11 @@ public class SC_ComboController : MonoBehaviour
                        ProjectileSpawnPoint.PlayerCenterPoint => spawnPos + new Vector3(pos.x, transform.localScale.y, pos.z),
                        ProjectileSpawnPoint.PlayerCenterPointFloor => spawnPos + new Vector3(pos.x, 0.1f, pos.z),
                        ProjectileSpawnPoint.PlayerHead => spawnPos + new Vector3(pos.x, transform.localScale.y, pos.z),
-                       ProjectileSpawnPoint.Weapon => spawnPos + new Vector3(pos.x, 0.25f, pos.z),
+                       ProjectileSpawnPoint.Weapon => spawnPos + new Vector3(pos.x, 0.25f, pos.z) * 0.25f,
                        _ => throw new ArgumentOutOfRangeException()
                    };
 
-                   p.hitNumber = hitNumber;
+                   p.additionalHits = hitNumber;
 
                    p.areaSize = areaSize;
                    p.isAoE = isAoE;
@@ -365,7 +365,7 @@ public class SC_ComboController : MonoBehaviour
                ProjectileSpawnPoint.Weapon => spawnPos + new Vector3(0, 0.25f, 0),
            };
 
-           p.hitNumber = hitNumber;
+           p.additionalHits = hitNumber;
 
            p.areaSize = areaSize;
            p.isAoE = isAoE;

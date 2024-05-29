@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SC_Projectile_Chakram : SC_Projectile
+public class SC_Projectile_Hammer : SC_Projectile
 {
     /// <summary>
     /// Detect collision and if collide with Enemy, apply damage to Enemy.
@@ -22,14 +22,14 @@ public class SC_Projectile_Chakram : SC_Projectile
             {
                 if (!e.TryGetComponent(out IDamageable aoeHitted)) continue;
                 aoeHitted.TakeDamage(damage, isCrit, sender);
-                SC_ComboController.instance.CheckBurnHit(col, true);
+                SC_ComboController.instance.CheckFreezeHit(col, true);
 
                 if (additionalHits <= 1) continue;
                 
                 for (var i = 0; i < additionalHits-1; i++)
                 {
                     aoeHitted.TakeDamage(damage, isCrit, sender);
-                    SC_ComboController.instance.CheckBurnHit(col, true);
+                    SC_ComboController.instance.CheckFreezeHit(col, true);
                 }
 
             }
@@ -41,7 +41,7 @@ public class SC_Projectile_Chakram : SC_Projectile
             {
                 if (!col.CompareTag("Entity")) continue;
                 damageable.TakeDamage(damage, isCrit, sender);
-                SC_ComboController.instance.CheckBurnHit(col, true);
+                SC_ComboController.instance.CheckFreezeHit(col, true);
 
             }
         }

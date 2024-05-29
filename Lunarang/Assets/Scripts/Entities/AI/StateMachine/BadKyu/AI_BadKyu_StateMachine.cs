@@ -92,7 +92,7 @@ public class AI_BadKyu_StateMachine : AI_StateMachine
         projectile.transform.forward = centerPoint.forward;
 
         projectile.direction = centerPoint.forward;
-        projectile.hitNumber = 1;
+        projectile.additionalHits = 1;
         
         projectile.speed = atkSpdBase;
         projectile.damage = (int)Mathf.Round(((_stats.moveValues[currentProjectiles == 2 ? 1 : 0] / 100) * _stats.currentStats.currentATK));

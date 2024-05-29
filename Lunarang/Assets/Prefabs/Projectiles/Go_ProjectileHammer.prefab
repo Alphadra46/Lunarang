@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 8993542559262429312}
   - component: {fileID: 2536354286851803448}
   - component: {fileID: 3303040848292301996}
-  - component: {fileID: 7267816066716660447}
+  - component: {fileID: 6278804060183345295}
   m_Layer: 18
-  m_Name: Go_Projectile_Hammer
+  m_Name: Go_ProjectileHammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,7 +83,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7267816066716660447
+--- !u!114 &6278804060183345295
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8993542559262429342}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b638cb90cea046878ea8005adfb9bae8, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b52c89596554bc43bcc4825cf8ad388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
@@ -155,8 +155,8 @@ MonoBehaviour:
   isCrit: 0
   weaponType: 0
   isAoE: 0
-  areaSize: 0
-  hitNumber: 0
+  areaSize: 0.5
+  additionalHits: 0
   direction: {x: 0, y: 0, z: 0}
   sender: {fileID: 0}
   tags: []
