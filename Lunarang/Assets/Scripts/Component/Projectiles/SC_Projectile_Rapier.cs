@@ -7,67 +7,11 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-public enum ProjectileFormation
-{
-    
-    Inline,
-    Cone
-    
-}
-
-public enum ProjectileSpawnPoint
-{
-    
-    PlayerCenterPoint,
-    PlayerCenterPointFloor,
-    PlayerHead,
-    Weapon
-    
-}
-
 [RequireComponent(typeof(Rigidbody))]
-public class SC_Projectile : SerializedMonoBehaviour
+public class SC_Projectile_Rapier : SC_Projectile
 {
+    private Transform target;
     
-    #region Variables
-    
-    public float autoDestroyTime = 5f;
-    [PropertySpace(SpaceBefore = 2.5f)]
-    public float distanceMax;
-    
-    [PropertySpace(SpaceBefore = 5f)]
-    public float speed = 1f;
-    
-    [HideInInspector]  public float damage;
-    [HideInInspector]  public bool isCrit;
-    
-    [HideInInspector] public WeaponType weaponType;
-
-    [PropertySpace(SpaceBefore = 5)]
-    public bool isAoE;
-    public float areaSize;
-    
-    [PropertySpace(SpaceBefore = 5f)]
-    public int hitNumber;
-
-    [HideInInspector] public Vector3 direction;
-    
-    [PropertySpace(SpaceBefore = 5f)]
-    public GameObject sender;
-    [PropertySpace(SpaceBefore = 2.5f)]
-    public List<string> tags = new List<string>();
-
-    [PropertySpace(SpaceBefore = 5f)]
-    public Dictionary<int, ProjectileFormation> formations = new Dictionary<int, ProjectileFormation>();
-    [PropertySpace(SpaceBefore = 5f)]
-    public ProjectileSpawnPoint spawnPoint = ProjectileSpawnPoint.PlayerCenterPoint;
-    
-    [HideInInspector] public Rigidbody _rb;
-
-    [HideInInspector] public const string DESTROY_METHOD_NAME = "Destroy";
-    
-    #endregion
-
     /// <summary>
     /// Get Rigidbody.
     /// Invoke a timer to destroy this GameObject after a certain delay.
@@ -81,18 +25,52 @@ public class SC_Projectile : SerializedMonoBehaviour
 
     private void Start()
     {
-        transform.forward = direction;
         
-        _rb.AddForce(transform.forward * speed, ForceMode.VelocityChange);
+        if(!sender.TryGetComponent(out SC_ComboController comboController)) return;
+
+
+        if (comboController.currentEnemiesHitted.Length > 0)
+        {
+            target = comboController.currentEnemiesHitted[0].transform;
+            direction = new Vector3(target.position.x, target.localScale.y*2, target.position.z) - _rb.position;
+        }
+        else
+        {
+
+            direction = new Vector3(sender.transform.GetChild(2).GetChild(0).position.x, -sender.transform.localScale.y/4, sender.transform.GetChild(2).GetChild(0).position.z) - _rb.position;
+
+        }
+
+        transform.forward = direction;
+
+    }
+
+    private void FixedUpdate()
+    {
+        
+        if(target != null){
+            direction.Normalize();
+     
+            var rotateAmount = Vector3.Cross(direction, transform.forward).y;
+
+            var rbAngularVelocity = _rb.angularVelocity;
+            rbAngularVelocity.y = -rotateAmount * 10f;
+
+            _rb.angularVelocity = rbAngularVelocity;
+            _rb.velocity = transform.forward * ((speed * 100f) * Time.deltaTime);
+        }
+        else
+        {
+            _rb.velocity = transform.forward * ((speed * 100f) * Time.deltaTime);
+        }
     }
 
     /// <summary>
     /// Detect collision and if collide with Player, apply damage to Player.
     /// </summary>
     /// <param name="col"></param>
-    public virtual void OnTriggerEnter(Collider col)
+    public override void OnTriggerEnter(Collider col)
     {
-
         if (col.CompareTag("Obstacle"))
         {
             print("Destroy");
@@ -101,12 +79,12 @@ public class SC_Projectile : SerializedMonoBehaviour
         
         if (!col.TryGetComponent(out IDamageable damageable)) return;
         if (col.gameObject == sender) return;
-        if (!tags.Contains(col.tag)) return;
+        if(!col.CompareTag("Entity")) return;
 
         if (isAoE)
         {
             var ennemiesInAoE =
-                Physics.OverlapSphere(transform.position, areaSize, LayerMask.GetMask("Player", "IA")); //TODO : Replace Pos by Weapon Hit Pos
+                Physics.OverlapSphere(transform.position, areaSize, LayerMask.GetMask("IA")); //TODO : Replace Pos by Weapon Hit Pos
 
             foreach (var e in ennemiesInAoE)
             {
@@ -127,16 +105,11 @@ public class SC_Projectile : SerializedMonoBehaviour
         {
             for (var i = 0; i < hitNumber; i++)
             {
-                
                 if(col.CompareTag("Entity"))
                     damageable.TakeDamage(damage, isCrit, sender);
-                else if (col.CompareTag("Player"))
-                {
-                    damageable.TakeDamage(damage, false, sender);
-                }
-
             }
         }
+        
         
         Destroy(gameObject);
         

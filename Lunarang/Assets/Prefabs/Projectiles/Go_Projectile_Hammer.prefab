@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8993542559262429312}
-  - component: {fileID: 8993542559262429343}
+  - component: {fileID: 2536354286851803448}
   - component: {fileID: 3303040848292301996}
   - component: {fileID: 7267816066716660447}
   m_Layer: 18
@@ -35,8 +35,8 @@ Transform:
   - {fileID: 5306174763290572724}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &8993542559262429343
-SphereCollider:
+--- !u!65 &2536354286851803448
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -54,8 +54,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2, y: 2, z: 6.6495275}
+  m_Center: {x: 0.35, y: 1, z: 2.6938033}
 --- !u!54 &3303040848292301996
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -103,10 +103,54 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: formations
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[ProjectileFormation,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   autoDestroyTime: 5
-  speed: 1
   distanceMax: 0
+  speed: 0
   damage: 0
   isCrit: 0
   weaponType: 0
@@ -116,6 +160,8 @@ MonoBehaviour:
   direction: {x: 0, y: 0, z: 0}
   sender: {fileID: 0}
   tags: []
+  spawnPoint: 3
+  _rb: {fileID: 0}
 --- !u!1001 &3921945311754374240
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -61,7 +61,6 @@ public class SC_Weapon : SerializedScriptableObject
     [PropertySpace(SpaceBefore = 5)]
     public int projectilesNumbers;
     public GameObject projectilePrefab;
-    public float projectileSpeed = 2.5f;
 
     #endregion
 
