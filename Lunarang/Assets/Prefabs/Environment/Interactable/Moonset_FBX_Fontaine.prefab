@@ -234,12 +234,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2076096614402383070}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1.5288234, y: 50.4, z: 98.851776}
-  m_LocalScale: {x: 0.27459794, y: 0.27459794, z: 0.27459794}
+  m_LocalRotation: {x: -0.7071068, y: -0.000000029802322, z: -0.000000029802322, w: 0.7071068}
+  m_LocalPosition: {x: 1.4999926, y: 46.09061, z: 63.099957}
+  m_LocalScale: {x: 0.18139665, y: 0.18139663, z: 0.17750917}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5129918245843735163}
+  m_Father: {fileID: 7755279632670600149}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &7109076568127835486
 ParticleSystem:
@@ -324,7 +324,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.5
+      scalar: 0.8
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -377,7 +377,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 7
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -495,8 +495,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.26
-      minScalar: 0.73
+      scalar: 0.4
+      minScalar: 0.1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -819,7 +819,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.12
+      scalar: 0.3
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -873,10 +873,10 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 14.6
+    angle: 19.5
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
-    radiusThickness: 1
+    radiusThickness: 0.69
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
@@ -959,7 +959,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.4
+      value: 0.6
       mode: 0
       spread: 0
       speed:
@@ -1078,7 +1078,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 30
+      scalar: 500
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -2290,7 +2290,7 @@ ParticleSystem:
     m_Curve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.34
+      scalar: 7.01
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -3706,7 +3706,7 @@ ParticleSystem:
     curve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.7453293
+      scalar: 2.6179938
       minScalar: 0.7853982
       maxCurve:
         serializedVersion: 2
@@ -5010,7 +5010,7 @@ ParticleSystemRenderer:
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
-  m_MaxParticleSize: 4.4
+  m_MaxParticleSize: 2
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
@@ -10441,7 +10441,7 @@ Transform:
   m_GameObject: {fileID: 5692081067112878427}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.70710707, z: -0, w: 0.70710653}
-  m_LocalPosition: {x: 12.5, y: 56.4, z: 66.7}
+  m_LocalPosition: {x: 12.5, y: 95.1, z: 66.7}
   m_LocalScale: {x: 33.531998, y: 33.531998, z: 33.531998}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10892,10 +10892,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6453762274669708372}
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0d9401bf173ca0645af93665cc4b53d3,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3877344673516438670}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0d9401bf173ca0645af93665cc4b53d3,
         type: 3}
@@ -11173,6 +11169,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2176084143398745544}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: e0e7286cc271e52468ef0bc68f752784,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3877344673516438670}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0e7286cc271e52468ef0bc68f752784, type: 3}
 --- !u!4 &7755279632670600149 stripped
