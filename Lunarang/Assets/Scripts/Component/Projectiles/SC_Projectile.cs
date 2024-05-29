@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 
@@ -48,7 +49,7 @@ public class SC_Projectile : SerializedMonoBehaviour
     public float areaSize;
     
     [PropertySpace(SpaceBefore = 5f)]
-    public int hitNumber;
+    public int additionalHits;
 
     [HideInInspector] public Vector3 direction;
     
@@ -113,9 +114,9 @@ public class SC_Projectile : SerializedMonoBehaviour
                 if (!e.TryGetComponent(out IDamageable aoeHitted)) continue;
                 aoeHitted.TakeDamage(damage, isCrit, sender);
 
-                if (hitNumber <= 1) continue;
+                if (additionalHits <= 1) continue;
                 
-                for (var i = 0; i < hitNumber-1; i++)
+                for (var i = 0; i < additionalHits-1; i++)
                 {
                     aoeHitted.TakeDamage(damage, isCrit, sender);
                 }
@@ -125,7 +126,7 @@ public class SC_Projectile : SerializedMonoBehaviour
         
         else
         {
-            for (var i = 0; i < hitNumber; i++)
+            for (var i = 0; i < additionalHits; i++)
             {
                 
                 if(col.CompareTag("Entity"))

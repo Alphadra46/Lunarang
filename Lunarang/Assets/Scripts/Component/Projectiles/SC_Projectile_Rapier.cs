@@ -11,6 +11,10 @@ using Random = UnityEngine.Random;
 public class SC_Projectile_Rapier : SC_Projectile
 {
     private Transform target;
+
+    private bool launched = false;
+
+    public float delayBeforeLaunch = 1f;
     
     /// <summary>
     /// Get Rigidbody.
@@ -43,10 +47,13 @@ public class SC_Projectile_Rapier : SC_Projectile
 
         transform.forward = direction;
 
+        StartCoroutine(LaunchProjectile());
+
     }
 
     private void FixedUpdate()
     {
+        if(!launched) return;
         
         if(target != null){
             direction.Normalize();
@@ -63,6 +70,7 @@ public class SC_Projectile_Rapier : SC_Projectile
         {
             _rb.velocity = transform.forward * ((speed * 100f) * Time.deltaTime);
         }
+        
     }
 
     /// <summary>
@@ -91,9 +99,9 @@ public class SC_Projectile_Rapier : SC_Projectile
                 if (!e.TryGetComponent(out IDamageable aoeHitted)) continue;
                 aoeHitted.TakeDamage(damage, isCrit, sender);
 
-                if (hitNumber <= 1) continue;
+                if (additionalHits <= 1) continue;
                 
-                for (var i = 0; i < hitNumber-1; i++)
+                for (var i = 0; i < additionalHits-1; i++)
                 {
                     aoeHitted.TakeDamage(damage, isCrit, sender);
                 }
@@ -103,7 +111,7 @@ public class SC_Projectile_Rapier : SC_Projectile
         
         else
         {
-            for (var i = 0; i < hitNumber; i++)
+            for (var i = 0; i < additionalHits; i++)
             {
                 if(col.CompareTag("Entity"))
                     damageable.TakeDamage(damage, isCrit, sender);
@@ -125,6 +133,15 @@ public class SC_Projectile_Rapier : SC_Projectile
         CancelInvoke(DESTROY_METHOD_NAME);
         _rb.velocity = Vector3.zero;
         Destroy(gameObject);
+    }
+
+    public IEnumerator LaunchProjectile()
+    {
+
+        yield return new WaitForSeconds(delayBeforeLaunch);
+
+        launched = true;
+
     }
 
     private void OnDrawGizmos()
