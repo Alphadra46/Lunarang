@@ -73,13 +73,13 @@ public class SC_RewardUI : MonoBehaviour
                 rewardStart.GetComponent<RectTransform>().anchoredPosition;
         }
 
-        StartCoroutine(DelayBeforeCards(1f));
+        StartCoroutine(DelayBeforeCards(0.5f));
         
     }
 
     public void ShowAnimation()
     {
-        var lastX = 0f;
+        var lastX = 225f;
         
         for (var i = 0; i < rewards.Count; i++)
         {
@@ -104,11 +104,12 @@ public class SC_RewardUI : MonoBehaviour
     public IEnumerator DelayBeforeCards(float delay)
     {
         yield return new WaitForSecondsRealtime(delay);
-        
+
         ShowAnimation();
+
     }
-    
-    
+
+
     private void OnDestroy()
     {
         foreach (var reward in rewards)
