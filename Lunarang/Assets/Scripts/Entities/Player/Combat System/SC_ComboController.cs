@@ -232,103 +232,148 @@ public class SC_ComboController : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Create a fully customizable projectile.
-    /// </summary>
-    /// <param name="projectilePrefab">Prefab of the projectile that we create</param>
-    /// <param name="number">How many projectile</param>
-    /// <param name="areaSize">Size of the projectile</param>
-    /// <param name="hitNumber">How many hits he made.</param>
-    /// <param name="moveValue">% of the attack</param>
-    /// <param name="speed">Speed of the projectile</param>
-    /// <param name="distanceMax">Maximum distance that can be covered before self-destruction</param>
-    /// <param name="direction">Direction of the projectile</param>
-    /// <param name="isAoE"></param>
-    public void CreateProjectile(GameObject projectilePrefab, int number, float areaSize, int hitNumber, float moveValue, float speed, float distanceMax, Vector3 direction, bool isAoE = false)
-    {
-        if(number == 3)
-            for (var i = 0; i < number; i++)
-            {
-                var p = Instantiate(projectilePrefab).GetComponent<SC_Projectile>();
-                
-                var angle = Mathf.PI * (i+1) / (number+1);
-                    
-                var x = Mathf.Sin(angle) * 2;
-                var z = Mathf.Cos(angle) * 2;
-                var pos = new Vector3(x, 0, z);
-                
-                var centerDirection = Quaternion.LookRotation(-transform.GetChild(1).right, transform.GetChild(1).up);
+   /// <summary>
+   /// Create a fully customizable projectile.
+   /// </summary>
+   /// <param name="projectilePrefab">Prefab of the projectile that we create</param>
+   /// <param name="number">How many projectile</param>
+   /// <param name="areaSize">Size of the projectile</param>
+   /// <param name="hitNumber">How many hits he made.</param>
+   /// <param name="moveValue">% of the attack</param>
+   /// <param name="distanceMax">Maximum distance that can be covered before self-destruction</param>
+   /// <param name="direction">Direction of the projectile</param>
+   /// <param name="isAoE"></param>
+   public void CreateProjectile(GameObject projectilePrefab, int number, float areaSize, int hitNumber, float moveValue, float distanceMax, Vector3 direction, bool isAoE = false)
+   {
+       var scProjectile = projectilePrefab.GetComponent<SC_Projectile>();
 
-                pos = centerDirection * pos;
-                
-                p.transform.position = transform.position + new Vector3(pos.x, transform.localScale.y, pos.z);
-                
-                p.hitNumber = hitNumber;
-                
-                p.areaSize = areaSize;
-                p.isAoE = isAoE;
-                
-                var isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
-                
-                var rawDamage = MathF.Round((moveValue/100) * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
-                var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus/100) + (_stats.currentStats.projectileDamageBonus/100) + (isAoE ? _stats.currentStats.projectileDamageBonus : 0/100));
-                var effCrit = effDamage * (1 + (_stats.currentStats.critDMG/100));
-                
-                p.damage = isCritical ? effCrit : effDamage;
-                p.isCrit = isCritical;
-                p.weaponType = currentWeapon.type;
-                
-                p.sender = gameObject;
-                
-                p.speed = speed;
-                p.distanceMax = distanceMax;
-                p.direction = pos;
+       var formation = scProjectile.formations[number];
+       var spawnPoint = scProjectile.spawnPoint;
 
-            }
-        else
-        {
-            StartCoroutine(ProjectileInline(projectilePrefab, number, areaSize, hitNumber, moveValue, speed, distanceMax, direction, isAoE));
-        }
-        
-    }
+       var spawnPos = spawnPoint switch
+       {
+           ProjectileSpawnPoint.PlayerCenterPoint => transform.position,
+           ProjectileSpawnPoint.PlayerCenterPointFloor => new Vector3(transform.position.x, 0.10f, transform.position.z),
+           ProjectileSpawnPoint.PlayerHead => transform.GetChild(2).position,
+           ProjectileSpawnPoint.Weapon => currentWeapon.weaponPrefab.transform.Find("ImpactPoint").position,
+           _ => throw new ArgumentOutOfRangeException()
+       };
 
-    public IEnumerator ProjectileInline(GameObject projectilePrefab, int numberTotal, float areaSize, int hitNumber, float moveValue, float speed, float distanceMax, Vector3 direction, bool isAoE = false)
-    {
-        var number = 0;
-        
-        while (number != numberTotal)
-        {
-            var p = Instantiate(projectilePrefab).GetComponent<SC_Projectile>();
+       switch (formation)
+       {
+           case ProjectileFormation.Cone:
+           {
+               for (var i = 0; i < number; i++)
+               {
+                   var p = Instantiate(projectilePrefab).GetComponent<SC_Projectile>();
 
-            p.transform.position = new Vector3(transform.GetChild(1).position.x, transform.localScale.y,
-                transform.GetChild(1).position.z);
-                
-            p.hitNumber = hitNumber;
-                
-            p.areaSize = areaSize;
-            p.isAoE = isAoE;
-                
-            var isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
-                
-            var rawDamage = MathF.Round((moveValue/100) * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
-            var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus/100) + (_stats.currentStats.projectileDamageBonus/100) + (isAoE ? _stats.currentStats.projectileDamageBonus : 0/100));
-            var effCrit = effDamage * (1 + (_stats.currentStats.critDMG/100));
-                
-            p.damage = isCritical ? effCrit : effDamage;
-            p.isCrit = isCritical;
-            p.weaponType = currentWeapon.type;
-                
-            p.sender = gameObject;
-                
-            p.speed = speed;
-            p.distanceMax = distanceMax;
-            p.direction = transform.GetChild(1).forward;
+                   var angle = Mathf.PI * (i + 1) / (number + 1);
 
-            number++;
-            yield return new WaitForSeconds(0.25f);
-        }
-        
-    }
+                   var x = Mathf.Sin(angle) * 2;
+                   var z = Mathf.Cos(angle) * 2;
+                   var pos = new Vector3(x, 0, z);
+
+                   var centerDirection = Quaternion.LookRotation(-transform.GetChild(1).right, transform.GetChild(1).up);
+
+                   pos = centerDirection * pos;
+
+                   p.transform.position = spawnPoint switch
+                   {
+                       ProjectileSpawnPoint.PlayerCenterPoint => spawnPos + new Vector3(pos.x, transform.localScale.y, pos.z),
+                       ProjectileSpawnPoint.PlayerCenterPointFloor => spawnPos + new Vector3(pos.x, 0.1f, pos.z),
+                       ProjectileSpawnPoint.PlayerHead => spawnPos + new Vector3(pos.x, transform.localScale.y, pos.z),
+                       ProjectileSpawnPoint.Weapon => spawnPos + new Vector3(pos.x, 0.25f, pos.z),
+                       _ => throw new ArgumentOutOfRangeException()
+                   };
+
+                   p.hitNumber = hitNumber;
+
+                   p.areaSize = areaSize;
+                   p.isAoE = isAoE;
+
+                   var isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
+
+                   var rawDamage = MathF.Round((moveValue / 100) * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
+                   var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus / 100) + (_stats.currentStats.projectileDamageBonus / 100) + (isAoE ? _stats.currentStats.projectileDamageBonus : 0 / 100));
+                   var effCrit = effDamage * (1 + (_stats.currentStats.critDMG / 100));
+
+                   p.damage = isCritical ? effCrit : effDamage;
+                   p.isCrit = isCritical;
+                   p.weaponType = currentWeapon.type;
+
+                   p.sender = gameObject;
+               
+                   p.distanceMax = distanceMax;
+                   p.direction = pos;
+
+               }
+
+               break;
+           }
+           case ProjectileFormation.Inline:
+               StartCoroutine(ProjectileInline(projectilePrefab, number, areaSize, hitNumber, moveValue, distanceMax, direction, isAoE));
+               break;
+           default:
+               throw new ArgumentOutOfRangeException();
+       }
+   }
+
+   public IEnumerator ProjectileInline(GameObject projectilePrefab, int numberTotal, float areaSize, int hitNumber, float moveValue, float distanceMax, Vector3 direction, bool isAoE = false)
+   {
+       var number = 0;
+       
+       var scProjectile = projectilePrefab.GetComponent<SC_Projectile>();
+       
+       var spawnPoint = scProjectile.spawnPoint;
+
+       var spawnPos = spawnPoint switch
+       {
+           ProjectileSpawnPoint.PlayerCenterPoint => transform.position,
+           ProjectileSpawnPoint.PlayerCenterPointFloor => new Vector3(transform.position.x, 0.10f, transform.position.z),
+           ProjectileSpawnPoint.PlayerHead => transform.GetChild(2).position,
+           ProjectileSpawnPoint.Weapon => currentWeapon.weaponPrefab.transform.Find("ImpactPoint").transform.position,
+           _ => throw new ArgumentOutOfRangeException()
+       };
+
+       while (number != numberTotal)
+       {
+           var p = Instantiate(projectilePrefab).GetComponent<SC_Projectile>();
+
+           p.transform.position = p.transform.position = spawnPoint switch
+           {
+               ProjectileSpawnPoint.PlayerCenterPoint => new Vector3(spawnPos.x, transform.localScale.y,
+                   spawnPos.z),
+               ProjectileSpawnPoint.PlayerCenterPointFloor => new Vector3(spawnPos.x, 0.2f,
+                   spawnPos.z),
+               ProjectileSpawnPoint.PlayerHead => spawnPos,
+               ProjectileSpawnPoint.Weapon => spawnPos + new Vector3(0, 0.25f, 0),
+           };
+
+           p.hitNumber = hitNumber;
+
+           p.areaSize = areaSize;
+           p.isAoE = isAoE;
+
+           var isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
+
+           var rawDamage = MathF.Round((moveValue / 100) * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
+           var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus / 100) + (_stats.currentStats.projectileDamageBonus / 100) + (isAoE ? _stats.currentStats.projectileDamageBonus : 0 / 100));
+           var effCrit = effDamage * (1 + (_stats.currentStats.critDMG / 100));
+
+           p.damage = isCritical ? effCrit : effDamage;
+           p.isCrit = isCritical;
+           p.weaponType = currentWeapon.type;
+
+           p.sender = gameObject;
+           
+           p.distanceMax = distanceMax;
+           p.direction = transform.GetChild(1).forward;
+
+           number++;
+           yield return new WaitForSeconds(0.25f);
+       }
+
+   }
     
     /// <summary>
     /// Create multiples hits.
