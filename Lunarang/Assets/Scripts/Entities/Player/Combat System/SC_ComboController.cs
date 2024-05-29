@@ -92,7 +92,8 @@ public class SC_ComboController : MonoBehaviour
     private SC_PlayerStats _stats;
     private SC_FinalATK_Builder _finalBuilder;
     private SC_DebuffsBuffsComponent _debuffsBuffsComponent;
-    //[SerializeField] private List<VisualEffect> vfxParameterList = new List<VisualEffect>();
+
+    public Dictionary<string, GameObject> equippedWeaponsGO = new Dictionary<string, GameObject>();
 
     public bool canAttack = true;
     
@@ -181,11 +182,26 @@ public class SC_ComboController : MonoBehaviour
 
     private void AttachWeaponsToSocket()
     {
+        if(equippedWeaponsGO.Count > 0) DettachWeaponsToSocket();
+        
         for (var i = 0; i < SC_GameManager.instance.weaponInventory.weaponsEquipped.Count; i++)
         {
             var weapon = SC_GameManager.instance.weaponInventory.weaponsEquipped[i];
             var go = Instantiate(weapon.weaponPrefab, weaponSockets[i]);
+            
+            equippedWeaponsGO.Add(weapon.id, go);
         }
+    }
+
+    private void DettachWeaponsToSocket()
+    {
+
+        foreach (var go in equippedWeaponsGO.Values)
+        {
+            Destroy(go);
+        }
+        
+        equippedWeaponsGO.Clear();
     }
 
     #region Hurtboxes
@@ -255,7 +271,7 @@ public class SC_ComboController : MonoBehaviour
            ProjectileSpawnPoint.PlayerCenterPoint => transform.position,
            ProjectileSpawnPoint.PlayerCenterPointFloor => new Vector3(transform.position.x, 0.10f, transform.position.z),
            ProjectileSpawnPoint.PlayerHead => transform.GetChild(2).position,
-           ProjectileSpawnPoint.Weapon => currentWeapon.weaponPrefab.transform.Find("ImpactPoint").position,
+           ProjectileSpawnPoint.Weapon => equippedWeaponsGO[currentWeapon.id].transform.Find("ImpactPoint").position,
            _ => throw new ArgumentOutOfRangeException()
        };
 
@@ -331,7 +347,7 @@ public class SC_ComboController : MonoBehaviour
            ProjectileSpawnPoint.PlayerCenterPoint => transform.position,
            ProjectileSpawnPoint.PlayerCenterPointFloor => new Vector3(transform.position.x, 0.10f, transform.position.z),
            ProjectileSpawnPoint.PlayerHead => transform.GetChild(2).position,
-           ProjectileSpawnPoint.Weapon => currentWeapon.weaponPrefab.transform.Find("ImpactPoint").transform.position,
+           ProjectileSpawnPoint.Weapon => equippedWeaponsGO[currentWeapon.id].transform.Find("ImpactPoint").position,
            _ => throw new ArgumentOutOfRangeException()
        };
 
