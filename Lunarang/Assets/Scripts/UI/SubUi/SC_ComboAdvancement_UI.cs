@@ -50,7 +50,7 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
 
     }
 
-    private IEnumerator ResetCounter(int comboMaxLength)
+    private IEnumerator ResetCounter(int comboMaxLength) //TODO - No reset after a dash that cancel an attack
     {
         
         yield return new WaitForSeconds(0.75f);
@@ -59,7 +59,8 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
             _tmp.text = 0 + "/" + comboMaxLength;
             
         }
-        
+
+        SC_ComboController.instance.ManageComboVFX(SC_ComboController.instance.comboCounterVFX, 0);
         _coroutine = null;
     }
 }
