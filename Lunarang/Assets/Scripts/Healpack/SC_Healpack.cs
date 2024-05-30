@@ -18,6 +18,7 @@ public class SC_Healpack : MonoBehaviour
     private int playerLayerMask;
     [SerializeField]
     public GameObject uiInteract;
+    public Animator animatorDeactiveVFX;
 
     [Title("Animations")]
     public Animator animator;
@@ -68,6 +69,7 @@ public class SC_Healpack : MonoBehaviour
         PlayActivateSound();
         PlayActivateVFX();
         SC_InteractorComponent.onInteractionEnd(this.gameObject, true, false);
+        animatorDeactiveVFX.enabled = true;
     }
 
     #region Animations et FX
