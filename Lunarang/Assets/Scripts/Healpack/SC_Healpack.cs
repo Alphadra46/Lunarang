@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class SC_Healpack : MonoBehaviour
 {
@@ -66,6 +67,7 @@ public class SC_Healpack : MonoBehaviour
         uiInteract.SetActive(false);
         PlayActivateSound();
         PlayActivateVFX();
+        SC_InteractorComponent.onInteractionEnd(this.gameObject, true, false);
     }
 
     #region Animations et FX
