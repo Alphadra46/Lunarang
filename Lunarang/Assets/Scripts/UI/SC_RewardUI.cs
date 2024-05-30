@@ -18,6 +18,8 @@ public class SC_RewardUI : MonoBehaviour
     public Transform rewardStart;
     
     [ShowInInspector, ReadOnly] private List<GameObject> rewards = new List<GameObject>();
+    
+    public List<SC_Selectable> rewardsSelectables = new List<SC_Selectable>();
 
 
     public void Show()
@@ -63,6 +65,7 @@ public class SC_RewardUI : MonoBehaviour
 
         foreach (var reward in rewards)
         {
+            rewardsSelectables.Add(reward.GetComponent<SC_Selectable>());
             
             var btn = reward.GetComponent<Selectable>();
             var navigation = btn.navigation;
@@ -100,7 +103,15 @@ public class SC_RewardUI : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(rewards[0]);
 
     }
-
+    public void DiscardOtherRewards(SC_Selectable selectedReward)
+    {
+        rewardsSelectables.Remove(selectedReward);
+        foreach (var r in rewardsSelectables)
+        {
+            r.Discard();
+        }
+    }
+    
     public IEnumerator DelayBeforeCards(float delay)
     {
         yield return new WaitForSecondsRealtime(delay);
