@@ -24,9 +24,9 @@ public class SC_Projectile_Chakram : SC_Projectile
                 aoeHitted.TakeDamage(damage, isCrit, sender);
                 SC_ComboController.instance.CheckBurnHit(col, true);
 
-                if (hitNumber <= 1) continue;
+                if (additionalHits <= 1) continue;
                 
-                for (var i = 0; i < hitNumber-1; i++)
+                for (var i = 0; i < additionalHits-1; i++)
                 {
                     aoeHitted.TakeDamage(damage, isCrit, sender);
                     SC_ComboController.instance.CheckBurnHit(col, true);
@@ -37,7 +37,7 @@ public class SC_Projectile_Chakram : SC_Projectile
         
         else
         {
-            for (var i = 0; i < hitNumber; i++)
+            for (var i = 0; i < additionalHits; i++)
             {
                 if (!col.CompareTag("Entity")) continue;
                 damageable.TakeDamage(damage, isCrit, sender);

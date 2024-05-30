@@ -100,7 +100,6 @@ public class SC_FinalATK_Builder : MonoBehaviour
 
         additionnalHits = weapons[^1].hits;
         projectilesNumbers = weapons[^1].projectilesNumbers;
-        projectilesSpeed = weapons[^1].projectileSpeed;
 
         // Set parameters
         paramatersWithoutLast = paramatersString.Split(";", StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -133,7 +132,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                     areaSize += (currentLevel * currentStrength);
                     break;
                 case "P":
-                    projectilesNumbers = (currentLevel * currentStrength);
+                    projectilesNumbers *= (currentLevel * currentStrength);
                     break;
             }
 
@@ -149,7 +148,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
     private void Result()
     {
         var pos = Vector3.zero;
-        var currentWeaponGO = _comboController.equippedWeaponsGO[_comboController.currentWeapon.id];
+        var currentWeaponGO = _comboController.equippedWeaponsGO[_comboController.currentWeapon.id]; //_comboController.equippedWeaponsGO[_comboController.currentWeapon.id];
         var weaponImpactPoint = currentWeaponGO.transform.Find("ImpactPoint");
 
         var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100);
@@ -199,7 +198,6 @@ public class SC_FinalATK_Builder : MonoBehaviour
                             areaSize,
                             additionnalHits + 1,
                             50f,
-                            projectilesSpeed,
                             0f,
                             transform.GetChild(1).forward);
 
@@ -235,7 +233,6 @@ public class SC_FinalATK_Builder : MonoBehaviour
                             areaSize,
                             additionnalHits + 1,
                             50f,
-                            projectilesSpeed,
                             0f,
                             transform.GetChild(1).forward,
                             true);
@@ -258,7 +255,6 @@ public class SC_FinalATK_Builder : MonoBehaviour
                             areaSize,
                             1,
                             50f,
-                            projectilesSpeed,
                             0f,
                             transform.GetChild(1).forward);
                         break;
@@ -271,7 +267,6 @@ public class SC_FinalATK_Builder : MonoBehaviour
                             areaSize,
                             1,
                             50f,
-                            projectilesSpeed,
                             0f,
                             transform.GetChild(1).forward,
                             false);
@@ -286,7 +281,6 @@ public class SC_FinalATK_Builder : MonoBehaviour
                             areaSize,
                             additionnalHits + 1,
                             50f,
-                            projectilesSpeed,
                             0f,
                             transform.GetChild(1).forward,
                             false);
@@ -324,7 +318,6 @@ public class SC_FinalATK_Builder : MonoBehaviour
                             areaSize,
                              1,
                             50f,
-                            projectilesSpeed,
                             0f,
                             transform.GetChild(1).forward,
                             true);
@@ -350,7 +343,6 @@ public class SC_FinalATK_Builder : MonoBehaviour
                                 areaSize,
                                 1,
                                 50f,
-                                projectilesSpeed,
                                 0f,
                                 transform.GetChild(1).forward,
                                 false);
@@ -366,7 +358,6 @@ public class SC_FinalATK_Builder : MonoBehaviour
                             areaSize,
                             1,
                             50f,
-                            projectilesSpeed,
                             0f,
                             transform.GetChild(1).forward,
                             false);
@@ -381,7 +372,6 @@ public class SC_FinalATK_Builder : MonoBehaviour
                             areaSize,
                             1,
                             50f,
-                            projectilesSpeed,
                             0f,
                             transform.GetChild(1).forward,
                             true);
@@ -401,9 +391,8 @@ public class SC_FinalATK_Builder : MonoBehaviour
                         _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                             projectilesNumbers,
                             areaSize,
-                            1,
+                            additionnalHits + 1,
                             50f,
-                            projectilesSpeed,
                             0f,
                             transform.GetChild(1).forward,
                             false);
@@ -416,9 +405,8 @@ public class SC_FinalATK_Builder : MonoBehaviour
                         _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                             projectilesNumbers,
                             areaSize,
-                            1,
+                            additionnalHits + 1,
                             50f,
-                            projectilesSpeed,
                             0f,
                             transform.GetChild(1).forward,
                             false);
@@ -433,7 +421,6 @@ public class SC_FinalATK_Builder : MonoBehaviour
                             areaSize,
                             1,
                             50f,
-                            projectilesSpeed,
                             0f,
                             transform.GetChild(1).forward,
                             false);

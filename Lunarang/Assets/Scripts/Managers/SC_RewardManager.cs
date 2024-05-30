@@ -74,7 +74,7 @@ public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range
         
         rewardUI.rewardRessources.Add(essenceFragment);
         rewardUI.rewardSkills = selectedSkills.ToList();
-        rewardUI.Init();
+        rewardUI.Show();
         
         selectedSkills.Clear();
     }

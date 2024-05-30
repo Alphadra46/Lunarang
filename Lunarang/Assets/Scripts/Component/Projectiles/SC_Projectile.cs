@@ -4,37 +4,68 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+
+
+public enum ProjectileFormation
+{
+    
+    Inline,
+    Cone
+    
+}
+
+public enum ProjectileSpawnPoint
+{
+    
+    PlayerCenterPoint,
+    PlayerCenterPointFloor,
+    PlayerHead,
+    Weapon
+    
+}
 
 [RequireComponent(typeof(Rigidbody))]
 public class SC_Projectile : SerializedMonoBehaviour
 {
     
     #region Variables
-
-    public float autoDestroyTime = 5f;
-    public float speed = 1f;
     
+    public float autoDestroyTime = 5f;
+    [PropertySpace(SpaceBefore = 2.5f)]
     public float distanceMax;
+    
+    [PropertySpace(SpaceBefore = 5f)]
+    public float speed = 1f;
     
     [HideInInspector]  public float damage;
     [HideInInspector]  public bool isCrit;
     
     [HideInInspector] public WeaponType weaponType;
 
+    [PropertySpace(SpaceBefore = 5)]
     public bool isAoE;
-    
     public float areaSize;
-    public int hitNumber;
+    
+    [PropertySpace(SpaceBefore = 5f)]
+    public int additionalHits;
 
     [HideInInspector] public Vector3 direction;
     
-    public GameObject sender; 
+    [PropertySpace(SpaceBefore = 5f)]
+    public GameObject sender;
+    [PropertySpace(SpaceBefore = 2.5f)]
     public List<string> tags = new List<string>();
-    
-    private Rigidbody _rb;
 
-    private const string DESTROY_METHOD_NAME = "Destroy";
+    [PropertySpace(SpaceBefore = 5f)]
+    public Dictionary<int, ProjectileFormation> formations = new Dictionary<int, ProjectileFormation>();
+    [PropertySpace(SpaceBefore = 5f)]
+    public ProjectileSpawnPoint spawnPoint = ProjectileSpawnPoint.PlayerCenterPoint;
+    
+    [HideInInspector] public Rigidbody _rb;
+
+    [HideInInspector] public const string DESTROY_METHOD_NAME = "Destroy";
     
     #endregion
 
@@ -83,9 +114,9 @@ public class SC_Projectile : SerializedMonoBehaviour
                 if (!e.TryGetComponent(out IDamageable aoeHitted)) continue;
                 aoeHitted.TakeDamage(damage, isCrit, sender);
 
-                if (hitNumber <= 1) continue;
+                if (additionalHits <= 1) continue;
                 
-                for (var i = 0; i < hitNumber-1; i++)
+                for (var i = 0; i < additionalHits-1; i++)
                 {
                     aoeHitted.TakeDamage(damage, isCrit, sender);
                 }
@@ -95,7 +126,7 @@ public class SC_Projectile : SerializedMonoBehaviour
         
         else
         {
-            for (var i = 0; i < hitNumber; i++)
+            for (var i = 0; i < additionalHits; i++)
             {
                 
                 if(col.CompareTag("Entity"))
