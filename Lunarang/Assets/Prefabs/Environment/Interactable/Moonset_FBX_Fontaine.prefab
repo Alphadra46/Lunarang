@@ -132,18 +132,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 898900246496900801}
-  m_LocalRotation: {x: -0.23911582, y: -0.3696597, z: 0.099050514, w: 0.8923925}
-  m_LocalPosition: {x: 0, y: 0, z: 30990.672}
-  m_LocalScale: {x: 99.99998, y: 100, z: 99.99998}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2173966943906158643}
   m_Father: {fileID: 5722389026980944567}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 67446.37, y: 80020.06}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 500.1, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1319491701926000960
 Canvas:
@@ -10940,6 +10940,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0d9401bf173ca0645af93665cc4b53d3,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 7985823311111169823}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0d9401bf173ca0645af93665cc4b53d3,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 7605505443161211144}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0d9401bf173ca0645af93665cc4b53d3,
         type: 3}
@@ -10962,6 +10966,27 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4664489009617237392}
   m_PrefabAsset: {fileID: 0}
+--- !u!135 &7985823311111169823
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5510983019239819457}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 275.6
+  m_Center: {x: 0, y: 32.62, z: 0}
 --- !u!95 &7605505443161211144
 Animator:
   serializedVersion: 5

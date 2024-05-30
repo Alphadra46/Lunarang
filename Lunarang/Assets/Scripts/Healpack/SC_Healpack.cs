@@ -15,7 +15,6 @@ public class SC_Healpack : MonoBehaviour
     private float healAmount;
     [SerializeField]
     private int playerLayerMask;
-    private bool canInteract;
     [SerializeField]
     public GameObject uiInteract;
 
@@ -64,7 +63,6 @@ public class SC_Healpack : MonoBehaviour
     public void ActivateHealpack()
     {
         SC_PlayerStats.instance.Heal(healAmount);
-        canInteract = false;
         uiInteract.SetActive(false);
         PlayActivateSound();
         PlayActivateVFX();
