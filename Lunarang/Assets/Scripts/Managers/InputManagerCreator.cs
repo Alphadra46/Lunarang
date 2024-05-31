@@ -141,6 +141,11 @@ public class InputManagerCreator : ScriptableObject
             foreach (var action in actionMap.actions)
             {
                 string actionName = (char.ToLower(action.name[0])+action.name.Substring(1)).Replace(" ", "");
+                if (actionName == "point" || actionName == "navigate")
+                {
+                    writer.WriteLine($"{actionName}.performed += DetectDevice;");
+                    continue;
+                }
                 writer.WriteLine($"{actionName}.started += DetectDevice;");
             }
         }
