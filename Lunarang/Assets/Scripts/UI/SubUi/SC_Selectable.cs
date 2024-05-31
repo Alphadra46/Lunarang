@@ -9,6 +9,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IPointerDownHandler
@@ -46,12 +47,15 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     
     private Canvas canvas;
     private SC_RewardUI rewardUI;
+
+    private GameObject lastSelected;
     
     private void Start()
     {
         canvas = GetComponentInParent<Canvas>();
         dissolveControllers = GetComponentsInChildren<UIDissolve>().ToList();
         rewardUI = GetComponentInParent<SC_RewardUI>();
+        SC_InputManager.instance.navigate.started += Navigate;
         //shockWavePS.material = new Material(shockWavePS.material);
         //shockWavePS.startColor = borderImage.color;
     }
@@ -59,8 +63,28 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private void Update()
     {
         TiltCristal();
+
+        print(SC_InputManager.instance.lastDeviceUsed);
     }
 
+    private void Navigate(InputAction.CallbackContext context)
+    {
+        if (SC_InputManager.instance.lastDeviceUsed == "Mouse")
+            return;
+
+        if (EventSystem.current.currentSelectedGameObject == null)
+        {
+            print("Null");
+            EventSystem.current.SetSelectedGameObject(lastSelected);
+        }
+        
+        if (EventSystem.current.currentSelectedGameObject == gameObject)
+            OnPointerEnter(new PointerEventData(EventSystem.current));
+        else
+            OnPointerExit(new PointerEventData(EventSystem.current));
+    }
+    
+    
     private void OnEnable()
     {
         interactable = true;
@@ -88,6 +112,8 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         DOTween.Kill(2, true);
         shakeParent.DOPunchRotation(Vector3.forward * hoverPunchAngle, hoverTransition, 20, 1).SetUpdate(true).SetId(3);
         isHovering = true;
+        if (SC_InputManager.instance.lastDeviceUsed == "Mouse")
+            EventSystem.current.SetSelectedGameObject(gameObject);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -95,6 +121,12 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         DOTween.Kill(3, true);
         shakeParent.DOScale(1, scaleTransition).SetEase(scaleEase).SetUpdate(true);
         isHovering = false;
+        if (SC_InputManager.instance.lastDeviceUsed == "Mouse")
+        {
+            lastSelected = gameObject;
+            EventSystem.current.SetSelectedGameObject(null);
+        }
+        
     }
 
     public void OnPointerUp(PointerEventData eventData)
