@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class SC_Healpack : MonoBehaviour
 {
@@ -15,9 +16,9 @@ public class SC_Healpack : MonoBehaviour
     private float healAmount;
     [SerializeField]
     private int playerLayerMask;
-    private bool canInteract;
     [SerializeField]
     public GameObject uiInteract;
+    public Animator animatorDeactiveVFX;
 
     [Title("Animations")]
     public Animator animator;
@@ -64,10 +65,11 @@ public class SC_Healpack : MonoBehaviour
     public void ActivateHealpack()
     {
         SC_PlayerStats.instance.Heal(healAmount);
-        canInteract = false;
         uiInteract.SetActive(false);
         PlayActivateSound();
         PlayActivateVFX();
+        SC_InteractorComponent.onInteractionEnd(this.gameObject, true, false);
+        animatorDeactiveVFX.enabled = true;
     }
 
     #region Animations et FX
