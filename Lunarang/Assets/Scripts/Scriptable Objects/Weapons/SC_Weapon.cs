@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -7,17 +9,22 @@ using UnityEngine;
 public class SC_Weapon : SerializedScriptableObject
 {
 
+    #region Variables
+
     public string id;
 
+    [PropertySpace(SpaceBefore = 5)]
+    public string weaponName;
+    
     [TextArea] public string shortDesc;
+    public Sprite icon;
     
     [PropertySpace(SpaceBefore = 5)]
     public GameObject weaponPrefab;
     
     [PropertySpace(SpaceBefore = 5)]
-    public WeaponType type;
     public ParameterType parameter;
-    public int TypeStrength = 1;
+    public float TypeStrength = 1;
     
     [PropertySpace(SpaceBefore = 5)]
     public ImpactPoint impactPoint;
@@ -29,7 +36,7 @@ public class SC_Weapon : SerializedScriptableObject
     #region Moves Values
 
     [PropertySpace(SpaceBefore = 5)]
-    public List<float> MovesValues = new List<float>();
+    public List<float> baseMovesValues = new List<float>();
 
     #endregion
 
@@ -38,7 +45,9 @@ public class SC_Weapon : SerializedScriptableObject
     [PropertySpace(SpaceBefore = 5)] 
     public int currentLevel = 1;
     public float levelUpStatsRate = 0f;
-    public Dictionary<int, List<SC_Ressource>> levelUpPrice = new Dictionary<int, List<SC_Ressource>>();
+    
+    [PropertySpace(SpaceBefore = 2.5f)] 
+    public Dictionary<int, Dictionary<SC_Resource, int>> levelUpCosts = new Dictionary<int, Dictionary<SC_Resource, int>>();
 
     #endregion
 
@@ -67,6 +76,16 @@ public class SC_Weapon : SerializedScriptableObject
     [PropertySpace(SpaceBefore = 5)]
     [TextArea] public string effectDesc;
     public float effectValue = 0f;
+    
+
+    #endregion
+
+    public void Upgrade()
+    {
+
+        currentLevel += 1;
+
+    }
     
     [Button]
     public void ResetStats()

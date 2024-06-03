@@ -14,8 +14,8 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 0.19215687}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.17875656, g: 0.22382683, b: 0.30573335, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5254,6 +5254,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 8.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 3297444764942174109, guid: 938bb441111958247950de1ff89a53b1,
+        type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3297444765041700194, guid: 938bb441111958247950de1ff89a53b1,
         type: 3}
@@ -20998,6 +21003,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1581011874620883347, guid: ab1b25ded794b024198a7077c4c1db31,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.38431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581011874620883347, guid: ab1b25ded794b024198a7077c4c1db31,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.6862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581011874620883347, guid: ab1b25ded794b024198a7077c4c1db31,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.8980392
+      objectReference: {fileID: 0}
     - target: {fileID: 2056235739884392159, guid: ab1b25ded794b024198a7077c4c1db31,
         type: 3}
       propertyPath: m_Name
@@ -21009,6 +21029,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a6560a915ef98420e9faacc1c7438823,
         type: 2}
+    - target: {fileID: 4159062366616229083, guid: ab1b25ded794b024198a7077c4c1db31,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.38431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 4159062366616229083, guid: ab1b25ded794b024198a7077c4c1db31,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.6862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 4159062366616229083, guid: ab1b25ded794b024198a7077c4c1db31,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.8980392
+      objectReference: {fileID: 0}
     - target: {fileID: 4159062366616229083, guid: ab1b25ded794b024198a7077c4c1db31,
         type: 3}
       propertyPath: m_Shadows.m_Type

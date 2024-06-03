@@ -15,15 +15,16 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
     private void Awake()
     {
         rot = transform.rotation;
-        
-        
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        if(!transform.GetChild(0).TryGetComponent(out _tmp))return;
+        SC_ComboController.ComboUpdated += Reset;
+    }
 
-        SC_ComboController.ComboUpdated += SetText;
+    private void OnDisable()
+    {
+        SC_ComboController.ComboUpdated -= Reset;
     }
 
 
@@ -32,34 +33,25 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
         transform.rotation = rot;
     }
 
-    private void SetText(int comboCounter, int comboMaxLength, ParameterType attackParameter)
+    private void Reset(int comboCounter, int comboMaxLength, ParameterType attackParameter)
     {
-        if(_tmp == null) return;
         
-        _tmp.text = comboCounter + "/" + comboMaxLength;
-
         if (comboCounter != comboMaxLength) return;
         
         if(_coroutine != null) StopCoroutine(_coroutine);
         else
         {
-
-            _coroutine = StartCoroutine(ResetCounter(comboMaxLength));
+            
+            _coroutine = StartCoroutine(ResetCounter());
 
         }
 
     }
 
-    private IEnumerator ResetCounter(int comboMaxLength) //TODO - No reset after a dash that cancel an attack
+    private IEnumerator ResetCounter() //TODO - No reset after a dash that cancel an attack
     {
-        
         yield return new WaitForSeconds(0.75f);
-        if (_tmp != null)
-        {
-            _tmp.text = 0 + "/" + comboMaxLength;
-            
-        }
-
+        
         SC_ComboController.instance.ManageComboVFX(SC_ComboController.instance.comboCounterVFX, 0);
         _coroutine = null;
     }

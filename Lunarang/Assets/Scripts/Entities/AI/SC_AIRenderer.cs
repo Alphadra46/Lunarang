@@ -83,7 +83,7 @@ public class SC_AIRenderer : MonoBehaviour
         switch (dotType)
         {
             case Enum_Debuff.Poison:
-                textMeshProUGUI.color = isCrit ?new Color32(25, 108, 49, 255) : new Color32(50, 168, 82, 255);
+                textMeshProUGUI.color = isCrit ?new Color32(132, 191, 31, 255) : new Color32(179, 245, 66, 255);
                 break;
             case Enum_Debuff.Bleed:
                 break;

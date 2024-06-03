@@ -8,7 +8,6 @@ public class SC_Projectile_Hammer : SC_Projectile
     /// <param name="col"></param>
     public override void OnTriggerEnter(Collider col)
     {
-        base.OnTriggerEnter(col);
         
         if (!col.TryGetComponent(out IDamageable damageable)) return;
         if (col.gameObject == sender) return;

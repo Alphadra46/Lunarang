@@ -81,7 +81,7 @@ public class SC_UIManager : MonoBehaviour
             UIParent = GameObject.FindWithTag("UIParent");
         }
 
-        //if (SceneManager.GetActiveScene().buildIndex != 2 && SceneManager.GetActiveScene().buildIndex != 3) return;
+        if (SceneManager.GetActiveScene().buildIndex == 0) return;
         
         ResetTempReferences();
         InstantiateHUD();

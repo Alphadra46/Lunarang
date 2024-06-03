@@ -34,12 +34,12 @@ public class SC_NotificationUI : MonoBehaviour
 
     }
     
-    public void Init(SC_Ressource ressource, int newAmount)
+    public void Init(SC_Resource resource, int newAmount)
     {
 
-        var finalPrompt = $"{ressource.name} x{newAmount}";
+        var finalPrompt = $"{resource.name} x{newAmount}";
         
-        image.sprite = ressource.sprite;
+        image.sprite = resource.sprite;
         promptTMP.text = finalPrompt;
         amount = newAmount;
 
@@ -47,7 +47,7 @@ public class SC_NotificationUI : MonoBehaviour
 
     }
 
-    public void UpdateNotification(SC_Ressource ressource, int newAmount)
+    public void UpdateNotification(SC_Resource resource, int newAmount)
     {
 
         if(destroyCoroutine != null)
@@ -58,7 +58,7 @@ public class SC_NotificationUI : MonoBehaviour
         
         _animator.SetTrigger("Update");
         
-        var finalPrompt = $"{ressource.name} x{amount+newAmount}";
+        var finalPrompt = $"{resource.name} x{amount+newAmount}";
         
         promptTMP.text = finalPrompt;
         amount += newAmount;

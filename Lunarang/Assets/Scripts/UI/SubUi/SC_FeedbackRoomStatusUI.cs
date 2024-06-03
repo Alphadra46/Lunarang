@@ -32,7 +32,7 @@ public class SC_FeedbackRoomStatusUI : MonoBehaviour
         if(animator == null) return;
         animator.SetTrigger("UpdateText");
         
-        tmp.text = $"- L'<color=lightblue> Essence <color=white>vous a réssucité. -";
+        tmp.text = $"- L'<color=lightblue> Essence <color=white>vous a ressuscité. -";
         
     }
 

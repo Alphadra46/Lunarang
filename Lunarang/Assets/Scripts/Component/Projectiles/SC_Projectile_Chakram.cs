@@ -16,17 +16,21 @@ public class SC_Projectile_Chakram : SC_Projectile
         if (isAoE)
         {
             var ennemiesInAoE =
-                Physics.OverlapSphere(transform.position, areaSize, LayerMask.GetMask( "IA")); //TODO : Replace Pos by Weapon Hit Pos
+                Physics.OverlapSphere(transform.position, areaSize, LayerMask.GetMask("IA")); //TODO : Replace Pos by Weapon Hit Pos
 
             foreach (var e in ennemiesInAoE)
             {
+                print(e.name);
+                
+                if(e.CompareTag("Player")) return;
+                
                 if (!e.TryGetComponent(out IDamageable aoeHitted)) continue;
                 aoeHitted.TakeDamage(damage, isCrit, sender);
                 SC_ComboController.instance.CheckBurnHit(col, true);
 
-                if (additionalHits <= 1) continue;
+                if (additionalHits >= 1) continue;
                 
-                for (var i = 0; i < additionalHits-1; i++)
+                for (var i = 0; i < additionalHits; i++)
                 {
                     aoeHitted.TakeDamage(damage, isCrit, sender);
                     SC_ComboController.instance.CheckBurnHit(col, true);
@@ -37,9 +41,10 @@ public class SC_Projectile_Chakram : SC_Projectile
         
         else
         {
-            for (var i = 0; i < additionalHits; i++)
+            for (var i = 0; i < additionalHits+1; i++)
             {
                 if (!col.CompareTag("Entity")) continue;
+                
                 damageable.TakeDamage(damage, isCrit, sender);
                 SC_ComboController.instance.CheckBurnHit(col, true);
 

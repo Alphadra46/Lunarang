@@ -48,6 +48,8 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     private Coroutine damageTakenCoroutine = null;
 
     private bool isInvincible = false;
+    
+    private bool isDeath = false;
 
     #endregion
 
@@ -110,7 +112,8 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     /// <param name="trueDamage"></param>
     public void TakeDamage(float rawDamage, bool isCrit, GameObject attacker, bool trueDamage = false)
     {
-        if(isInvincible) return;
+        if (isInvincible) return;
+        if (isDeath) return;
         
         if (damageTakenCoroutine != null) StopCoroutine(damageTakenCoroutine);
         damageTakenCoroutine = StartCoroutine(DamageTaken());
@@ -206,6 +209,12 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     
     public void TakeDoTDamage(float rawDamage, bool isCrit, Enum_Debuff dotType)
     {
+        if (isInvincible) return;
+        if (isDeath) return;
+        
+        if (damageTakenCoroutine != null) StopCoroutine(damageTakenCoroutine);
+        damageTakenCoroutine = StartCoroutine(DamageTaken());
+        
         if(_controller.isDashing || isGod) return;
             
         var damageTakenMultiplier = (1 * (1 + (currentStats.dotDamageTaken/100)));
@@ -232,6 +241,8 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     /// <param name="healAmount"></param>
     public void Heal(float healAmount)
     {
+        if(isDeath) return;
+        
         // Check if the heal don't exceed the Max HP limit, if yes, set to max hp, else increment currentHP by healAmount.
         currentStats.currentHealth = currentStats.currentHealth + healAmount > currentStats.currentMaxHealth ? currentStats.currentMaxHealth : currentStats.currentHealth + healAmount;
 
@@ -239,7 +250,6 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         
         onHealthChange?.Invoke(currentStats.currentHealth, currentStats.currentMaxHealth);
     }
-
     
     private bool DeathCheck()
     {
@@ -356,8 +366,12 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
             return;
             
         }
-
+        
+        if (isDeath) return;
+        
+        isDeath = true;
         SC_GameManager.instance.ChangeState(GameState.DEFEAT);
+        
     }
     
     private void onEnemyKilled(SC_AIStats enemy)

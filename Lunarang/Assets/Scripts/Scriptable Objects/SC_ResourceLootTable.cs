@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/LootTable/Resource Loot Table", fileName = "ResourceLootTable_")]
-public class SC_ResourceLootTable : SC_LootTable<SC_Ressource> {}
+public class SC_ResourceLootTable : SC_LootTable<SC_Resource> {}
 
 [System.Serializable]
-public class SC_ResourceLootTableConfig : Loot<SC_Ressource> {}
+public class SC_ResourceLootTableConfig : Loot<SC_Resource> {}
