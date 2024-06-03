@@ -154,8 +154,9 @@ public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range
     }
 
 
-    public void ResourceDropSelection(string source)
+    public void ResourceDropSelection(string source,out int a)
     {
+        a = 0;
         Vector3 dropRates = Vector3.zero;
         Vector2 dropRange = Vector2.zero;
         float totalDropRate = 0f;
@@ -225,9 +226,9 @@ public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range
             dropRange = r <= highRarityDropRate ? highRarityDropRange :
                 (r > highRarityDropRate && r <= highRarityDropRate + mediumRarityDropRate) ? mediumRarityDropRange :
                 lowRarityDropRange;
-            
-            SC_GameManager.instance.playerResourceInventory.AddResource(ressources.First(ressource => ressource.rarityLevel==resourceLevel),Mathf.RoundToInt(Random.Range(dropRange.x,dropRange.y)*quantityMultiplier));
-            //TODO - Display resource
+            int amount = Mathf.RoundToInt(Random.Range(dropRange.x, dropRange.y) * quantityMultiplier);
+            SC_GameManager.instance.playerResourceInventory.AddResource(ressources.First(ressource => ressource.rarityLevel==resourceLevel),amount);
+            a = amount;
         }
     }
     

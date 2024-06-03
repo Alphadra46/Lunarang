@@ -282,9 +282,9 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         
         _debuffsBuffsComponent.ResetAllBuffsAndDebuffs();
         
-        SC_RewardManager.instance.ResourceDropSelection(isElite ? "Elite" : "Base");
+        SC_RewardManager.instance.ResourceDropSelection(isElite ? "Elite" : "Base", out int amount);
 
-        DropRessources(SC_PlayerController.instance.transform.position);
+        DropRessources(SC_PlayerController.instance.transform.position, amount);
 
         if(SC_Pooling.instance != null) {
             SC_Pooling.instance.ReturnItemToPool("Ennemis", gameObject);
@@ -345,10 +345,14 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         
     }
 
-    public void DropRessources(Vector3 goalPosition)
+    public void DropRessources(Vector3 goalPosition,int amount)
     {
+        if (amount==0)
+            return;
+        
         VisualEffect dropRessourcesVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_RessourcesLoot").GetComponent<VisualEffect>();
         dropRessourcesVFX.gameObject.SetActive(true);
+        dropRessourcesVFX.SetInt("Particles Number",amount);
         dropRessourcesVFX.transform.position = transform.position;
         dropRessourcesVFX.SetVector3("Spawn Position", transform.position);
         SC_PlayerController.instance.StartCoroutine(UpdateTargetPosition(dropRessourcesVFX));

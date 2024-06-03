@@ -68,7 +68,7 @@ public class SC_InteractableBase : MonoBehaviour, IInteractable
 
     public void OpenResourceChest()
     {
-        SC_RewardManager.instance.ResourceDropSelection("Chest");
+        SC_RewardManager.instance.ResourceDropSelection("Chest", out int a);
     }
     
     private IEnumerator WaitUntilEnded()
