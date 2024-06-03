@@ -26,6 +26,7 @@ public class SC_LoadingScene : MonoBehaviour
             }
             else
             {
+                yield return new WaitForSeconds(0.15f);
                 textLoading.text +=  ".";
             }
             yield return null;

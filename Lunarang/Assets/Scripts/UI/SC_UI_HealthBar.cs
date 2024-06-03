@@ -74,6 +74,8 @@ public class SC_UI_HealthBar : MonoBehaviour
         if(!transform.GetChild(1).TryGetComponent(out shieldSlider)) return;
         
         if(!transform.GetChild(5).GetChild(0).TryGetComponent(out tmpHP)) return;
+
+        lerpCoroutine = null;
     }
 
     private void OnHealthValueChanged(float value)
@@ -206,6 +208,8 @@ public class SC_UI_HealthBar : MonoBehaviour
         anticipationSlider.maxValue = maxHP;
 
         tmpHP.text = $"{currentHP} / {maxHP}";
+        
+        lerpCoroutine = null;
     }
     
     public void ShieldUpdate(float newCurrentShieldValue, float newCurrentShieldMaxValue)

@@ -19,6 +19,10 @@ public class AI_DeathState : BaseState<AI_StateMachine.EnemyState>
     public override void EnterState()
     {
         //TODO Replace this by Death Animation
+        
+        _aiStateMachine.agent.isStopped = true;
+        _aiStateMachine.agent.SetDestination(_aiStateMachine.transform.position);
+        _aiStateMachine.agent.velocity = Vector3.zero;
 
         if (_aiStateMachine._stats.typeID == "summoner")
         {

@@ -103,13 +103,14 @@ public class SC_Projectile : SerializedMonoBehaviour
         if (!col.TryGetComponent(out IDamageable damageable)) return;
         if (col.gameObject == sender) return;
         if (!tags.Contains(col.tag)) return;
-
+        
         if (isAoE)
         {
-            var ennemiesInAoE =
+            
+            var targetsWithinAoE =
                 Physics.OverlapSphere(transform.position, areaSize, LayerMask.GetMask("Player", "IA")); //TODO : Replace Pos by Weapon Hit Pos
 
-            foreach (var e in ennemiesInAoE)
+            foreach (var e in targetsWithinAoE)
             {
                 if (!e.TryGetComponent(out IDamageable aoeHitted)) continue;
                 aoeHitted.TakeDamage(damage, isCrit, sender);
@@ -126,9 +127,8 @@ public class SC_Projectile : SerializedMonoBehaviour
         
         else
         {
-            for (var i = 0; i < additionalHits; i++)
+            for (var i = 0; i < 1+additionalHits; i++)
             {
-                
                 if(col.CompareTag("Entity"))
                     damageable.TakeDamage(damage, isCrit, sender);
                 else if (col.CompareTag("Player"))

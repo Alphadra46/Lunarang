@@ -552,6 +552,7 @@ public class SC_ComboController : MonoBehaviour
         
         // Debug Side
         print("Combo : " + comboCounter + " / Type : " + currentWeapon.weaponName);
+        
         ComboUpdated?.Invoke(comboCounter, comboMaxLength, currentWeapon.parameter);
         
     }

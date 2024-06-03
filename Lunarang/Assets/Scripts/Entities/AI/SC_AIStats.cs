@@ -281,10 +281,13 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         _renderer.hideStatsUI?.Invoke();
         
         _debuffsBuffsComponent.ResetAllBuffsAndDebuffs();
-        
-        SC_RewardManager.instance.ResourceDropSelection(isElite ? "Elite" : "Base");
 
-        DropRessources(SC_PlayerController.instance.transform.position);
+        if (SC_RewardManager.instance.ResourceDropSelection(isElite ? "Elite" : "Base"))
+        {
+         
+            DropRessources(SC_PlayerController.instance.transform.position);
+            
+        }
 
         if(SC_Pooling.instance != null) {
             SC_Pooling.instance.ReturnItemToPool("Ennemis", gameObject);

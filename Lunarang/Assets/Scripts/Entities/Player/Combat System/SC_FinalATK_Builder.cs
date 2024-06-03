@@ -269,7 +269,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                             50f,
                             0f,
                             transform.GetChild(1).forward,
-                            false);
+                            true);
                         PlayFinalVFX(hammerFinalVFX, weaponImpactPoint);
 
                         break;
@@ -320,7 +320,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                             50f,
                             0f,
                             transform.GetChild(1).forward,
-                            true);
+                            false);
                         
                         break;
                 }

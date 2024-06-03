@@ -154,7 +154,7 @@ public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range
     }
 
 
-    public void ResourceDropSelection(string source)
+    public bool ResourceDropSelection(string source)
     {
         Vector3 dropRates = Vector3.zero;
         Vector2 dropRange = Vector2.zero;
@@ -196,7 +196,7 @@ public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range
             (dropChance > dropRates.x && dropChance <= dropRates.x + dropRates.y) ? 2 : 3;
 
         if (numberOfDropRoll<=0) //No Need to go further if there is no item to drop
-            return;
+            return false;
         
         for (int i = 0; i < numberOfDropRoll; i++)
         {
@@ -227,8 +227,9 @@ public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range
                 lowRarityDropRange;
             
             SC_GameManager.instance.playerResourceInventory.AddResource(ressources.First(ressource => ressource.rarityLevel==resourceLevel),Mathf.RoundToInt(Random.Range(dropRange.x,dropRange.y)*quantityMultiplier));
-            //TODO - Display resource
         }
+
+        return true;
     }
     
 }

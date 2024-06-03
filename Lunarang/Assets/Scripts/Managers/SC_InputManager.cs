@@ -184,10 +184,10 @@ public class SC_InputManager : MonoBehaviour
         consumable_Switch.started += DetectDevice;
         consumable_Use.started += DetectDevice;
         minimapMode.started += DetectDevice;
-        navigate.started += DetectDevice;
+        navigate.performed += DetectDevice;
         submit.started += DetectDevice;
         cancel.started += DetectDevice;
-        point.started += DetectDevice;
+        point.performed += DetectDevice;
         click.started += DetectDevice;
         scrollWheel.started += DetectDevice;
         middleClick.started += DetectDevice;
