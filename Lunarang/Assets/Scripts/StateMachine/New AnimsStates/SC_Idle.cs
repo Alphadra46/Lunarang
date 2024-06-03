@@ -73,6 +73,9 @@ public class SC_Idle : StateMachineBehaviour
     
     private void AttackState(SC_Weapon weaponUsed) //TODO - Unable to attack when in pause
     {
+        if (SC_GameManager.instance.isPause)
+            return;
+        
         if (isAttackLaunched)
             return;
         
