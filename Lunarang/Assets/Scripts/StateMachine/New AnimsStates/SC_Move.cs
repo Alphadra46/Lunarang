@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 
-public class SC_Idle : StateMachineBehaviour
+public class SC_Move : StateMachineBehaviour
 {
     private Animator _animator;
 
@@ -12,27 +11,19 @@ public class SC_Idle : StateMachineBehaviour
 
     private bool hasExited;
     
-    
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         hasExited = false;
         SC_ComboController.instance.ExitPreviousState(this);
         if (SC_ComboController.instance.currentState == null)
             SC_ComboController.instance.currentState = this;
-        SC_PlayerController.instance.FreezeMovement(false);
+        //SC_PlayerController.instance.FreezeMovement(false);
         isAttackLaunched = false;
         _animator = animator;
 
         SC_InputManager.instance.weaponA.started += AttackWeaponCheck;
         SC_InputManager.instance.weaponB.started += AttackWeaponCheck;
         SC_InputManager.instance.weaponC.started += AttackWeaponCheck;
-        //SC_ComboController.instance.StartCoroutine(DelayedInit());
-
-    }
-
-    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        //base.OnStateUpdate(animator, stateInfo, layerIndex);
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -50,7 +41,7 @@ public class SC_Idle : StateMachineBehaviour
         SC_InputManager.instance.weaponB.started -= AttackWeaponCheck;
         SC_InputManager.instance.weaponC.started -= AttackWeaponCheck;
     }
-
+    
     private void AttackWeaponCheck(InputAction.CallbackContext context)
     {
         var weapon = context.action.name;
@@ -82,5 +73,4 @@ public class SC_Idle : StateMachineBehaviour
         _animator.SetTrigger(weaponUsed.id);
         
     }
-    
 }
