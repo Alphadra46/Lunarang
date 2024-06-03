@@ -122,53 +122,11 @@ public class SC_ComboController : MonoBehaviour
         
     }
     
-    /// <summary>
-    /// Attach inputs to functions
-    /// </summary>
-    public void AttachInputToAttack()
-    {
-        SC_InputManager.instance.weaponA.performed += _ => Attack(SC_GameManager.instance.weaponInventory.weaponsEquipped[0]);
-        SC_InputManager.instance.weaponB.performed += _ => Attack(SC_GameManager.instance.weaponInventory.weaponsEquipped[1]);
-        SC_InputManager.instance.weaponC.performed += _ => Attack(SC_GameManager.instance.weaponInventory.weaponsEquipped[2]);
-    }
     
-    public void DettachInputToAttack()
-    {
-        SC_InputManager.instance.weaponA.performed -= _ => Attack(SC_GameManager.instance.weaponInventory.weaponsEquipped[0]);
-        SC_InputManager.instance.weaponB.performed -= _ => Attack(SC_GameManager.instance.weaponInventory.weaponsEquipped[1]);
-        SC_InputManager.instance.weaponC.performed -= _ => Attack(SC_GameManager.instance.weaponInventory.weaponsEquipped[2]);
-    }
     
     #endregion
 
     #region Functions
-    
-    /// <summary>
-    /// Perform an attack and stack it in a combo counter.
-    /// Update the animator and play the animation.
-    /// Stock an input if already performing an attack.
-    /// </summary>
-    /// <param name="usedWeapon">Weapon used in this attack</param>
-    private void Attack(SC_Weapon usedWeapon)
-    {
-        if(SC_GameManager.instance.isPause) return;
-
-        if (_controller.isDashing)
-            return;
-        
-        //if (!canPerformCombo) return;
-        
-        //canAttack = false;
-        _controller.isAttacking = true;
-            
-        lastComboWeapons = currentComboWeapons.ToList();
-        
-        //IncrementCombo(usedWeapon);
-        //UpdateAnimator();
-            
-        _controller.FreezeMovement(true);
-        
-    }
 
     /// <summary>
     /// Resend all values to the animator.
@@ -489,6 +447,10 @@ public class SC_ComboController : MonoBehaviour
         var attackState = currentState as SC_Attack;
         if (attackState != null)
             ((SC_Attack)currentState).Exit();
+
+        var moveState = currentState as SC_Move;
+        if (moveState !=null)
+            ((SC_Move)currentState).Exit();
 
         currentState = newState;
     }

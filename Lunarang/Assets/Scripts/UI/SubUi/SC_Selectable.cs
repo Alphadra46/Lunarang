@@ -74,14 +74,8 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         if (EventSystem.current.currentSelectedGameObject == null)
         {
-            print("Null");
             EventSystem.current.SetSelectedGameObject(lastSelected);
         }
-        
-        if (EventSystem.current.currentSelectedGameObject == gameObject)
-            OnPointerEnter(new PointerEventData(EventSystem.current));
-        else
-            OnPointerExit(new PointerEventData(EventSystem.current));
     }
     
     
@@ -126,9 +120,29 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             lastSelected = gameObject;
             EventSystem.current.SetSelectedGameObject(null);
         }
-        
     }
 
+    public void Enter()
+    {
+        if (SC_InputManager.instance.lastDeviceUsed == "Mouse")
+            return;
+        
+        shakeParent.DOScale(scaleOnHover, scaleTransition).SetEase(scaleEase).SetUpdate(true);
+        DOTween.Kill(2, true);
+        shakeParent.DOPunchRotation(Vector3.forward * hoverPunchAngle, hoverTransition, 20, 1).SetUpdate(true).SetId(3);
+        isHovering = true;
+    }
+
+    public void Exit()
+    {
+        // if (SC_InputManager.instance.lastDeviceUsed == "Mouse")
+        //     return;
+        
+        DOTween.Kill(3, true);
+        shakeParent.DOScale(1, scaleTransition).SetEase(scaleEase).SetUpdate(true);
+        isHovering = false;
+    }
+    
     public void OnPointerUp(PointerEventData eventData)
     {
         if (!interactable)
@@ -167,6 +181,31 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         shakeParent.DOScale(scaleOnSelect, scaleTransition).SetEase(scaleEase).SetUpdate(true);
     }
 
+    public void Submit()
+    {
+        if (SC_InputManager.instance.lastDeviceUsed == "Mouse")
+            return;
+        
+        if (!interactable)
+            return;
+
+        if (!isHovering)
+            return;
+        
+        canvas.overrideSorting = false;
+        interactable = false;
+        isSelected = true;
+        rewardUI.DiscardOtherRewards(this);
+
+        DOTween.Kill(2, true);
+        shakeParent.DOPunchRotation(Vector3.forward * (hoverPunchAngle / 2), hoverTransition, 20, 1).SetId(2).SetUpdate(true);
+        shakeParent.DOScale(scaleOnHover, scaleTransition).SetEase(scaleEase).SetUpdate(true);
+        shakeParent.DOPunchPosition(shakeParent.up * selectPunchAmount, scaleTransition, 10, 1).SetUpdate(true);
+
+        StartCoroutine(DelayedSelection());
+    }
+    
+    
     private IEnumerator DelayedSelection()
     {
         yield return new WaitForSecondsRealtime(selectionDelay);
