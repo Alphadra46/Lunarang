@@ -48,7 +48,7 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private Canvas canvas;
     private SC_RewardUI rewardUI;
 
-    private GameObject lastSelected;
+    public static GameObject lastSelected;
     
     private void Start()
     {
