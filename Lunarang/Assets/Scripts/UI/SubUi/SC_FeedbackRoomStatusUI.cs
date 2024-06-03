@@ -49,7 +49,7 @@ public class SC_FeedbackRoomStatusUI : MonoBehaviour
         if(animator == null) return;
         animator.SetTrigger("UpdateText");
         
-        tmp.text = "- Salle Purifié -";
+        tmp.text = "- Salle Purifiée -";
     }
     
 }
