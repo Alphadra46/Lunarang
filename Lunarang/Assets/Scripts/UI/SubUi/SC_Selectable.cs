@@ -9,6 +9,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IPointerDownHandler
@@ -46,12 +47,15 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     
     private Canvas canvas;
     private SC_RewardUI rewardUI;
+
+    public static GameObject lastSelected;
     
     private void Start()
     {
         canvas = GetComponentInParent<Canvas>();
         dissolveControllers = GetComponentsInChildren<UIDissolve>().ToList();
         rewardUI = GetComponentInParent<SC_RewardUI>();
+        SC_InputManager.instance.navigate.started += Navigate;
         //shockWavePS.material = new Material(shockWavePS.material);
         //shockWavePS.startColor = borderImage.color;
     }
@@ -59,8 +63,22 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private void Update()
     {
         TiltCristal();
+
+        print(SC_InputManager.instance.lastDeviceUsed);
     }
 
+    private void Navigate(InputAction.CallbackContext context)
+    {
+        if (SC_InputManager.instance.lastDeviceUsed == "Mouse")
+            return;
+
+        if (EventSystem.current.currentSelectedGameObject == null)
+        {
+            EventSystem.current.SetSelectedGameObject(lastSelected);
+        }
+    }
+    
+    
     private void OnEnable()
     {
         interactable = true;
@@ -88,6 +106,8 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         DOTween.Kill(2, true);
         shakeParent.DOPunchRotation(Vector3.forward * hoverPunchAngle, hoverTransition, 20, 1).SetUpdate(true).SetId(3);
         isHovering = true;
+        if (SC_InputManager.instance.lastDeviceUsed == "Mouse")
+            EventSystem.current.SetSelectedGameObject(gameObject);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -95,8 +115,34 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         DOTween.Kill(3, true);
         shakeParent.DOScale(1, scaleTransition).SetEase(scaleEase).SetUpdate(true);
         isHovering = false;
+        if (SC_InputManager.instance.lastDeviceUsed == "Mouse")
+        {
+            lastSelected = gameObject;
+            EventSystem.current.SetSelectedGameObject(null);
+        }
     }
 
+    public void Enter()
+    {
+        if (SC_InputManager.instance.lastDeviceUsed == "Mouse")
+            return;
+        
+        shakeParent.DOScale(scaleOnHover, scaleTransition).SetEase(scaleEase).SetUpdate(true);
+        DOTween.Kill(2, true);
+        shakeParent.DOPunchRotation(Vector3.forward * hoverPunchAngle, hoverTransition, 20, 1).SetUpdate(true).SetId(3);
+        isHovering = true;
+    }
+
+    public void Exit()
+    {
+        // if (SC_InputManager.instance.lastDeviceUsed == "Mouse")
+        //     return;
+        
+        DOTween.Kill(3, true);
+        shakeParent.DOScale(1, scaleTransition).SetEase(scaleEase).SetUpdate(true);
+        isHovering = false;
+    }
+    
     public void OnPointerUp(PointerEventData eventData)
     {
         if (!interactable)
@@ -135,6 +181,31 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         shakeParent.DOScale(scaleOnSelect, scaleTransition).SetEase(scaleEase).SetUpdate(true);
     }
 
+    public void Submit()
+    {
+        if (SC_InputManager.instance.lastDeviceUsed == "Mouse")
+            return;
+        
+        if (!interactable)
+            return;
+
+        if (!isHovering)
+            return;
+        
+        canvas.overrideSorting = false;
+        interactable = false;
+        isSelected = true;
+        rewardUI.DiscardOtherRewards(this);
+
+        DOTween.Kill(2, true);
+        shakeParent.DOPunchRotation(Vector3.forward * (hoverPunchAngle / 2), hoverTransition, 20, 1).SetId(2).SetUpdate(true);
+        shakeParent.DOScale(scaleOnHover, scaleTransition).SetEase(scaleEase).SetUpdate(true);
+        shakeParent.DOPunchPosition(shakeParent.up * selectPunchAmount, scaleTransition, 10, 1).SetUpdate(true);
+
+        StartCoroutine(DelayedSelection());
+    }
+    
+    
     private IEnumerator DelayedSelection()
     {
         yield return new WaitForSecondsRealtime(selectionDelay);
