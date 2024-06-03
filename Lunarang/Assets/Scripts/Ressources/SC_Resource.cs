@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Ressource"), Serializable]
-public class SC_Ressource : ScriptableObject
+public class SC_Resource : ScriptableObject
 {
     public string name;
     [TextArea] public string description;

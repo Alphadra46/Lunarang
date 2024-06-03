@@ -58,6 +58,20 @@ public class SC_AnimatorComboLinker : MonoBehaviour
     {
         SC_ComboController.instance.DisableDash();
     }
+
+    public void ShowWeapon()
+    {
+        
+        pComboController.equippedWeaponsGO[pComboController.currentWeapon.id].transform.parent.gameObject.SetActive(true);
+        
+    }
+    
+    public void HideWeapon()
+    {
+        
+        pComboController.equippedWeaponsGO[pComboController.currentWeapon.id].transform.parent.gameObject.SetActive(false);
+        
+    }
     
     public void PlayVFX(VisualEffect vfx)
     {

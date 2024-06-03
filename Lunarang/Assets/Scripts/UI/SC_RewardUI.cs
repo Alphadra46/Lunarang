@@ -10,7 +10,7 @@ public class SC_RewardUI : MonoBehaviour
 {
     
     public List<SO_BaseSkill> rewardSkills = new List<SO_BaseSkill>();
-    public List<SC_Ressource> rewardRessources = new List<SC_Ressource>();
+    public List<SC_Resource> rewardRessources = new List<SC_Resource>();
 
     public GameObject rewardItemPrefab;
 

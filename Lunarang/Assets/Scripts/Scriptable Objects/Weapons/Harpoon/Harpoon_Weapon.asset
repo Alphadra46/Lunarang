@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ba9ee450943a0b43ad8763338ad469e, type: 3}
-  m_Name: Marteau
+  m_Name: Harpoon_Weapon
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,10 +21,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: levelUpPrice
+    - Name: levelUpCosts
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.Collections.Generic.List`1[[SC_Ressource,
-        Assembly-CSharp]], mscorlib]], mscorlib
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.Collections.Generic.Dictionary`2[[SC_Resource,
+        Assembly-CSharp],[System.Int32, mscorlib]], mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
       Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
@@ -41,26 +41,26 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  id: hammer
-  shortDesc: 
-  weaponPrefab: {fileID: 4322654239406877886, guid: e46ce65d0fdaaf649aad4c9619a3e863,
-    type: 3}
-  type: 2
-  parameter: 1
+  id: harpoon
+  weaponName: Harpoon
+  shortDesc: 'Description Courte
+
+    (Ligne 2)'
+  icon: {fileID: 21300000, guid: 08188175bf219a84783a8022585fe157, type: 3}
+  weaponPrefab: {fileID: 0}
+  parameter: 2
   TypeStrength: 1
-  impactPoint: 1
-  areaRadius: 360
-  areaSize: 3
-  MovesValues:
-  - 100
-  - 120
-  - 180
+  impactPoint: 0
+  areaRadius: 0
+  areaSize: 1
+  baseMovesValues: []
   currentLevel: 1
   levelUpStatsRate: 0
-  atkSpeed: 1
+  atkSpeed: 0
   hits: 0
   projectilesNumbers: 1
-  projectilePrefab: {fileID: 8993542559262429342, guid: 0c1aac3995d68d24f949f5d3618086ec,
-    type: 3}
-  effectDesc: 
-  effectValue: 40
+  projectilePrefab: {fileID: 0}
+  effectDesc: 'Description Courte
+
+    (Ligne 2)'
+  effectValue: 0

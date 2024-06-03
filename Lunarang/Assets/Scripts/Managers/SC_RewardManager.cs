@@ -40,8 +40,8 @@ public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range
 
     
     
-    [HideInInspector] public SC_Ressource essenceFragment;
-    private List<SC_Ressource> ressources = new List<SC_Ressource>();
+    [HideInInspector] public SC_Resource essenceFragment;
+    private List<SC_Resource> ressources = new List<SC_Resource>();
     private List<SC_Constellation> constellations = new List<SC_Constellation>();
     [HideInInspector] public List<SO_BaseSkill> selectedSkills = new List<SO_BaseSkill>();
     private List<SO_BaseSkill> lunarSkills = new List<SO_BaseSkill>();
@@ -51,8 +51,8 @@ public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range
     {
         instance = this;
         constellations = Resources.LoadAll<SC_Constellation>("Constellations").ToList();
-        essenceFragment = Resources.Load<SC_Ressource>("Ressources/EssenceFragment");
-        ressources = Resources.LoadAll<SC_Ressource>("Ressources/Base").ToList();
+        essenceFragment = Resources.Load<SC_Resource>("Ressources/EssenceFragment");
+        ressources = Resources.LoadAll<SC_Resource>("Ressources/Base").ToList();
         lunarSkills = Resources.LoadAll<SO_BaseSkill>("Skills").ToList();
     }
 

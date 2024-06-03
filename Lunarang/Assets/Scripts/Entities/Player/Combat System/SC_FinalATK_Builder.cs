@@ -27,7 +27,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
         
     private string lastParameter;
     
-    [ShowInInspector] public Dictionary<string, int> typesStrengths = new Dictionary<string, int>();
+    [ShowInInspector] public Dictionary<string, float> typesStrengths = new Dictionary<string, float>();
     public ImpactPoint impactPoint;
     // public Transform
     [Range(0, 360)] public float areaRadius;
@@ -95,7 +95,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
         areaRadius = weapons[^1].areaRadius;
         areaSize = weapons[^1].areaSize;
 
-        moveValue = weapons[^1].MovesValues[^1];
+        moveValue = ((weapons[^1].baseMovesValues[^1] + (weapons[^1].levelUpStatsRate * weapons[^1].currentLevel-1)) / 100);
         atkSpeed = weapons[^1].atkSpeed;
 
         additionnalHits = weapons[^1].hits;
@@ -126,13 +126,13 @@ public class SC_FinalATK_Builder : MonoBehaviour
             {
             
                 case "M":
-                    additionnalHits += (currentLevel * currentStrength);
+                    additionnalHits += (int) MathF.Ceiling(currentLevel * currentStrength);
                     break;
                 case "A":
                     areaSize += (currentLevel * currentStrength);
                     break;
                 case "P":
-                    projectilesNumbers *= (currentLevel * currentStrength);
+                    projectilesNumbers *= (int) MathF.Ceiling(currentLevel * currentStrength);
                     break;
             }
 
@@ -151,7 +151,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
         var currentWeaponGO = _comboController.equippedWeaponsGO[_comboController.currentWeapon.id]; //_comboController.equippedWeaponsGO[_comboController.currentWeapon.id];
         var weaponImpactPoint = currentWeaponGO.transform.Find("ImpactPoint");
 
-        var currentMV = (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100);
+        var currentMV = ((_comboController.currentWeapon.baseMovesValues[_comboController.comboCounter - 1] + (_comboController.currentWeapon.levelUpStatsRate * _comboController.currentWeapon.currentLevel-1)) / 100);
 
         var rawDamage = MathF.Round(currentMV * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
 
@@ -185,7 +185,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
 
                     case "A":
 
-                        _comboController.CreateAoE(pos, areaSize,(_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100),false,true, additionnalHits);
+                        _comboController.CreateAoE(pos, areaSize, currentMV,false,true, additionnalHits);
                         // vfx marteau play
                         PlayFinalVFX(hammerFinalVFX, weaponImpactPoint);
                        
@@ -215,13 +215,13 @@ public class SC_FinalATK_Builder : MonoBehaviour
                         _comboController.Multihit(additionnalHits);
                         foreach (var e in _comboController.currentEnemiesHitted)
                         {
-                            _comboController.CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z), areaSize, (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100));
+                            _comboController.CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z), areaSize, currentMV);
                         }
                         
                         break;
                     case "A":
                         
-                        _comboController.CreateAoE(pos, areaSize,(_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100),true,true, additionnalHits);
+                        _comboController.CreateAoE(pos, areaSize,currentMV,true,true, additionnalHits);
                         PlayFinalVFX(hammerFinalVFX, weaponImpactPoint);
 
                         break;
@@ -260,7 +260,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                         break;
                     
                     case "A":
-                        _comboController.CreateAoE(pos, areaSize, (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100), false,true, additionnalHits);
+                        _comboController.CreateAoE(pos, areaSize, currentMV, false,true, additionnalHits);
                         
                         _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                             projectilesNumbers,
@@ -300,13 +300,13 @@ public class SC_FinalATK_Builder : MonoBehaviour
                         _comboController.Multihit(additionnalHits);
                         foreach (var e in _comboController.currentEnemiesHitted)
                         {
-                            _comboController.CreateAoE(pos, areaSize, (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100));
+                            _comboController.CreateAoE(pos, areaSize, currentMV);
                         }
 
                         break;
                     case "A":
                         
-                        _comboController.CreateAoE(pos, areaSize, (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100));
+                        _comboController.CreateAoE(pos, areaSize, currentMV);
                         PlayFinalVFX(hammerFinalVFX, weaponImpactPoint);
 
                         break;
@@ -337,7 +337,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                         
                         foreach (var e in _comboController.currentEnemiesHitted)
                         {
-                            _comboController.CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z), areaSize, (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100));
+                            _comboController.CreateAoE(new Vector3(e.transform.position.x, e.transform.localScale.y, e.transform.position.z), areaSize, currentMV);
                             _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                                 projectilesNumbers,
                                 areaSize,
@@ -352,7 +352,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                     
                     case "A":
                         
-                        _comboController.CreateAoE(pos, areaSize, (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100));
+                        _comboController.CreateAoE(pos, areaSize, currentMV);
                         _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                             projectilesNumbers,
                             areaSize,
@@ -401,7 +401,7 @@ public class SC_FinalATK_Builder : MonoBehaviour
                     
                     case "A":
                         
-                        _comboController.CreateAoE(pos, areaSize, (_comboController.currentWeapon.MovesValues[_comboController.comboCounter - 1] / 100));
+                        _comboController.CreateAoE(pos, areaSize, currentMV);
                         _comboController.CreateProjectile(_comboController.currentWeapon.projectilePrefab,
                             projectilesNumbers,
                             areaSize,

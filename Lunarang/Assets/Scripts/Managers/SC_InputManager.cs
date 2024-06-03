@@ -38,6 +38,7 @@ public class SC_InputManager : MonoBehaviour
     [HideInInspector] public InputAction develop;
     [HideInInspector] public InputAction switchToRight;
     [HideInInspector] public InputAction switchToLeft;
+    [HideInInspector] public InputAction switchView;
 
     [Header("Debug")]
     [HideInInspector] public InputAction console;
@@ -90,6 +91,7 @@ public class SC_InputManager : MonoBehaviour
         develop = InputMap.UI.Develop;
         switchToRight = InputMap.UI.SwitchToRight;
         switchToLeft = InputMap.UI.SwitchToLeft;
+        switchView = InputMap.UI.SwitchView;
     }
 
     public void InitDebugInputs()
@@ -126,6 +128,7 @@ public class SC_InputManager : MonoBehaviour
         develop.Enable();
         switchToRight.Enable();
         switchToLeft.Enable();
+        switchView.Enable();
     }
     public void EnableDebugInputs()
     {
@@ -161,6 +164,7 @@ public class SC_InputManager : MonoBehaviour
         develop.Disable();
         switchToRight.Disable();
         switchToLeft.Disable();
+        switchView.Disable();
     }
     public void DisableDebugInputs()
     {
@@ -193,6 +197,7 @@ public class SC_InputManager : MonoBehaviour
         develop.started += DetectDevice;
         switchToRight.started += DetectDevice;
         switchToLeft.started += DetectDevice;
+        switchView.started += DetectDevice;
         console.started += DetectDevice;
     }
 

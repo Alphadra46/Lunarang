@@ -16,12 +16,37 @@ public class SO_WeaponInventory : SerializedScriptableObject
     
     public void EquipWeapon(SC_Weapon weapon)
     {
-        weaponsEquipped.Add(weapon);
+        if(!SC_GameManager.instance.weaponInventory.CheckCanEquip(weapon)) return;
+
+        weaponsEquipped[weaponsEquipped.FindIndex(w => w == null)] = weapon;
+        
     }
     
     public void UnequipWeapon(SC_Weapon weapon)
     {
-        weaponsEquipped.Remove(weapon);
+        if(SC_GameManager.instance.weaponInventory.CheckCanEquip(weapon)) return;
+        
+        weaponsEquipped[weaponsEquipped.FindIndex(w => w == weapon)] = null;
+    }
+
+    public bool CheckCanEquip(SC_Weapon newWeapon)
+    {
+
+        var count = weaponsEquipped.Count(weapon => weapon == null);
+
+        if (count < 0) return false;
+
+        return !weaponsEquipped.Contains(newWeapon);
+        
+    }
+    
+    public bool CheckEnoughWeapons(int numberOfWeapons)
+    {
+
+        var count = weaponsEquipped.Count(weapon => weapon == null);
+
+        return count == 0;
+        
     }
     
 }

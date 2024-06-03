@@ -13,12 +13,12 @@ public class SC_NotificationManager : MonoBehaviour
     public GameObject notificationPrefab;
     public Transform notificationTransform;
 
-    public static Action<SC_Ressource, int> addRessourceNotification;
+    public static Action<SC_Resource, int> addRessourceNotification;
     public static Action<Sprite, string> addNotification;
     
     public static Action<SC_NotificationUI> removeNotification;
 
-    [ShowInInspector] private Dictionary<SC_Ressource,GameObject> ressourceNotificationList = new Dictionary<SC_Ressource,GameObject>();
+    [ShowInInspector] private Dictionary<SC_Resource,GameObject> ressourceNotificationList = new Dictionary<SC_Resource,GameObject>();
     [ShowInInspector] private List<GameObject> notificationList = new List<GameObject>();
 
     #endregion
@@ -30,10 +30,10 @@ public class SC_NotificationManager : MonoBehaviour
         removeNotification += RemoveNotification;
     }
 
-    public bool CheckRessourceNotificationExist(SC_Ressource ressource)
+    public bool CheckRessourceNotificationExist(SC_Resource resource)
     {
 
-        return ressourceNotificationList.ContainsKey(ressource);
+        return ressourceNotificationList.ContainsKey(resource);
 
     }
     
@@ -44,13 +44,13 @@ public class SC_NotificationManager : MonoBehaviour
 
     }
 
-    private void AddRessourceNotification(SC_Ressource ressource, int amount)
+    private void AddRessourceNotification(SC_Resource resource, int amount)
     {
 
-        if (CheckRessourceNotificationExist(ressource))
+        if (CheckRessourceNotificationExist(resource))
         {
 
-            UpdateRessourceNotification(ressource, amount);
+            UpdateRessourceNotification(resource, amount);
             return;
             
         }
@@ -60,23 +60,23 @@ public class SC_NotificationManager : MonoBehaviour
         var notification = Instantiate(notificationPrefab, transform);
         if(!notification.TryGetComponent(out SC_NotificationUI notificationUI)) return;
 
-        var finalPrompt = $"{ressource.name} x{amount}";
+        var finalPrompt = $"{resource.name} x{amount}";
         
-        notificationUI.Init(ressource, amount);
+        notificationUI.Init(resource, amount);
         
-        ressourceNotificationList.Add(ressource, notification);
+        ressourceNotificationList.Add(resource, notification);
 
     }
 
-    private void UpdateRessourceNotification(SC_Ressource ressource, int newAmount)
+    private void UpdateRessourceNotification(SC_Resource resource, int newAmount)
     {
     
-        var notification = ressourceNotificationList[ressource];
+        var notification = ressourceNotificationList[resource];
         if(notification == null) return;
         
         if(!notification.TryGetComponent(out SC_NotificationUI notificationUI)) return;
         
-        notificationUI.UpdateNotification(ressource, newAmount);
+        notificationUI.UpdateNotification(resource, newAmount);
 
     }
 

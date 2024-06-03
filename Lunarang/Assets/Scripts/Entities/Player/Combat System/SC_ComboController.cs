@@ -220,15 +220,13 @@ public class SC_ComboController : MonoBehaviour
             HitBoxType.Capsule => Physics.OverlapCapsule(hb.point0, hb.point1, hb.radiusCapsule, hb.layer),
             _ => throw new ArgumentOutOfRangeException()
         };
-        
-        print(hits);
 
         foreach (var e in hits)
         {
             
             var isCritical = Random.Range(0, 100) < _stats.currentStats.critRate ? true : false;
             
-            var currentMV = (currentWeapon.MovesValues[comboCounter-1]/100);
+            var currentMV = ((currentWeapon.baseMovesValues[comboCounter - 1] + (currentWeapon.levelUpStatsRate * currentWeapon.currentLevel-1)) / 100);
             
             var rawDamage = MathF.Round(currentMV * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
             var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus/100));
@@ -315,7 +313,6 @@ public class SC_ComboController : MonoBehaviour
 
                    p.damage = isCritical ? effCrit : effDamage;
                    p.isCrit = isCritical;
-                   p.weaponType = currentWeapon.type;
 
                    p.sender = gameObject;
                
@@ -378,7 +375,6 @@ public class SC_ComboController : MonoBehaviour
 
            p.damage = isCritical ? effCrit : effDamage;
            p.isCrit = isCritical;
-           p.weaponType = currentWeapon.type;
 
            p.sender = gameObject;
            
@@ -397,7 +393,7 @@ public class SC_ComboController : MonoBehaviour
     public void Multihit(int additionnalHits)
     {
         
-        var currentMV = ((currentWeapon.MovesValues[comboCounter - 1] + (currentWeapon.levelUpStatsRate * currentWeapon.currentLevel-1)) / 100);
+        var currentMV = ((currentWeapon.baseMovesValues[comboCounter - 1] + (currentWeapon.levelUpStatsRate * currentWeapon.currentLevel-1)) / 100);
 
         var rawDamage = MathF.Round(currentMV * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
         var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus / 100) + (_stats.currentStats.mhDamageBonus / 100));
@@ -555,7 +551,7 @@ public class SC_ComboController : MonoBehaviour
         }
         
         // Debug Side
-        print("Combo : " + comboCounter + " / Type : " + currentWeapon.type);
+        print("Combo : " + comboCounter + " / Type : " + currentWeapon.weaponName);
         ComboUpdated?.Invoke(comboCounter, comboMaxLength, currentWeapon.parameter);
         
     }

@@ -88,6 +88,7 @@ public class SC_MainPageSkillTree : MonoBehaviour
     private void CloseAltarUI(InputAction.CallbackContext context)
     {
         OnDisable();
+        SC_Lobby.instance.ShowLobby();
         Destroy(SC_SkillTreeUI.instance.gameObject);
     }
 }

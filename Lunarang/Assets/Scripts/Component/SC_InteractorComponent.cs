@@ -39,6 +39,9 @@ public class SC_InteractorComponent : MonoBehaviour
     {
         foreach (var interactable in SC_GameManager.instance.allInteractables)
         {
+            
+            if(interactable == null) return;
+            
             var distance = Vector3.Distance(this.transform.position, interactable.transform.position);
             // print("near : " + distance);
             

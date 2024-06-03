@@ -30,7 +30,7 @@ public class SC_RewardItemUI : SerializedMonoBehaviour
     public TextMeshProUGUI description;
     #endregion
     
-    private SC_Ressource ressource;
+    private SC_Resource _resource;
     private SO_BaseSkill skill;
     
     private int amount;
@@ -55,19 +55,19 @@ public class SC_RewardItemUI : SerializedMonoBehaviour
             SC_GameManager.instance.playerSkillInventory.AddSkill(skill);
         else
         {
-            SC_GameManager.instance.playerResourceInventory.AddResource(ressource, amount);
+            SC_GameManager.instance.playerResourceInventory.AddResource(_resource, amount);
         }
         
     }
 
-    public void Init(SC_Ressource newRessource, int newAmount)
+    public void Init(SC_Resource newResource, int newAmount)
     {
 
-        ressource = newRessource;
+        _resource = newResource;
 
-        SetTitle(ressource.name);
-        SetImage(ressource.sprite);
-        SetDescription(ressource.description);
+        SetTitle(_resource.name);
+        SetImage(_resource.sprite);
+        SetDescription(_resource.description);
         SetAmount(newAmount);
         SetDefaultColor();
         

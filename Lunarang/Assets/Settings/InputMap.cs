@@ -142,7 +142,18 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""18b18af3-f2a1-4d2c-bb76-f7216967b1b5"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<SwitchProControllerHID>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Weapon A"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4cf1b1d7-ddfe-4494-a7f3-b71bdf2007e1"",
+                    ""path"": ""<XInputController>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -164,7 +175,18 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""91066fb8-f61d-417d-9ecc-8779c44d0203"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<SwitchProControllerHID>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Weapon B"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aa0ce96a-af36-4f69-a060-99d569d6edbe"",
+                    ""path"": ""<XInputController>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -186,7 +208,18 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4ebeed41-149c-4a43-a899-0d782941bf02"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<SwitchProControllerHID>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Weapon C"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""581525e2-4b97-440c-b0b2-cdd851079b54"",
+                    ""path"": ""<XInputController>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -197,7 +230,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f4d04391-46c5-43ea-94e1-a54faba21014"",
-                    ""path"": ""<Gamepad>/leftStick"",
+                    ""path"": ""<SwitchProControllerHID>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -262,6 +295,17 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""3f0d1bcb-f10d-477e-bc74-7f98817a4762"",
+                    ""path"": ""<XInputController>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""ff812698-33d9-40f5-92ab-9924fe5c2973"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -274,7 +318,18 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""a970ea72-1767-4ec8-82bb-e64d4910543d"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<SwitchProControllerHID>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6da2b442-9c4b-4857-912c-f5b8ae8933a4"",
+                    ""path"": ""<XInputController>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -296,7 +351,18 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""93080f12-ea11-40b6-bf61-cba78e5b4b49"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""path"": ""<XInputController>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e23f2291-213a-4180-8a9c-e05ed79ded4a"",
+                    ""path"": ""<SwitchProControllerHID>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -307,7 +373,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""92fc1ff7-2e67-4b96-9ab4-d03163b23926"",
-                    ""path"": ""<Gamepad>/select"",
+                    ""path"": ""<XInputController>/select"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -328,8 +394,19 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""7dfd5d0e-ef1a-4051-9fa7-32c5a7abfd84"",
+                    ""path"": ""<SwitchProControllerHID>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""29b3792d-7a63-4182-bab9-63868c65298b"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<SwitchProControllerHID>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -341,6 +418,17 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""81c99b7c-dcb5-4249-a9f2-942e025d0a2e"",
                     ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8d1b1c38-b002-4d33-b159-7d7bf6ec2ef8"",
+                    ""path"": ""<XInputController>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -450,7 +538,18 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e2a83cb2-5ca0-4fe9-b33d-44c0aadd3fc3"",
-                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""path"": ""<XInputController>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MinimapMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e13a1e04-f546-42ed-a13c-20345fbe852b"",
+                    ""path"": ""<SwitchProControllerHID>/leftStickPress"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -576,6 +675,15 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""name"": ""SwitchToLeft"",
                     ""type"": ""Button"",
                     ""id"": ""51f4503c-c18c-4748-a224-32299a805437"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchView"",
+                    ""type"": ""Button"",
+                    ""id"": ""e11c6229-9093-4cc6-8127-5d97dbea17d7"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -861,7 +969,18 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ec4e6c36-89c7-4caf-94e2-cdbf39d9bf3c"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""afce18a9-b3a8-4ffb-a687-6a31e45b76c7"",
+                    ""path"": ""<SwitchProControllerHID>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -883,7 +1002,18 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""0a6c111d-affb-48e0-9da8-49913c345f4b"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f11601de-b2bd-4c94-a15f-19740d66b3df"",
+                    ""path"": ""<SwitchProControllerHID>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1026,7 +1156,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""b20b2253-aa93-452f-af6f-def017985a02"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<XInputController>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1047,8 +1177,19 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""bf443484-931e-460b-ae7d-21dd2e0c82c0"",
+                    ""path"": ""<SwitchProControllerHID>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Develop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""4558416f-35fb-4bf1-99ad-72151ee13fec"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<XInputController>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1069,8 +1210,19 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""856822f7-8e4d-48ab-a676-018209a46e5a"",
+                    ""path"": ""<SwitchProControllerHID>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchToRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""c38ea21d-01bb-45b6-983c-937f473f3c99"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""path"": ""<XInputController>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1086,6 +1238,50 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SwitchToLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f58c3079-d3b5-4ceb-ace6-03e4f2782f6f"",
+                    ""path"": ""<SwitchProControllerHID>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchToLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9fe4096a-c60c-4687-a07b-fa4a6e7e4fb0"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchView"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d2e88468-74bd-4392-a71c-ba58a6791dcd"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchView"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e5e0d1d-4d86-4f8b-8d65-da7405467aab"",
+                    ""path"": ""<SwitchProControllerHID>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchView"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1172,6 +1368,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_UI_Develop = m_UI.FindAction("Develop", throwIfNotFound: true);
         m_UI_SwitchToRight = m_UI.FindAction("SwitchToRight", throwIfNotFound: true);
         m_UI_SwitchToLeft = m_UI.FindAction("SwitchToLeft", throwIfNotFound: true);
+        m_UI_SwitchView = m_UI.FindAction("SwitchView", throwIfNotFound: true);
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_Console = m_Debug.FindAction("Console", throwIfNotFound: true);
@@ -1375,6 +1572,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Develop;
     private readonly InputAction m_UI_SwitchToRight;
     private readonly InputAction m_UI_SwitchToLeft;
+    private readonly InputAction m_UI_SwitchView;
     public struct UIActions
     {
         private @InputMap m_Wrapper;
@@ -1392,6 +1590,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @Develop => m_Wrapper.m_UI_Develop;
         public InputAction @SwitchToRight => m_Wrapper.m_UI_SwitchToRight;
         public InputAction @SwitchToLeft => m_Wrapper.m_UI_SwitchToLeft;
+        public InputAction @SwitchView => m_Wrapper.m_UI_SwitchView;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1440,6 +1639,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @SwitchToLeft.started += instance.OnSwitchToLeft;
             @SwitchToLeft.performed += instance.OnSwitchToLeft;
             @SwitchToLeft.canceled += instance.OnSwitchToLeft;
+            @SwitchView.started += instance.OnSwitchView;
+            @SwitchView.performed += instance.OnSwitchView;
+            @SwitchView.canceled += instance.OnSwitchView;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1483,6 +1685,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @SwitchToLeft.started -= instance.OnSwitchToLeft;
             @SwitchToLeft.performed -= instance.OnSwitchToLeft;
             @SwitchToLeft.canceled -= instance.OnSwitchToLeft;
+            @SwitchView.started -= instance.OnSwitchView;
+            @SwitchView.performed -= instance.OnSwitchView;
+            @SwitchView.canceled -= instance.OnSwitchView;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1575,6 +1780,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnDevelop(InputAction.CallbackContext context);
         void OnSwitchToRight(InputAction.CallbackContext context);
         void OnSwitchToLeft(InputAction.CallbackContext context);
+        void OnSwitchView(InputAction.CallbackContext context);
     }
     public interface IDebugActions
     {

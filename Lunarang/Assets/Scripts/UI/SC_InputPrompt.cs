@@ -78,6 +78,7 @@ public class SC_InputPrompt : MonoBehaviour
                 images[i].sprite = controllerName switch
                 {
                     "SwitchProControllerHID" => promptSwitchImages[i],
+                    "Pro Controller" => promptSwitchImages[i],
                     "Keyboard" => promptKeyboardImages[i],
                     _ => promptKeyboardImages[i]
                 };
