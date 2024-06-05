@@ -21,6 +21,8 @@ public class AI_IdleState : BaseState<AI_StateMachine.EnemyState>
         _aiStateMachine.agent.enabled = true;
         _aiStateMachine._collider.enabled = true;
         _aiStateMachine.StartCoroutine(TransitionPatrol());
+
+        _aiStateMachine.canAttack = true;
     }
 
     public override void ExitState()
