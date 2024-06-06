@@ -132,6 +132,8 @@ MonoBehaviour:
   HPBar: {fileID: 3517724522876121488}
   HPText: {fileID: 4283059243551703018}
   ShieldText: {fileID: 1018025207945188452}
+  _skinnedMeshRenderer:
+  - {fileID: 8304035325178902809}
   _meshRenderer: []
 --- !u!114 &4656920790845478726
 MonoBehaviour:
@@ -253,6 +255,7 @@ MonoBehaviour:
   - 20
   moveValueIndex: 0
   onShieldBreaked: {fileID: 11400000, guid: 91102299776b5c448b019d03aa066879, type: 2}
+  renderer: {fileID: 0}
   isDead: 0
 --- !u!114 &1196731655303487353
 MonoBehaviour:
@@ -328,6 +331,7 @@ MonoBehaviour:
   poisonTick: 2
   poisonDuration: 10
   poisonDMGBonus: 0
+  poisonVFX: {fileID: 0}
   burnCurrentStacks: 0
   burnMaxStack: 5
   burnTick: 1
@@ -340,15 +344,20 @@ MonoBehaviour:
   burnAoEHitRate: 0
   burnDoTMV: 5
   burnDMGBonus: 0
+  burnVFX: {fileID: 3110655764652998887, guid: df8c18bc1e2d4e149b936708abb13ae8, type: 3}
   bleedCurrentStacks: 0
   bleedMaxStacks: 5
   bleedHits: 5
   bleedMV: 1
   bleedDMGBonus: 0
+  bleedVFX: {fileID: 1337938539970058215, guid: 6057344849e285a42a167efc27a7003e,
+    type: 3}
   freezeDuration: 3
   freezeDurationBonus: 0
   unfreezeAoESize: 2
   unfreezeAoEMV: 45
+  freezeVFX: {fileID: 5734685571177829885, guid: 6155283b2665cbf4eaa513330fc67e90,
+    type: 3}
   slowdownDuration: 5
   dotCritDamage: 0
   dotCritRate: 0
@@ -4206,6 +4215,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
   renderer: {fileID: 0}
+--- !u!137 &8304035325178902809 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -1966052664206309071, guid: 0e232c7142b26754aae8d4e362425ed4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1696433900962754600}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8191735132412392162
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -629,6 +629,8 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
     public void CreateVFX(Enum_Debuff debuff, GameObject vfxObject, Vector3 position, SC_DebuffsBuffsComponent applicator)
     {
+        
+        if(vfxObject == null) return;
 
         var go = Instantiate(vfxObject, transform);
         var vfx = go.GetComponent<VisualEffect>();
@@ -651,7 +653,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
     public void RemoveVFX(Enum_Debuff debuff)
     {
-
+        
+        if(debuffsVFX[debuff] == null) return;
+        
         var vfx = debuffsVFX[debuff].GetComponent<VisualEffect>();
         
         vfx.Stop();
