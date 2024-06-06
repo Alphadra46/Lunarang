@@ -82,10 +82,13 @@ public class SC_RoomManager : MonoBehaviour
 
         isInit = true;
 
-        skillChest.SetActive(false);
-        resourceChest.SetActive(false);
-        SkillChestSpawn();
-        ResourceChestSpawn();
+        if (skillChest != null && resourceChest != null)
+        {
+            skillChest.SetActive(false);
+            resourceChest.SetActive(false);
+            SkillChestSpawn();
+            ResourceChestSpawn();
+        }
         
         if (!isSpecialRoom)
             SetDifficulty();
