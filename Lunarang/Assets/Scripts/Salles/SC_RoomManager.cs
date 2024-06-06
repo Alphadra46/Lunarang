@@ -433,9 +433,13 @@ public class SC_RoomManager : MonoBehaviour
         clearRoomVFX.transform.position = transform.position;
         clearRoomVFX.Play();
         StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));
+
+        if (skillChest != null && resourceChest != null)
+        {
+            RevealChest(skillChest);
+            RevealChest(resourceChest);
+        }
         
-        RevealChest(skillChest);
-        RevealChest(resourceChest);
 
         if (hasBonusChallenge)
         {
@@ -546,8 +550,11 @@ public class SC_RoomManager : MonoBehaviour
         StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));
         clearRoomVFX.gameObject.SetActive(true);
         
-        RevealChest(skillChest);
-        RevealChest(resourceChest);
+        if (skillChest != null && resourceChest != null)
+        {
+            RevealChest(skillChest);
+            RevealChest(resourceChest);
+        }
     }
 
     
