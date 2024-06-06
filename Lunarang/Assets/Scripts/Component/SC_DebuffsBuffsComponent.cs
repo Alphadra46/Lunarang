@@ -6,6 +6,7 @@ using Entities;
 using Enum;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.VFX;
 using Random = UnityEngine.Random;
 
 public class SC_DebuffsBuffsComponent : MonoBehaviour
@@ -19,6 +20,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     [ReadOnly] public bool isPlayer;
 
     [HideInInspector] public SC_DoT_States doTStates = new SC_DoT_States();
+    private Dictionary<Enum_Debuff, GameObject> debuffsVFX = new Dictionary<Enum_Debuff, GameObject>();
     
     #region Status
     
@@ -46,6 +48,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     public float poisonDuration = 10f;
     [TabGroup("DoT", "Poison")]
     public float poisonDMGBonus = 0f;
+
+    [TabGroup("DoT", "Poison")]
+    public GameObject poisonVFX;
     
     #endregion
     
@@ -83,6 +88,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     [TabGroup("DoT", "Burn")]
     public float burnDMGBonus = 0f;
     
+    [TabGroup("DoT", "Burn")]
+    public GameObject burnVFX;
+    
     #endregion
     
     #region Bleed
@@ -103,6 +111,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     [TabGroup("Debuff", "Bleed")]
     public float bleedDMGBonus = 0f;
     
+    [TabGroup("Debuff", "Bleed")]
+    public GameObject bleedVFX;
+    
     #endregion
 
     #region Freeze
@@ -116,6 +127,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     public float unfreezeAoESize = 2f;
     [TabGroup("Debuff", "Freeze")]
     public float unfreezeAoEMV = 45f;
+    
+    [TabGroup("Debuff", "Freeze")]
+    public GameObject freezeVFX;
     
     #endregion
     
@@ -218,6 +232,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                         bleedCurrentStacks = 0;
                         currentDebuffs.Remove(newDebuff);
                         if(_modifierPanel != null) _modifierPanel.debuffRemoved?.Invoke(newDebuff);
+                        RemoveVFX(Enum_Debuff.Bleed);
                         
                     }
                     
@@ -225,6 +240,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 }
                 
                 currentDebuffs.Add(newDebuff);
+                CreateVFX(newDebuff, bleedVFX, transform.position, applicator);
                 if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
                 break;
             
@@ -235,6 +251,9 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 
                 currentDebuffs.Add(newDebuff);
                 if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
+                
+                CreateVFX(newDebuff, burnVFX, transform.position, applicator);
+                
                 break;
             
             case Enum_Debuff.Freeze:
@@ -243,6 +262,8 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
                 StartCoroutine(doTStates.FrozenState(applicator, this));
                 currentDebuffs.Add(newDebuff);
                 if(_modifierPanel != null) _modifierPanel.debuffAdded?.Invoke(newDebuff);
+                
+                CreateVFX(newDebuff, freezeVFX, transform.position, applicator);
                 break;
             
             case Enum_Debuff.Slowdown:
@@ -604,6 +625,41 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
     }
     
     #endregion
-    
+
+
+    public void CreateVFX(Enum_Debuff debuff, GameObject vfxObject, Vector3 position, SC_DebuffsBuffsComponent applicator)
+    {
+
+        var go = Instantiate(vfxObject, transform);
+        var vfx = go.GetComponent<VisualEffect>();
+        vfx.transform.position = position;
+
+        if (debuff == Enum_Debuff.Freeze)
+        {
+            var duration = ( applicator.freezeDuration * 
+                             (1 + ( applicator.freezeDurationBonus / 100)));
+
+            vfx.SetFloat("Duration", duration);
+
+        }
+        
+        vfx.Play();
+        
+        debuffsVFX.Add(debuff, go);
+        
+    }
+
+    public void RemoveVFX(Enum_Debuff debuff)
+    {
+
+        var vfx = debuffsVFX[debuff].GetComponent<VisualEffect>();
+        
+        vfx.Stop();
+        
+        Destroy(vfx.gameObject);
+
+        debuffsVFX.Remove(debuff);
+
+    }
     
 }

@@ -57,6 +57,8 @@ public class SC_UI_HealthBar : MonoBehaviour
     [ShowInInspector] private Coroutine feEnableCoroutine;
     [ShowInInspector] private Coroutine feDisableCoroutine;
 
+    private bool isInit;
+
     #endregion
 
     private void Awake()
@@ -80,6 +82,7 @@ public class SC_UI_HealthBar : MonoBehaviour
 
     private void OnHealthValueChanged(float value)
     {
+        if(!isInit) return;
         
         mainBorder.color = value == maxHP ? new Color32(255, 255, 255, 0) : new Color32(255, 255, 255, 255);
         transform.DOScale(scaleOnDamage, scaleTransition).SetEase(scaleEase);
@@ -195,6 +198,8 @@ public class SC_UI_HealthBar : MonoBehaviour
         anticipationSlider.value = currentHP;
 
         tmpHP.text = $"{currentHP} / {maxHP}";
+
+        isInit = true;
     }
 
     public void HealthUpdate(float newCurrentHP, float newMaxHP)

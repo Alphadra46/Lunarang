@@ -71,12 +71,14 @@ public class SC_Attack : StateMachineBehaviour
         SC_InputManager.instance.weaponC.started -= ctx => Attack(SC_GameManager.instance.weaponInventory.weaponsEquipped[2]);
 
         var playerController = _animator.transform.parent.GetComponent<SC_PlayerController>();
+        var animatorLink = _animator.transform.GetComponent<SC_AnimatorComboLinker>();
         
         if (hasAttacked && SC_ComboController.instance.comboCounter < SC_ComboController.instance.comboMaxLength)
             SC_ComboController.instance.IncrementCombo(SC_ComboController.instance.currentWeapon);
 
 
         playerController.StopCoroutine(coroutine);
+        animatorLink.HideWeapon();
         coroutine = null;
     }
     

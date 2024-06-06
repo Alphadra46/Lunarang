@@ -40,8 +40,10 @@ public class SC_InputPrompt : MonoBehaviour
 
     public void Init(string controllerName)
     {
-        if (controllerName == "SwitchProControllerHID" && promptPlaystationImages.Length < 2 && promptSwitchImages.Length < 2 && promptXboxImages.Length < 2)
+        if (promptPlaystationImages.Length < 2 && promptSwitchImages.Length < 2 && promptXboxImages.Length < 2)
         {
+            
+            print(controllerName);
             
             foreach (var image in images)
             {
@@ -57,6 +59,9 @@ public class SC_InputPrompt : MonoBehaviour
                 {
                     "SwitchProControllerHID" => promptSwitchImages[0],
                     "Keyboard" => promptKeyboardImages[0],
+                    "XInputController" => promptXboxImages[0],
+                    "DualShock4GamepadHID" => promptPlaystationImages[0],
+                    "DualSenseGamepadHID" => promptPlaystationImages[0],
                     _ => promptKeyboardImages[0]
                 };
                 return;
@@ -78,8 +83,10 @@ public class SC_InputPrompt : MonoBehaviour
                 images[i].sprite = controllerName switch
                 {
                     "SwitchProControllerHID" => promptSwitchImages[i],
-                    "Pro Controller" => promptSwitchImages[i],
+                    "XInputController" => promptXboxImages[i],
                     "Keyboard" => promptKeyboardImages[i],
+                    "DualShock4GamepadHID" => promptPlaystationImages[i],
+                    "DualSenseGamepadHID" => promptPlaystationImages[i],
                     _ => promptKeyboardImages[i]
                 };
         }

@@ -11,6 +11,9 @@ using UnityEngine.UI;
 public class SC_RewardItemUI : SerializedMonoBehaviour
 {
     #region Variables
+
+    [HideInInspector] public Action<bool> onDescriptionModeChange;
+    
     private VerticalLayoutGroup _layoutGroupComponent;
 
     public Dictionary<string, Color32> baseColors = new Dictionary<string, Color32>();
@@ -37,6 +40,16 @@ public class SC_RewardItemUI : SerializedMonoBehaviour
     
     #endregion
 
+    private void OnEnable()
+    {
+        onDescriptionModeChange += ChangeDescriptionMode;
+    }
+    
+    private void OnDisable()
+    {
+        onDescriptionModeChange -= ChangeDescriptionMode;
+    }
+
     private void Awake()
     {
         if(!TryGetComponent(out _layoutGroupComponent)) return;
@@ -47,6 +60,8 @@ public class SC_RewardItemUI : SerializedMonoBehaviour
     
     public void OnClick()
     {
+
+        var clips = new List<string>() { "SD_CompetenceSelect" };
         
         SC_UIManager.instance.ShowRewardMenu();
         SC_GameManager.instance.SetPause();
@@ -71,15 +86,17 @@ public class SC_RewardItemUI : SerializedMonoBehaviour
         SetAmount(newAmount);
         SetDefaultColor();
         
+        
+        RefreshUI();
     }
     
-    public void Init(SO_BaseSkill newSkill)
+    public void Init(SO_BaseSkill newSkill, bool isShort)
     {
         
         skill = newSkill;
         
         SetTitle(skill.skillName);
-        SetDescription(skill.shortDescription);
+        SetDescription(isShort ? skill.shortDescription : skill.longDescription);
         SetImage(skill.crystal);
         SetColor(skill.constellation);
         if (skill.constellation != ConstellationName.Lunar) return;
@@ -87,6 +104,17 @@ public class SC_RewardItemUI : SerializedMonoBehaviour
         var lunarSkill = (SO_LunarSkill) newSkill;
         SetIcon(lunarSkill.lunarIcon);
 
+        
+        RefreshUI();
+    }
+
+    public void ChangeDescriptionMode(bool isShort)
+    {
+        if(skill == null) return;
+        
+        SetDescription(isShort ? skill.shortDescription : skill.longDescription);
+        
+        RefreshUI();
     }
     
     private void SetTitle(string newTitle)
@@ -158,6 +186,14 @@ public class SC_RewardItemUI : SerializedMonoBehaviour
     private void SetAmount(int newAmount)
     {
         amount = newAmount;
+    }
+
+
+    private void RefreshUI()
+    {
+        
+        LayoutRebuilder.ForceRebuildLayoutImmediate(crystal.transform.parent.GetComponent<RectTransform>());
+        
     }
     
     IEnumerator DelayInput()
