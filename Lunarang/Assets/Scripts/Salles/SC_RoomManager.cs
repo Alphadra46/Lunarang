@@ -6,6 +6,7 @@ using Cinemachine;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.VFX;
 using Random = UnityEngine.Random;
 
 public class SC_RoomManager : MonoBehaviour
@@ -419,6 +420,11 @@ public class SC_RoomManager : MonoBehaviour
         isClear = true;
         SC_AIStats.onDeath -= DecreaseEnemiesCount;
         UnlockDoors();
+        var clearRoomVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_Purification").GetComponent<VisualEffect>();
+        clearRoomVFX.gameObject.SetActive(true);
+        clearRoomVFX.transform.position = transform.position;
+        clearRoomVFX.Play();
+        StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));
         
         if (hasBonusChallenge)
         {
@@ -427,6 +433,13 @@ public class SC_RoomManager : MonoBehaviour
         
     }
 
+    private IEnumerator EndClearVFX(float duration, VisualEffect vfx)
+    {
+        yield return new WaitForSeconds(duration);
+        SC_Pooling.instance.ReturnItemToPool("VFX",vfx.gameObject);
+        vfx.gameObject.SetActive(false);
+    }
+    
     public void ClearRoom()
     {
 
@@ -441,7 +454,11 @@ public class SC_RoomManager : MonoBehaviour
         isClear = true;
         SC_AIStats.onDeath -= DecreaseEnemiesCount;
         UnlockDoors();
-        
+        var clearRoomVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_Purification").GetComponent<VisualEffect>();
+        clearRoomVFX.transform.position = transform.position;
+        clearRoomVFX.Play();
+        StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));
+        clearRoomVFX.gameObject.SetActive(true);
     }
 
 }
