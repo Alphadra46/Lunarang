@@ -51,6 +51,7 @@ public class SC_InteractorComponent : MonoBehaviour
                 
                 nearInteractables.Add(interactable);
                 interactable.SetActive(true);
+                
 
             }
             else
@@ -59,6 +60,7 @@ public class SC_InteractorComponent : MonoBehaviour
                 
                 nearInteractables.Remove(interactable);
                 interactable.SetActive(false);
+                interactable.GetComponent<SC_InteractableBase>().whenNotInteractable?.Invoke();
 
             }
             
@@ -72,13 +74,20 @@ public class SC_InteractorComponent : MonoBehaviour
         
         foreach (var interactable in nearInteractables)
         {
-            var distance = Vector3.Distance(this.transform.position, interactable.transform.position);
+            
+            var distance = Vector3.Distance(this.transform.position, interactable.transform.position) - interactable.GetComponent<SC_InteractableBase>().interactableRange;
             // print("closest : " + distance);
 
-            if ((!(distance < interactionRange))) continue;
+            if ((distance < interactionRange))
+            {
+                interactable.GetComponent<SC_InteractableBase>().whenInteractable?.Invoke();
+                closestInteractable = interactable;
+            }
+            else
+            {
+                interactable.GetComponent<SC_InteractableBase>().whenNotInteractable?.Invoke();
+            }
             
-            closestInteractable = interactable;
-
         }
         
         return closestInteractable;

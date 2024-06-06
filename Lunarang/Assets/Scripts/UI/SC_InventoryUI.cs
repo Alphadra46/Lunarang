@@ -119,7 +119,7 @@ public class SC_InventoryUI : MonoBehaviour
         foreach (var skill in skillsVisible)
         {
             var skillGO = Instantiate(ItemPrefab, contentParent).GetComponent<SC_RewardItemUI>();
-            skillGO.Init(skill);
+            skillGO.Init(skill, false);
                 
             skillsGO.Add(skillGO.gameObject);
         }

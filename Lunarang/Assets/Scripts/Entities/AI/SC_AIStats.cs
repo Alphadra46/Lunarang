@@ -61,7 +61,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     public static Action<SC_AIStats> onDeath;
     public SO_Event onShieldBreaked;
     
-    private SC_AIRenderer _renderer;
+    [FormerlySerializedAs("_renderer")] public SC_AIRenderer renderer;
     private NavMeshAgent _agent;
     private AI_StateMachine _stateMachine;
     private SC_DebuffsBuffsComponent _debuffsBuffsComponent;
@@ -74,7 +74,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
 
     private void Awake()
     {
-        if(!TryGetComponent(out _renderer)) return;
+        if(!TryGetComponent(out renderer)) return;
         if(!TryGetComponent(out _debuffsBuffsComponent)) return;
         if(!TryGetComponent(out _agent)) return;
         if(!TryGetComponent(out _stateMachine)) return;
@@ -90,7 +90,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         
         UpdateStats();
         
-        _renderer.UpdateHealthBar(currentStats.currentHealth, currentStats.currentMaxHealth);
+        renderer.UpdateHealthBar(currentStats.currentHealth, currentStats.currentMaxHealth);
         
         if(_agent != null) _agent.speed = currentStats.currentSpeed;
         
@@ -102,23 +102,23 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         ResetStats();
         if(_agent != null)
             _agent.enabled = false;
-        _renderer.showStatsUI?.Invoke();
-        _renderer.ResetColor();
+        renderer.showStatsUI?.Invoke();
+        renderer.ResetColor();
     }
 
     private void OnDisable()
     {
         if(_agent != null)
             _agent.enabled = false;
-        _renderer.hideStatsUI?.Invoke();
+        renderer.hideStatsUI?.Invoke();
     }
     
     public void ResetStats()
     {
 
         currentStats.currentHealth = currentStats.currentMaxHealth;
-        _renderer.UpdateHealthBar(currentStats.currentHealth, currentStats.currentMaxHealth);
-        _renderer.RemoveDebugDamageChildren();
+        renderer.UpdateHealthBar(currentStats.currentHealth, currentStats.currentMaxHealth);
+        renderer.RemoveDebugDamageChildren();
 
         isDead = false;
     }
@@ -141,7 +141,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     {
         
         hasShield = true;
-        _renderer.UpdateShieldBar(isBreaked);
+        renderer.UpdateShieldBar(isBreaked);
         
     }
 
@@ -173,7 +173,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     /// <param name="trueDamage"></param>
     public void TakeDamage(float rawDamage, bool isCrit, GameObject attacker,bool trueDamage = false)
     {
-        StartCoroutine(_renderer.DamageTaken());
+        StartCoroutine(renderer.DamageTaken());
         
         if (hasShield & !isBreaked)
         {
@@ -181,7 +181,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
             StartCoroutine(SC_CameraShake.instance.ShakeCamera(5f, 1f, 0.3f));
             isBreaked = true;
             onShieldBreaked.RaiseEvent();
-            _renderer.UpdateShieldBar(isBreaked);
+            renderer.UpdateShieldBar(isBreaked);
             print("BREAKED");
 
             if (canRegenShield)
@@ -202,8 +202,8 @@ public class SC_AIStats : SC_EntityBase, IDamageable
             print(typeID + " : -" + finalDamage + " HP");
             // print(typeID + " : " + currentHealth + "/" + currentMaxHealth);
 
-            _renderer.UpdateHealthBar(currentStats.currentHealth, currentStats.currentMaxHealth);
-            _renderer.DebugDamage(finalDamage, isCrit);
+            renderer.UpdateHealthBar(currentStats.currentHealth, currentStats.currentMaxHealth);
+            renderer.DebugDamage(finalDamage, isCrit);
 
             if(isDead) return;
             
@@ -255,8 +255,8 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         print(isCrit ? typeID + " : -" + finalDamage + " CRIIIIT HP" : typeID + " : -" + finalDamage + " HP");
         // print(typeID + " : " + currentHealth + "/" + currentMaxHealth);
 
-        _renderer.UpdateHealthBar(currentStats.currentHealth, currentStats.currentMaxHealth);
-        _renderer.DebugDamage(finalDamage, isCrit, dotType);
+        renderer.UpdateHealthBar(currentStats.currentHealth, currentStats.currentMaxHealth);
+        renderer.DebugDamage(finalDamage, isCrit, dotType);
 
         if(isDead) return;
         
@@ -278,7 +278,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     public void Death()
     {
         onDeath?.Invoke(this);
-        _renderer.hideStatsUI?.Invoke();
+        renderer.hideStatsUI?.Invoke();
         
         _debuffsBuffsComponent.ResetAllBuffsAndDebuffs();
         

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Enum;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -208,6 +209,22 @@ public class SC_AIRenderer : MonoBehaviour
             {
                 material.SetFloat("_DamageAmount", 0f);
             }
+        }
+    }
+
+    public void EnterFreezeState()
+    {
+        foreach (var meshRenderer in _meshRenderer)
+        {
+            meshRenderer.materials[^1].SetFloat("_Opacity_Multiplier", 1f);
+        }
+    }
+    
+    public void ExitFreezeState()
+    {
+        foreach (var meshRenderer in _meshRenderer)
+        {
+            meshRenderer.materials[^1].SetFloat("_Opacity_Multiplier", -0.5f);
         }
     }
 

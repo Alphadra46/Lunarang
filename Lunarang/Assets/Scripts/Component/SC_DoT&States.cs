@@ -53,11 +53,12 @@ public class SC_DoT_States
         if(self._modifierPanel != null) self._modifierPanel.debuffRemoved?.Invoke(Enum_Debuff.Poison);
 
     }
-    
+
     /// <summary>
     /// Coroutine for the poison debuff, apply damage every ticks during a certain duration.
     /// </summary>
     /// <param name="applicator"></param>
+    /// <param name="self"></param>
     /// <returns></returns>
     public IEnumerator FrozenState(SC_DebuffsBuffsComponent applicator, SC_DebuffsBuffsComponent self)
     {
@@ -126,7 +127,11 @@ public class SC_DoT_States
         {
             if(self._aiStats.TryGetComponent(out AI_StateMachine stateMachine))
                 stateMachine.TryToTransition(AI_StateMachine.EnemyState.Freeze);
+            
+            self._aiStats.renderer.EnterFreezeState();
         }
+        
+        
         
         yield return new WaitForSeconds(duration);
 
@@ -208,12 +213,15 @@ public class SC_DoT_States
             if (self._aiStats.TryGetComponent(out AI_StateMachine stateMachine))
             {
                 stateMachine.TryToTransition(AI_StateMachine.EnemyState.Idle, true);
-                // stateMachine._renderer.StopAnimator();
+                
             }
+            
+            self._aiStats.renderer.ExitFreezeState();
                 
         }
         
         self.currentDebuffs.Remove(Enum_Debuff.Freeze);
+        self.RemoveVFX(Enum_Debuff.Freeze);
         if(self._modifierPanel != null) self._modifierPanel.debuffRemoved?.Invoke(Enum_Debuff.Freeze);
 
     }
@@ -282,6 +290,7 @@ public class SC_DoT_States
             self.burnHitToProc = 0;
             self.currentDebuffs.Remove(Enum_Debuff.Burn);
             if(self._modifierPanel != null) self._modifierPanel.debuffRemoved?.Invoke(Enum_Debuff.Burn);
+            self.RemoveVFX(Enum_Debuff.Burn);
         }
         
     }

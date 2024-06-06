@@ -21,6 +21,8 @@ public class SC_RewardUI : MonoBehaviour
     
     public List<SC_Selectable> rewardsSelectables = new List<SC_Selectable>();
 
+    public bool isShortDescription = true;
+
 
     public void Show()
     {
@@ -42,7 +44,7 @@ public class SC_RewardUI : MonoBehaviour
             {
                 var reward = Instantiate(rewardItemPrefab, rewardParent).GetComponent<SC_RewardItemUI>();
                 reward.gameObject.gameObject.name = "Reward_" + index;
-                reward.Init(skill);
+                reward.Init(skill, isShortDescription);
                 
                 rewards.Add(reward.gameObject);
                 index++;
@@ -121,6 +123,22 @@ public class SC_RewardUI : MonoBehaviour
     }
 
 
+    public void ChangeDescriptionMode()
+    {
+
+        isShortDescription = !isShortDescription;
+
+        foreach (var reward in rewards)
+        {
+            
+            if(!reward.TryGetComponent(out SC_RewardItemUI rewardItemUI)) return;
+
+            rewardItemUI.onDescriptionModeChange?.Invoke(isShortDescription);
+
+        }
+
+    }
+    
     private void OnDestroy()
     {
         foreach (var reward in rewards)

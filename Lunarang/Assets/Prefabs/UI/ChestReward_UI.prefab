@@ -119,7 +119,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7266494911259407191}
+        m_TargetAssemblyTypeName: SC_RewardUI, Assembly-CSharp
+        m_MethodName: ChangeDescriptionMode
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &1157199150364410446
 GameObject:
@@ -707,6 +719,8 @@ MonoBehaviour:
     type: 3}
   rewardParent: {fileID: 1741782486036273492}
   rewardStart: {fileID: 7892776390564644627}
+  rewardsSelectables: []
+  isShortDescription: 1
 --- !u!95 &6943364605904160367
 Animator:
   serializedVersion: 5

@@ -7,23 +7,46 @@ using UnityEngine.Events;
 
 public class SC_InteractableBase : MonoBehaviour, IInteractable
 {
+
+    public Action whenInteractable;
+    public Action whenNotInteractable;
     
     [SerializeField] private List<UnityEvent> events = new List<UnityEvent>();
 
     private SC_InteractorComponent interactor;
     
+    [PropertySpace(SpaceBefore = 15f)]
     public bool interactableOnce;
     
-    [ShowIf("interactableOnce")]
+    [ShowIf("interactableOnce"), PropertySpace(SpaceBefore = 5f)]
     public bool destroyOnInteractionEnded;
     
     private bool wasInteracted;
     
+    [PropertySpace(SpaceBefore = 15f)]
     public bool isInteractionEnded;
+
+    [PropertySpace(SpaceBefore = 15f)]
+    public float interactableRange;
+
+    [PropertySpace(SpaceBefore = 15f)]
+    public GameObject promptUI;
 
     public void Start()
     {
         SC_GameManager.instance.allInteractables.Add(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        whenInteractable += ShowPrompt;
+        whenNotInteractable += HidePrompt;
+    }
+
+    private void OnDisable()
+    {
+        whenInteractable -= ShowPrompt;
+        whenNotInteractable -= HidePrompt;
     }
 
     public void Interact(SC_InteractorComponent newInteractor)
@@ -78,6 +101,21 @@ public class SC_InteractableBase : MonoBehaviour, IInteractable
 
         interactor.inInteraction = false;
 
+    }
+
+    private void ShowPrompt()
+    {
+        if(promptUI == null) return;
+        promptUI.SetActive(true);
+        
+    }
+    
+    private void HidePrompt()
+    {
+        if(promptUI == null) return;
+        
+        promptUI.SetActive(false);
+        
     }
     
 }
