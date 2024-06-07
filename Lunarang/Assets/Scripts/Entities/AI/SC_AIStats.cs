@@ -289,6 +289,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         if(SC_Pooling.instance != null) {
             SC_Pooling.instance.ReturnItemToPool("Ennemis", gameObject);
             ResetStats();
+            _debuffsBuffsComponent.ClearAllVFX();
             gameObject.SetActive(false);
         }
         else

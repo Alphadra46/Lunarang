@@ -409,6 +409,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         
         if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Regeneration"))
         {
+            print("ALLER");
             Heal(2);    
         }
         
