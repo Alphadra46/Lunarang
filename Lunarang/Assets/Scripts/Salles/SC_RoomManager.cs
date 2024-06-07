@@ -6,6 +6,7 @@ using Cinemachine;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.VFX;
 using Random = UnityEngine.Random;
 
 public class SC_RoomManager : MonoBehaviour
@@ -36,6 +37,8 @@ public class SC_RoomManager : MonoBehaviour
     
     [Header("Other room parameters")] 
     [SerializeField, TabGroup("Settings", "Global Settings")] private Collider colliderConfiner;
+    [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject resourceChest;
+    [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject skillChest;
     private CinemachineConfiner confiner;
 
     private List<SC_Door> activeDoors = new List<SC_Door>();
@@ -51,7 +54,8 @@ public class SC_RoomManager : MonoBehaviour
     private bool isInit = false;
     private bool hasBonusChallenge = false;
     private bool isBonusChallengeActive = false;
-    
+    private List<Interactor> roomInteractors = new List<Interactor>();
+
     private enum RoomSize
     {
         Small,
@@ -78,6 +82,14 @@ public class SC_RoomManager : MonoBehaviour
 
         isInit = true;
 
+        if (skillChest != null && resourceChest != null)
+        {
+            skillChest.SetActive(false);
+            resourceChest.SetActive(false);
+            SkillChestSpawn();
+            ResourceChestSpawn();
+        }
+        
         if (!isSpecialRoom)
             SetDifficulty();
 
@@ -419,7 +431,19 @@ public class SC_RoomManager : MonoBehaviour
         isClear = true;
         SC_AIStats.onDeath -= DecreaseEnemiesCount;
         UnlockDoors();
+        var clearRoomVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_Purification").GetComponent<VisualEffect>();
+        clearRoomVFX.gameObject.SetActive(true);
+        clearRoomVFX.transform.position = transform.position;
+        clearRoomVFX.Play();
+        StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));
+
+        if (skillChest != null && resourceChest != null)
+        {
+            RevealChest(skillChest);
+            RevealChest(resourceChest);
+        }
         
+
         if (hasBonusChallenge)
         {
             //TODO - Display the lever to activate the bonus challenge
@@ -427,6 +451,88 @@ public class SC_RoomManager : MonoBehaviour
         
     }
 
+    private IEnumerator EndClearVFX(float duration, VisualEffect vfx)
+    {
+        yield return new WaitForSeconds(duration);
+        SC_Pooling.instance.ReturnItemToPool("VFX",vfx.gameObject);
+        vfx.gameObject.SetActive(false);
+    }
+
+    public void SkillChestSpawn()
+    {
+        if (roomSize != RoomSize.Large)
+            return;
+
+        int spawnChance;
+        
+        switch (roomDifficulty)
+        {
+            case RoomDifficulty.Medium:
+                spawnChance = 2;
+                break;
+            case RoomDifficulty.Hard:
+                spawnChance = 10;
+                break;
+            default:
+                spawnChance = 0;
+                break;
+        }
+
+        if (Random.Range(1,101) <= spawnChance)
+        {
+            skillChest.SetActive(true);
+        }
+        
+    }
+
+    private void RevealChest(GameObject chest)
+    {
+        if (!chest.activeSelf)
+            return;
+        
+        var chestInteractor = chest.GetComponentInChildren<Interactor>();
+        var ps = chest.GetComponentsInChildren<ParticleSystem>();
+        foreach (var particle in ps)
+        {
+            particle.Play();
+        }
+        StartCoroutine(LerpSwap(chestInteractor,2));
+    }
+    
+    public void ResourceChestSpawn()
+    {
+
+        int spawnChance;
+        
+        switch (roomSize,roomDifficulty)
+        {
+            case (RoomSize.Small,RoomDifficulty.Easy):
+                spawnChance = 2;
+                break;
+            case (RoomSize.Medium,RoomDifficulty.Medium):
+                spawnChance = 5;
+                break;
+            case (RoomSize.Medium,RoomDifficulty.Hard):
+                spawnChance = 7;
+                break;
+            case (RoomSize.Large,RoomDifficulty.Medium):
+                spawnChance = 10;
+                break;
+            case (RoomSize.Large,RoomDifficulty.Hard):
+                spawnChance = 15;
+                break;
+            default:
+                spawnChance = 0;
+                break;
+        }
+        
+        if (Random.Range(1,101) <= spawnChance)
+        {
+            resourceChest.SetActive(true);
+        }
+        
+    }
+    
     public void ClearRoom()
     {
 
@@ -441,7 +547,30 @@ public class SC_RoomManager : MonoBehaviour
         isClear = true;
         SC_AIStats.onDeath -= DecreaseEnemiesCount;
         UnlockDoors();
+        var clearRoomVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_Purification").GetComponent<VisualEffect>();
+        clearRoomVFX.transform.position = transform.position;
+        clearRoomVFX.Play();
+        StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));
+        clearRoomVFX.gameObject.SetActive(true);
         
+        if (skillChest != null && resourceChest != null)
+        {
+            RevealChest(skillChest);
+            RevealChest(resourceChest);
+        }
     }
 
+    
+    IEnumerator LerpSwap(Interactor interactor, float duration)
+    {
+        float timer = duration;
+
+        while (timer>0)
+        {
+            timer -= Time.deltaTime;
+            interactor.radius = Mathf.Lerp(0, 3, 1 - (timer / duration));
+            yield return null;
+        }
+    }
+    
 }

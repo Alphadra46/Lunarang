@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Enum;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -25,9 +27,12 @@ public class SC_AIRenderer : MonoBehaviour
     public TextMeshProUGUI HPText;
     public TextMeshProUGUI ShieldText;
 
+    [FormerlySerializedAs("_meshRenderer")]
     [BoxGroup("Damage Area")] 
-    [SerializeField] private List<SkinnedMeshRenderer> _meshRenderer;
-
+    [SerializeField] private List<SkinnedMeshRenderer> _skinnedMeshRenderer;
+    [BoxGroup("Damage Area")] 
+    [SerializeField] private List<MeshRenderer> _meshRenderer;
+    
     private Animator _animator;
     private NavMeshAgent _agent;
 
@@ -191,33 +196,115 @@ public class SC_AIRenderer : MonoBehaviour
     
     public IEnumerator DamageTaken()
     {
-        foreach (var meshRenderer in _meshRenderer)
-        {
-            var materials = meshRenderer.materials;
+        if(_skinnedMeshRenderer.Count > 0) {
         
-            foreach (var material in materials)
+            foreach (var meshRenderer in _skinnedMeshRenderer)
             {
-                material.SetFloat("_DamageAmount", 1f);
+                var materials = meshRenderer.materials;
+            
+                foreach (var material in materials)
+                {
+                    material.SetFloat("_DamageAmount", 1f);
+                }
+            }
+            yield return new WaitForSeconds(0.3f);
+            foreach (var meshRenderer in _skinnedMeshRenderer)
+            {
+                var materials = meshRenderer.materials;
+                foreach (var material in materials)
+                {
+                    material.SetFloat("_DamageAmount", 0f);
+                }
+            }
+        
+        }
+        else
+        {
+            foreach (var meshRenderer in _meshRenderer)
+            {
+                var materials = meshRenderer.materials;
+            
+                foreach (var material in materials)
+                {
+                    material.SetFloat("_DamageAmount", 1f);
+                }
+            }
+            yield return new WaitForSeconds(0.3f);
+            foreach (var meshRenderer in _meshRenderer)
+            {
+                var materials = meshRenderer.materials;
+                foreach (var material in materials)
+                {
+                    material.SetFloat("_DamageAmount", 0f);
+                }
             }
         }
-        yield return new WaitForSeconds(0.3f);
-        foreach (var meshRenderer in _meshRenderer)
-        {
-            var materials = meshRenderer.materials;
-            foreach (var material in materials)
+    }
+
+    public void EnterFreezeState()
+    {
+        if(_skinnedMeshRenderer.Count > 0){
+        
+            foreach (var meshRenderer in _skinnedMeshRenderer)
             {
-                material.SetFloat("_DamageAmount", 0f);
+                meshRenderer.materials[^1].SetFloat("_Opacity_Multiplier", 1f);
             }
+            
+        }
+        else
+        {
+            
+            foreach (var meshRenderer in _meshRenderer)
+            {
+                meshRenderer.materials[^1].SetFloat("_Opacity_Multiplier", 1f);
+            }
+            
+        }
+        
+    }
+    
+    public void ExitFreezeState()
+    {
+        if(_skinnedMeshRenderer.Count > 0){
+        
+            foreach (var meshRenderer in _skinnedMeshRenderer)
+            {
+                meshRenderer.materials[^1].SetFloat("_Opacity_Multiplier", -0.5f);
+            }
+            
+        }
+        else
+        {
+            
+            foreach (var meshRenderer in _meshRenderer)
+            {
+                meshRenderer.materials[^1].SetFloat("_Opacity_Multiplier", -0.5f);
+            }
+            
         }
     }
 
     public void ResetColor()
     {
-        foreach (var meshRenderer in _meshRenderer)
-        {
-            foreach (var material in meshRenderer.materials)
+        if(_skinnedMeshRenderer.Count > 0) {
+        
+            foreach (var meshRenderer in _skinnedMeshRenderer)
             {
-                material.SetFloat("_DamageAmount",0);
+                foreach (var material in meshRenderer.materials)
+                {
+                    material.SetFloat("_DamageAmount",0);
+                }
+            }
+        
+        }
+        else
+        {
+            foreach (var meshRenderer in _meshRenderer)
+            {
+                foreach (var material in meshRenderer.materials)
+                {
+                    material.SetFloat("_DamageAmount",0);
+                }
             }
         }
     }

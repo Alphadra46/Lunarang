@@ -7,14 +7,15 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_ChestSpawn
-  m_Shader: {fileID: -6465566751694194690, guid: 71d16177170cf5f4697df29247646122,
+  m_Name: M_ChestResource
+  m_Shader: {fileID: -6465566751694194690, guid: 73dff78fe4d070e40bee0b6547b18d49,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _STYLE_SWAPTEXTURES
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -55,15 +56,18 @@ Material:
     - Vector1_FBD9E64: 0.01
     - _FresnelPower: 1
     - _GlowSpread: 0
+    - _MoveSpeed: 0.3
+    - _NoiseStrength: 0
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _STYLE: 0
     m_Colors:
-    - Color_F69F1A11: {r: 0, g: 1, b: 0.8703723, a: 1}
-    - _FresnelColor: {r: 0.51397294, g: 1.4150944, b: 1.0179452, a: 1}
+    - Color_F69F1A11: {r: 0, g: 8.967696, b: 7.840865, a: 1}
+    - _FresnelColor: {r: 0, g: 1.8892621, b: 1.0617343, a: 1}
     - _InteriorColor: {r: 1, g: 1, b: 1, a: 1}
     - _InteriorPosition: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &8952199010126478705
+--- !u!114 &8942691733683782393
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

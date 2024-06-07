@@ -73,7 +73,8 @@ public class SC_Move : StateMachineBehaviour
         SC_ComboController.instance.IncrementCombo(weaponUsed);
         isAttackLaunched = true;
 
-        _animator.SetTrigger(weaponUsed.id);
+        if(_animator != null)
+            _animator.SetTrigger(weaponUsed.id);
         
     }
 }
