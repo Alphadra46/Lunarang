@@ -36,11 +36,12 @@ public class SC_Constellation : SerializedScriptableObject
         
         return sc;
     }
-    
+
     /// <summary>
     /// Get a random parent skill from a constellation
     /// </summary>
     /// <param name="inventory">The player skill inventory</param>
+    /// <param name="skillsToExclude"></param>
     /// <returns>The chosen skill</returns>
     public SO_ParentSkill GetRandomParentSkill(List<SO_BaseSkill> inventory, List<SO_BaseSkill> skillsToExclude)
     {
