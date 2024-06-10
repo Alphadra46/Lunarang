@@ -4,10 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Modules.UnityMathematics.Editor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.VFX;
 using Random = UnityEngine.Random;
+
+[Serializable]
+public class CustomTable
+{
+    [VerticalGroup(("Small")), LabelWidth(22)]
+    public int Easy_S, Medium_S, Hard_S;
+    
+    [VerticalGroup(("Medium")), LabelWidth(22)]
+    public int Easy_M, Medium_M, Hard_M;
+    
+    [VerticalGroup(("Large")), LabelWidth(22)]
+    public int Easy_L, Medium_L, Hard_L;
+}
 
 public class SC_RoomManager : MonoBehaviour
 {
@@ -460,18 +474,26 @@ public class SC_RoomManager : MonoBehaviour
 
     public void SkillChestSpawn()
     {
-        if (roomSize != RoomSize.Large)
-            return;
+        var chances = SC_RewardManager.instance.skillChestChances[0];
 
         int spawnChance;
         
-        switch (roomDifficulty)
+        switch (roomSize,roomDifficulty)
         {
-            case RoomDifficulty.Medium:
-                spawnChance = 2;
+            case (RoomSize.Small,RoomDifficulty.Easy):
+                spawnChance = chances.Easy_S;
                 break;
-            case RoomDifficulty.Hard:
-                spawnChance = 10;
+            case (RoomSize.Medium,RoomDifficulty.Medium):
+                spawnChance = chances.Medium_M;
+                break;
+            case (RoomSize.Medium,RoomDifficulty.Hard):
+                spawnChance = chances.Hard_M;
+                break;
+            case (RoomSize.Large,RoomDifficulty.Medium):
+                spawnChance = chances.Medium_L;
+                break;
+            case (RoomSize.Large,RoomDifficulty.Hard):
+                spawnChance = chances.Hard_L;
                 break;
             default:
                 spawnChance = 0;
@@ -501,25 +523,26 @@ public class SC_RoomManager : MonoBehaviour
     
     public void ResourceChestSpawn()
     {
+        var chances = SC_RewardManager.instance.resourceChestChances[0];
 
         int spawnChance;
         
         switch (roomSize,roomDifficulty)
         {
             case (RoomSize.Small,RoomDifficulty.Easy):
-                spawnChance = 2;
+                spawnChance = chances.Easy_S;
                 break;
             case (RoomSize.Medium,RoomDifficulty.Medium):
-                spawnChance = 5;
+                spawnChance = chances.Medium_M;
                 break;
             case (RoomSize.Medium,RoomDifficulty.Hard):
-                spawnChance = 7;
+                spawnChance = chances.Hard_M;
                 break;
             case (RoomSize.Large,RoomDifficulty.Medium):
-                spawnChance = 10;
+                spawnChance = chances.Medium_L;
                 break;
             case (RoomSize.Large,RoomDifficulty.Hard):
-                spawnChance = 15;
+                spawnChance = chances.Hard_L;
                 break;
             default:
                 spawnChance = 0;

@@ -82,6 +82,8 @@ public class SC_Idle : StateMachineBehaviour
         SC_ComboController.instance.IncrementCombo(weaponUsed);
         isAttackLaunched = true;
 
+        
+        if(_animator == null) return;
         _animator.SetTrigger(weaponUsed.id);
         
     }

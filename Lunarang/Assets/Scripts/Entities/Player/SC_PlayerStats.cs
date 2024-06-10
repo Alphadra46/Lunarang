@@ -79,7 +79,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     {
         currentStats.currentHealth = currentStats.currentMaxHealth;
         onHealthInit?.Invoke(currentStats.currentHealth, currentStats.currentMaxHealth);
-        SC_GameManager.clearRoom += ClearRoom;
+        
     }
 
     private void Update()
@@ -93,12 +93,14 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     {
         SC_AIStats.onDeath += onEnemyKilled;
         onUpdatedStats += UpdateStats;
+        SC_FeedbackRoomStatusUI.roomCleared += ClearRoom;
     }
 
     private void OnDisable()
     {
         SC_AIStats.onDeath -= onEnemyKilled;
         onUpdatedStats -= UpdateStats;
+        SC_FeedbackRoomStatusUI.roomCleared -= ClearRoom;
     }
 
     #endregion
@@ -407,10 +409,10 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     private void ClearRoom()
     {
         
-        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Regeneration"))
+        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Régénération"))
         {
             print("ALLER");
-            Heal(2);    
+            Heal(2);
         }
         
     }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -10,10 +11,31 @@ public class SC_Lobby : MonoBehaviour
 {
 
     public static SC_Lobby instance;
+
+    public static Action<SC_BuildingButton, bool> currentBuilding;
+    public Action<SC_BuildingButton> upgradeFB;
+    public Action<SC_BuildingButton> interactFB;
     
     public GameObject lobbyUI;
 
     private Selectable lastSelected;
+    public SC_BuildingButton buildingSelected;
+
+    private void OnEnable()
+    {
+        
+        SC_InputManager.instance.develop.started += UpgradeBuilding;
+        SC_InputManager.instance.submit.started += InteractBuilding;
+        
+    }
+
+    private void OnDisable()
+    {
+        
+        SC_InputManager.instance.develop.started -= UpgradeBuilding;
+        SC_InputManager.instance.submit.started -= InteractBuilding;
+        
+    }
 
     private void Awake()
     {
@@ -21,7 +43,51 @@ public class SC_Lobby : MonoBehaviour
         if(instance != null) Destroy(this);
 
         instance = this;
+        
+        currentBuilding += SelectBuilding;
 
+    }
+
+    private void SelectBuilding(SC_BuildingButton buildingButton, bool value)
+    {
+        
+        buildingSelected = value ? buildingButton : null;
+        
+    }
+
+    private void UpgradeBuilding(InputAction.CallbackContext ctx)
+    {
+        if(buildingSelected == null) return;
+        
+        print("WOOORK");
+        
+        buildingSelected.building.Upgrade();
+        buildingSelected.UpdateSprite();
+
+    }
+
+    private void InteractBuilding(InputAction.CallbackContext ctx)
+    {
+
+        if(buildingSelected == null) return;
+        
+        switch (buildingSelected.building.buildingName)
+        {
+            case "library":
+                Library(buildingSelected);
+                break;
+            case "forge":
+                Forge(buildingSelected);
+                break;
+            case "altar":
+                Altar(buildingSelected);
+                break;
+            case "restaurant":
+                break;
+            case "merchant":
+                break;
+        }
+        
     }
 
     public void ShowLobby()

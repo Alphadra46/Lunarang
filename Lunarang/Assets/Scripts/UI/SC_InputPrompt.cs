@@ -43,7 +43,7 @@ public class SC_InputPrompt : MonoBehaviour
         if (promptPlaystationImages.Length < 2 && promptSwitchImages.Length < 2 && promptXboxImages.Length < 2)
         {
             
-            print(controllerName);
+            // print(controllerName);
             
             foreach (var image in images)
             {
