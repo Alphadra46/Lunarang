@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -9,6 +10,10 @@ using Random = UnityEngine.Random;
 public class SC_RewardManager : MonoBehaviour //TODO - Need to do a out of range check if there is no more skills to get / one left
 {
     public static SC_RewardManager instance;
+    
+    [Header("Chest Spawn Parameters")]
+    [SerializeField, TabGroup("Settings", "Room Clear Settings"), TableList(AlwaysExpanded = true, DrawScrollView = false)] public List<CustomTable> skillChestChances = new List<CustomTable>();
+    [SerializeField, TabGroup("Settings", "Room Clear Settings"), TableList(AlwaysExpanded = true, DrawScrollView = false)] public List<CustomTable> resourceChestChances = new List<CustomTable>();
     
     [Header("Chest room reward parameters")] 
     [SerializeField] private int numberOfNormalSkill;
