@@ -665,5 +665,21 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
         debuffsVFX.Remove(debuff);
 
     }
+
+    public void ClearAllVFX()
+    {
+        
+        if(debuffsVFX.Count < 1) return;
+
+        foreach (var vfx in debuffsVFX)
+        {
+            
+            Destroy(vfx.Value);
+            
+        }
+        
+        debuffsVFX.Clear();
+        
+    }
     
 }

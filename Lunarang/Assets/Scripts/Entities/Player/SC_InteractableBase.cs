@@ -16,6 +16,9 @@ public class SC_InteractableBase : MonoBehaviour, IInteractable
     private SC_InteractorComponent interactor;
     
     [PropertySpace(SpaceBefore = 15f)]
+    public bool isInteractable = true;
+    
+    [PropertySpace(SpaceBefore = 15f)]
     public bool interactableOnce;
     
     [ShowIf("interactableOnce"), PropertySpace(SpaceBefore = 5f)]
@@ -51,6 +54,8 @@ public class SC_InteractableBase : MonoBehaviour, IInteractable
 
     public void Interact(SC_InteractorComponent newInteractor)
     {
+        if(!isInteractable) return;
+        
         if(interactableOnce && wasInteracted) return;
 
         if (interactableOnce) wasInteracted = true;
