@@ -118,6 +118,59 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &1933392376845544293
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5149974602571203872}
+  - component: {fileID: 4085578071882493804}
+  m_Layer: 0
+  m_Name: GlobalAreaSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5149974602571203872
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933392376845544293}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.9909844, y: 9.543085, z: -3.8490336}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1232250696351334964}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4085578071882493804
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933392376845544293}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2830675101215425300
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,6 +363,59 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &2902161965834272643
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5850982796674735519}
+  - component: {fileID: 1298674256190602238}
+  m_Layer: 0
+  m_Name: EliteAreaSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5850982796674735519
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2902161965834272643}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.9909844, y: 9.543085, z: -3.8490336}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1232250696351334964}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1298674256190602238
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2902161965834272643}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3113887070795187264
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,6 +759,8 @@ Transform:
   - {fileID: 6668316109435883751}
   - {fileID: 4759926258922889464}
   - {fileID: 7705555330497412346}
+  - {fileID: 5149974602571203872}
+  - {fileID: 5850982796674735519}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9078551930304077868
@@ -680,6 +788,8 @@ MonoBehaviour:
   eliteSpawnArea: []
   waveSettings: {fileID: 0}
   colliderConfiner: {fileID: 0}
+  resourceChest: {fileID: 0}
+  skillChest: {fileID: 0}
   isClear: 0
 --- !u!1 &5489571076787583873
 GameObject:
@@ -5748,17 +5858,17 @@ PrefabInstance:
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: shoreColor.b
-      value: 0.30751583
+      value: 0.3075021
       objectReference: {fileID: 0}
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: horizonColor.g
-      value: 0.22749677
+      value: 0.22748303
       objectReference: {fileID: 0}
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: surfaceFoamColor1.r
-      value: 0.25088874
+      value: 0.25087497
       objectReference: {fileID: 0}
     - target: {fileID: 2290130966535517723, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}

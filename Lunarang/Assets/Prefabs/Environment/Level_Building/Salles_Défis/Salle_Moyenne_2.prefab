@@ -526,10 +526,10 @@ MonoBehaviour:
   shallowColor: {r: 0, g: 0.8773585, b: 0.7466147, a: 1}
   deepColor: {r: 0, g: 0.7169812, b: 0.6044318, a: 1}
   colorDepth: 3.37
-  horizonColor: {r: 0, g: 0.22748342, b: 0.8018868, a: 1}
+  horizonColor: {r: 0, g: 0.22748321, b: 0.8018868, a: 1}
   horizonDistance: 20
   shoreFade: 0.997
-  shoreColor: {r: 0, g: 1, b: 0.30750248, a: 0}
+  shoreColor: {r: 0, g: 1, b: 0.30750227, a: 0}
   shoreStrength: 0
   shoreBlend: 0.653
   shoreDepth: 1.59
@@ -542,7 +542,7 @@ MonoBehaviour:
   surfaceFoamCutoff: 0.617
   surfaceFoamDistortion: 0.7
   surfaceFoamBlend: 1
-  surfaceFoamColor1: {r: 0.25087535, g: 0.8490566, b: 0.8049599, a: 0.33333334}
+  surfaceFoamColor1: {r: 0.25087515, g: 0.8490566, b: 0.8049599, a: 0.33333334}
   surfaceFoamColor2: {r: 1, g: 1, b: 1, a: 0.7294118}
   surfaceFoamMovement: {x: 0.675, y: 0.08, z: 0.508, w: 0.01}
   surfaceFoamDirection1: 0.675
@@ -3253,6 +3253,8 @@ Transform:
   - {fileID: 154437395927709924}
   - {fileID: 1774661846941235329}
   - {fileID: 6397593939134234552}
+  - {fileID: 1139238093139339731}
+  - {fileID: 8721362801502615274}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8778091874199723900
@@ -3519,6 +3521,59 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &3334859064658359246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1139238093139339731}
+  - component: {fileID: 1196593608446036946}
+  m_Layer: 0
+  m_Name: GlobalAreaSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1139238093139339731
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3334859064658359246}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.391964, y: 3.1344748, z: -3.6135347}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2833039015589054154}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1196593608446036946
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3334859064658359246}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3491456523863483077
 GameObject:
   m_ObjectHideFlags: 0
@@ -4843,6 +4898,59 @@ Transform:
   - {fileID: 4706384010615143156}
   m_Father: {fileID: 2833039015589054154}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9209420188593055621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8721362801502615274}
+  - component: {fileID: 1218860527220118758}
+  m_Layer: 0
+  m_Name: EliteAreaSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8721362801502615274
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9209420188593055621}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.391964, y: 3.1344748, z: -3.6135347}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2833039015589054154}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1218860527220118758
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9209420188593055621}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &9554949603720871
 PrefabInstance:
   m_ObjectHideFlags: 0
