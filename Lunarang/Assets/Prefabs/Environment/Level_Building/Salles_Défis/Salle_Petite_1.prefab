@@ -357,6 +357,59 @@ Transform:
   - {fileID: 6912772833421178338}
   m_Father: {fileID: 6791594308941859380}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2392455567294698050
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2105183846931428413}
+  - component: {fileID: 3143114029252477245}
+  m_Layer: 0
+  m_Name: GlobalAreaSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2105183846931428413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2392455567294698050}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.9909844, y: 9.543085, z: -3.8490336}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2841884121867721603}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3143114029252477245
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2392455567294698050}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2540270893234233514
 GameObject:
   m_ObjectHideFlags: 0
@@ -1037,6 +1090,8 @@ Transform:
   - {fileID: 8485251769618947412}
   - {fileID: 936168323801838035}
   - {fileID: 3455329912912712077}
+  - {fileID: 2105183846931428413}
+  - {fileID: 602057233392810498}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3093490548622878552
@@ -1067,6 +1122,59 @@ MonoBehaviour:
   resourceChest: {fileID: 0}
   skillChest: {fileID: 0}
   isClear: 0
+--- !u!1 &2871791993740538432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 602057233392810498}
+  - component: {fileID: 6359556244298707663}
+  m_Layer: 0
+  m_Name: EliteAreaSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &602057233392810498
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2871791993740538432}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.9909844, y: 9.543085, z: -3.8490336}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2841884121867721603}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6359556244298707663
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2871791993740538432}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4414089530562681763
 GameObject:
   m_ObjectHideFlags: 0
@@ -1845,10 +1953,10 @@ MonoBehaviour:
   shallowColor: {r: 0, g: 0.8773585, b: 0.7466147, a: 1}
   deepColor: {r: 0, g: 0.7169812, b: 0.6044318, a: 1}
   colorDepth: 3.37
-  horizonColor: {r: 0, g: 0.22748363, b: 0.8018868, a: 1}
+  horizonColor: {r: 0, g: 0.22748306, b: 0.8018868, a: 1}
   horizonDistance: 20
   shoreFade: 0.997
-  shoreColor: {r: 0, g: 1, b: 0.3075027, a: 0}
+  shoreColor: {r: 0, g: 1, b: 0.30750212, a: 0}
   shoreStrength: 0
   shoreBlend: 0.653
   shoreDepth: 1.59
@@ -1861,7 +1969,7 @@ MonoBehaviour:
   surfaceFoamCutoff: 0.617
   surfaceFoamDistortion: 0.7
   surfaceFoamBlend: 1
-  surfaceFoamColor1: {r: 0.2508756, g: 0.8490566, b: 0.8049599, a: 0.33333334}
+  surfaceFoamColor1: {r: 0.25087503, g: 0.8490566, b: 0.8049599, a: 0.33333334}
   surfaceFoamColor2: {r: 1, g: 1, b: 1, a: 0.7294118}
   surfaceFoamMovement: {x: 0.675, y: 0.08, z: 0.508, w: 0.01}
   surfaceFoamDirection1: 0.675
