@@ -16,7 +16,7 @@ public class SC_InteractableBase : MonoBehaviour, IInteractable
     private SC_InteractorComponent interactor;
     
     [PropertySpace(SpaceBefore = 15f)]
-    public bool isInteractable;
+    public bool isInteractable = true;
     
     [PropertySpace(SpaceBefore = 15f)]
     public bool interactableOnce;
