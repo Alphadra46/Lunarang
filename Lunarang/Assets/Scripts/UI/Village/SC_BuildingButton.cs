@@ -40,6 +40,7 @@ public class SC_BuildingButton : Selectable
     public override void OnPointerEnter(PointerEventData eventData)
     {
         base.OnPointerEnter(eventData);
+        Select();
         ShowTooltip(true);
     }
 

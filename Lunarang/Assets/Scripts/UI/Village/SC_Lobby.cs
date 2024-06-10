@@ -57,6 +57,8 @@ public class SC_Lobby : MonoBehaviour
 
     private void UpgradeBuilding(InputAction.CallbackContext ctx)
     {
+        if(buildingSelected == null) return;
+        
         print("WOOORK");
         
         buildingSelected.building.Upgrade();
@@ -67,6 +69,8 @@ public class SC_Lobby : MonoBehaviour
     private void InteractBuilding(InputAction.CallbackContext ctx)
     {
 
+        if(buildingSelected == null) return;
+        
         switch (buildingSelected.building.buildingName)
         {
             case "library":
