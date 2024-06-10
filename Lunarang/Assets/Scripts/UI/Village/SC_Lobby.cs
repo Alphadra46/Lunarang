@@ -29,6 +29,14 @@ public class SC_Lobby : MonoBehaviour
         
     }
 
+    private void OnDisable()
+    {
+        
+        SC_InputManager.instance.develop.started -= UpgradeBuilding;
+        SC_InputManager.instance.submit.started -= InteractBuilding;
+        
+    }
+
     private void Awake()
     {
         
