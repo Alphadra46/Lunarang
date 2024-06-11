@@ -168,6 +168,7 @@ public class SC_GameManager : MonoBehaviour
     
     public void OpenLibrary()
     {
+        print("pls");
         SC_UIManager.instance.ShowLibrary();
     }
 

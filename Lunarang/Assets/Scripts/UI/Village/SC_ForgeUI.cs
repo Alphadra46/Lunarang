@@ -473,7 +473,7 @@ public class SC_ForgeUI : MonoBehaviour
                 {
 
                     var costGO = Instantiate(upgradeCostPrefab, upgradeCostContent);
-                    if(costGO.TryGetComponent(out SC_ForgeUpgradeCostText scCost)) scCost.Init(resource, amount);
+                    if(costGO.TryGetComponent(out SC_UpgradeCostText scCost)) scCost.Init(resource, amount);
 
                     upgradeCostGOList.Add(costGO);
                 
