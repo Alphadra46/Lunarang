@@ -81,7 +81,7 @@ public class SC_UIManager : MonoBehaviour
             UIParent = GameObject.FindWithTag("UIParent");
         }
 
-        if (SceneManager.GetActiveScene().buildIndex == 0) return;
+        if (SceneManager.GetActiveScene().buildIndex == 0 || SceneManager.GetActiveScene().buildIndex == 1) return;
         
         ResetTempReferences();
         InstantiateHUD();
@@ -222,16 +222,14 @@ public class SC_UIManager : MonoBehaviour
         
         if (libraryUI == null)
         {
+            print("stp");
             libraryUI = Instantiate(libraryUIPrefab);
             libraryUI.name = "LibraryUI";
-            if(hudUI != null)
-                ShowHUD();
         }
         else
         {
+            print("tu forces là toufik");
             Destroy(libraryUI);
-            if(hudUI != null)
-                ShowHUD();
         }
         
     }

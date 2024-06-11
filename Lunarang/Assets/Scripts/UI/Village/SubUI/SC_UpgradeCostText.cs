@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SC_ForgeUpgradeCostText : MonoBehaviour
+public class SC_UpgradeCostText : MonoBehaviour
 {
     
     public Image iconImage;
