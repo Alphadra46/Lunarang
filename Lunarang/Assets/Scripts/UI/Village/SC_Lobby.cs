@@ -59,10 +59,15 @@ public class SC_Lobby : MonoBehaviour
     {
         if(buildingSelected == null) return;
         
-        print("WOOORK");
+        if(!buildingSelected.interactable) return;
+        
+        if(!buildingSelected.building.levelUpCosts.ContainsKey(buildingSelected.building.currentLevel+1)) return;
+        
+        if(!SC_GameManager.instance.playerResourceInventory.CheckHasRessources(buildingSelected.building.levelUpCosts[buildingSelected.building.currentLevel+1])) return;
         
         buildingSelected.building.Upgrade();
         buildingSelected.UpdateSprite();
+        buildingSelected.UpdateUpgradeCosts();
 
     }
 
@@ -70,6 +75,8 @@ public class SC_Lobby : MonoBehaviour
     {
 
         if(buildingSelected == null) return;
+        
+        if(!buildingSelected.interactable) return;
         
         switch (buildingSelected.building.buildingName)
         {
@@ -88,6 +95,9 @@ public class SC_Lobby : MonoBehaviour
                 break;
         }
         
+        SC_InputManager.instance.develop.started -= UpgradeBuilding;
+        SC_InputManager.instance.submit.started -= InteractBuilding;
+        
     }
 
     public void ShowLobby()
@@ -95,6 +105,9 @@ public class SC_Lobby : MonoBehaviour
         
         lobbyUI.SetActive(true);
         lastSelected.Select();
+        
+        SC_InputManager.instance.develop.started += UpgradeBuilding;
+        SC_InputManager.instance.submit.started += InteractBuilding;
         
         print("MARCHE");
         
@@ -120,8 +133,10 @@ public class SC_Lobby : MonoBehaviour
 
     public void Library(Selectable selectable)
     {
+        
         lastSelected = selectable;
         SC_GameManager.instance.OpenLibrary();
+        lobbyUI.SetActive(false);
         
     }
     

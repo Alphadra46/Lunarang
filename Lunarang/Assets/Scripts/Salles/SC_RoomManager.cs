@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Modules.UnityMathematics.Editor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.VFX;

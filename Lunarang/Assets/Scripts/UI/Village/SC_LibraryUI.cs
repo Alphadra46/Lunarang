@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
@@ -80,13 +81,11 @@ public class SC_LibraryUI : MonoBehaviour
 
     private void Awake()
     {
-        scrollbar.Select();
         Init();
         
         SwitchInformationsPanelState("unselected");
-        
-        backToLobbyButton.Select();
-        
+
+        StartCoroutine(DelayBeforeSelect());
     }
 
     public void Init()
@@ -144,6 +143,7 @@ public class SC_LibraryUI : MonoBehaviour
     public void BackToLobby()
     {
         
+        SC_Lobby.instance.ShowLobby();
         SC_UIManager.instance.ShowLibrary();
         
     }
@@ -222,6 +222,15 @@ public class SC_LibraryUI : MonoBehaviour
                 break;
         }
         
+    }
+
+    private IEnumerator DelayBeforeSelect()
+    {
+
+        yield return new WaitForSecondsRealtime(1f);
+        
+        backToLobbyButton.Select();
+
     }
     
 }
