@@ -38,6 +38,13 @@ public class SC_AnimatorComboLinker : MonoBehaviour
         pComboController.CreateHitBox(hb);
     }
 
+    public void CreateMultihit(int additionalHits)
+    {
+        // print(pComboController.currentEnemiesHitted.Length);
+        pComboController.Multihit(additionalHits);
+        
+    }
+
     public void FreezeMovement()
     {
         pController.FreezeMovement(true);
