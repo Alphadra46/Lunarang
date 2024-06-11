@@ -1344,6 +1344,7 @@ Transform:
   - {fileID: 131928294619064817}
   - {fileID: 2555350556388488275}
   - {fileID: 3933062569746241791}
+  - {fileID: 8664310265159642464}
   - {fileID: 5976481733604725314}
   - {fileID: 7672256281923794069}
   - {fileID: 5006131258387830953}
@@ -1369,7 +1370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSpecialRoom: 0
-  roomSize: 0
+  roomSize: 1
   roomDifficulty: 0
   stair: {fileID: 0}
   doorNorth: {fileID: 1617144969885240734}
@@ -1392,7 +1393,7 @@ MonoBehaviour:
   waveSettings: {fileID: 11400000, guid: 7c368954bf76b034f893c5ad24692663, type: 2}
   colliderConfiner: {fileID: 0}
   resourceChest: {fileID: 3933062569746241788}
-  skillChest: {fileID: 0}
+  skillChest: {fileID: 1471116950709211793}
   isClear: 0
 --- !u!1 &7056560514285126954
 GameObject:
@@ -8227,17 +8228,17 @@ PrefabInstance:
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: shoreColor.b
-      value: 0.30750242
+      value: 0.30749643
       objectReference: {fileID: 0}
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: horizonColor.g
-      value: 0.22748336
+      value: 0.2274774
       objectReference: {fileID: 0}
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: surfaceFoamColor1.r
-      value: 0.2508753
+      value: 0.25086933
       objectReference: {fileID: 0}
     - target: {fileID: 2290130966535517723, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
@@ -12337,6 +12338,91 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5590864631560919919, guid: fb42ae514f80ebe46b444d2d56f230c3,
     type: 3}
   m_PrefabInstance: {fileID: 6038140831469963037}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6056880455802194772
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2962175272548281558}
+    m_Modifications:
+    - target: {fileID: 3185044293123630644, guid: b3f2daf5d19b8374d8a6d16eef44907e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.246387
+      objectReference: {fileID: 0}
+    - target: {fileID: 3185044293123630644, guid: b3f2daf5d19b8374d8a6d16eef44907e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.000012874603
+      objectReference: {fileID: 0}
+    - target: {fileID: 3185044293123630644, guid: b3f2daf5d19b8374d8a6d16eef44907e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.043
+      objectReference: {fileID: 0}
+    - target: {fileID: 3185044293123630644, guid: b3f2daf5d19b8374d8a6d16eef44907e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3185044293123630644, guid: b3f2daf5d19b8374d8a6d16eef44907e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3185044293123630644, guid: b3f2daf5d19b8374d8a6d16eef44907e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3185044293123630644, guid: b3f2daf5d19b8374d8a6d16eef44907e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3185044293123630644, guid: b3f2daf5d19b8374d8a6d16eef44907e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3185044293123630644, guid: b3f2daf5d19b8374d8a6d16eef44907e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3185044293123630644, guid: b3f2daf5d19b8374d8a6d16eef44907e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639879410123315653, guid: b3f2daf5d19b8374d8a6d16eef44907e,
+        type: 3}
+      propertyPath: m_Name
+      value: SpawnableChest_Rewards
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639879410123315653, guid: b3f2daf5d19b8374d8a6d16eef44907e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b3f2daf5d19b8374d8a6d16eef44907e, type: 3}
+--- !u!1 &1471116950709211793 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4639879410123315653, guid: b3f2daf5d19b8374d8a6d16eef44907e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6056880455802194772}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8664310265159642464 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3185044293123630644, guid: b3f2daf5d19b8374d8a6d16eef44907e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6056880455802194772}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6074881634721465061
 PrefabInstance:
