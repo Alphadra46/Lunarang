@@ -52,6 +52,7 @@ public class SC_RoomManager : MonoBehaviour
     [SerializeField, TabGroup("Settings", "Global Settings")] private Collider colliderConfiner;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject resourceChest;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject skillChest;
+    [SerializeField, TabGroup("Settings", "Global Settings")] private Interactor roomInteractor;
     
     private CinemachineConfiner confiner;
 
@@ -69,7 +70,6 @@ public class SC_RoomManager : MonoBehaviour
     private bool isInit = false;
     private bool hasBonusChallenge = false;
     private bool isBonusChallengeActive = false;
-    private List<Interactor> roomInteractors = new List<Interactor>();
 
     private enum RoomSize
     {
@@ -90,6 +90,16 @@ public class SC_RoomManager : MonoBehaviour
         if (isSpecialRoom)
         {
             doorNorth.animator.SetBool("isOpen", true);
+        }
+        
+        if (isClear)
+        {
+            roomClearVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_Purification_02").GetComponent<VisualEffect>();
+            roomClearVFX.transform.position = transform.position;
+            float size = roomSize == RoomSize.Large ? 30 : roomSize == RoomSize.Medium ? 22 : 10;
+            roomClearVFX.SetVector2("Dimensions",new Vector2(size,size));
+            roomClearVFX.gameObject.SetActive(true);
+            roomClearVFX.Play();
         }
         
         if (isInit)
@@ -121,16 +131,6 @@ public class SC_RoomManager : MonoBehaviour
         doorEast.DisableDoor();
 
         confiner = FindObjectOfType<CinemachineConfiner>();
-
-        if (isClear)
-        {
-            roomClearVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_Purification_02").GetComponent<VisualEffect>();
-            roomClearVFX.transform.position = transform.position;
-            float size = roomSize == RoomSize.Large ? 30 : roomSize == RoomSize.Medium ? 22 : 10;
-            roomClearVFX.SetVector2("Dimensions",new Vector2(size,size));
-            roomClearVFX.gameObject.SetActive(true);
-            roomClearVFX.Play();
-        }
         
     }
 
@@ -481,6 +481,7 @@ public class SC_RoomManager : MonoBehaviour
         roomClearVFX.SetVector2("Dimensions",new Vector2(size,size));
         roomClearVFX.Play();
         StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));
+        StartCoroutine(PurifyRoom(3, roomInteractor));
 
         if (skillChest != null && resourceChest != null)
         {
@@ -496,6 +497,19 @@ public class SC_RoomManager : MonoBehaviour
         
     }
 
+    private IEnumerator PurifyRoom(float duration, Interactor interactor)
+    {
+        float timer = duration;
+        float radiusSize = roomSize == RoomSize.Large ? 18 : roomSize == RoomSize.Medium ? 13 : 8;
+        while (timer>0)
+        {
+            interactor.radius = Mathf.Lerp(0, radiusSize, 1 - (timer / duration));
+            timer -= Time.deltaTime;
+            yield return null;
+        }
+        interactor.radius = radiusSize;
+    }
+    
     private IEnumerator EndClearVFX(float duration, VisualEffect vfx)
     {
         yield return new WaitForSeconds(duration);
@@ -550,7 +564,7 @@ public class SC_RoomManager : MonoBehaviour
         {
             particle.Play();
         }
-        StartCoroutine(LerpSwap(chestInteractor,2));
+        StartCoroutine(LerpSwap(chestInteractor,3));
     }
     
     public void ResourceChestSpawn()
@@ -613,6 +627,7 @@ public class SC_RoomManager : MonoBehaviour
         roomClearVFX.SetVector2("Dimensions",new Vector2(size,size));
         roomClearVFX.Play();
         StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));
+        StartCoroutine(PurifyRoom(3, roomInteractor));
         clearRoomVFX.gameObject.SetActive(true);
         
         if (skillChest != null && resourceChest != null)
