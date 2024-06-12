@@ -500,7 +500,7 @@ public class SC_RoomManager : MonoBehaviour
     private IEnumerator PurifyRoom(float duration, Interactor interactor)
     {
         float timer = duration;
-        float radiusSize = roomSize == RoomSize.Large ? 18 : roomSize == RoomSize.Medium ? 13 : 8;
+        float radiusSize = roomSize == RoomSize.Large ? 24 : roomSize == RoomSize.Medium ? 19 : 14;
         while (timer>0)
         {
             interactor.radius = Mathf.Lerp(0, radiusSize, 1 - (timer / duration));
