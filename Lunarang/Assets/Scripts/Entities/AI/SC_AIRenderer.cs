@@ -59,7 +59,6 @@ public class SC_AIRenderer : MonoBehaviour
     /// <param name="isCrit"></param>
     public void DebugDamage(float damageTaken, bool isCrit)
     {
-        if(DamageUIArea.transform.childCount > 0) Destroy(DamageUIArea.transform.GetChild(0).gameObject);
         
         var text = Instantiate(TextDamageUI, DamageUIArea.transform);
         
@@ -74,7 +73,6 @@ public class SC_AIRenderer : MonoBehaviour
 
     public void DebugDamage(float damageTaken, bool isCrit, Enum_Debuff dotType)
     {
-        if(DamageUIArea.transform.childCount > 0) Destroy(DamageUIArea.transform.GetChild(0).gameObject);
         
         var text = Instantiate(TextDamageUI, DamageUIArea.transform);
         
