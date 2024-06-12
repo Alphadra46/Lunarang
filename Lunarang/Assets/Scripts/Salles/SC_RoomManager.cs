@@ -52,8 +52,10 @@ public class SC_RoomManager : MonoBehaviour
     [SerializeField, TabGroup("Settings", "Global Settings")] private Collider colliderConfiner;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject resourceChest;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject skillChest;
+    
     private CinemachineConfiner confiner;
 
+    private VisualEffect roomClearVFX;
     private List<SC_Door> activeDoors = new List<SC_Door>();
     [ShowInInspector] private List<GameObject> enemiesInRoom = new List<GameObject>();
 
@@ -95,17 +97,19 @@ public class SC_RoomManager : MonoBehaviour
 
         isInit = true;
 
+        
+        if (!isSpecialRoom)
+            SetDifficulty();
+
         if (skillChest != null && resourceChest != null)
         {
+            print("Start Chest Checkup");
             skillChest.SetActive(false);
             resourceChest.SetActive(false);
             SkillChestSpawn();
             ResourceChestSpawn();
         }
         
-        if (!isSpecialRoom)
-            SetDifficulty();
-
         doorNorth.Initialize(this);
         doorSouth.Initialize(this);
         doorWest.Initialize(this);
@@ -117,8 +121,30 @@ public class SC_RoomManager : MonoBehaviour
         doorEast.DisableDoor();
 
         confiner = FindObjectOfType<CinemachineConfiner>();
+
+        if (isClear)
+        {
+            roomClearVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_Purification_02").GetComponent<VisualEffect>();
+            roomClearVFX.transform.position = transform.position;
+            float size = roomSize == RoomSize.Large ? 30 : roomSize == RoomSize.Medium ? 22 : 10;
+            roomClearVFX.SetVector2("Dimensions",new Vector2(size,size));
+            roomClearVFX.gameObject.SetActive(true);
+            roomClearVFX.Play();
+        }
+        
     }
-    
+
+    private void OnDisable()
+    {
+        if (isClear)
+        {
+            roomClearVFX.Stop();
+            roomClearVFX.gameObject.SetActive(false);
+            SC_Pooling.instance.ReturnItemToPool("VFX",roomClearVFX.gameObject);
+            roomClearVFX = null;
+        }
+    }
+
     public void SetDifficulty()
     {
         RoomDifficulty difficulty = RoomDifficulty.Easy;
@@ -444,10 +470,16 @@ public class SC_RoomManager : MonoBehaviour
         isClear = true;
         SC_AIStats.onDeath -= DecreaseEnemiesCount;
         UnlockDoors();
-        var clearRoomVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_Purification").GetComponent<VisualEffect>();
+        var clearRoomVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_Purification_01").GetComponent<VisualEffect>();
         clearRoomVFX.gameObject.SetActive(true);
         clearRoomVFX.transform.position = transform.position;
         clearRoomVFX.Play();
+        roomClearVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_Purification_02").GetComponent<VisualEffect>();
+        roomClearVFX.transform.position = transform.position;
+        roomClearVFX.gameObject.SetActive(true);
+        roomClearVFX.Play();
+        float size = roomSize == RoomSize.Large ? 30 : roomSize == RoomSize.Medium ? 22 : 10;
+        roomClearVFX.SetVector2("Dimensions",new Vector2(size,size));
         StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));
 
         if (skillChest != null && resourceChest != null)
@@ -501,6 +533,7 @@ public class SC_RoomManager : MonoBehaviour
 
         if (Random.Range(1,101) <= spawnChance)
         {
+            print("Skill chest spawn !");
             skillChest.SetActive(true);
         }
         
@@ -550,6 +583,7 @@ public class SC_RoomManager : MonoBehaviour
         
         if (Random.Range(1,101) <= spawnChance)
         {
+            print("Resource chest spawn !");
             resourceChest.SetActive(true);
         }
         
@@ -569,7 +603,7 @@ public class SC_RoomManager : MonoBehaviour
         isClear = true;
         SC_AIStats.onDeath -= DecreaseEnemiesCount;
         UnlockDoors();
-        var clearRoomVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_Purification").GetComponent<VisualEffect>();
+        var clearRoomVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_Purification_01").GetComponent<VisualEffect>();
         clearRoomVFX.transform.position = transform.position;
         clearRoomVFX.Play();
         StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));

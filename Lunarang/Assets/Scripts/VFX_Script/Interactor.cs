@@ -5,6 +5,5 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class Interactor : MonoBehaviour
 {
-    [Range(0,3)]
     public float radius;
 }
