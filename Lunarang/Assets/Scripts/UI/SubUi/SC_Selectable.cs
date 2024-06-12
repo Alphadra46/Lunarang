@@ -64,7 +64,7 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         TiltCristal();
 
-        print(SC_InputManager.instance.lastDeviceUsed);
+        // print(SC_InputManager.instance.lastDeviceUsed);
     }
 
     private void Navigate(InputAction.CallbackContext context)

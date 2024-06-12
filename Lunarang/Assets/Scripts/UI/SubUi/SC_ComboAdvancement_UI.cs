@@ -16,13 +16,21 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
     public Image insideImage;
     [BoxGroup("References")]
     public Image borderImage;
+    [BoxGroup("References")]
+    public Image firstPropertyImage;
+    [BoxGroup("References")]
+    public Image secondPropertyImage;
+    
 
     [PropertySpace(SpaceBefore = 15f)]
-    [ReadOnly, ShowInInspector] private List<GameObject> _parameterTypesGO = new List<GameObject>();
+    [ReadOnly, ShowInInspector] private List<Image> _parameterTypesGO = new List<Image>();
 
     [PropertySpace(SpaceBefore = 15f)]
     [BoxGroup("Sprites")] public Sprite borderWhenFull;
     [BoxGroup("Sprites")] public Sprite borderWhenNotFull;
+    [BoxGroup("Sprites")] public Sprite multihitIcon;
+    [BoxGroup("Sprites")] public Sprite projectileIcon;
+    [BoxGroup("Sprites")] public Sprite aoeIcon;
     
     private TextMeshProUGUI _tmp;
 
@@ -43,7 +51,11 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
         
         FillInside(comboCounter);
         
-        if (comboCounter != comboMaxLength) return;
+        if (comboCounter != comboMaxLength)
+        {
+            AddParameterIcon(attackParameter);
+            return;
+        }
         
         if(_coroutine != null) StopCoroutine(_coroutine);
         else
@@ -71,19 +83,48 @@ public class SC_ComboAdvancement_UI : MonoBehaviour
         UpdateLightOpacity();
     }
 
-    private void AddParameterIcon()
+    private void AddParameterIcon(ParameterType parameterType)
     {
         
+        var sprite = parameterType switch
+        {
+            ParameterType.MultiHit => multihitIcon,
+            ParameterType.AreaOfEffect => aoeIcon,
+            ParameterType.Projectile => projectileIcon,
+            _ => throw new ArgumentOutOfRangeException(nameof(parameterType), parameterType, null)
+        };
+
+        var image = _parameterTypesGO.Count switch
+        {
+            0 => firstPropertyImage,
+            1 => secondPropertyImage,
+            _ => firstPropertyImage
+        };
+
+        if(image == null) return;
         
+        image.sprite = sprite;
         
+        var imageColor = image.color;
+        imageColor.a = 1f;
+
+        image.color = imageColor;
+        
+        _parameterTypesGO.Add(image);
+
     }
 
     private void ClearParameters()
     {
 
-        foreach (var go in _parameterTypesGO)
+        foreach (var image in _parameterTypesGO)
         {
-            Destroy(go);
+            image.sprite = null;
+            
+            var imageColor = image.color;
+            imageColor.a = 0;
+
+            image.color = imageColor;
         }
         
         _parameterTypesGO.Clear();

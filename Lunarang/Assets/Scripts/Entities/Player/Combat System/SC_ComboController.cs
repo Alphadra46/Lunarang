@@ -178,6 +178,8 @@ public class SC_ComboController : MonoBehaviour
             HitBoxType.Capsule => Physics.OverlapCapsule(hb.point0, hb.point1, hb.radiusCapsule, hb.layer),
             _ => throw new ArgumentOutOfRangeException()
         };
+        
+        currentEnemiesHitted = hits;
 
         foreach (var e in hits)
         {
@@ -197,8 +199,6 @@ public class SC_ComboController : MonoBehaviour
             CheckAllDebuffApplication(e);
         }
 
-        currentEnemiesHitted = hits;
-
         if (currentEnemiesHitted.Length > 0)
             StartCoroutine(SC_CameraShake.instance.ShakeCamera(currentWeapon.parameter==ParameterType.AreaOfEffect?2f:1f, 1f, 0.2f));
 
@@ -210,12 +210,12 @@ public class SC_ComboController : MonoBehaviour
    /// <param name="projectilePrefab">Prefab of the projectile that we create</param>
    /// <param name="number">How many projectile</param>
    /// <param name="areaSize">Size of the projectile</param>
-   /// <param name="hitNumber">How many hits he made.</param>
+   /// <param name="additionalHits">How many hits he made.</param>
    /// <param name="moveValue">% of the attack</param>
    /// <param name="distanceMax">Maximum distance that can be covered before self-destruction</param>
    /// <param name="direction">Direction of the projectile</param>
    /// <param name="isAoE"></param>
-   public void CreateProjectile(GameObject projectilePrefab, int number, float areaSize, int hitNumber, float moveValue, float distanceMax, Vector3 direction, bool isAoE = false)
+   public void CreateProjectile(GameObject projectilePrefab, int number, float areaSize, int additionalHits, float moveValue, float distanceMax, Vector3 direction, bool isAoE = false)
    {
        var scProjectile = projectilePrefab.GetComponent<SC_Projectile>();
 
@@ -258,7 +258,7 @@ public class SC_ComboController : MonoBehaviour
                        _ => throw new ArgumentOutOfRangeException()
                    };
 
-                   p.additionalHits = hitNumber;
+                   p.additionalHits = additionalHits;
 
                    p.areaSize = areaSize;
                    p.isAoE = isAoE;
@@ -282,7 +282,7 @@ public class SC_ComboController : MonoBehaviour
                break;
            }
            case ProjectileFormation.Inline:
-               StartCoroutine(ProjectileInline(projectilePrefab, number, areaSize, hitNumber, moveValue, distanceMax, direction, isAoE));
+               StartCoroutine(ProjectileInline(projectilePrefab, number, areaSize, additionalHits, moveValue, distanceMax, direction, isAoE));
                break;
            default:
                throw new ArgumentOutOfRangeException();
@@ -356,6 +356,8 @@ public class SC_ComboController : MonoBehaviour
         var rawDamage = MathF.Round(currentMV * _stats.currentStats.currentATK, MidpointRounding.AwayFromZero);
         var effDamage = rawDamage * (1 + (_stats.currentStats.damageBonus / 100) + (_stats.currentStats.mhDamageBonus / 100));
         var effCrit = effDamage * (1 + (_stats.currentStats.critDMG / 100));
+        
+        print(currentEnemiesHitted.Length);
         
         foreach (var e in currentEnemiesHitted)
         {
@@ -645,6 +647,8 @@ public class SC_ComboController : MonoBehaviour
     public void ManageComboVFX(VisualEffect vfx, int orbNumber)
     {
 
+        if(vfx == null) return;
+        
         vfx.SetInt("Orb Number", orbNumber);
         vfx.SetFloat("Rotation Speed", orbNumber);
         if (orbNumber != 0)
