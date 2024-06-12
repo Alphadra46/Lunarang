@@ -1121,6 +1121,7 @@ Transform:
   - {fileID: 1902069373678513507}
   - {fileID: 6558923974113511798}
   - {fileID: 491026071515487708}
+  - {fileID: 4845288884621840380}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3048104473674859484
@@ -1139,10 +1140,10 @@ MonoBehaviour:
   roomSize: 0
   roomDifficulty: 0
   stair: {fileID: 0}
-  doorNorth: {fileID: 7864630194519129814}
-  doorSouth: {fileID: 1539038577019645885}
-  doorWest: {fileID: 8467734644377701637}
-  doorEast: {fileID: 4635708179594057224}
+  doorNorth: {fileID: 8467734644377701637}
+  doorSouth: {fileID: 4635708179594057224}
+  doorWest: {fileID: 1539038577019645885}
+  doorEast: {fileID: 7864630194519129814}
   MinimapPosition: {fileID: 0}
   globalSpawnArea:
   - {fileID: 845514288726927320}
@@ -1156,6 +1157,7 @@ MonoBehaviour:
   colliderConfiner: {fileID: 0}
   resourceChest: {fileID: 4643267124191312938}
   skillChest: {fileID: 4219609688020520638}
+  roomInteractor: {fileID: 4906980645769130143}
   isClear: 0
 --- !u!1 &8234518842453287357
 GameObject:
@@ -3045,11 +3047,6 @@ PrefabInstance:
       propertyPath: doorRenderer
       value: 
       objectReference: {fileID: 3988520344631359599}
-    - target: {fileID: 8934410524296541860, guid: 9a5571ab9445e1644ba70480890367c3,
-        type: 3}
-      propertyPath: doorToConnect
-      value: 
-      objectReference: {fileID: 8467734644377701637}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3345,6 +3342,92 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1244894947211674000}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1336947010500657936
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8234518841674333747}
+    m_Modifications:
+    - target: {fileID: 4392641184910215606, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_Name
+      value: RoomInteractor
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f0b6b35012cf76b499c1d73c97dc8934, type: 3}
+--- !u!4 &4845288884621840380 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+    type: 3}
+  m_PrefabInstance: {fileID: 1336947010500657936}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4906980645769130143 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6238843238407517071, guid: f0b6b35012cf76b499c1d73c97dc8934,
+    type: 3}
+  m_PrefabInstance: {fileID: 1336947010500657936}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ee58edfbf6859f439cfcc61aebc89fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1526614316920599975
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3512,11 +3595,6 @@ PrefabInstance:
       propertyPath: doorRenderer
       value: 
       objectReference: {fileID: 3988520344985770729}
-    - target: {fileID: 8934410524296541860, guid: 9a5571ab9445e1644ba70480890367c3,
-        type: 3}
-      propertyPath: doorToConnect
-      value: 
-      objectReference: {fileID: 7864630194519129814}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5500,11 +5578,6 @@ PrefabInstance:
       propertyPath: doorRenderer
       value: 
       objectReference: {fileID: 3988520346408523598}
-    - target: {fileID: 8934410524296541860, guid: 9a5571ab9445e1644ba70480890367c3,
-        type: 3}
-      propertyPath: doorToConnect
-      value: 
-      objectReference: {fileID: 4635708179594057224}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8270,11 +8343,6 @@ PrefabInstance:
       propertyPath: doorRenderer
       value: 
       objectReference: {fileID: 3988520344892665438}
-    - target: {fileID: 8934410524296541860, guid: 9a5571ab9445e1644ba70480890367c3,
-        type: 3}
-      propertyPath: doorToConnect
-      value: 
-      objectReference: {fileID: 1539038577019645885}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
