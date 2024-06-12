@@ -477,9 +477,9 @@ public class SC_RoomManager : MonoBehaviour
         roomClearVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_Purification_02").GetComponent<VisualEffect>();
         roomClearVFX.transform.position = transform.position;
         roomClearVFX.gameObject.SetActive(true);
-        roomClearVFX.Play();
         float size = roomSize == RoomSize.Large ? 30 : roomSize == RoomSize.Medium ? 22 : 10;
         roomClearVFX.SetVector2("Dimensions",new Vector2(size,size));
+        roomClearVFX.Play();
         StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));
 
         if (skillChest != null && resourceChest != null)
@@ -594,9 +594,9 @@ public class SC_RoomManager : MonoBehaviour
 
         foreach (var enemy in enemiesInRoom)
         {
-            SC_Pooling.instance.ReturnItemToPool("Ennemis", enemy);
             enemy.GetComponent<SC_AIStats>().ResetStats();
             enemy.SetActive(false);
+            SC_Pooling.instance.ReturnItemToPool("Ennemis", enemy);
         }
         
         enemiesInRoom.Clear();
@@ -606,6 +606,12 @@ public class SC_RoomManager : MonoBehaviour
         var clearRoomVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_Purification_01").GetComponent<VisualEffect>();
         clearRoomVFX.transform.position = transform.position;
         clearRoomVFX.Play();
+        roomClearVFX = SC_Pooling.instance.GetItemFromPool("VFX", "VFX_Purification_02").GetComponent<VisualEffect>();
+        roomClearVFX.transform.position = transform.position;
+        roomClearVFX.gameObject.SetActive(true);
+        float size = roomSize == RoomSize.Large ? 30 : roomSize == RoomSize.Medium ? 22 : 10;
+        roomClearVFX.SetVector2("Dimensions",new Vector2(size,size));
+        roomClearVFX.Play();
         StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));
         clearRoomVFX.gameObject.SetActive(true);
         
