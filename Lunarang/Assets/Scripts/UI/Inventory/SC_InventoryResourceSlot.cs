@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SC_ForgeResourceSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler,
+public class SC_InventoryResourceSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler,
     IDeselectHandler
 {
 
@@ -20,6 +20,13 @@ public class SC_ForgeResourceSlot : MonoBehaviour, IPointerEnterHandler, IPointe
     public GameObject tooltip;
 
     #endregion
+
+    private void Awake()
+    {
+        if(resource != null)
+            Init(resource, SC_GameManager.instance.playerResourceInventory.AmountOf(resource));
+        
+    }
 
     public void Init(SC_Resource newResource, int amount)
     {
