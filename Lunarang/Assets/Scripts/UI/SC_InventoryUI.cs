@@ -23,6 +23,8 @@ public class SC_InventoryUI : MonoBehaviour
     public GameObject ItemPrefab;
     public Transform contentParent;
     
+    public RectTransform leftCharacterSide;
+    
     public Scrollbar scrollbar;
     private GridLayout _gridLayout;
 
@@ -42,42 +44,15 @@ public class SC_InventoryUI : MonoBehaviour
     private void Awake()
     {
         Init();
+        RefreshUI();
         
-        scrollbar.Select();
+        // scrollbar.Select();
     }
 
     private void Init()
     {
-        if(SC_GameManager.instance.playerSkillInventory.skillsOwned.Count < 1) return;
-        
-        foreach (var skill in SC_GameManager.instance.playerSkillInventory.skillsOwned.Where(skill => skill.GetType() == typeof(SO_ParentSkill)))
-        {
-            _parentSkills.Add((SO_ParentSkill) skill);
-        }
-
-        foreach (var dotSkill in SC_GameManager.instance.playerSkillInventory.skillsOwned.Where(skill => skill.constellation == ConstellationName.DoT))
-        {
-            _dotSkills.Add(dotSkill);
-        }
-        
-        foreach (var bSkill in SC_GameManager.instance.playerSkillInventory.skillsOwned.Where(skill => skill.constellation == ConstellationName.Berserker))
-        {
-            _berserkSkills.Add(bSkill);
-        }
-        
-        foreach (var tSkill in SC_GameManager.instance.playerSkillInventory.skillsOwned.Where(skill => skill.constellation == ConstellationName.Tank))
-        {
-            _tankSkills.Add(tSkill);
-        }
-        
-        foreach (var fSkill in SC_GameManager.instance.playerSkillInventory.skillsOwned.Where(skill => skill.constellation == ConstellationName.Freeze))
-        {
-            _freezeSkills.Add(fSkill);
-        }
-        
-        
-        CreateItems();
-        ChangeCategory((int) InventoryCategories.All);
+       
+        RefreshUI();
         
     }
 
@@ -136,4 +111,11 @@ public class SC_InventoryUI : MonoBehaviour
         skillsGO.Clear();
     }
 
+    private void RefreshUI()
+    {
+        
+        LayoutRebuilder.ForceRebuildLayoutImmediate(leftCharacterSide);
+        
+    }
+    
 }
