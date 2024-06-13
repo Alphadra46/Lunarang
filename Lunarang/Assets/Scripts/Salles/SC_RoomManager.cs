@@ -481,7 +481,7 @@ public class SC_RoomManager : MonoBehaviour
         roomClearVFX.SetVector2("Dimensions",new Vector2(size,size));
         roomClearVFX.Play();
         StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));
-        StartCoroutine(PurifyRoom(1.2f, roomInteractor));
+        StartCoroutine(PurifyRoom(2, roomInteractor));
 
         if (skillChest != null && resourceChest != null)
         {
@@ -500,7 +500,7 @@ public class SC_RoomManager : MonoBehaviour
     private IEnumerator PurifyRoom(float duration, Interactor interactor)
     {
         float timer = duration;
-        float radiusSize = roomSize == RoomSize.Large ? 24 : roomSize == RoomSize.Medium ? 19 : 14;
+        float radiusSize = roomSize == RoomSize.Large ? 29 : roomSize == RoomSize.Medium ? 24 : 19;
         while (timer>0)
         {
             interactor.radius = Mathf.Lerp(0, radiusSize, 1 - (timer / duration));
@@ -627,7 +627,7 @@ public class SC_RoomManager : MonoBehaviour
         roomClearVFX.SetVector2("Dimensions",new Vector2(size,size));
         roomClearVFX.Play();
         StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));
-        StartCoroutine(PurifyRoom(1.2f, roomInteractor));
+        StartCoroutine(PurifyRoom(2, roomInteractor));
         clearRoomVFX.gameObject.SetActive(true);
         
         if (skillChest != null && resourceChest != null)
