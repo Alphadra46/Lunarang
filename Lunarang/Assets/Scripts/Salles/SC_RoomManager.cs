@@ -549,6 +549,8 @@ public class SC_RoomManager : MonoBehaviour
         {
             print("Skill chest spawn !");
             skillChest.SetActive(true);
+            var chestRewardInteractor = skillChest.GetComponent<SC_InteractableBase>();
+            chestRewardInteractor.isInteractable = false;
         }
         
     }
@@ -559,7 +561,9 @@ public class SC_RoomManager : MonoBehaviour
             return;
         
         var chestInteractor = chest.GetComponentInChildren<Interactor>();
+        var chestRewardInteractor = chest.GetComponent<SC_InteractableBase>();
         var ps = chest.GetComponentsInChildren<ParticleSystem>();
+        chestRewardInteractor.isInteractable = true;
         foreach (var particle in ps)
         {
             particle.Play();
@@ -599,6 +603,8 @@ public class SC_RoomManager : MonoBehaviour
         {
             print("Resource chest spawn !");
             resourceChest.SetActive(true);
+            var chestRewardInteractor = resourceChest.GetComponent<SC_InteractableBase>();
+            chestRewardInteractor.isInteractable = false;
         }
         
     }
