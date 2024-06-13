@@ -104,6 +104,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
             _agent.enabled = false;
         renderer.showStatsUI?.Invoke();
         renderer.ResetColor();
+        _debuffsBuffsComponent.ClearAllVFX();
     }
 
     private void OnDisable()
@@ -111,6 +112,8 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         if(_agent != null)
             _agent.enabled = false;
         renderer.hideStatsUI?.Invoke();
+        renderer.ResetColor();
+        _debuffsBuffsComponent.ClearAllVFX();
     }
     
     public void ResetStats()
