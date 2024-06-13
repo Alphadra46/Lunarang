@@ -864,7 +864,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2042716200771061426}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh_Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1187,7 +1187,7 @@ GameObject:
   - component: {fileID: 3570787569296801087}
   - component: {fileID: 8170361697141300399}
   - component: {fileID: 765634618669054415}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PolyShape_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1608,7 +1608,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7457323066967241370}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1759,6 +1759,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1473104908271256328}
   - component: {fileID: 9161096914939499078}
+  - component: {fileID: 6663863470791845615}
   m_Layer: 0
   m_Name: Salle_Moyenne_3
   m_TagString: Untagged
@@ -1831,6 +1832,37 @@ MonoBehaviour:
   skillChest: {fileID: 5557474789989796194}
   roomInteractor: {fileID: 5100865120377915838}
   isClear: 0
+--- !u!114 &6663863470791845615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4326466988655690968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 264
+  m_UseGeometry: 1
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 1
+  m_VoxelSize: 0.0625
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 9321b2b2aa4a7504d8ea32e8668f7ac7, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &4562862460455011744
 GameObject:
   m_ObjectHideFlags: 0
@@ -2229,7 +2261,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7608340400444344926}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2549,7 +2581,7 @@ GameObject:
   - component: {fileID: 517297879836390021}
   - component: {fileID: 6681413076749510679}
   - component: {fileID: 4932570445634924926}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PolyShape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6102,6 +6134,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_alpha_motif_06
       objectReference: {fileID: 0}
+    - target: {fileID: 8526246010452049106, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -8267,6 +8304,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Collider_water
       objectReference: {fileID: 0}
+    - target: {fileID: 925634233956251495, guid: f1e08a45b4b94b1439471606ee4136f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8449023839745832652, guid: f1e08a45b4b94b1439471606ee4136f3,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -9948,6 +9990,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_alpha_motif_04
       objectReference: {fileID: 0}
+    - target: {fileID: 8526246010452049106, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -10273,6 +10320,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_alpha_motif_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 350963256200949436, guid: fef37436a51b95f49a448df3d8939714,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1122820811730859014, guid: fef37436a51b95f49a448df3d8939714,
         type: 3}
@@ -13479,17 +13531,17 @@ PrefabInstance:
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: shoreColor.b
-      value: 0.30749223
+      value: 0.30748972
       objectReference: {fileID: 0}
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: horizonColor.g
-      value: 0.22747317
+      value: 0.22747067
       objectReference: {fileID: 0}
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: surfaceFoamColor1.r
-      value: 0.2508651
+      value: 0.2508626
       objectReference: {fileID: 0}
     - target: {fileID: 2290130966535517723, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
@@ -13912,6 +13964,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_alpha_motif_05
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526246010452049106, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
         type: 3}
@@ -15788,6 +15845,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_alpha_motif_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526246010452049106, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
         type: 3}

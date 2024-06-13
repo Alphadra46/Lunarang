@@ -632,10 +632,10 @@ MonoBehaviour:
   shallowColor: {r: 0, g: 0.8773585, b: 0.7466147, a: 1}
   deepColor: {r: 0, g: 0.7169812, b: 0.6044318, a: 1}
   colorDepth: 3.37
-  horizonColor: {r: 0, g: 0.22747111, b: 0.8018868, a: 1}
+  horizonColor: {r: 0, g: 0.22747073, b: 0.8018868, a: 1}
   horizonDistance: 20
   shoreFade: 0.997
-  shoreColor: {r: 0, g: 1, b: 0.30749014, a: 0}
+  shoreColor: {r: 0, g: 1, b: 0.30748978, a: 0}
   shoreStrength: 0
   shoreBlend: 0.653
   shoreDepth: 1.59
@@ -648,7 +648,7 @@ MonoBehaviour:
   surfaceFoamCutoff: 0.617
   surfaceFoamDistortion: 0.7
   surfaceFoamBlend: 1
-  surfaceFoamColor1: {r: 0.25086305, g: 0.8490566, b: 0.8049599, a: 0.33333334}
+  surfaceFoamColor1: {r: 0.25086266, g: 0.8490566, b: 0.8049599, a: 0.33333334}
   surfaceFoamColor2: {r: 1, g: 1, b: 1, a: 0.7294118}
   surfaceFoamMovement: {x: 0.675, y: 0.08, z: 0.508, w: 0.01}
   surfaceFoamDirection1: 0.675
@@ -3331,6 +3331,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2833039015589054154}
   - component: {fileID: 8778091874199723900}
+  - component: {fileID: 533683643125832156}
   m_Layer: 0
   m_Name: Salle_Moyenne_2
   m_TagString: Untagged
@@ -3409,6 +3410,37 @@ MonoBehaviour:
   skillChest: {fileID: 2375926175683989303}
   roomInteractor: {fileID: 3542842149978661988}
   isClear: 0
+--- !u!114 &533683643125832156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2833039015589054153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 264
+  m_UseGeometry: 1
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 1
+  m_VoxelSize: 0.0625
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: a0327639901a2d14f87e9b3225f6b73f, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &2850235206658951931
 GameObject:
   m_ObjectHideFlags: 0
