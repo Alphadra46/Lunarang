@@ -13,6 +13,8 @@ public class SC_UIManager : MonoBehaviour
 
     public GameObject UIParent;
     
+    public Camera UICamera;
+    
     [BoxGroup("Prefabs References")]
     [SerializeField] private GameObject inventoryUIPrefab;
     [BoxGroup("Prefabs References")]
@@ -97,6 +99,11 @@ public class SC_UIManager : MonoBehaviour
         {
             hudUI = Instantiate(HUD, UIParent.transform);
             hudUI.name = "HUD";
+            
+            if(UICamera == null) return;
+            
+            hudUI.transform.GetChild(0).GetComponent<Canvas>().worldCamera = UICamera;
+            
         }
         else
         {
