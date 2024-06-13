@@ -128,6 +128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8092866739110301658}
   - component: {fileID: 6937040851417175730}
+  - component: {fileID: 4365689769252184881}
   m_Layer: 0
   m_Name: Salle_Moyenne_4
   m_TagString: Untagged
@@ -196,6 +197,37 @@ MonoBehaviour:
   skillChest: {fileID: 4529012570006628596}
   roomInteractor: {fileID: 3704063222981477995}
   isClear: 0
+--- !u!114 &4365689769252184881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303237992050590064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 264
+  m_UseGeometry: 1
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 1
+  m_VoxelSize: 0.0625
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: f956be753853ad24d91b408b208c5cbe, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &337906295618811362
 GameObject:
   m_ObjectHideFlags: 0
@@ -7733,17 +7765,17 @@ PrefabInstance:
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: shoreColor.b
-      value: 0.30748963
+      value: 0.30748957
       objectReference: {fileID: 0}
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: horizonColor.g
-      value: 0.2274706
+      value: 0.22747055
       objectReference: {fileID: 0}
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: surfaceFoamColor1.r
-      value: 0.25086254
+      value: 0.25086248
       objectReference: {fileID: 0}
     - target: {fileID: 2290130966535517723, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
