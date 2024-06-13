@@ -100,9 +100,7 @@ public class SC_InteractorComponent : MonoBehaviour
         if(inInteraction) return;
 
         if(nearestInteractable == null) return;
-        
-        inInteraction = true;
-        
+
         if(nearestInteractable.TryGetComponent(out IInteractable i))
         {
             i.Interact(this);
