@@ -481,7 +481,7 @@ public class SC_RoomManager : MonoBehaviour
         roomClearVFX.SetVector2("Dimensions",new Vector2(size,size));
         roomClearVFX.Play();
         StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));
-        StartCoroutine(PurifyRoom(1.2f, roomInteractor));
+        StartCoroutine(PurifyRoom(2, roomInteractor));
 
         if (skillChest != null && resourceChest != null)
         {
@@ -500,7 +500,7 @@ public class SC_RoomManager : MonoBehaviour
     private IEnumerator PurifyRoom(float duration, Interactor interactor)
     {
         float timer = duration;
-        float radiusSize = roomSize == RoomSize.Large ? 18 : roomSize == RoomSize.Medium ? 13 : 8;
+        float radiusSize = roomSize == RoomSize.Large ? 29 : roomSize == RoomSize.Medium ? 24 : 19;
         while (timer>0)
         {
             interactor.radius = Mathf.Lerp(0, radiusSize, 1 - (timer / duration));
@@ -549,6 +549,8 @@ public class SC_RoomManager : MonoBehaviour
         {
             print("Skill chest spawn !");
             skillChest.SetActive(true);
+            var chestRewardInteractor = skillChest.GetComponent<SC_InteractableBase>();
+            chestRewardInteractor.isInteractable = false;
         }
         
     }
@@ -559,7 +561,9 @@ public class SC_RoomManager : MonoBehaviour
             return;
         
         var chestInteractor = chest.GetComponentInChildren<Interactor>();
+        var chestRewardInteractor = chest.GetComponent<SC_InteractableBase>();
         var ps = chest.GetComponentsInChildren<ParticleSystem>();
+        chestRewardInteractor.isInteractable = true;
         foreach (var particle in ps)
         {
             particle.Play();
@@ -599,6 +603,8 @@ public class SC_RoomManager : MonoBehaviour
         {
             print("Resource chest spawn !");
             resourceChest.SetActive(true);
+            var chestRewardInteractor = resourceChest.GetComponent<SC_InteractableBase>();
+            chestRewardInteractor.isInteractable = false;
         }
         
     }
@@ -627,7 +633,7 @@ public class SC_RoomManager : MonoBehaviour
         roomClearVFX.SetVector2("Dimensions",new Vector2(size,size));
         roomClearVFX.Play();
         StartCoroutine(EndClearVFX(clearRoomVFX.GetFloat("Duration"), clearRoomVFX));
-        StartCoroutine(PurifyRoom(1.2f, roomInteractor));
+        StartCoroutine(PurifyRoom(2, roomInteractor));
         clearRoomVFX.gameObject.SetActive(true);
         
         if (skillChest != null && resourceChest != null)
