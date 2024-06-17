@@ -65,6 +65,11 @@ public class SC_ResourcesInventory : SerializedScriptableObject
         return value >= amount;
         
     }
+
+    public int AmountOf(SC_Resource resource)
+    {
+        return resourceInventory.TryGetValue(resource, out var value) ? value : 0;
+    }
     
     [Button]
     public void ClearResourceInventory()

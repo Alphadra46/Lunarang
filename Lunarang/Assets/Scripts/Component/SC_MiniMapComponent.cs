@@ -67,6 +67,8 @@ public class SC_MiniMapComponent : MonoBehaviour
     public void ChangeRoomTransform(GameObject newRoom)
     {
 
+        if(newRoom.transform == null) return;
+        
         roomTransform = newRoom.transform;
         
         if(currentMode == MinimapMode.Room)

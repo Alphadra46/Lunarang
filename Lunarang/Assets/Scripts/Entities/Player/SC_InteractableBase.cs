@@ -61,7 +61,7 @@ public class SC_InteractableBase : MonoBehaviour, IInteractable
         if (interactableOnce) wasInteracted = true;
         
         interactor = newInteractor;
-        
+        interactor.inInteraction = true;
         if (events.Count <= 0)
         {
             print("Null Ref");

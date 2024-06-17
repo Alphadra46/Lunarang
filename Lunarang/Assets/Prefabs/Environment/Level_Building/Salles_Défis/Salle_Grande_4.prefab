@@ -913,7 +913,7 @@ GameObject:
   - component: {fileID: 8568617415745854951}
   - component: {fileID: 6516714486200946669}
   - component: {fileID: 7797584344015913761}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PolyShape_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1193,7 +1193,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f4d76fd36b9e0894d88bddfd37484aca, type: 2}
+  - {fileID: 2100000, guid: 25423fe708574cf49b75dbb340ac81b9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1280,174 +1280,6 @@ Transform:
   - {fileID: 5464347596685153781}
   m_Father: {fileID: 7760934332280618489}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1817031402563602818
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2831550768066904552}
-  - component: {fileID: 8947203652348909775}
-  - component: {fileID: 4424699388162225507}
-  - component: {fileID: 3395309265830213893}
-  - component: {fileID: 4901187084813287777}
-  - component: {fileID: 8916267923138511564}
-  m_Layer: 0
-  m_Name: PolyShape_2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2831550768066904552
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1817031402563602818}
-  serializedVersion: 2
-  m_LocalRotation: {x: 1, y: -0, z: -0, w: 0}
-  m_LocalPosition: {x: 3, y: 0, z: 13}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6474677497043423385}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8947203652348909775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1817031402563602818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8233d90336aea43098adf6dbabd606a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MeshFormatVersion: 2
-  m_Faces: []
-  m_SharedVertices: []
-  m_SharedTextures: []
-  m_Positions: []
-  m_Textures0: []
-  m_Textures2: []
-  m_Textures3: []
-  m_Tangents: []
-  m_Colors: []
-  m_UnwrapParameters:
-    m_HardAngle: 88
-    m_PackMargin: 20
-    m_AngleError: 8
-    m_AreaError: 15
-  m_PreserveMeshAssetOnDestroy: 0
-  assetGuid: 
-  m_Mesh: {fileID: 0}
-  m_VersionIndex: 241
-  m_IsSelectable: 1
-  m_SelectedFaces: 
-  m_SelectedEdges: []
-  m_SelectedVertices: 
---- !u!114 &4424699388162225507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1817031402563602818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb977b126bc1b4f15813dcf9da9bb600, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Points:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 16}
-  - {x: -1, y: 0, z: 16}
-  - {x: -1, y: 0, z: 26}
-  - {x: 10, y: 0, z: 26}
-  - {x: 10, y: 0, z: 15}
-  - {x: 14, y: 0, z: 15}
-  - {x: 14, y: 0, z: 11}
-  m_Extrude: 2
-  m_EditMode: 2
-  m_FlipNormals: 0
-  isOnGrid: 1
---- !u!23 &3395309265830213893
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1817031402563602818}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 2
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &4901187084813287777
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1817031402563602818}
-  m_Mesh: {fileID: 0}
---- !u!64 &8916267923138511564
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1817031402563602818}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &1830889434712125236
 GameObject:
   m_ObjectHideFlags: 0
@@ -2048,6 +1880,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7760934332280618489}
   - component: {fileID: 412245230122744585}
+  - component: {fileID: 208408580449271097}
   m_Layer: 0
   m_Name: Salle_Grande_4
   m_TagString: Untagged
@@ -2087,6 +1920,7 @@ Transform:
   - {fileID: 8616740514766539540}
   - {fileID: 6947273844083460099}
   - {fileID: 892681139329281113}
+  - {fileID: 3307259059761333426}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &412245230122744585
@@ -2105,10 +1939,10 @@ MonoBehaviour:
   roomSize: 2
   roomDifficulty: 0
   stair: {fileID: 0}
-  doorNorth: {fileID: 9052826140706929983}
-  doorSouth: {fileID: 5598148432779319832}
-  doorWest: {fileID: 8242383537734747514}
-  doorEast: {fileID: 4580115775931142902}
+  doorNorth: {fileID: 8242383537734747514}
+  doorSouth: {fileID: 4580115775931142902}
+  doorWest: {fileID: 5598148432779319832}
+  doorEast: {fileID: 9052826140706929983}
   MinimapPosition: {fileID: 0}
   globalSpawnArea:
   - {fileID: 4317333327629035905}
@@ -2124,7 +1958,39 @@ MonoBehaviour:
   colliderConfiner: {fileID: 0}
   resourceChest: {fileID: 805101561398160846}
   skillChest: {fileID: 3561176564935521382}
+  roomInteractor: {fileID: 3080825946191035345}
   isClear: 0
+--- !u!114 &208408580449271097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3177709748501838843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 264
+  m_UseGeometry: 1
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 1
+  m_VoxelSize: 0.0625
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: cca44816750f5734c85793323c092907, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &3223422105182208073
 GameObject:
   m_ObjectHideFlags: 0
@@ -2192,7 +2058,7 @@ GameObject:
   - component: {fileID: 3020665781603137097}
   - component: {fileID: 3200782802787135363}
   - component: {fileID: 6821901011184116977}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PolyShape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3004,7 +2870,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f4d76fd36b9e0894d88bddfd37484aca, type: 2}
+  - {fileID: 2100000, guid: 25423fe708574cf49b75dbb340ac81b9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3643,7 +3509,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6474677497043423385}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3665,7 +3531,6 @@ Transform:
   m_Children:
   - {fileID: 5272432466604628479}
   - {fileID: 8343307975376545410}
-  - {fileID: 2831550768066904552}
   - {fileID: 7979677169038035682}
   m_Father: {fileID: 7760934332280618489}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4376,7 +4241,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 286530407608283204}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh_Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4687,7 +4552,7 @@ GameObject:
   - component: {fileID: 1275916574750686717}
   - component: {fileID: 7826972592185943271}
   - component: {fileID: 5318252374384772426}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PolyShape_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5233,7 +5098,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f4d76fd36b9e0894d88bddfd37484aca, type: 2}
+  - {fileID: 2100000, guid: 25423fe708574cf49b75dbb340ac81b9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5667,7 +5532,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7479695997419171724}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5821,6 +5686,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_alpha_motif_07
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526246010452049106, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
         type: 3}
@@ -6667,11 +6537,6 @@ PrefabInstance:
       propertyPath: doorRenderer
       value: 
       objectReference: {fileID: 6922523923572944706}
-    - target: {fileID: 8934410524296541860, guid: 9a5571ab9445e1644ba70480890367c3,
-        type: 3}
-      propertyPath: doorToConnect
-      value: 
-      objectReference: {fileID: 9052826140706929983}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7173,11 +7038,6 @@ PrefabInstance:
       propertyPath: doorRenderer
       value: 
       objectReference: {fileID: 7416662233948787437}
-    - target: {fileID: 8934410524296541860, guid: 9a5571ab9445e1644ba70480890367c3,
-        type: 3}
-      propertyPath: doorToConnect
-      value: 
-      objectReference: {fileID: 8242383537734747514}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7357,6 +7217,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_dalle_13
+      objectReference: {fileID: 0}
+    - target: {fileID: 840711545419940374, guid: 4e88da653536e38498f2c8ae3e085b0b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7734,6 +7599,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_alpha_motif_06
+      objectReference: {fileID: 0}
+    - target: {fileID: 350963256200949436, guid: fef37436a51b95f49a448df3d8939714,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1122820811730859014, guid: fef37436a51b95f49a448df3d8939714,
         type: 3}
@@ -8145,6 +8015,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_05
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8530,6 +8405,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_43
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -8617,17 +8497,17 @@ PrefabInstance:
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: shoreColor.b
-      value: 0.30749667
+      value: 0.30749
       objectReference: {fileID: 0}
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: horizonColor.g
-      value: 0.22747761
+      value: 0.22747093
       objectReference: {fileID: 0}
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: surfaceFoamColor1.r
-      value: 0.25086954
+      value: 0.25086287
       objectReference: {fileID: 0}
     - target: {fileID: 2290130966535517723, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
@@ -8945,6 +8825,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9400,6 +9285,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_44
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -9776,6 +9666,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_dalle_10
       objectReference: {fileID: 0}
+    - target: {fileID: 840711545419940374, guid: 4e88da653536e38498f2c8ae3e085b0b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10127,6 +10022,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_17
       objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10200,6 +10100,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_dalle_09
+      objectReference: {fileID: 0}
+    - target: {fileID: 840711545419940374, guid: 4e88da653536e38498f2c8ae3e085b0b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10408,6 +10313,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_53
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -10586,6 +10496,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_45
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -10748,6 +10663,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_22
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -10916,6 +10836,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_alpha_motif_05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3820147567922406995, guid: 3f334013702c2494fadbe6f303b91028,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4487893471208029417, guid: 3f334013702c2494fadbe6f303b91028,
         type: 3}
@@ -11130,6 +11055,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_30
       objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11153,6 +11083,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_55
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -11401,6 +11336,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_20
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -11484,6 +11424,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_46
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -11738,6 +11683,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_08
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -11821,6 +11771,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_38
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -12341,6 +12296,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_54
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -12503,6 +12463,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -12974,6 +12939,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_14
       objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12997,6 +12967,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_51
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -13236,11 +13211,6 @@ PrefabInstance:
       propertyPath: doorRenderer
       value: 
       objectReference: {fileID: 5099388751201414799}
-    - target: {fileID: 8934410524296541860, guid: 9a5571ab9445e1644ba70480890367c3,
-        type: 3}
-      propertyPath: doorToConnect
-      value: 
-      objectReference: {fileID: 5598148432779319832}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13416,6 +13386,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_36
       objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13523,6 +13498,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_06
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -13895,6 +13875,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_03
       objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13918,6 +13903,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_23
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -14477,6 +14467,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_27
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -14877,6 +14872,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_09
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -15034,6 +15034,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -15757,11 +15762,6 @@ PrefabInstance:
       propertyPath: doorRenderer
       value: 
       objectReference: {fileID: 882441845342024188}
-    - target: {fileID: 8934410524296541860, guid: 9a5571ab9445e1644ba70480890367c3,
-        type: 3}
-      propertyPath: doorToConnect
-      value: 
-      objectReference: {fileID: 4580115775931142902}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15947,6 +15947,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_dalle_14
       objectReference: {fileID: 0}
+    - target: {fileID: 840711545419940374, guid: 4e88da653536e38498f2c8ae3e085b0b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16036,6 +16041,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_34
       objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16059,6 +16069,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_47
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -16148,6 +16163,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_alpha_motif_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 3820147567922406995, guid: 3f334013702c2494fadbe6f303b91028,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4487893471208029417, guid: 3f334013702c2494fadbe6f303b91028,
         type: 3}
@@ -16465,6 +16485,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_57
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -16638,6 +16663,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_48
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -16787,6 +16817,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_18
       objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16810,6 +16845,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_41
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -17464,6 +17504,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_35
       objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17537,6 +17582,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17859,6 +17909,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_dalle_16
       objectReference: {fileID: 0}
+    - target: {fileID: 840711545419940374, guid: 4e88da653536e38498f2c8ae3e085b0b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17882,6 +17937,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_28
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -17967,6 +18027,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_24
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -18050,6 +18115,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_42
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -18139,6 +18209,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_52
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -18289,6 +18364,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_dalle_15
       objectReference: {fileID: 0}
+    - target: {fileID: 840711545419940374, guid: 4e88da653536e38498f2c8ae3e085b0b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18312,6 +18392,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_alpha_motif_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 350963256200949436, guid: fef37436a51b95f49a448df3d8939714,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1122820811730859014, guid: fef37436a51b95f49a448df3d8939714,
         type: 3}
@@ -18461,6 +18546,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_25
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -18544,6 +18634,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_07
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -19034,6 +19129,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_alpha_motif_08
       objectReference: {fileID: 0}
+    - target: {fileID: 8526246010452049106, guid: e60cd46aa57012142abfc9a1058a8ba6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 9014129742989076072, guid: e60cd46aa57012142abfc9a1058a8ba6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19172,6 +19272,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_37
+      objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19543,6 +19648,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_29
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -19766,6 +19876,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_32
       objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19937,6 +20052,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Collider_water
+      objectReference: {fileID: 0}
+    - target: {fileID: 925634233956251495, guid: f1e08a45b4b94b1439471606ee4136f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8449023839745832652, guid: f1e08a45b4b94b1439471606ee4136f3,
         type: 3}
@@ -20110,6 +20230,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -20378,6 +20503,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_40
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -20624,6 +20754,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -21269,6 +21404,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_dalle_12
       objectReference: {fileID: 0}
+    - target: {fileID: 840711545419940374, guid: 4e88da653536e38498f2c8ae3e085b0b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -21381,6 +21521,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_56
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -21594,6 +21739,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21921,6 +22071,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_31
       objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22119,6 +22274,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_10
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -22286,6 +22446,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -22618,6 +22783,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_02
       objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -22775,6 +22945,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_39
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -23158,6 +23333,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_19
       objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -23181,6 +23361,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_alpha_motif_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 3820147567922406995, guid: 3f334013702c2494fadbe6f303b91028,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4487893471208029417, guid: 3f334013702c2494fadbe6f303b91028,
         type: 3}
@@ -23859,6 +24044,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_dalle_11
       objectReference: {fileID: 0}
+    - target: {fileID: 840711545419940374, guid: 4e88da653536e38498f2c8ae3e085b0b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -23948,6 +24138,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_33
       objectReference: {fileID: 0}
+    - target: {fileID: 3440768412418302039, guid: e04e5cc8ec224224eae3b37912e4020a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -23971,6 +24166,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}
@@ -24106,6 +24306,92 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6536497779760636783, guid: 5f8dfd1fd5cac394d822e8651402fe86,
     type: 3}
   m_PrefabInstance: {fileID: 8948919182558438180}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8959234429321300062
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7760934332280618489}
+    m_Modifications:
+    - target: {fileID: 4392641184910215606, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_Name
+      value: RoomInteractor
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f0b6b35012cf76b499c1d73c97dc8934, type: 3}
+--- !u!114 &3080825946191035345 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6238843238407517071, guid: f0b6b35012cf76b499c1d73c97dc8934,
+    type: 3}
+  m_PrefabInstance: {fileID: 8959234429321300062}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ee58edfbf6859f439cfcc61aebc89fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &3307259059761333426 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5886247221579549932, guid: f0b6b35012cf76b499c1d73c97dc8934,
+    type: 3}
+  m_PrefabInstance: {fileID: 8959234429321300062}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8962839513831411058
 PrefabInstance:
@@ -24267,6 +24553,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonset_FBX_little_dalle_26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575231949111769352, guid: 243d42a0553d28047bde86f3bacc0303,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2204381931747369906, guid: 243d42a0553d28047bde86f3bacc0303,
         type: 3}

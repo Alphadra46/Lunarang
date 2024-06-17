@@ -6949,6 +6949,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3297444764942174082, guid: 938bb441111958247950de1ff89a53b1,
         type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 3297444764942174082, guid: 938bb441111958247950de1ff89a53b1,
+        type: 3}
       propertyPath: m_LocalPosition.z
       value: 8.32
       objectReference: {fileID: 0}
@@ -7021,6 +7026,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 3297444765933131951, guid: 938bb441111958247950de1ff89a53b1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.86
       objectReference: {fileID: 0}
     - target: {fileID: 3297444765933131951, guid: 938bb441111958247950de1ff89a53b1,
         type: 3}
@@ -9546,7 +9556,7 @@ PrefabInstance:
     - target: {fileID: 1921172929713314624, guid: 1941a9b5ee23a6545a55ba23844da954,
         type: 3}
       propertyPath: shoreColor.b
-      value: 0.30754724
+      value: 0.30749282
       objectReference: {fileID: 0}
     - target: {fileID: 1921172929713314624, guid: 1941a9b5ee23a6545a55ba23844da954,
         type: 3}
@@ -9571,7 +9581,7 @@ PrefabInstance:
     - target: {fileID: 1921172929713314624, guid: 1941a9b5ee23a6545a55ba23844da954,
         type: 3}
       propertyPath: horizonColor.g
-      value: 0.22752818
+      value: 0.22747377
       objectReference: {fileID: 0}
     - target: {fileID: 1921172929713314624, guid: 1941a9b5ee23a6545a55ba23844da954,
         type: 3}
@@ -9621,7 +9631,7 @@ PrefabInstance:
     - target: {fileID: 1921172929713314624, guid: 1941a9b5ee23a6545a55ba23844da954,
         type: 3}
       propertyPath: surfaceFoamColor1.r
-      value: 0.25092012
+      value: 0.2508657
       objectReference: {fileID: 0}
     - target: {fileID: 1921172929713314624, guid: 1941a9b5ee23a6545a55ba23844da954,
         type: 3}
@@ -9681,7 +9691,7 @@ PrefabInstance:
     - target: {fileID: 2841884121867721602, guid: 1941a9b5ee23a6545a55ba23844da954,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2841884121867721603, guid: 1941a9b5ee23a6545a55ba23844da954,
         type: 3}
@@ -9748,6 +9758,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 897190229}
+    - target: {fileID: 7338563431492784454, guid: 1941a9b5ee23a6545a55ba23844da954,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8093488414058920903, guid: 1941a9b5ee23a6545a55ba23844da954,
         type: 3}
       propertyPath: m_Intensity
@@ -24690,9 +24705,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   events: []
+  isInteractable: 1
   interactableOnce: 0
   destroyOnInteractionEnded: 0
   isInteractionEnded: 0
+  interactableRange: 0
+  promptUI: {fileID: 0}
 --- !u!1 &1248233984 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4661754171753608825, guid: d603e9ebfec38c24c874e59b81098058,
@@ -25768,9 +25786,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   events: []
+  isInteractable: 1
   interactableOnce: 0
   destroyOnInteractionEnded: 0
   isInteractionEnded: 0
+  interactableRange: 0
+  promptUI: {fileID: 0}
 --- !u!33 &1308891223
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -28344,7 +28365,7 @@ PrefabInstance:
     - target: {fileID: 2833039015589054153, guid: e79abad9c4e02fc4f993956ea874bd73,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2833039015589054154, guid: e79abad9c4e02fc4f993956ea874bd73,
         type: 3}
@@ -28459,7 +28480,7 @@ PrefabInstance:
     - target: {fileID: 7441829592953240036, guid: e79abad9c4e02fc4f993956ea874bd73,
         type: 3}
       propertyPath: shoreColor.b
-      value: 0.3075606
+      value: 0.30749226
       objectReference: {fileID: 0}
     - target: {fileID: 7441829592953240036, guid: e79abad9c4e02fc4f993956ea874bd73,
         type: 3}
@@ -28484,7 +28505,7 @@ PrefabInstance:
     - target: {fileID: 7441829592953240036, guid: e79abad9c4e02fc4f993956ea874bd73,
         type: 3}
       propertyPath: horizonColor.g
-      value: 0.22754154
+      value: 0.2274732
       objectReference: {fileID: 0}
     - target: {fileID: 7441829592953240036, guid: e79abad9c4e02fc4f993956ea874bd73,
         type: 3}
@@ -28534,7 +28555,7 @@ PrefabInstance:
     - target: {fileID: 7441829592953240036, guid: e79abad9c4e02fc4f993956ea874bd73,
         type: 3}
       propertyPath: surfaceFoamColor1.r
-      value: 0.25093347
+      value: 0.25086513
       objectReference: {fileID: 0}
     - target: {fileID: 7441829592953240036, guid: e79abad9c4e02fc4f993956ea874bd73,
         type: 3}
@@ -30713,6 +30734,15 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  switchView:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: f80e3a5f-338a-43d6-bf57-1c8a4843f042
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   console:
     m_Name: 
     m_Type: 0
@@ -31377,7 +31407,7 @@ PrefabInstance:
     - target: {fileID: 3353019030451939600, guid: 192942400cfd35446bfeb0d28000d952,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 6.86
       objectReference: {fileID: 0}
     - target: {fileID: 3353019030451939600, guid: 192942400cfd35446bfeb0d28000d952,
         type: 3}
