@@ -370,13 +370,13 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         var totalTimer = vfx.GetFloat("Particles Life") + 3f;
         var timer = totalTimer;
 
-        print("S T A R T");
+        // print("S T A R T");
         while (timer > 0)
         {
             vfx.SetVector3("Target Position", SC_PlayerController.instance.transform.position);
             yield return null;
             timer -= Time.deltaTime;
-            print("ON GOING");
+            // print("ON GOING");
         }
         yield return null;
     }

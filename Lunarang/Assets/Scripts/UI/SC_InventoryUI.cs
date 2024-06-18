@@ -21,13 +21,31 @@ public enum InventoryCategories
 
 public class SC_InventoryUI : MonoBehaviour
 {
+
+    #region Variables
+
+    public GameObject characterPage;
+    public GameObject skillsPage;
+    public GameObject mapPage;
     
+    [PropertySpace(SpaceBefore = 15f)]
+    public List<GameObject> buttonsPanel = new List<GameObject>();
+
+    public Color normalColor;
+    public Color selectedColor;
+    public Color textSelectedColor;
+
+    private int currentPageIndex;
+    
+    [PropertySpace(SpaceBefore = 15f)]
     public RectTransform leftCharacterSide;
 
     [PropertySpace(SpaceBefore = 15f)] public TextMeshProUGUI timeTMP;
     [PropertySpace(SpaceBefore = 5f)] public TextMeshProUGUI killsTMP;
     [PropertySpace(SpaceBefore = 5f)] public TextMeshProUGUI fragmentsDayTMP;
     [PropertySpace(SpaceBefore = 5f)] public TextMeshProUGUI fragmentsNightTMP;
+
+    [PropertySpace(SpaceBefore = 15f)] public List<Image> WeaponSlots;
     
     [PropertySpace(SpaceBefore = 15f)] public Transform leftStatsContent;
     private List<GameObject> leftStatsGOList = new List<GameObject>();
@@ -50,6 +68,8 @@ public class SC_InventoryUI : MonoBehaviour
     [ShowInInspector] private List<SO_BaseSkill> _tankSkills = new List<SO_BaseSkill>();
     [ShowInInspector] private List<SO_BaseSkill> _freezeSkills = new List<SO_BaseSkill>();
 
+#endregion
+
     #endregion
 
     private void Awake()
@@ -63,6 +83,10 @@ public class SC_InventoryUI : MonoBehaviour
     {
        
         InitStats();
+        InitLog();
+        InitWeapons();
+        
+        UpdatePageButtons();
         
     }
 
@@ -70,6 +94,56 @@ public class SC_InventoryUI : MonoBehaviour
     {
         RefreshUI();
     }
+
+    public void ChangePage(int newIndex)
+    {
+
+        currentPageIndex = newIndex;
+
+        switch (currentPageIndex)
+        {
+            
+            case 0:
+                characterPage.SetActive(true);
+                skillsPage.SetActive(false);
+                mapPage.SetActive(false);
+                break;
+            case 1:
+                characterPage.SetActive(false);
+                skillsPage.SetActive(true);
+                mapPage.SetActive(false);
+                break;
+            case 2:
+                characterPage.SetActive(false);
+                skillsPage.SetActive(false);
+                mapPage.SetActive(true);
+                break;
+            
+        }
+
+        UpdatePageButtons();
+
+    }
+
+    public void UpdatePageButtons()
+    {
+        foreach (var t in buttonsPanel)
+        {
+            var img = t.GetComponent<Image>();
+            var text = t.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            
+            
+            img.color = normalColor;
+            text.color = selectedColor;
+
+        }
+
+        buttonsPanel[currentPageIndex].GetComponent<Image>().color = selectedColor;
+        buttonsPanel[currentPageIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = textSelectedColor;
+
+    }
+
+    #region Stats
 
     private void InitStats()
     {
@@ -157,6 +231,37 @@ public class SC_InventoryUI : MonoBehaviour
         }
         rightStatsGOList.Clear();
         
+    }
+    
+
+    #endregion
+
+    private void InitLog()
+    {
+        var timeSpan = TimeSpan.FromSeconds(SC_GameManager.instance.GetRunTimeElapsed());
+        var hours = timeSpan.Hours;
+        var minutes = timeSpan.Minutes;
+        var seconds = timeSpan.Seconds;
+        
+        
+        timeTMP.text = $"TEMPS : {hours:00}:{minutes:00}:{seconds:00}";
+
+        killsTMP.text = "PURIFIÉS : WIP";
+
+    }
+
+    private void InitWeapons()
+    {
+
+        if(SC_GameManager.instance.weaponInventory.weaponsEquipped.Count < 1) return;
+        
+        for (var i = 0; i < WeaponSlots.Count; i++)
+        {
+
+            WeaponSlots[i].sprite = SC_GameManager.instance.weaponInventory.weaponsEquipped[i].icon;
+
+        }
+
     }
     
     private void RefreshUI()

@@ -48,6 +48,15 @@ public class SC_GameManager : MonoBehaviour
 
     [Title("Settings"),PropertySpace(SpaceBefore = 15f)] 
     [ShowInInspector] public string gameVersion = "v0.0.5";
+
+    [Title("Game Variables"), PropertySpace(SpaceBefore = 15f)]
+    [ReadOnly, ShowInInspector] private float runTimer = 0;
+    [ReadOnly, ShowInInspector] private float bestTimer = 0;
+    [ReadOnly, ShowInInspector] private List<float> lastTimers = new List<float>();
+    
+    [ReadOnly, ShowInInspector] private int killCounter = 0;
+    [ReadOnly, ShowInInspector] private int bestKillCounter;
+    [ReadOnly, ShowInInspector] private List<int> lastKillCounters = new List<int>();
     #endregion
     
     private void Awake()
@@ -66,8 +75,49 @@ public class SC_GameManager : MonoBehaviour
     private void Start()
     {
         SC_InputManager.instance.pause.started += OnPauseKey;
+        
     }
 
+    private void Update()
+    {
+        
+        if(state == GameState.RUN) IncrementingTimer();
+        
+    }
+
+
+    #region Timer
+
+    private void IncrementingTimer()
+    {
+
+        runTimer += Time.deltaTime;
+
+    }
+
+    public float GetRunTimeElapsed()
+    {
+
+        return runTimer;
+
+    }
+
+    private void ResetTimer()
+    {
+
+        if(runTimer < 1) return;
+        
+        if (runTimer < bestTimer) bestTimer = runTimer;
+        
+        lastTimers.Add(runTimer);
+
+        runTimer = 0;
+
+    }
+
+    #endregion
+    
+    
     private void OnDisable()
     {
         SC_InputManager.instance.pause.started -= OnPauseKey;
@@ -104,39 +154,73 @@ public class SC_GameManager : MonoBehaviour
         {
             case GameState.LOBBY:
                 if (isPause) SetPause();
-                SC_UIManager.instance.CreateLoadingScreen(1);
+                if(SceneManager.GetActiveScene().buildIndex != 1)
+                    SC_UIManager.instance.CreateLoadingScreen(1);
                 SC_UIManager.instance.ResetTempReferences();
+                
+                SC_AIStats.onDeath -= IncrementingKillCounter;
+                
+                ResetTimer();
+                ResetKillCounter();
                 break;
             case GameState.TRAINING:
                 if (isPause) SetPause();
-                SC_UIManager.instance.CreateLoadingScreen(2);
+                
+                if(SceneManager.GetActiveScene().buildIndex != 2)
+                    SC_UIManager.instance.CreateLoadingScreen(2);
+                
                 if (SC_PlayerController.instance != null)
                 {
                     SC_PlayerController.instance.FreezeMovement(false);
                     SC_PlayerController.instance.FreezeDash(false);
                 }
+                
+                SC_AIStats.onDeath -= IncrementingKillCounter;
+                
                 SC_UIManager.instance.ResetTempReferences();
+                ResetTimer();
+                ResetKillCounter();
                 break;
             case GameState.RUN:
                 if (isPause) SetPause();
                 Resources.Load<SO_SkillInventory>("SkillInventory").SavePreSelectedSkills();
-                SC_UIManager.instance.CreateLoadingScreen(3);
+                if(SceneManager.GetActiveScene().buildIndex != 3)
+                    SC_UIManager.instance.CreateLoadingScreen(3);
+                
                 if (SC_PlayerController.instance != null)
                 {
                     SC_PlayerController.instance.FreezeMovement(false);
                     SC_PlayerController.instance.FreezeDash(false);
                 }
+                
+                SC_AIStats.onDeath += IncrementingKillCounter;
+                
                 SC_UIManager.instance.ResetTempReferences();
+                ResetTimer();
+                ResetKillCounter();
+                
                 break;
             case GameState.DEFEAT:
+                
                 if (!isPause) SetPause();
+                
                 SC_UIManager.instance.ShowHUD();
                 SC_UIManager.instance.ShowGameOverUI();
+                
+                SC_AIStats.onDeath -= IncrementingKillCounter;
+                
+                ResetTimer();
+                ResetKillCounter();
                 break;
             case GameState.WIN:
                 if (!isPause) SetPause();
                 SC_UIManager.instance.ShowHUD();
                 SC_UIManager.instance.ShowWinUI();
+                
+                SC_AIStats.onDeath -= IncrementingKillCounter;
+                
+                ResetTimer();
+                ResetKillCounter();
                 break;
         }
         
@@ -154,6 +238,41 @@ public class SC_GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(0, LoadSceneMode.Single);
     }
+
+    
+    #region Kill Counter
+
+    private void IncrementingKillCounter(SC_AIStats aiKilled)
+    {
+        print("ALLER TA MERE");
+        
+        killCounter += 1;
+        print("Kill : " + killCounter);
+        
+    }
+    private void ResetKillCounter()
+    {
+
+        // if(killCounter < 1) return;
+        //
+        // if (killCounter < bestKillCounter) bestKillCounter = killCounter;
+        //
+        // lastKillCounters.Add(killCounter);
+        //
+        // killCounter = 0;
+
+    }
+
+    public int GetKillCounter()
+    {
+
+        return killCounter;
+
+    }
+    
+    
+
+    #endregion
     
     
     public void OpenInventory()
