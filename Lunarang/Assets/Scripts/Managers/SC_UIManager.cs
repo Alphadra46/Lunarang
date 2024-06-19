@@ -131,6 +131,7 @@ public class SC_UIManager : MonoBehaviour
         else
         {
             Destroy(inventoryUI);
+            inventoryUI = null;
             ShowHUD();
         }
         

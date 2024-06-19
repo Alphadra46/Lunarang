@@ -839,6 +839,37 @@ Transform:
   - {fileID: 2815100252497134336}
   m_Father: {fileID: 8234518841674333747}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6464828698387685333
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5385636167951371749}
+  m_Layer: 0
+  m_Name: MinimapPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5385636167951371749
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6464828698387685333}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.84, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8234518841674333747}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7359437107314474568
 GameObject:
   m_ObjectHideFlags: 0
@@ -1107,6 +1138,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5385636167951371749}
   - {fileID: 7095725928932593384}
   - {fileID: 2031678709929682753}
   - {fileID: 2637850102394482449}
@@ -1145,7 +1177,7 @@ MonoBehaviour:
   doorSouth: {fileID: 4635708179594057224}
   doorWest: {fileID: 1539038577019645885}
   doorEast: {fileID: 7864630194519129814}
-  MinimapPosition: {fileID: 0}
+  MinimapPosition: {fileID: 6464828698387685333}
   globalSpawnArea:
   - {fileID: 845514288726927320}
   - {fileID: 7621831926538821627}

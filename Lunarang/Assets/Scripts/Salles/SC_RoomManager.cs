@@ -138,6 +138,7 @@ public class SC_RoomManager : MonoBehaviour
     {
         if (isClear)
         {
+            if(roomClearVFX == null) return;
             roomClearVFX.Stop();
             roomClearVFX.gameObject.SetActive(false);
             SC_Pooling.instance.ReturnItemToPool("VFX",roomClearVFX.gameObject);

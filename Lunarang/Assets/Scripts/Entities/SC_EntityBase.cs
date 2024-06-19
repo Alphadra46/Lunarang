@@ -44,7 +44,7 @@ namespace Entities
 
         [PropertySpace(SpaceBefore = 10)]
         [TabGroup("Stats", "ATK",TextColor = "red"), ShowInInspector, ReadOnly]
-        public float currentATK => atkBase * (1 + (atkModifier/100));
+        public float currentATK => MathF.Floor(atkBase * (1 + (atkModifier/100)));
         
         [PropertySpace(SpaceBefore = 10)]
         [TabGroup("Stats", "ATK"), ShowInInspector] public int atkBase;

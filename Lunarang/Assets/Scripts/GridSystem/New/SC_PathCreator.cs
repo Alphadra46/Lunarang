@@ -693,7 +693,7 @@ public class SC_PathCreator : MonoBehaviour
             else if (i==bossToChestPath.path.Count-1)
             {
                 //bossToChestRooms.Add(spawnToChestRooms[^1]);
-                Debug.LogWarning(bossToChestRooms[^1]);
+                // Debug.LogWarning(bossToChestRooms[^1]);
                 
                 A = (Vector3)node.position;
                 C = (Vector3)bossToChestPath.path[i - 1].position;

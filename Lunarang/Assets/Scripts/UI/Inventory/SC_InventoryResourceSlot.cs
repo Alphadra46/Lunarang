@@ -25,6 +25,13 @@ public class SC_InventoryResourceSlot : MonoBehaviour, IPointerEnterHandler, IPo
     {
         if(resource != null)
             Init(resource, SC_GameManager.instance.playerResourceInventory.AmountOf(resource));
+        else
+        {
+
+            amountTMP.text = SC_GameManager.instance.archivesInventory.archivesOwned.Count.ToString();
+
+            if (tooltip.transform.GetChild(0).TryGetComponent(out TextMeshProUGUI name)) name.text = "Archives";
+        }
         
     }
 

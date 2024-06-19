@@ -404,6 +404,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         }
         
         
+        
     }
     
     private void ClearRoom()
