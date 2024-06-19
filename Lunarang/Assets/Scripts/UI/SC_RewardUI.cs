@@ -127,6 +127,7 @@ public class SC_RewardUI : MonoBehaviour
     {
 
         isShortDescription = !isShortDescription;
+        PlayerPrefs.SetInt("longDesc", isShortDescription ? 0 : 1);
 
         foreach (var reward in rewards)
         {

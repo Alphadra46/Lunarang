@@ -56,17 +56,9 @@ public class SC_InventoryUI : MonoBehaviour
     #region Skills
 
     [PropertySpace(SpaceBefore = 15f)]
-    [ShowInInspector, ] private InventoryCategories category = InventoryCategories.All;
-    [ShowInInspector] private List<GameObject> skillsGO = new List<GameObject>();
-    
-    [ShowInInspector] private List<SO_BaseSkill> skillsVisible = new List<SO_BaseSkill>();
+    public GameObject constellationTemplate;
+    public Transform ConstellationTransform;
 
-    [ShowInInspector] private List<SO_ParentSkill> _parentSkills = new List<SO_ParentSkill>();
-    
-    [ShowInInspector] private List<SO_BaseSkill> _dotSkills = new List<SO_BaseSkill>();
-    [ShowInInspector] private List<SO_BaseSkill> _berserkSkills = new List<SO_BaseSkill>();
-    [ShowInInspector] private List<SO_BaseSkill> _tankSkills = new List<SO_BaseSkill>();
-    [ShowInInspector] private List<SO_BaseSkill> _freezeSkills = new List<SO_BaseSkill>();
 
 #endregion
 
@@ -85,6 +77,7 @@ public class SC_InventoryUI : MonoBehaviour
         InitStats();
         InitLog();
         InitWeapons();
+        InitConstellationSkills();
         
         UpdatePageButtons();
         
@@ -262,6 +255,25 @@ public class SC_InventoryUI : MonoBehaviour
 
         }
 
+    }
+
+    private void InitConstellationSkills()
+    {
+
+        var constellations = Resources.LoadAll<SC_Constellation>("Constellations").ToList();
+        const int maxVisibleConstellations = 4;
+        
+        for (var i = 0; i < maxVisibleConstellations; i++)
+        {
+            var conste = constellations[i];
+
+            var consteGO = Instantiate(constellationTemplate, ConstellationTransform);
+            if (consteGO.TryGetComponent(out SC_InventoryConstellationManager manager)) manager.Init(conste, conste.name);
+
+            consteGO.name = "Constellation_" + conste.name;
+            consteGO.SetActive(true);
+        }
+        
     }
     
     private void RefreshUI()
