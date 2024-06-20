@@ -649,8 +649,8 @@ public class SC_ComboController : MonoBehaviour
 
         if(vfx == null) return;
         
-        vfx.SetInt("Orb Number", orbNumber);
-        vfx.SetFloat("Rotation Speed", orbNumber);
+        vfx.SetInt("Orb Number", orbNumber+1);
+        vfx.SetFloat("Rotation Speed", orbNumber+1);
         if (orbNumber != 0)
         {
             vfx.SetFloat("Trail Size", 1f / orbNumber);

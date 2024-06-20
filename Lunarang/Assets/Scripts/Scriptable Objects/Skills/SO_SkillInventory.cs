@@ -127,6 +127,20 @@ public class SO_SkillInventory : ScriptableObject
         return (SO_ChildSkill) SC_GameManager.instance.allSkills.FirstOrDefault(skill => skill.skillName == childSkillName);
     }
 
+    public List<SO_ParentSkill> GetAllParentSkillsByConstellation(SC_Constellation constellation)
+    {
+
+        return constellation.skills.Keys.ToList();
+        
+    }
+    
+    public List<SO_ChildSkill> GetAllChildSkillsByConstellation(SC_Constellation constellation, SO_ParentSkill parentSkill)
+    {
+
+        return constellation.skills[parentSkill].ToList();
+        
+    }
+
     public void SavePreSelectedSkills()
     {
         preSelectedSkills = skillsOwned.ToList();

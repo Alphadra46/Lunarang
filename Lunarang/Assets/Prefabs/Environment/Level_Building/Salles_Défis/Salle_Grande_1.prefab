@@ -5369,6 +5369,7 @@ Transform:
   - {fileID: 5884392845958272965}
   - {fileID: 676894148562350745}
   - {fileID: 7114635016158352672}
+  - {fileID: 442650542805659472}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4600599630911808524
@@ -5391,7 +5392,7 @@ MonoBehaviour:
   doorSouth: {fileID: 6619487986932108987}
   doorWest: {fileID: 6619487986932108987}
   doorEast: {fileID: 4429565996106605215}
-  MinimapPosition: {fileID: 0}
+  MinimapPosition: {fileID: 7103569468082452307}
   globalSpawnArea:
   - {fileID: 433405987520719728}
   - {fileID: 4797822790247332602}
@@ -9430,6 +9431,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1 &7103569468082452307
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 442650542805659472}
+  m_Layer: 0
+  m_Name: MinimapPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &442650542805659472
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7103569468082452307}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.36, y: -0.38, z: -1.53}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 104227032171143738}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7704950386578760087
 GameObject:
   m_ObjectHideFlags: 0
@@ -27969,12 +28001,12 @@ PrefabInstance:
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: shoreColor.b
-      value: 0.30749005
+      value: 0.3074491
       objectReference: {fileID: 0}
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: horizonColor.g
-      value: 0.227471
+      value: 0.22743005
       objectReference: {fileID: 0}
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
@@ -27989,7 +28021,7 @@ PrefabInstance:
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}
       propertyPath: surfaceFoamColor1.r
-      value: 0.25086293
+      value: 0.25082198
       objectReference: {fileID: 0}
     - target: {fileID: 820572880032637329, guid: 76e652c064e850c41a3e536d7f3f299f,
         type: 3}

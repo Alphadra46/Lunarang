@@ -125,7 +125,8 @@ public class SC_PlayerController : MonoBehaviour
 
         SC_InputManager.instance.dash.started += Dash;
 
-        SC_InputManager.instance.inventory.started += _ => SC_GameManager.instance.OpenInventory();
+        SC_InputManager.instance.inventory.started += OnInventoryStarted;
+
     }
 
     public void RemoveControllerInputs()
@@ -135,6 +136,7 @@ public class SC_PlayerController : MonoBehaviour
         SC_InputManager.instance.move.canceled -= OnMove;
 
         SC_InputManager.instance.dash.started -= Dash;
+        SC_InputManager.instance.inventory.started -= OnInventoryStarted;
     }
     
     /// <summary>
@@ -338,7 +340,14 @@ public class SC_PlayerController : MonoBehaviour
         if (SC_ComboController.instance.canAttack) return;
         
     }
-    
+
+    private void OnInventoryStarted(InputAction.CallbackContext ctx)
+    {
+
+        SC_GameManager.instance.OpenInventory();
+
+    }
+
     #endregion
-    
+
 }
