@@ -20,10 +20,17 @@ public class SC_TutoRoomManager : MonoBehaviour
     [SerializeField, TabGroup("Settings", "Global Settings")] private Interactor roomInteractor;
     [SerializeField, TabGroup("Settings", "Global Settings")] private Collider spawnArea;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject enterRoomTipsUIPrefab;
+    [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject resourceTipsUIPrefab;
+    [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject fountainTipsUIPrefab;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject skillChest;
+    [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject fountain;
     [SerializeField, TabGroup("Settings", "Global Settings")] private SC_Resource ressourceToForceAdd;
+    [SerializeField, TabGroup("Settings", "Global Settings")] private int amountOfRessource;
+    [SerializeField, TabGroup("Settings", "Global Settings")] private SC_Resource essenceFragment;
 
     private GameObject enterRoomTipsUI;
+    private GameObject resourceTipsUI;
+    private GameObject fountainTipsUI;
 
     [HideInInspector] public int totalEnemies;
     private bool isInit = false;
@@ -140,7 +147,7 @@ public class SC_TutoRoomManager : MonoBehaviour
     public IEnumerator DisplayTipsUI(float duration)
     {
         yield return new WaitForSecondsRealtime(0.75f);
-        Time.timeScale = 0f;
+        SC_GameManager.instance.SetPause();
         SC_PlayerController.instance.FreezeDash(true);
         SC_PlayerController.instance.FreezeMovement(true);
         enterRoomTipsUI = Instantiate(enterRoomTipsUIPrefab);
@@ -148,13 +155,53 @@ public class SC_TutoRoomManager : MonoBehaviour
         SC_InputManager.instance.submit.started += HideTipsUI;
     }
 
+    public IEnumerator DisplayResourceUI(float duration)
+    {
+        yield return new WaitForSecondsRealtime(0.75f);
+        SC_GameManager.instance.SetPause();
+        SC_PlayerController.instance.FreezeDash(true);
+        SC_PlayerController.instance.FreezeMovement(true);
+        resourceTipsUI = Instantiate(resourceTipsUIPrefab);
+        yield return new WaitForSecondsRealtime(duration);
+        SC_InputManager.instance.submit.started += HideResourceUI;
+    }
+
+    public IEnumerator DisplayFountainUI(float duration)
+    {
+        yield return new WaitForSecondsRealtime(0.75f);
+        SC_GameManager.instance.SetPause();
+        SC_PlayerController.instance.FreezeDash(true);
+        SC_PlayerController.instance.FreezeMovement(true);
+        fountainTipsUI = Instantiate(fountainTipsUIPrefab);
+        yield return new WaitForSecondsRealtime(duration);
+        SC_InputManager.instance.submit.started += HideFountainUI;
+    }
+    
+    public void HideFountainUI(InputAction.CallbackContext context)
+    {
+        SC_InputManager.instance.submit.started -= HideFountainUI;
+        SC_PlayerController.instance.FreezeDash(false);
+        SC_PlayerController.instance.FreezeMovement(false);
+        Destroy(fountainTipsUI);
+        SC_GameManager.instance.SetPause();
+    }
+    
+    public void HideResourceUI(InputAction.CallbackContext context)
+    {
+        SC_InputManager.instance.submit.started -= HideResourceUI;
+        SC_PlayerController.instance.FreezeDash(false);
+        SC_PlayerController.instance.FreezeMovement(false);
+        Destroy(resourceTipsUI);
+        SC_GameManager.instance.SetPause();
+    }
+    
     public void HideTipsUI(InputAction.CallbackContext context)
     {
         SC_InputManager.instance.submit.started -= HideTipsUI;
         SC_PlayerController.instance.FreezeDash(false);
         SC_PlayerController.instance.FreezeMovement(false);
         Destroy(enterRoomTipsUI);
-        Time.timeScale = 1f;
+        SC_GameManager.instance.SetPause();
     }
     
     private IEnumerator PurifyRoom(float duration, Interactor interactor)
@@ -208,9 +255,18 @@ public class SC_TutoRoomManager : MonoBehaviour
 
         if (ressourceToForceAdd != null)
         {
-            resourcesInventory.AddResource(ressourceToForceAdd,15);
+            resourcesInventory.AddResource(ressourceToForceAdd,amountOfRessource);
+            StartCoroutine(DisplayResourceUI(1.25f));
+            if (essenceFragment!=null)
+                resourcesInventory.AddResource(essenceFragment,1);
         }
 
+        if (fountain != null)
+        {
+            fountain.GetComponent<SC_InteractableBase>().isInteractable = true;
+            StartCoroutine(DisplayFountainUI(1f));
+        }
+        
         if (skillChest==null)
             return;
         

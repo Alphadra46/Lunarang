@@ -83,7 +83,7 @@ public class SC_UIManager : MonoBehaviour
             UIParent = GameObject.FindWithTag("UIParent");
         }
 
-        if (SceneManager.GetActiveScene().buildIndex == 0 || SceneManager.GetActiveScene().buildIndex == 1) return;
+        if (SceneManager.GetActiveScene().buildIndex == 0 || SceneManager.GetActiveScene().buildIndex == 2) return;
         
         ResetTempReferences();
         InstantiateHUD();
@@ -176,7 +176,7 @@ public class SC_UIManager : MonoBehaviour
             rewardUI.name = "RewardUI";
             SC_RewardManager.instance.ChestRewardSelection(rewardUI.GetComponent<SC_RewardUI>());
             
-            SC_InputManager.instance.submit.Disable();
+            //SC_InputManager.instance.submit.Disable();
             ShowHUD();
             
             // EventSystem.current.SetSelectedGameObject(rewardUI.transform.GetChild(1).gameObject);

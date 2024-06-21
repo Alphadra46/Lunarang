@@ -154,8 +154,8 @@ public class SC_GameManager : MonoBehaviour
         {
             case GameState.LOBBY:
                 if (isPause) SetPause();
-                if(SceneManager.GetActiveScene().buildIndex != 1)
-                    SC_UIManager.instance.CreateLoadingScreen(1);
+                if(SceneManager.GetActiveScene().buildIndex != 2)
+                    SC_UIManager.instance.CreateLoadingScreen(2);
                 SC_UIManager.instance.ResetTempReferences();
                 
                 SC_AIStats.onDeath -= IncrementingKillCounter;
@@ -166,8 +166,8 @@ public class SC_GameManager : MonoBehaviour
             case GameState.TRAINING:
                 if (isPause) SetPause();
                 
-                if(SceneManager.GetActiveScene().buildIndex != 2)
-                    SC_UIManager.instance.CreateLoadingScreen(2);
+                if(SceneManager.GetActiveScene().buildIndex != 3)
+                    SC_UIManager.instance.CreateLoadingScreen(3);
                 
                 if (SC_PlayerController.instance != null)
                 {
@@ -184,8 +184,8 @@ public class SC_GameManager : MonoBehaviour
             case GameState.RUN:
                 if (isPause) SetPause();
                 Resources.Load<SO_SkillInventory>("SkillInventory").SavePreSelectedSkills();
-                if(SceneManager.GetActiveScene().buildIndex != 3)
-                    SC_UIManager.instance.CreateLoadingScreen(3);
+                if(SceneManager.GetActiveScene().buildIndex != 4)
+                    SC_UIManager.instance.CreateLoadingScreen(4);
                 
                 if (SC_PlayerController.instance != null)
                 {
