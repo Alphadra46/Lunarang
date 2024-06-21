@@ -12,12 +12,20 @@ public class SC_Door : MonoBehaviour
     public Animator animator;
 
     [HideInInspector] public SC_RoomManager roomManager;
+    [HideInInspector] public SC_TutoRoomManager tutoRoomManager;
 
     public void Initialize(SC_RoomManager roomManager)
     {
         doorRenderer = GetComponent<MeshRenderer>();
         doorCollider = GetComponent<Collider>();
         this.roomManager = roomManager;
+    }
+    
+    public void Initialize(SC_TutoRoomManager tutoRoomManager)
+    {
+        doorRenderer = GetComponent<MeshRenderer>();
+        doorCollider = GetComponent<Collider>();
+        this.tutoRoomManager = tutoRoomManager;
     }
     
     private void OnTriggerEnter(Collider other)
@@ -47,15 +55,27 @@ public class SC_Door : MonoBehaviour
     {
         SC_PlayerController.instance.Teleport(new Vector3(doorSpawnPoint.transform.position.x, 0, doorSpawnPoint.transform.position.z));
 
-        roomManager.ChangeConfiner();
-        if (!roomManager.isSpecialRoom && !roomManager.isClear)
+        if (roomManager != null)
         {
-            roomManager.SpawnEnemies();
-            roomManager.LockDoors();
-            SC_AIStats.onDeath += roomManager.DecreaseEnemiesCount;
-        }
+            roomManager.ChangeConfiner();
+            if (!roomManager.isSpecialRoom && !roomManager.isClear)
+            {
+                roomManager.SpawnEnemies();
+                roomManager.LockDoors();
+                SC_AIStats.onDeath += roomManager.DecreaseEnemiesCount;
+            }
         
-        SC_MiniMapComponent.changeRoomTransform?.Invoke(roomManager.MinimapPosition);
+            SC_MiniMapComponent.changeRoomTransform?.Invoke(roomManager.MinimapPosition);
+        }
+        else if (tutoRoomManager != null)
+        {
+            if (!tutoRoomManager.isSpecialRoom && !tutoRoomManager.isClear)
+            {
+                tutoRoomManager.SpawnEnemies();
+                tutoRoomManager.LockDoors();
+                SC_AIStats.onDeath += tutoRoomManager.DecreaseEnemyCount;
+            }
+        }
     }
 
     public void OnExitRoom()
