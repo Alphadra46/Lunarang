@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SC_InventoryConstellationManager : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class SC_InventoryConstellationManager : MonoBehaviour
 
     [PropertySpace(SpaceBefore = 15f)]
     public SC_Constellation constellation;
+
+    public List<GameObject> childsGO = new List<GameObject>();
     
     #endregion
 
@@ -76,6 +79,7 @@ public class SC_InventoryConstellationManager : MonoBehaviour
                 if(childSkillGO.TryGetComponent(out SC_InventoryChildSkillTemplate sc)) sc.Init(childSkill, childID);
                 
                 childSkillGO.SetActive(true);
+                childsGO.Add(childSkillGO);
             }
             
             childPanel.SetActive(true);
@@ -85,5 +89,10 @@ public class SC_InventoryConstellationManager : MonoBehaviour
         }
 
     }
-    
+
+    private void Update()
+    {
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform) TitleTMP.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform) TitleTMP.transform.parent);
+    }
 }

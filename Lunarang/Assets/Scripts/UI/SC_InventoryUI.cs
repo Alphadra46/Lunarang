@@ -5,6 +5,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public enum InventoryCategories
@@ -46,21 +47,31 @@ public class SC_InventoryUI : MonoBehaviour
     [PropertySpace(SpaceBefore = 5f)] public TextMeshProUGUI fragmentsNightTMP;
 
     [PropertySpace(SpaceBefore = 15f)] public List<Image> WeaponSlots;
-    
+
+    #region Stats
+
     [PropertySpace(SpaceBefore = 15f)] public Transform leftStatsContent;
-    private List<GameObject> leftStatsGOList = new List<GameObject>();
+    [ShowInInspector] private List<GameObject> leftStatsGOList = new List<GameObject>();
     [PropertySpace(SpaceBefore = 5f)] public Transform rightStatsContent;
     private List<GameObject> rightStatsGOList = new List<GameObject>();
     [PropertySpace(SpaceBefore = 5f)] public GameObject statTemplatePrefab;
+
+    #endregion
 
     #region Skills
 
     [PropertySpace(SpaceBefore = 15f)]
     public GameObject constellationTemplate;
     public Transform ConstellationTransform;
+    public List<GameObject> constellationsGO;
 
+    [PropertySpace(SpaceBefore = 15f)]
+    public GameObject lunarTemplate;
+    public Transform lunarTransform;
 
 #endregion
+
+    public List<Selectable> resourcesSelectables = new List<Selectable>();
 
     #endregion
 
@@ -78,6 +89,9 @@ public class SC_InventoryUI : MonoBehaviour
         InitLog();
         InitWeapons();
         InitConstellationSkills();
+        InitLunarSkills();
+        
+        InitNavigation();
         
         UpdatePageButtons();
         
@@ -145,10 +159,10 @@ public class SC_InventoryUI : MonoBehaviour
         
         var statsToShowLeft = new List<string>() { "PV", "ATK", "DEF", "SPD" };
         var statsToShowRight = new List<string>() { "DMG", "TC", "DC", "CA" };
-
+        
         foreach (var stat in statsToShowLeft)
         {
-
+            
             var statName = stat switch
             {
                 "PV" => "POINTS DE VIE",
@@ -171,7 +185,9 @@ public class SC_InventoryUI : MonoBehaviour
             };
             
             var statGO = Instantiate(statTemplatePrefab, leftStatsContent);
-            if(statGO.TryGetComponent(out SC_InventoryStatTemplate statTemplate)) statTemplate.Init(stat, statName, statValue, false); 
+            leftStatsGOList.Add(statGO);
+            
+            if(statGO.TryGetComponent(out SC_InventoryStatTemplate statTemplate)) statTemplate.Init(stat, statName, statValue, false);
 
         }
         
@@ -201,10 +217,134 @@ public class SC_InventoryUI : MonoBehaviour
             };
             
             var statGO = Instantiate(statTemplatePrefab, rightStatsContent);
+            rightStatsGOList.Add(statGO);
+            
             if(statGO.TryGetComponent(out SC_InventoryStatTemplate statTemplate)) statTemplate.Init(stat, statName, statValue, true); 
+
+            
+        }
+
+    }
+
+    private void InitNavigation()
+    {
+
+        //Left Stats
+        for(var i = 0; i < leftStatsGOList.Count; i++)
+        {
+
+            var statGO = leftStatsGOList[i];
+
+            if (!statGO.TryGetComponent(out Selectable selectable)) continue;
+            
+            var nav = selectable.navigation;
+
+            nav.mode = Navigation.Mode.Explicit;
+            if (i != 0) {
+                if(!leftStatsGOList[i - 1].TryGetComponent(out Selectable upSelectable)) return;
+                    
+                nav.selectOnUp = i == 0 ? null : upSelectable;
+            }
+            else
+            {
+                if(!resourcesSelectables[0].TryGetComponent(out Selectable upSelectable)) return;
+
+                nav.selectOnUp = upSelectable;
+            }
+                
+            if(i != leftStatsGOList.Count-1){
+                if(!leftStatsGOList[i + 1].TryGetComponent(out Selectable downSelectable)) return;
+                    
+                nav.selectOnDown = i == leftStatsGOList.Count ? null : downSelectable;
+            }
+            
+            if(!rightStatsGOList[i].TryGetComponent(out Selectable rightSelectable)) return;
+
+            nav.selectOnRight = rightSelectable;
+            
+           
+
+            selectable.navigation = nav;
+
+        }
+        
+        //Right Stats
+        for(var i = 0; i < rightStatsGOList.Count; i++)
+        {
+
+            var statGO = rightStatsGOList[i];
+
+            if (!statGO.TryGetComponent(out Selectable selectable)) continue;
+            
+            var nav = selectable.navigation;
+
+            nav.mode = Navigation.Mode.Explicit;
+            if (i != 0) {
+                if(!rightStatsGOList[i - 1].TryGetComponent(out Selectable upSelectable)) return;
+                    
+                nav.selectOnUp = i == 0 ? null : upSelectable;
+            } else
+            {
+                if(!resourcesSelectables[0].TryGetComponent(out Selectable upSelectable)) return;
+
+                nav.selectOnUp = upSelectable;
+            }
+                
+            if(i != rightStatsGOList.Count-1){
+                if(!rightStatsGOList[i + 1].TryGetComponent(out Selectable downSelectable)) return;
+                    
+                nav.selectOnDown = i == rightStatsGOList.Count ? null : downSelectable;
+            }
+            
+            if(!leftStatsGOList[i].TryGetComponent(out Selectable leftSelectable)) return;
+
+            nav.selectOnLeft = leftSelectable;
+
+            selectable.navigation = nav;
 
         }
 
+        for (var i = 0; i < resourcesSelectables.Count; i++)
+        {
+            
+            var nav = resourcesSelectables[i].navigation;
+            
+            nav.mode = Navigation.Mode.Explicit;
+            
+            if(!leftStatsGOList[0].TryGetComponent(out Selectable downSelectable)) return;
+                
+            nav.selectOnDown = downSelectable;
+            
+            if (i != 0) {
+                if(!resourcesSelectables[i - 1].TryGetComponent(out Selectable leftSelectable)) return;
+                    
+                nav.selectOnLeft = i == 0 ? null : leftSelectable;
+            }
+                
+            if(i != resourcesSelectables.Count-1){
+                if(!resourcesSelectables[i + 1].TryGetComponent(out Selectable rightSelectable)) return;
+                    
+                nav.selectOnRight = i == resourcesSelectables.Count ? null : rightSelectable;
+            }
+            
+            resourcesSelectables[i].navigation = nav;
+
+        }
+
+        for (var i = 0; i < constellationsGO.Count; i++)
+        {
+            
+            if(!constellationsGO[i].TryGetComponent(out SC_InventoryConstellationManager manager)) return;
+
+            for (int j = 0; j < manager.childsGO.Count; j++)
+            {
+                // manager.childsGO[j];
+            }
+            
+        }
+        
+        EventSystem.current.SetSelectedGameObject(resourcesSelectables[0].gameObject);
+        
     }
 
     private void ClearStats()
@@ -272,9 +412,29 @@ public class SC_InventoryUI : MonoBehaviour
 
             consteGO.name = "Constellation_" + conste.name;
             consteGO.SetActive(true);
+            constellationsGO.Add(consteGO);
         }
         
     }
+    
+    private void InitLunarSkills()
+    {
+
+        var lunarSkills = Resources.LoadAll<SO_LunarSkill>("Skills");
+
+        foreach (var lunarSkill in lunarSkills)
+        {
+
+            var lunarGO = Instantiate(lunarTemplate, lunarTransform);
+            if(lunarGO.TryGetComponent(out SC_InventoryLunarSkillTemplate lunarSC)) lunarSC.Init(lunarSkill);
+            
+            lunarGO.name = "LunarSkill_" + lunarSkill.skillName;
+            lunarGO.SetActive(true);
+
+        }
+        
+    }
+    
     
     private void RefreshUI()
     {
