@@ -6,13 +6,6 @@ using UnityEngine.EventSystems;
 
 public class SC_InventoryLunarPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
-    
-    public void OnEnable()
-    {
-        
-        
-        
-    }
 
     public void ResizeAllSkill(bool value)
     {
