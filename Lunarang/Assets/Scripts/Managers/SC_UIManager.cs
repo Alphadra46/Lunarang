@@ -37,6 +37,9 @@ public class SC_UIManager : MonoBehaviour
     [SerializeField] private GameObject settingsPrefab;
     [BoxGroup("Prefabs References")]
     [SerializeField] private GameObject altarUIPrefab;
+    
+    [BoxGroup("Prefabs References")]
+    [SerializeField] private GameObject archiveDiscoveredUIPrefab;
 
     #region Temporary References
     
@@ -67,6 +70,10 @@ public class SC_UIManager : MonoBehaviour
     [BoxGroup("Temporary References")] 
     [SerializeField] private GameObject altarUI;
 
+    // SubUI
+    [BoxGroup("Temporary References")] 
+    [SerializeField] public GameObject archiveDiscoveredUI;
+    
     private GameObject statsUI;
 
 #endregion
@@ -290,6 +297,12 @@ public class SC_UIManager : MonoBehaviour
 
     }
     
+    public void DestroyLoadingScreen()
+    {
+        Destroy(loadingScreenUI);
+        loadingScreenUI = null;
+    }
+    
     public void ShowSettings()
     {
 
@@ -305,13 +318,27 @@ public class SC_UIManager : MonoBehaviour
 
     }
 
-    public void DestroyLoadingScreen()
+    public void ShowArchiveDiscovered(SO_Archive archiveToDisplay)
     {
-        Destroy(loadingScreenUI);
-        loadingScreenUI = null;
+        
+        if (archiveDiscoveredUI == null)
+        {
+            archiveDiscoveredUI = Instantiate(archiveDiscoveredUIPrefab, UIParent.transform);
+            archiveDiscoveredUI.name = "ArchiveDiscoveredUI";
+            
+            if(archiveDiscoveredUI.TryGetComponent(out SC_ArchiveDiscoveredUI sc)) sc.Init(archiveToDisplay);
+            
+            ShowHUD();
+        }
+        else
+        {
+            Destroy(archiveDiscoveredUI);
+            archiveDiscoveredUI = null;
+            ShowHUD();
+        }
+        
     }
-
-
+    
     public void ShowStatsDebugUI()
     {
         

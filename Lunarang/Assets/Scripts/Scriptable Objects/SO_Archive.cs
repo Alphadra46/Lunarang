@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum ArchiveType
 {
@@ -59,10 +60,10 @@ public class SO_Archive : SerializedScriptableObject
 
     #endregion
 
-    #region Story
+    #region Pages
     [PropertySpace(SpaceBefore = 25f)]
-    [ShowIf("@this.archiveType == ArchiveType.Story"), TextArea]
-    public List<string> storyText = new List<string>();
+    [TextArea]
+    public List<string> pagesText = new List<string>();
 
     #endregion
     

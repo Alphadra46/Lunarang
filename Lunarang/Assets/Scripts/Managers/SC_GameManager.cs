@@ -287,7 +287,6 @@ public class SC_GameManager : MonoBehaviour
     
     public void OpenLibrary()
     {
-        print("pls");
         SC_UIManager.instance.ShowLibrary();
     }
 
@@ -302,6 +301,22 @@ public class SC_GameManager : MonoBehaviour
         
         SetPause();
         SC_UIManager.instance.ShowRewardMenu();
+    }
+    
+    public void OpenArchiveUI(SO_Archive archive)
+    {
+        SetPause();
+        if (SC_UIManager.instance.archiveDiscoveredUI != null)
+        {
+            SC_InputManager.instance.pause.started += OnPauseKey;
+        }
+        else
+        {
+            SC_InputManager.instance.pause.started -= OnPauseKey;
+        }
+        
+        SC_UIManager.instance.ShowArchiveDiscovered(archive);
+        
     }
     
     public void OnPauseKey(InputAction.CallbackContext obj)
