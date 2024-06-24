@@ -107,7 +107,7 @@ public class SC_PathCreator : MonoBehaviour
             }
         }
         
-        SC_PlayerController.instance.transform.position = new Vector3(floorsList[0].floorStartRoom.GetComponent<SC_RoomManager>().doorNorth.doorSpawnPoint.transform.position.x, 0, floorsList[0].floorStartRoom.GetComponent<SC_RoomManager>().doorNorth.doorSpawnPoint.transform.position.z);
+        SC_PlayerController.instance.transform.position = new Vector3(floorsList[0].floorStartRoom.transform.GetChild(floorsList[0].floorStartRoom.transform.childCount-1).position.x, 0, floorsList[0].floorStartRoom.transform.GetChild(floorsList[0].floorStartRoom.transform.childCount-1).position.z);
         SC_MiniMapComponent.changeRoomTransform?.Invoke(floorsList[0].floorStartRoom.GetComponent<SC_RoomManager>().MinimapPosition);
         FloorConnection();
         

@@ -90,6 +90,7 @@ Transform:
   - {fileID: 496856198711209876}
   - {fileID: 1709582408547174898}
   - {fileID: 1894783923333572743}
+  - {fileID: 5715709881901045699}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &118414426568463535
@@ -119,6 +120,7 @@ MonoBehaviour:
   colliderConfiner: {fileID: 8447884634950151929}
   resourceChest: {fileID: 0}
   skillChest: {fileID: 0}
+  fountain: {fileID: 0}
   roomInteractor: {fileID: 0}
   isClear: 0
 --- !u!1 &6265577415938939980
@@ -277,6 +279,7 @@ MonoBehaviour:
   doorSpawnPoint: {fileID: 8803981934530391669}
   animator: {fileID: 8840893908793174029}
   roomManager: {fileID: 0}
+  tutoRoomManager: {fileID: 0}
 --- !u!1 &7509365387350158642
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,6 +417,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &8231218803594155512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5715709881901045699}
+  m_Layer: 0
+  m_Name: TP START
+  m_TagString: Untagged
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5715709881901045699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8231218803594155512}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.55, y: 0.249, z: -2.33}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4594326505470999548}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8803981934530391669
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,17 +490,17 @@ PrefabInstance:
     - target: {fileID: 3278097796952199604, guid: 1f1f63bd38b472c45b350447b04a0bf8,
         type: 3}
       propertyPath: shoreColor.b
-      value: 0.30748627
+      value: 0.30748895
       objectReference: {fileID: 0}
     - target: {fileID: 3278097796952199604, guid: 1f1f63bd38b472c45b350447b04a0bf8,
         type: 3}
       propertyPath: horizonColor.g
-      value: 0.22746721
+      value: 0.22746989
       objectReference: {fileID: 0}
     - target: {fileID: 3278097796952199604, guid: 1f1f63bd38b472c45b350447b04a0bf8,
         type: 3}
       propertyPath: surfaceFoamColor1.r
-      value: 0.25085914
+      value: 0.25086182
       objectReference: {fileID: 0}
     - target: {fileID: 7910224760896436666, guid: 1f1f63bd38b472c45b350447b04a0bf8,
         type: 3}
