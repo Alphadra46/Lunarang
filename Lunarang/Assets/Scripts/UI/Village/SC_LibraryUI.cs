@@ -5,6 +5,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class SC_LibraryUI : MonoBehaviour
@@ -72,11 +73,13 @@ public class SC_LibraryUI : MonoBehaviour
     private void OnEnable()
     {
         showInformations += ShowInformations;
+        SC_InputManager.instance.cancel.started += Close;
     }
 
     private void OnDisable()
     {
         showInformations -= ShowInformations;
+        SC_InputManager.instance.cancel.started -= Close;
     }
 
     private void Awake()
@@ -84,8 +87,8 @@ public class SC_LibraryUI : MonoBehaviour
         Init();
         
         SwitchInformationsPanelState("unselected");
-
-        StartCoroutine(DelayBeforeSelect());
+        
+        
     }
 
     public void Init()
@@ -115,6 +118,7 @@ public class SC_LibraryUI : MonoBehaviour
                            SC_GameManager.instance.archivesInventory.GetNumbersOfArchives();
         
         SwitchType((int) typeShowed);
+        
 
     }
     
@@ -138,8 +142,16 @@ public class SC_LibraryUI : MonoBehaviour
         
         LayoutRebuilder.ForceRebuildLayoutImmediate(collectionsContent.GetComponent<RectTransform>());
         
+        
     }
 
+    private void Close(InputAction.CallbackContext ctx)
+    {
+        
+        BackToLobby();
+        
+    }
+    
     public void BackToLobby()
     {
         
@@ -223,14 +235,6 @@ public class SC_LibraryUI : MonoBehaviour
         }
         
     }
-
-    private IEnumerator DelayBeforeSelect()
-    {
-
-        yield return new WaitForSecondsRealtime(1f);
-        
-        backToLobbyButton.Select();
-
-    }
+    
     
 }
