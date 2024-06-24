@@ -22,6 +22,8 @@ public class SC_GameManager : MonoBehaviour
     public static SC_GameManager instance;
 
     public static Action clearRoom;
+
+    public static bool isFirstLaunch;
     
     #region Variables
 
