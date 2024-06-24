@@ -9,7 +9,8 @@ using Sirenix.OdinInspector;
     using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
+    using UnityEngine.SceneManagement;
+    using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using UnityEngine.VFX;
 using UnityEngine.VFX.Utility;
@@ -334,7 +335,8 @@ public class SC_AIStats : SC_EntityBase, IDamageable
 
         if(SC_Pooling.instance != null) {
             SC_RewardManager.instance.ResourceDropSelection(isElite ? "Elite" : "Base", out int amount);
-            DropRessources(SC_PlayerController.instance.transform.position, amount);
+            if (SceneManager.GetActiveScene().buildIndex!=1)
+                DropRessources(SC_PlayerController.instance.transform.position, amount);
             SC_Pooling.instance.ReturnItemToPool("Ennemis", gameObject);
             ResetStats();
             _debuffsBuffsComponent.ClearAllVFX();
