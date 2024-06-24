@@ -5,6 +5,7 @@ using Entities;
 using Enum;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -80,7 +81,8 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     {
         currentStats.currentHealth = currentStats.currentMaxHealth;
         onHealthInit?.Invoke(currentStats.currentHealth, currentStats.currentMaxHealth);
-        
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+            isInvincible = true;
     }
 
     private void Update()
