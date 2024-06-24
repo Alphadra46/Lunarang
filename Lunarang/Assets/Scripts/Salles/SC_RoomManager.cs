@@ -52,6 +52,7 @@ public class SC_RoomManager : MonoBehaviour
     [SerializeField, TabGroup("Settings", "Global Settings")] private Collider colliderConfiner;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject resourceChest;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject skillChest;
+    [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject fountain;
     [SerializeField, TabGroup("Settings", "Global Settings")] private Interactor roomInteractor;
     
     private CinemachineConfiner confiner;
@@ -118,6 +119,11 @@ public class SC_RoomManager : MonoBehaviour
             resourceChest.SetActive(false);
             SkillChestSpawn();
             ResourceChestSpawn();
+            if (roomSize == RoomSize.Large)
+            {
+                fountain.SetActive(false);
+                FountainSpawn();
+            }
         }
         
         doorNorth.Initialize(this);
@@ -518,6 +524,19 @@ public class SC_RoomManager : MonoBehaviour
         vfx.gameObject.SetActive(false);
     }
 
+    public void FountainSpawn()
+    {
+        if (fountain==null)
+            return;
+        
+        var chances = Random.Range(1, 101);
+        if (chances<=30)
+        {
+            fountain.SetActive(true);
+            fountain.GetComponent<SC_InteractableBase>().isInteractable = true;
+        }
+    }
+    
     public void SkillChestSpawn()
     {
         var chances = SC_RewardManager.instance.skillChestChances[0];

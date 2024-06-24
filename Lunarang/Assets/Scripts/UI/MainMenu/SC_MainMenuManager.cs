@@ -47,8 +47,8 @@ public class SC_MainMenuManager : MonoBehaviour
 
     public void Play()
     {
-        
-        SC_UIManager.instance.CreateLoadingScreen(1);
+
+        SC_UIManager.instance.CreateLoadingScreen(SC_GameManager.isFirstLaunch?2:1);
         
     }
 

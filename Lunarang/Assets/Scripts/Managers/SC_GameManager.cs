@@ -8,6 +8,10 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public enum GameState
 {
     LOBBY,
@@ -22,6 +26,8 @@ public class SC_GameManager : MonoBehaviour
     public static SC_GameManager instance;
 
     public static Action clearRoom;
+    
+    public static bool isFirstLaunch;
     
     #region Variables
 
@@ -75,7 +81,9 @@ public class SC_GameManager : MonoBehaviour
     private void Start()
     {
         SC_InputManager.instance.pause.started += OnPauseKey;
-        
+#if UNITY_EDITOR
+        EditorApplication.playModeStateChanged += EditorStateChange;
+#endif
     }
 
     private void Update()
@@ -85,6 +93,16 @@ public class SC_GameManager : MonoBehaviour
         
     }
 
+#if UNITY_EDITOR
+    private void EditorStateChange(PlayModeStateChange playModeState)
+    {
+        if (playModeState == PlayModeStateChange.EnteredEditMode)
+        {
+            isFirstLaunch = false;
+        }
+    }
+#endif
+    
 
     #region Timer
 
@@ -121,6 +139,7 @@ public class SC_GameManager : MonoBehaviour
     private void OnDisable()
     {
         SC_InputManager.instance.pause.started -= OnPauseKey;
+
     }
 
     private bool CheckEntityType(string id)
