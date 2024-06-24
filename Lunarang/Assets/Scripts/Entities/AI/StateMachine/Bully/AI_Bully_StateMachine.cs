@@ -13,10 +13,10 @@ public class AI_Bully_StateMachine : AI_StateMachine
     [TabGroup("States", "Attack")]
     public GameObject hurtBox;
     [TabGroup("States", "Attack")]
-    public bool canCharge = false;
+    public bool canShield = true;
 
     public bool obstacleHitted = false;
-    public float chargeSpeed = 10f;
+    public float shieldCD = 10f;
     
     
     /// <summary>
@@ -53,6 +53,22 @@ public class AI_Bully_StateMachine : AI_StateMachine
 
     }
     
+    public IEnumerator ShieldCD()
+    {
+        
+        CanShield(false);
+        yield return new WaitForSeconds(shieldCD);
+        CanShield(true);
+
+    }
+    
+    public void CanShield(bool value)
+    {
+        
+        canShield = value;
+        
+    }
+    
     /// <summary>
     /// Switch to Stun State when Player's Hurtbox touche him.
     /// </summary>
@@ -63,7 +79,6 @@ public class AI_Bully_StateMachine : AI_StateMachine
         if (!other.CompareTag("HurtBox_Player"))
         {
             obstacleHitted = true;
-            print("AIE");
             return;
         }
 

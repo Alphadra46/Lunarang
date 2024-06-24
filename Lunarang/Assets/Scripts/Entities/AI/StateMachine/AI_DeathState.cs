@@ -24,17 +24,8 @@ public class AI_DeathState : BaseState<AI_StateMachine.EnemyState>
         _aiStateMachine.agent.SetDestination(_aiStateMachine.transform.position);
         _aiStateMachine.agent.velocity = Vector3.zero;
 
-        if (_aiStateMachine._stats.typeID == "summoner")
-        {
-            _aiStateMachine._stats.Invoke("Death", 0.5f);
-            _aiStateMachine._collider.enabled = false;
-        }
-        else
-        {
-            _aiStateMachine._renderer.SendTriggerToAnimator("Death");
-            _aiStateMachine._collider.enabled = false;
-        }
-        
+        _aiStateMachine._renderer.SendTriggerToAnimator("Death");
+        _aiStateMachine._collider.enabled = false;
         
     }
 

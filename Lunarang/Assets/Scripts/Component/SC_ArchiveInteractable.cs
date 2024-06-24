@@ -9,6 +9,7 @@ public class SC_ArchiveInteractable : SC_InteractableBase
     {
         if(archiveAttached == null) return;
         
+        SC_GameManager.instance.archivesInventory.UnlockArchive(archiveAttached);
         SC_GameManager.instance.OpenArchiveUI(archiveAttached);
     }
     

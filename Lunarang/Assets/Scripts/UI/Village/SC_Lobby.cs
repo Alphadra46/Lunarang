@@ -65,7 +65,7 @@ public class SC_Lobby : MonoBehaviour
         
         if(!buildingSelected.building.levelUpCosts.ContainsKey(buildingSelected.building.currentLevel+1)) return;
         
-        if(!SC_GameManager.instance.playerResourceInventory.CheckHasRessources(buildingSelected.building.levelUpCosts[buildingSelected.building.currentLevel+1])) return;
+        if(!SC_GameManager.instance.playerResourceInventory.CheckHasResources(buildingSelected.building.levelUpCosts[buildingSelected.building.currentLevel+1])) return;
         
         buildingSelected.building.Upgrade();
         buildingSelected.UpdateSprite();

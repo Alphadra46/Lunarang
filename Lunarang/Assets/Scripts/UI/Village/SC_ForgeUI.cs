@@ -162,7 +162,8 @@ public class SC_ForgeUI : MonoBehaviour
         
         if(!upgradedWeapon.levelUpCosts.ContainsKey(upgradedWeapon.currentLevel)) return;
         
-        if(!SC_GameManager.instance.playerResourceInventory.CheckHasRessources(upgradedWeapon.levelUpCosts[upgradedWeapon.currentLevel])) return;
+        if(!SC_GameManager.instance.playerResourceInventory.CheckHasResources(upgradedWeapon.levelUpCosts[upgradedWeapon.currentLevel])) return;
+        SC_GameManager.instance.playerResourceInventory.RemoveResources(upgradedWeapon.levelUpCosts[upgradedWeapon.currentLevel]);
         
         upgradedWeapon.Upgrade();
         
@@ -516,7 +517,7 @@ public class SC_ForgeUI : MonoBehaviour
         }
         
         upgradeButton.interactable =
-            SC_GameManager.instance.playerResourceInventory.CheckHasRessources(
+            SC_GameManager.instance.playerResourceInventory.CheckHasResources(
                 upgradedWeapon.levelUpCosts[upgradedWeapon.currentLevel]);
         
     }

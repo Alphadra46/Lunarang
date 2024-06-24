@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Enum;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -36,65 +37,31 @@ public class AI_Bully_AttackState : BaseState<AI_Bully_StateMachine.EnemyState>
     /// <param name="delay">Delay in seconds before switching state.</param>
     private IEnumerator Attack()
     {
-        if (!_aiStateMachine.canCharge)
-        {
-            // Basic Attack
-            _aiStateMachine.agent.isStopped = true;
-            _aiStateMachine.agent.velocity = Vector3.zero;
-            _aiStateMachine.agent.SetDestination(_aiStateMachine.transform.position);
+       
+        // Basic Attack
+        _aiStateMachine.agent.isStopped = true;
+        _aiStateMachine.agent.velocity = Vector3.zero;
+        _aiStateMachine.agent.SetDestination(_aiStateMachine.transform.position);
 
-            _aiStateMachine._renderer.SendTriggerToAnimator("Attack_01");
-            _aiStateMachine.canRotate = false;
+        _aiStateMachine._renderer.SendTriggerToAnimator("Attack_01");
+        _aiStateMachine.canRotate = false;
 
-            yield return new WaitForSeconds(_aiStateMachine.atkDuration);
-
-            _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
-            _aiStateMachine.agent.enabled = true;
-            _aiStateMachine.canRotate = true;
-            
-            // _aiStateMachine.canCharge = true;
-            _aiStateMachine.StartCoroutine(_aiStateMachine.AttackCD());
-            
-            _aiStateMachine._stats.InitShield();
-        }
-        else
-        {
-            // Charge Attack
-            _aiStateMachine.agent.isStopped = true;
-            _aiStateMachine.agent.velocity = Vector3.zero;
-
-            _aiStateMachine._renderer.SendTriggerToAnimator("Attack_02");
-            _aiStateMachine.canRotate = false;
-            
-            _aiStateMachine._rb.isKinematic = false;
-
-            // while (timer > 0)
-            // {
-            //
-            //     _aiStateMachine._rb.velocity = new Vector3(
-            //         _aiStateMachine.centerPoint.transform.forward.x * _aiStateMachine.chargeSpeed,
-            //         _aiStateMachine._rb.velocity.y,
-            //         _aiStateMachine.centerPoint.transform.forward.z * _aiStateMachine.chargeSpeed);
-            //     
-            //     timer -= Time.deltaTime;
-            //     yield return null;
-            // }
-
-            yield return new WaitUntil(_aiStateMachine.ObstacleHitted);
+        yield return new WaitForSeconds(_aiStateMachine.atkDuration);
         
-            _aiStateMachine._rb.isKinematic = true;
+        if(_aiStateMachine._debuffsBuffsComponent.CheckHasDebuff(Enum_Debuff.Freeze)) yield break;
 
-            _aiStateMachine._renderer.SendTriggerToAnimator("EndCharge");
+        _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
+        _aiStateMachine.agent.enabled = true;
+        _aiStateMachine.canRotate = true;
+        
+        // _aiStateMachine.canCharge = true;
+        _aiStateMachine.StartCoroutine(_aiStateMachine.AttackCD());
 
-            _aiStateMachine.TryToTransition(AI_StateMachine.EnemyState.Chase);
-            
-            _aiStateMachine.agent.enabled = true;
-            _aiStateMachine.canRotate = true;
-            
-            _aiStateMachine.canCharge = false;
-            _aiStateMachine.StartCoroutine(_aiStateMachine.AttackCD());
-            
-        }
+        if (!_aiStateMachine.canShield) yield break;
+        
+        _aiStateMachine._stats.CreateShield(_aiStateMachine._stats.shieldValue);
+        _aiStateMachine.StartCoroutine(_aiStateMachine.ShieldCD());
+        
     }
 
     public override AI_StateMachine.EnemyState GetNextState()

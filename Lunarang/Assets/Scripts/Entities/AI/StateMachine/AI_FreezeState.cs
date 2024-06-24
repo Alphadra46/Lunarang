@@ -28,6 +28,10 @@ public class AI_FreezeState : BaseState<AI_StateMachine.EnemyState>
     {
         _aiStateMachine.agent.isStopped = false;
         _aiStateMachine._renderer.PauseAnimator(false);
+        
+        if(!_aiStateMachine._stats.isDead)
+            _aiStateMachine._renderer.SendTriggerToAnimator("Unfreeze");
+        
         _aiStateMachine.agent.SetDestination(_aiStateMachine.transform.position);
         _aiStateMachine.agent.velocity = Vector3.zero;
 

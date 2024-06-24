@@ -34,16 +34,31 @@ public class SC_ResourcesInventory : SerializedScriptableObject
         
         resourceInventory[resource] -= amount;
     }
+    
+    public void RemoveResources(Dictionary<SC_Resource, int> costs)
+    {
+        foreach (var (resource, amount) in costs)
+        {
+            
+            if (!resourceInventory.TryGetValue(resource, out var value))
+               return;
 
-    public bool CheckHasRessources(Dictionary<SC_Resource, int> costs)
+            if (value < amount) return;
+
+            resourceInventory[resource] -= amount;
+
+        }
+    }
+
+    public bool CheckHasResources(Dictionary<SC_Resource, int> costs)
     {
 
         var count = 0;
         
-        foreach (var (ressource, amount) in costs)
+        foreach (var (resource, amount) in costs)
         {
             
-            if (!resourceInventory.TryGetValue(ressource, out var value))
+            if (!resourceInventory.TryGetValue(resource, out var value))
                 return false;
 
             if (value < amount) return false;
@@ -56,7 +71,7 @@ public class SC_ResourcesInventory : SerializedScriptableObject
 
     }
     
-    public bool CheckHasRessource(SC_Resource resource, int amount)
+    public bool CheckHasReource(SC_Resource resource, int amount)
     {
         
         if (!resourceInventory.TryGetValue(resource, out var value))

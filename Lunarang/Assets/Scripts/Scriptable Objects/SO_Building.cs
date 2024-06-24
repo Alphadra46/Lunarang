@@ -29,7 +29,8 @@ public class SO_Building : SerializedScriptableObject
     {
         if (currentLevel >= maxLevel) return;
         
-        if(!SC_GameManager.instance.playerResourceInventory.CheckHasRessources(levelUpCosts[currentLevel+1])) return;
+        if(!SC_GameManager.instance.playerResourceInventory.CheckHasResources(levelUpCosts[currentLevel+1])) return;
+        SC_GameManager.instance.playerResourceInventory.RemoveResources(levelUpCosts[currentLevel+1]);
         
         currentLevel++;
     }

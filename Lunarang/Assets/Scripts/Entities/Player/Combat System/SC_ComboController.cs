@@ -561,7 +561,7 @@ public class SC_ComboController : MonoBehaviour
         CheckPoisonHit(e);
 
         // Check Freeze
-        CheckFreezeHit(e, comboCounter == comboMaxLength && SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Châtiment Glacial"));
+        CheckFreezeHit(e, comboCounter == comboMaxLength && SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Valse Glaciale"));
         
         // Check Burn
         var entityDebuff = e.GetComponent<SC_DebuffsBuffsComponent>();
@@ -591,10 +591,10 @@ public class SC_ComboController : MonoBehaviour
     public void CheckFreezeHit(Collider entity, bool isLastHit = false)
     {
         
-        var freezeHitRateBonus = (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_1_Freeze") 
-                                     ? float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_1_Freeze").buffsParentEffect["freezeHitRate"]) : 0)
-                                 + (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_3_3_Freeze") 
-                                     ? float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_3_3_Freeze").buffsParentEffect["freezeHitRate"]) : 0);
+        var freezeHitRateBonus = (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Etreinte Glaciale I") 
+                                     ? float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("Etreinte Glaciale I").buffsParentEffect["freezeHitRate"]) : 0)
+                                 + (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Etreinte Glaciale II") 
+                                     ? float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("Etreinte Glaciale II").buffsParentEffect["freezeHitRate"]) : 0);
 
         var baseFreezeHitRate = currentWeapon.id == "hammer" ? currentWeapon.effectValue : 0f;
 

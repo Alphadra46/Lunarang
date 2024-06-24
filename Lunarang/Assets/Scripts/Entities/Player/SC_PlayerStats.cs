@@ -40,6 +40,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     public List<SkinnedMeshRenderer> _meshRenderer;
     private SC_PlayerController _controller;
     private SC_ComboController _comboController;
+    
     [HideInInspector] public SC_DebuffsBuffsComponent debuffsBuffsComponent;
     private SC_SFXPlayerComponent sfxPlayer;
 
@@ -157,22 +158,22 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
 
         #region Thorns
         
-        if (!SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Protection Épineuse")) return;
+        if (!SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Peau d'Épines")) return;
         
         if(currentStats.shieldCurrentHP <= 0) return;
         
         const float thornsMV = 0.1f;
         var rawDMG = thornsMV * currentStats.currentATK;
         var effDMG = rawDMG * (1 +
-                               (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_2_Tank")
-                                && SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_2_Tank")
+                               (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Parade Brutale")
+                                && SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("Parade Brutale")
                                     .buffsParentEffect.TryGetValue("thornsDMGBonus", out var value1) ?
                                    float.Parse(value1)/100
                                    : 0));
             
         attacker.GetComponent<IDamageable>().TakeDamage(MathF.Round(effDMG, MidpointRounding.AwayFromZero), false, gameObject);
         
-        if (!SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_4_Tank") || !SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_4_Tank")
+        if (!SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Riposte Hivernale") || !SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("Riposte Hivernale")
                 .buffsParentEffect.TryGetValue("freezeHitRate", out var freezeHitRate)) return;
         
         if(Random.Range(1, 100) < float.Parse(freezeHitRate))
@@ -261,7 +262,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     public void HealthCheck()
     {
         
-        if(SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Furie de l'Essence")) {
+        if(SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Furie Rocheuse")) {
             if (currentStats.currentHealth < (currentStats.currentMaxHealth * (currentStats.manaFuryMaxHPGate / 100)) && !currentStats.inManaFury)
             {
                 currentStats.inManaFury = true;
@@ -274,12 +275,12 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
             }
         }
 
-        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Corps d'Acier"))
+        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Soutien Naturel"))
         {
-            var stackGain = SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_2_3_Tank") ? float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_2_3_Tank")
+            var stackGain = SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Adaptation Primale") ? float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("Adaptation Primale")
                 .buffsParentEffect["stackGain"]) : 1;
             
-            var maxStacks = SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_2_2_Tank") ? int.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_2_2_Tank")
+            var maxStacks = SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Bajoues de Sablille") ? int.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("Bajoues de Sablille")
                 .buffsParentEffect["maxStacks"]) : 10;
             
             currentStats.steelBodyStackCount = (int)(currentStats.steelBodyStackCount >= maxStacks ? maxStacks : (Mathf.FloorToInt((100 - ((currentStats.currentHealth / currentStats.currentMaxHealth) * 100)) / currentStats.steelBodyHPPercentNeeded) * stackGain));
@@ -288,12 +289,12 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
             
             currentStats.steelBodyDEFModifier = currentStats.steelBodyStackCount >= maxStacks ? (currentStats.steelBodyDEFPerStack * maxStacks) : (currentStats.steelBodyDEFPerStack * currentStats.steelBodyStackCount);
 
-            if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_2_1_Tank"))
-                currentStats.steelBodyShieldStrengthModifier = float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_2_1_Tank")
+            if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Lumiscarapace"))
+                currentStats.steelBodyShieldStrengthModifier = float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("Lumiscarapace")
                                                       .buffsParentEffect["shieldStrengthPerStack"]) * currentStats.steelBodyStackCount;
             
-            if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_2_4_Tank"))
-                currentStats.steelBodyDMGReductionModifier = float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_2_4_Tank")
+            if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Résistance Evolutive"))
+                currentStats.steelBodyDMGReductionModifier = float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("Résistance Evolutive")
                     .buffsParentEffect["damageReductionPerStack"]) * currentStats.steelBodyStackCount;
 
         }
@@ -309,8 +310,8 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         {
 
             currentStats.shieldStrength += (15 + 
-                                             (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_1_Tank") 
-                                              && SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_1_Tank").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
+                                             (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Renforcement Défensif") 
+                                              && SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("Renforcement Défensif").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
                                                  ? float.Parse(value1) : 0));
             debuffsBuffsComponent.ApplyBuff(Enum_Buff.Thorns, 0);
             
@@ -338,8 +339,8 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         {
 
             currentStats.shieldStrength -= (15 + 
-                                             (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_1_Tank") 
-                                              && SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_1_Tank").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
+                                             (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Renforcement Défensif") 
+                                              && SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("Renforcement Défensif").buffsParentEffect.TryGetValue("effectBonus", out var value1) 
                                                  ? float.Parse(value1) : 0));
             debuffsBuffsComponent.RemoveBuff(Enum_Buff.Thorns);
             
@@ -380,13 +381,20 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     {
 
         print("Enemy Killed");
+
+        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Blindage Spirituel"))
+        {
+            if(debuffsBuffsComponent.CheckHasBuff(Enum_Buff.Armor)) debuffsBuffsComponent.RemoveBuff(Enum_Buff.Armor);
+            
+            debuffsBuffsComponent.ApplyBuff(Enum_Buff.Armor, 5);
+        }
         
-        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_1_3_Berserk") && debuffsBuffsComponent.CheckHasBuff(Enum_Buff.SecondChance))
+        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Lithothérapie") && debuffsBuffsComponent.CheckHasBuff(Enum_Buff.SecondChance))
         {
 
             if(Random.Range(0, 2) == 1) return;
             
-            Heal(Mathf.Round(currentStats.currentMaxHealth * (float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_1_3_Berserk").buffsParentEffect["healAmount"])/100)));
+            Heal(Mathf.Round(currentStats.currentMaxHealth * (float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("Lithothérapie").buffsParentEffect["healAmount"])/100)));
 
         }
 
@@ -394,10 +402,10 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         {
             GainManaOverloadStack();
 
-            if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("ChildSkill_2_2_Berserk") && currentStats.manaOverloadStack >= 2)
+            if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Plénitude Acharnée") && currentStats.manaOverloadStack >= 1)
             {
                 
-                Heal(Mathf.Round(currentStats.currentMaxHealth * (float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("ChildSkill_2_2_Berserk").buffsParentEffect["healAmount"])/100)));
+                Heal(Mathf.Round(currentStats.currentMaxHealth * (float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("Plénitude Acharnée").buffsParentEffect["healAmount"])/100)));
                 
             }
             
@@ -421,11 +429,23 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     private void GainManaOverloadStack()
     {
         
-        if(currentStats.manaOverloadStack >= currentStats.manaOverloadMaxStack) return;
-
-        currentStats.manaOverloadStack++;
+        var maxStack = SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Super-Héraut") ? 
+            int.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("Super-Héraut").buffsParentEffect["maxStack"])
+            : currentStats.manaOverloadMaxStack;
         
-        if (currentStats.inManaOverload && currentStats.manaOverload != null)
+        if(currentStats.manaOverloadStack >= maxStack) return;
+        
+        currentStats.manaOverloadStack++;
+
+        var manaOverloadDMG = (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Elan Vital") ? 
+            float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("Elan Vital").buffsParentEffect["overloadDMG"])
+            : currentStats.manaOverloadDamage)/100;
+        
+        TakeDamage(manaOverloadDMG, false, null);
+        
+        currentStats.inManaOverload = true;
+        
+        if (currentStats.manaOverload != null)
         {
             StopCoroutine(currentStats.manaOverload);
             currentStats.damageBonus -= (currentStats.manaOverloadDamageBoost * (currentStats.manaOverloadStack - 1));
@@ -438,26 +458,23 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
 
     private IEnumerator ManaOverloadBoost()
     {
-        currentStats.inManaOverload = true;
         
-        var duration = currentStats.manaOverloadDuration;
         var tempStacks = currentStats.manaOverloadStack;
+        var duration = currentStats.manaOverloadDuration * (1 + (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Potentiel Intemporel") ? 
+            float.Parse(SC_GameManager.instance.playerSkillInventory.FindChildSkillByName("Potentiel Intemporel").buffsParentEffect["durationMultiplier"])
+            : 0));
         
         currentStats.damageBonus += (currentStats.manaOverloadDamageBoost * tempStacks);
-
-        while (duration > 0)
-        {
-            TakeDamage(currentStats.currentMaxHealth * (currentStats.manaOverloadDamage/100), false, gameObject);
-            
-            yield return new WaitForSeconds(currentStats.manaOverloadTick);
-            duration -= currentStats.manaOverloadTick;
-        }
+        
+        yield return new WaitForSeconds(duration);
         
         currentStats.damageBonus -= (currentStats.manaOverloadDamageBoost * tempStacks);
+        
+        currentStats.manaOverloadStack = 0;
         currentStats.inManaOverload = false;
+        
     }
-
-
+    
     private IEnumerator Invicibility(float duration)
     {
 
