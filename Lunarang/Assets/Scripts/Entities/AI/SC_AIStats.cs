@@ -268,6 +268,8 @@ public class SC_AIStats : SC_EntityBase, IDamageable
                 }
                 if(isDead != true) {
                     isDead = true;
+                    _debuffsBuffsComponent.ResetAllBuffsAndDebuffs();
+                    _debuffsBuffsComponent.StopAllCoroutines();
                     _stateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
                 }
             }
@@ -320,8 +322,10 @@ public class SC_AIStats : SC_EntityBase, IDamageable
                 return;
             }
             if(isDead != true) {
-                _stateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
                 isDead = true;
+                _debuffsBuffsComponent.ResetAllBuffsAndDebuffs();
+                _debuffsBuffsComponent.StopAllCoroutines();
+                _stateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
             }
         }
     }
