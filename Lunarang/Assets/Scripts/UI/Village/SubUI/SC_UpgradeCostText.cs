@@ -15,7 +15,7 @@ public class SC_UpgradeCostText : MonoBehaviour
 
         iconImage.sprite = resource.sprite;
         
-        var color = SC_GameManager.instance.playerResourceInventory.CheckHasRessource(resource, amount)
+        var color = SC_GameManager.instance.playerResourceInventory.CheckHasReource(resource, amount)
             ? "<color=white>"
             : "<color=#FF4C4C>";
         

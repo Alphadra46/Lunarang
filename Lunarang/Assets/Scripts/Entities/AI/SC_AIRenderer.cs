@@ -16,7 +16,7 @@ public class SC_AIRenderer : MonoBehaviour
     
     #region Variables
     
-        [BoxGroup("Damage Area")]
+    [BoxGroup("Damage Area")]
     public GameObject TextDamageUI;
     [BoxGroup("Damage Area")]
     public GameObject StatsUI;
@@ -24,8 +24,10 @@ public class SC_AIRenderer : MonoBehaviour
     public GameObject DamageUIArea;
 
     public Slider HPBar;
+    public Slider ShieldBar;
     public TextMeshProUGUI HPText;
     public TextMeshProUGUI ShieldText;
+    
 
     [FormerlySerializedAs("_meshRenderer")]
     [BoxGroup("Damage Area")] 
@@ -143,9 +145,12 @@ public class SC_AIRenderer : MonoBehaviour
     /// <summary>
     /// Update Shield UI.
     /// </summary>
-    public void UpdateShieldBar(bool isBreaked)
+    public void UpdateShieldBar(float currentShield, float maxShield)
     {
-        ShieldText.text = isBreaked ? "Breaked" : "Shielded";
+        
+        ShieldText.text = $"{currentShield}/{maxShield}";
+        ShieldBar.value = currentShield / maxShield;
+
     }
 
     private void Update()

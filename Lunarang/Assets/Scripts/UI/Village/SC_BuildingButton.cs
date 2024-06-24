@@ -82,7 +82,7 @@ public class SC_BuildingButton : Selectable
         interactPrompt.SetInteractable(interactable);
         
         if(building.currentLevel != building.maxLevel)
-            upgradePrompt.SetInteractable(SC_GameManager.instance.playerResourceInventory.CheckHasRessources(
+            upgradePrompt.SetInteractable(SC_GameManager.instance.playerResourceInventory.CheckHasResources(
                 building.levelUpCosts[building.currentLevel + 1]));
         else
         {

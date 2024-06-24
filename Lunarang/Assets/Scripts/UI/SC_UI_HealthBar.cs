@@ -19,9 +19,9 @@ public class SC_UI_HealthBar : MonoBehaviour
     [ShowInInspector, ReadOnly] private float maxHP;
 
     [PropertySpace(SpaceBefore = 15f)]
-    [ShowInInspector, ReadOnly] private Slider mainSlider;
-    [ShowInInspector, ReadOnly] private Slider anticipationSlider;
-    [ShowInInspector, ReadOnly] private Slider shieldSlider;
+    [SerializeField] private Slider mainSlider;
+    [SerializeField] private Slider anticipationSlider;
+    [SerializeField] private Slider shieldSlider;
     
     [PropertySpace(SpaceBefore = 15f)]
     [ShowInInspector, ReadOnly] private Image mainBorder;
@@ -67,13 +67,12 @@ public class SC_UI_HealthBar : MonoBehaviour
         SC_PlayerStats.onHealthChange += HealthUpdate;
         SC_PlayerStats.onShieldHPChange += ShieldUpdate;
         
-        if(!transform.GetChild(3).TryGetComponent(out mainSlider)) return;
+
         if(mainSlider.handleRect.TryGetComponent(out mainBorder)) mainSlider.onValueChanged.AddListener(OnHealthValueChanged);
         
-        if(!transform.GetChild(2).TryGetComponent(out anticipationSlider)) return;
+
         if(anticipationSlider.handleRect.TryGetComponent(out anticipationBorder)) anticipationSlider.onValueChanged.AddListener(OnAnticipationValueChanged);
         
-        if(!transform.GetChild(1).TryGetComponent(out shieldSlider)) return;
         
         if(!transform.GetChild(5).GetChild(0).TryGetComponent(out tmpHP)) return;
 

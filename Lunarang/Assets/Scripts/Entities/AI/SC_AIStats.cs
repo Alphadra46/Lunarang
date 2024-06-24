@@ -31,24 +31,39 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     
     [TabGroup("Shield")]
     [Space(2.5f)]
-    [Tooltip("Has a shield to break before taking damage")] public bool hasShield;
+    [Tooltip("Can have a shield")] public bool canHaveShield;
+    
     
     [Space(10f)]
     [TabGroup("Shield")]
-    [ShowIf("hasShield")]
-    [Tooltip("His weakness can regenerate ?")] public bool canRegenShield = false;
+    [ShowIf("canHaveShield")]
+    [Tooltip("His shield can regenerate ?")] public bool canRegenShield = false;
     
     [TabGroup("Shield")]
     [ShowIf("canRegenShield")]
     [Tooltip("After how many seconds ?")] public float delayBeforeRegen = 4f;
-
+    
+    [Space(10f)]
     [TabGroup("Shield")]
-    [ShowIf("hasShield")]
-    [Tooltip("Is the shield broken?")] public bool isBreaked;
+    [ShowIf("canHaveShield")]
+    [Tooltip("Shield HP based on HP% ?")] public float shieldValue = 0;
+
+    
     
     [TabGroup("Shield")]
-    [ShowIf("hasShield")]
+    [ShowIf("canHaveShield")]
     [Tooltip("has Thorns?")] public bool hasThorns;
+    
+    
+    [Space(10f)]
+    [TabGroup("Shield")]
+    [ShowIf("canHaveShield")]
+    [Tooltip("Has a shield to break before taking damage"), ReadOnly] public bool hasShield;
+    [Space(5f)]
+    [TabGroup("Shield")]
+    [ShowIf("canHaveShield")]
+    [Tooltip("Is the shield broken?"), ReadOnly] public bool isBreaked;
+    
     
     #endregion
     
@@ -137,15 +152,33 @@ public class SC_AIStats : SC_EntityBase, IDamageable
 
     #region Shield Part
     
-    /// <summary>
-    /// Initialize the Weaknesses and create a shield that should be broken before apply damage to the Entity.
-    /// </summary>
-    public void InitShield()
+    public void CreateShield(float hpPercentage)
+    {
+        if(canHaveShield == false) return;
+        
+        if(currentStats is { shieldCurrentHP: > 0, shieldMaxHP: > 0 }) BreakShield();
+
+        hasShield = true;
+
+        var newShieldValue = (hpPercentage/100) * currentStats.maxHealth;
+        
+        currentStats.shieldMaxHP = newShieldValue * (1 + (currentStats.shieldStrength/100));
+        currentStats.shieldCurrentHP = currentStats.shieldMaxHP;
+        
+        renderer.UpdateShieldBar(currentStats.shieldCurrentHP, currentStats.shieldMaxHP);
+        
+    }
+    
+    public void BreakShield()
     {
         
-        hasShield = true;
-        renderer.UpdateShieldBar(isBreaked);
+        hasShield = false;
         
+        currentStats.shieldMaxHP = 0;
+        currentStats.shieldCurrentHP = 0;
+        
+        renderer.UpdateShieldBar(currentStats.shieldCurrentHP, currentStats.shieldMaxHP);
+
     }
 
     /// <summary>
@@ -157,7 +190,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         yield return new WaitForSeconds(delayBeforeRegen);
 
         isBreaked = false;
-        InitShield();
+        CreateShield(shieldValue);
 
     }
     
@@ -165,6 +198,8 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     #endregion
 
     #region Damage Part
+    
+    
 
     /// <summary>
     /// Calculating real taken damage by the entity.
@@ -178,22 +213,34 @@ public class SC_AIStats : SC_EntityBase, IDamageable
     {
         StartCoroutine(renderer.DamageTaken());
         
-        if (hasShield & !isBreaked)
+        var damageTakenMultiplier = (1 + (currentStats.damageTaken/100));
+        var damageReductionMultiplier = (1 - (currentStats.damageReduction/100));
+        
+        if (hasShield && currentStats.shieldCurrentHP > 0)
         {
-            SC_CameraShake.instance.StopAllCoroutines();
-            StartCoroutine(SC_CameraShake.instance.ShakeCamera(5f, 1f, 0.3f));
-            isBreaked = true;
-            onShieldBreaked.RaiseEvent();
-            renderer.UpdateShieldBar(isBreaked);
-            print("BREAKED");
+            var shieldDamage = Mathf.Round(rawDamage * damageTakenMultiplier * damageReductionMultiplier);
+            
+            currentStats.shieldCurrentHP = currentStats.shieldCurrentHP - shieldDamage < 0 ? 0 : currentStats.shieldCurrentHP - shieldDamage;
 
-            if (canRegenShield)
-                StartCoroutine(RegenerateShield());
+            if (currentStats.shieldCurrentHP == 0)
+            {
+                
+                SC_CameraShake.instance.StopAllCoroutines();
+                StartCoroutine(SC_CameraShake.instance.ShakeCamera(5f, 1f, 0.3f));
+                
+                isBreaked = true;
+                onShieldBreaked.RaiseEvent();
+                
+                if (canRegenShield)
+                    StartCoroutine(RegenerateShield());
+                
+            }
+            
+            renderer.UpdateShieldBar(currentStats.shieldCurrentHP, currentStats.shieldMaxHP);
+            
         }
         else
         {
-        
-            var damageTakenMultiplier = (1 + (currentStats.damageTaken/100));
             
             // Check if the damage is a Critical one and reduce damage by the current DEF of the entity.
             var finalDamage = MathF.Round((rawDamage * currentStats.defMultiplier) * damageTakenMultiplier);
@@ -219,8 +266,8 @@ public class SC_AIStats : SC_EntityBase, IDamageable
                     return;
                 }
                 if(isDead != true) {
-                    _stateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
                     isDead = true;
+                    _stateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
                 }
             }
                 
@@ -284,12 +331,10 @@ public class SC_AIStats : SC_EntityBase, IDamageable
         renderer.hideStatsUI?.Invoke();
         
         _debuffsBuffsComponent.ResetAllBuffsAndDebuffs();
-        
-        SC_RewardManager.instance.ResourceDropSelection(isElite ? "Elite" : "Base", out int amount);
-
-        DropRessources(SC_PlayerController.instance.transform.position, amount);
 
         if(SC_Pooling.instance != null) {
+            SC_RewardManager.instance.ResourceDropSelection(isElite ? "Elite" : "Base", out int amount);
+            DropRessources(SC_PlayerController.instance.transform.position, amount);
             SC_Pooling.instance.ReturnItemToPool("Ennemis", gameObject);
             ResetStats();
             _debuffsBuffsComponent.ClearAllVFX();

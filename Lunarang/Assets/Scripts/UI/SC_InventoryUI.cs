@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public enum InventoryCategories
@@ -56,6 +57,8 @@ public class SC_InventoryUI : MonoBehaviour
     private List<GameObject> rightStatsGOList = new List<GameObject>();
     [PropertySpace(SpaceBefore = 5f)] public GameObject statTemplatePrefab;
 
+    private GameObject lastSelectedOnCharacterPage = null;
+
     #endregion
 
     #region Skills
@@ -68,8 +71,11 @@ public class SC_InventoryUI : MonoBehaviour
     [PropertySpace(SpaceBefore = 15f)]
     public GameObject lunarTemplate;
     public Transform lunarTransform;
-
-#endregion
+    public List<GameObject> lunarsGO = new List<GameObject>();
+    
+    
+    private GameObject lastSelectedOnSkillPage = null;
+    #endregion
 
     public List<Selectable> resourcesSelectables = new List<Selectable>();
 
@@ -81,6 +87,57 @@ public class SC_InventoryUI : MonoBehaviour
         Init();
 
     }
+
+    private void OnEnable()
+    {
+        SC_InputManager.instance.switchToLeft.started += SwitchToLeft;
+        SC_InputManager.instance.switchToRight.started += SwitchToRight;
+    }
+
+
+
+    private void OnDisable()
+    {
+        SC_InputManager.instance.switchToLeft.started -= SwitchToLeft;
+        SC_InputManager.instance.switchToRight.started -= SwitchToRight;
+    }
+
+    private void SwitchToLeft(InputAction.CallbackContext obj)
+    {
+
+        switch (currentPageIndex)
+        {
+            case 0:
+                ChangePage(2);
+                break;
+            case 1:
+                ChangePage(0);
+                break;
+            case 2:
+                ChangePage(1);
+                break;
+        }
+        
+    }
+    
+    private void SwitchToRight(InputAction.CallbackContext obj)
+    {
+
+        switch (currentPageIndex)
+        {
+            case 0:
+                ChangePage(1);
+                break;
+            case 1:
+                ChangePage(2);
+                break;
+            case 2:
+                ChangePage(0);
+                break;
+        }
+        
+    }
+    
 
     private void Init()
     {
@@ -105,6 +162,7 @@ public class SC_InventoryUI : MonoBehaviour
     public void ChangePage(int newIndex)
     {
 
+        var previousPageIndex = currentPageIndex;
         currentPageIndex = newIndex;
 
         switch (currentPageIndex)
@@ -114,11 +172,27 @@ public class SC_InventoryUI : MonoBehaviour
                 characterPage.SetActive(true);
                 skillsPage.SetActive(false);
                 mapPage.SetActive(false);
+                
+                if(previousPageIndex == 1)
+                    lastSelectedOnSkillPage = EventSystem.current.currentSelectedGameObject;
+
+                EventSystem.current.SetSelectedGameObject(lastSelectedOnCharacterPage == null
+                    ? resourcesSelectables[0].gameObject
+                    : lastSelectedOnCharacterPage);
+
                 break;
             case 1:
                 characterPage.SetActive(false);
                 skillsPage.SetActive(true);
                 mapPage.SetActive(false);
+                
+                if(previousPageIndex == 0)
+                    lastSelectedOnCharacterPage = EventSystem.current.currentSelectedGameObject;
+                
+                
+                EventSystem.current.SetSelectedGameObject(lastSelectedOnSkillPage == null
+                    ? constellationsGO[0].GetComponent<SC_InventoryConstellationManager>().skillsGO[0]
+                    : lastSelectedOnSkillPage);
                 break;
             case 2:
                 characterPage.SetActive(false);
@@ -336,15 +410,101 @@ public class SC_InventoryUI : MonoBehaviour
             
             if(!constellationsGO[i].TryGetComponent(out SC_InventoryConstellationManager manager)) return;
 
-            for (int j = 0; j < manager.childsGO.Count; j++)
+            for (int j = 0; j < manager.skillsGO.Count; j++)
             {
-                // manager.childsGO[j];
+                if(!manager.skillsGO[j].TryGetComponent(out Selectable selectable)) return;
+
+                var nav = selectable.navigation;
+
+                nav.mode = Navigation.Mode.Explicit;
+
+                if (j != 0 && j != 1 && j != 2)
+                {
+                    nav.selectOnUp = manager.skillsGO[j - 3].GetComponent<Selectable>();
+                }
+
+                if (j != 12 && j != 13 && j != 14)
+                {
+                    nav.selectOnDown = manager.skillsGO[j + 3].GetComponent<Selectable>();
+                }
+                else
+                {
+                    nav.selectOnDown = lunarsGO[(3*i)+(j-12)].GetComponent<Selectable>();
+                }
+                
+                if (j != 0 && j != 3 && j != 6 && j != 9 && j != 12)
+                {
+                    nav.selectOnLeft = manager.skillsGO[j - 1].GetComponent<Selectable>();
+                }
+                else if (i != 0)
+                {
+                    if (j == 0 || j == 3 || j == 6 || j == 9 || j == 12)
+                    {
+                        nav.selectOnLeft = constellationsGO[i-1].GetComponent<SC_InventoryConstellationManager>().skillsGO[j+2].GetComponent<Selectable>();
+                    }
+                }
+                
+                if (j != 2 && j != 5 && j != 8 && j != 11 && j != 14)
+                {
+                    nav.selectOnRight = manager.skillsGO[j + 1].GetComponent<Selectable>();
+                }
+                else if (i != constellationsGO.Count-1)
+                {
+
+                    if (j == 2 || j == 5 || j == 8 || j == 11 || j == 14)
+                    {
+                        nav.selectOnRight = constellationsGO[i+1].GetComponent<SC_InventoryConstellationManager>().skillsGO[j-2].GetComponent<Selectable>();
+                    }
+                    
+                }
+                
+
+                selectable.navigation = nav;
             }
             
         }
         
-        EventSystem.current.SetSelectedGameObject(resourcesSelectables[0].gameObject);
+        var indexLunar = 0;
+
+        for (var i = 0; i < lunarsGO.Count; i++)
+        {
+            
+            if (!lunarsGO[i].TryGetComponent(out Selectable selectable)) continue;
+            
+            var nav = selectable.navigation;
+
+            nav.mode = Navigation.Mode.Explicit;
+
+            var index = (int) MathF.Floor((i)/3);
+            
+            print(index);
+            
+            var up = constellationsGO[index].GetComponent<SC_InventoryConstellationManager>().skillsGO[indexLunar+12].GetComponent<Selectable>();
+            nav.selectOnUp = up;
+            
+            if (i != 0)
+            {
+                var left = lunarsGO[i - 1].GetComponent<Selectable>();
+                nav.selectOnLeft = left;
+            }
+
+            if (i != lunarsGO.Count-1)
+            {
+                
+                var right = lunarsGO[i + 1].GetComponent<Selectable>();
+                nav.selectOnRight = right;
+                
+            }
+            
+
+            selectable.navigation = nav;
+
+            if (indexLunar != 2) indexLunar++;
+            else indexLunar = 0;
+
+        }
         
+        EventSystem.current.SetSelectedGameObject(resourcesSelectables[0].gameObject);
     }
 
     private void ClearStats()
@@ -430,6 +590,8 @@ public class SC_InventoryUI : MonoBehaviour
             
             lunarGO.name = "LunarSkill_" + lunarSkill.skillName;
             lunarGO.SetActive(true);
+            
+            lunarsGO.Add(lunarGO);
 
         }
         

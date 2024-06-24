@@ -106,6 +106,7 @@ public class AI_StateMachine : StateManager<AI_StateMachine.EnemyState>
     public SC_AIRenderer _renderer;
     public Rigidbody _rb;
     public CapsuleCollider _collider;
+    public SC_DebuffsBuffsComponent _debuffsBuffsComponent;
     
     #endregion
 
@@ -116,6 +117,7 @@ public class AI_StateMachine : StateManager<AI_StateMachine.EnemyState>
         if (!TryGetComponent(out _renderer)) return;
         if (!TryGetComponent(out _rb)) return;
         if (!TryGetComponent(out _collider)) return;
+        if (!TryGetComponent(out _debuffsBuffsComponent)) return;
     }
 
     public virtual void OnDamageTaken()
