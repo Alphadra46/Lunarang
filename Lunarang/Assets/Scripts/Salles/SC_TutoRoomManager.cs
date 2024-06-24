@@ -256,9 +256,10 @@ public class SC_TutoRoomManager : MonoBehaviour
         if (ressourceToForceAdd != null)
         {
             resourcesInventory.AddResource(ressourceToForceAdd,amountOfRessource);
-            StartCoroutine(DisplayResourceUI(1.25f));
             if (essenceFragment!=null)
                 resourcesInventory.AddResource(essenceFragment,1);
+            else
+                StartCoroutine(DisplayResourceUI(1.25f));
         }
 
         if (fountain != null)
