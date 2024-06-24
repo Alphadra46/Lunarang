@@ -11,7 +11,7 @@ public class SC_TutoStairs : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
         
+        Resources.Load<SO_SkillInventory>("SkillInventory").ClearInventory();
         SC_UIManager.instance.CreateLoadingScreen(SceneManager.GetActiveScene().buildIndex+1);
-        
     }
 }
