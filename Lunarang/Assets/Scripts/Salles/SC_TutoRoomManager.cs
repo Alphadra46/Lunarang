@@ -20,6 +20,7 @@ public class SC_TutoRoomManager : MonoBehaviour
     [SerializeField, TabGroup("Settings", "Global Settings")] private Interactor roomInteractor;
     [SerializeField, TabGroup("Settings", "Global Settings")] private Collider spawnArea;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject enterRoomTipsUIPrefab;
+    [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject startRoomUIPrefab;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject resourceTipsUIPrefab;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject fountainTipsUIPrefab;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject skillChest;
@@ -31,6 +32,7 @@ public class SC_TutoRoomManager : MonoBehaviour
     private GameObject enterRoomTipsUI;
     private GameObject resourceTipsUI;
     private GameObject fountainTipsUI;
+    private GameObject objectiveUI;
 
     [HideInInspector] public int totalEnemies;
     private bool isInit = false;
@@ -79,6 +81,12 @@ public class SC_TutoRoomManager : MonoBehaviour
             //doorNorth.animator.SetBool("isOpen", true);
             doorNorth.EnableDoor();
         }
+
+        if (startRoomUIPrefab!=null)
+        {
+            StartCoroutine(DisplayObjectiveUI(1f));
+        }
+        
     }
 
     private void OnDisable()
@@ -144,6 +152,26 @@ public class SC_TutoRoomManager : MonoBehaviour
         }
     }
 
+    public IEnumerator DisplayObjectiveUI(float duration)
+    {
+        yield return new WaitForSeconds(0.2f);
+        SC_GameManager.instance.SetPause();
+        SC_PlayerController.instance.FreezeDash(true);
+        SC_PlayerController.instance.FreezeMovement(true);
+        objectiveUI = Instantiate(startRoomUIPrefab);
+        yield return new WaitForSecondsRealtime(duration);
+        SC_InputManager.instance.submit.started += HideObjectiveUI;
+    }
+
+    public void HideObjectiveUI(InputAction.CallbackContext context)
+    {
+        SC_InputManager.instance.submit.started -= HideObjectiveUI;
+        SC_PlayerController.instance.FreezeDash(false);
+        SC_PlayerController.instance.FreezeMovement(false);
+        Destroy(objectiveUI);
+        SC_GameManager.instance.SetPause();
+    }
+    
     public IEnumerator DisplayTipsUI(float duration)
     {
         yield return new WaitForSecondsRealtime(0.75f);
