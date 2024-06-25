@@ -41,6 +41,11 @@ public class SC_SkillButton : MonoBehaviour
         inventory = Resources.Load<SO_SkillInventory>("SkillInventory");
     }
 
+    private void OnDisable()
+    {
+        HideTooltip();
+    }
+
     public void InitTooltip(SO_BaseSkill skill, SC_Constellation constellation, SC_SkillBranchUI branch)
     {
         if (tooltip==null)

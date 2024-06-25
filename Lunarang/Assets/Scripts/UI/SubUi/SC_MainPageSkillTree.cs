@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class SC_MainPageSkillTree : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class SC_MainPageSkillTree : MonoBehaviour
         {
             slot.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text =
                 constellations[constellationSlot.IndexOf(slot)].name;
+            slot.transform.GetChild(1).GetComponent<Image>().sprite =
+                constellations[constellationSlot.IndexOf(slot)].splashArt;
         }
     }
     
