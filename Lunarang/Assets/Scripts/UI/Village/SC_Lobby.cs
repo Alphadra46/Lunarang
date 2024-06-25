@@ -46,7 +46,6 @@ public class SC_Lobby : MonoBehaviour
     
     private void OnDisable()
     {
-        if(SC_InputManager.instance == null) return;
         
         SC_InputManager.instance.develop.started -= UpgradeBuilding;
         SC_InputManager.instance.submit.started -= InteractBuilding;
