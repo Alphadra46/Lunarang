@@ -272,6 +272,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
                     isDead = true;
                     _debuffsBuffsComponent.ResetAllBuffsAndDebuffs();
                     _debuffsBuffsComponent.StopAllCoroutines();
+                    GetComponentInParent<Animator>().enabled = true;
                     _stateMachine.TransitionToState(AI_StateMachine.EnemyState.Death);
                 }
             }
