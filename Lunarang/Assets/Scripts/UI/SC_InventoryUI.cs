@@ -79,6 +79,8 @@ public class SC_InventoryUI : MonoBehaviour
     #endregion
 
     public List<Selectable> resourcesSelectables = new List<Selectable>();
+    public Transform resourceContent;
+    public Transform ARCEContent;
 
     #endregion
 
@@ -605,7 +607,10 @@ public class SC_InventoryUI : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(leftCharacterSide);
         LayoutRebuilder.ForceRebuildLayoutImmediate(leftStatsContent.GetComponent<RectTransform>());
         LayoutRebuilder.ForceRebuildLayoutImmediate(rightStatsContent.GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform) resourceContent);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform) ARCEContent);
         
     }
+    
     
 }

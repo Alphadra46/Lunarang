@@ -52,7 +52,7 @@ public class SC_InventoryParentSkillTemplate : MonoBehaviour, IPointerEnterHandl
 
         if (parentSkill.crystal == null) return;
         
-        iconImage.sprite = parentSkill.skillName == "Poison d'Ozamas" ? parentSkill.crystalIcon : parentSkill.crystal;
+        iconImage.sprite = parentSkill.crystalIcon;
         iconImage.gameObject.SetActive(true);
         
     }

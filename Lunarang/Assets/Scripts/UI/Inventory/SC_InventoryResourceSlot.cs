@@ -73,4 +73,5 @@ public class SC_InventoryResourceSlot : MonoBehaviour, IPointerEnterHandler, IPo
     {
         tooltip.SetActive(false);
     }
+
 }
