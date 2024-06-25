@@ -120,6 +120,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
             _agent.enabled = false;
         renderer.showStatsUI?.Invoke();
         renderer.ResetColor();
+        renderer.ExitFreezeState();
         _debuffsBuffsComponent.ClearAllVFX();
     }
 
@@ -129,6 +130,7 @@ public class SC_AIStats : SC_EntityBase, IDamageable
             _agent.enabled = false;
         renderer.hideStatsUI?.Invoke();
         renderer.ResetColor();
+        renderer.ExitFreezeState();
         _debuffsBuffsComponent.ClearAllVFX();
     }
     
