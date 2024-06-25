@@ -360,7 +360,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     {
         onDeathEvent.RaiseEvent();
         
-        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Souffle de Résurrection") && resurectionCounter > 0)
+        if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Réveil du Cristal") && resurectionCounter > 0)
         {
             
             resurectionCounter--;
