@@ -119,10 +119,15 @@ public class SC_RoomManager : MonoBehaviour
             resourceChest.SetActive(false);
             SkillChestSpawn();
             ResourceChestSpawn();
-            if (roomSize == RoomSize.Large)
+            if (roomSize == RoomSize.Large && !isSpecialRoom)
             {
                 fountain.SetActive(false);
                 FountainSpawn();
+            }
+            else if(isSpecialRoom && fountain!=null)
+            {
+                fountain.SetActive(true);
+                fountain.GetComponent<SC_InteractableBase>().isInteractable = true;
             }
         }
         
