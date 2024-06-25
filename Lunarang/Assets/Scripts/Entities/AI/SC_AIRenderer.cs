@@ -35,7 +35,7 @@ public class SC_AIRenderer : MonoBehaviour
     [BoxGroup("Damage Area")] 
     [SerializeField] private List<MeshRenderer> _meshRenderer;
     
-    private Animator _animator;
+    public Animator _animator;
     private NavMeshAgent _agent;
 
     public Action hideStatsUI;
