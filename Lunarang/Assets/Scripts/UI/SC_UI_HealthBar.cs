@@ -66,7 +66,7 @@ public class SC_UI_HealthBar : MonoBehaviour
         SC_PlayerStats.onHealthInit += HealthInit;
         SC_PlayerStats.onHealthChange += HealthUpdate;
         SC_PlayerStats.onShieldHPChange += ShieldUpdate;
-        
+        lowLifeMaterial.SetFloat("_VignetteIntensity",0);
 
         if(mainSlider.handleRect.TryGetComponent(out mainBorder)) mainSlider.onValueChanged.AddListener(OnHealthValueChanged);
         
