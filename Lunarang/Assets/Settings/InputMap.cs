@@ -141,8 +141,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""18b18af3-f2a1-4d2c-bb76-f7216967b1b5"",
-                    ""path"": ""<SwitchProControllerHID>/buttonEast"",
+                    ""id"": ""4ebeed41-149c-4a43-a899-0d782941bf02"",
+                    ""path"": ""<SwitchProControllerHID>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -152,19 +152,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4cf1b1d7-ddfe-4494-a7f3-b71bdf2007e1"",
-                    ""path"": ""<XInputController>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Weapon A"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""864fa167-f8eb-4e25-906c-e8bf47701608"",
-                    ""path"": ""<DualShockGamepad>/buttonEast"",
+                    ""id"": ""581525e2-4b97-440c-b0b2-cdd851079b54"",
+                    ""path"": ""<XInputController>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -229,8 +218,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4ebeed41-149c-4a43-a899-0d782941bf02"",
-                    ""path"": ""<SwitchProControllerHID>/buttonWest"",
+                    ""id"": ""18b18af3-f2a1-4d2c-bb76-f7216967b1b5"",
+                    ""path"": ""<SwitchProControllerHID>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -240,8 +229,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""581525e2-4b97-440c-b0b2-cdd851079b54"",
-                    ""path"": ""<XInputController>/buttonWest"",
+                    ""id"": ""4cf1b1d7-ddfe-4494-a7f3-b71bdf2007e1"",
+                    ""path"": ""<XInputController>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -251,8 +240,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e6b542c4-f369-409b-918c-f1454b85eb17"",
-                    ""path"": ""<DualShockGamepad>/buttonWest"",
+                    ""id"": ""864fa167-f8eb-4e25-906c-e8bf47701608"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -653,6 +642,17 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MinimapMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e6b542c4-f369-409b-918c-f1454b85eb17"",
+                    ""path"": ""<DualShockGamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Weapon A"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
