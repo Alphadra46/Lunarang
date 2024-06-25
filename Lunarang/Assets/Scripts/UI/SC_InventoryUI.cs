@@ -35,6 +35,7 @@ public class SC_InventoryUI : MonoBehaviour
 
     public Color normalColor;
     public Color selectedColor;
+    public Color textNormalColor;
     public Color textSelectedColor;
 
     private int currentPageIndex;
@@ -215,7 +216,7 @@ public class SC_InventoryUI : MonoBehaviour
             
             
             img.color = normalColor;
-            text.color = selectedColor;
+            text.color = textNormalColor;
 
         }
 
