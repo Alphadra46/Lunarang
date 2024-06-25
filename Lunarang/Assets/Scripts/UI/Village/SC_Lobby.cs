@@ -23,16 +23,29 @@ public class SC_Lobby : MonoBehaviour
 
     private void OnEnable()
     {
-        if(SC_InputManager.instance == null) return;
+        if (SC_InputManager.instance == null)
+        {
+            StartCoroutine(RetryInOneFrame());
+            return;
+        }
         
         SC_InputManager.instance.develop.started += UpgradeBuilding;
         SC_InputManager.instance.submit.started += InteractBuilding;
         
     }
 
+    private IEnumerator RetryInOneFrame()
+    {
+
+        yield return new WaitForEndOfFrame();
+        
+        SC_InputManager.instance.develop.started += UpgradeBuilding;
+        SC_InputManager.instance.submit.started += InteractBuilding;
+
+    }
+    
     private void OnDisable()
     {
-        if(SC_InputManager.instance == null) return;
         
         SC_InputManager.instance.develop.started -= UpgradeBuilding;
         SC_InputManager.instance.submit.started -= InteractBuilding;
@@ -47,6 +60,7 @@ public class SC_Lobby : MonoBehaviour
         instance = this;
         
         currentBuilding += SelectBuilding;
+        
 
     }
 

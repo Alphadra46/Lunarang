@@ -42,7 +42,17 @@ public class SC_InputPrompt : MonoBehaviour
 
     public void Init(string controllerName)
     {
-        if (promptKeyboardImages.Length < 2)
+        var controller = controllerName switch
+        {
+            not null when controllerName.Contains("SwitchProControllerHID") => promptSwitchImages,
+            not null when controllerName.Contains("XInputController") => promptXboxImages,
+            not null when controllerName.Contains("DualShock4GamepadHID") => promptPlaystationImages,
+            not null when controllerName.Contains("DualSenseGamepadHID") => promptPlaystationImages,
+            not null when controllerName.Contains("Keyboard") => promptKeyboardImages,
+            _ => promptKeyboardImages
+        };
+        
+        if (controller.Length < 2)
         {
             
             // print(controllerName);
@@ -52,24 +62,13 @@ public class SC_InputPrompt : MonoBehaviour
                 if(image != null)
                     image.gameObject.SetActive(false);
             }
-            
-            if(images[0] != null){
-                
-                images[0].gameObject.SetActive(true);
 
-                images[0].sprite = controllerName switch
-                {
-                    not null when controllerName.Contains("SwitchProControllerHID") => promptSwitchImages[0],
-                    not null when controllerName.Contains("XInputController") => promptXboxImages[0],
-                    not null when controllerName.Contains("DualShock4GamepadHID") => promptPlaystationImages[0],
-                    not null when controllerName.Contains("DualSenseGamepadHID") => promptPlaystationImages[0],
-                    not null when controllerName.Contains("Keyboard") => promptKeyboardImages[0],
-                    _ => promptKeyboardImages[0]
-                };
-
-                return;
-            }
+            if (images[0] == null) return;
             
+            images[0].gameObject.SetActive(true);
+
+            images[0].sprite = controller[0];
+
         }
         else
         {
@@ -78,21 +77,14 @@ public class SC_InputPrompt : MonoBehaviour
                 if(image != null)
                     image.gameObject.SetActive(true);
             }
+            
+            for (var i = 0; i < images.Length; i++)
+            {
+                if (images[i] != null)
+                    images[i].sprite = controller[i];
+            }
         }
         
-        for (var i = 0; i < images.Length; i++)
-        {
-            if(images[i] != null)
-                images[i].sprite = controllerName switch
-                {
-                    not null when controllerName.Contains("SwitchProControllerHID") => promptSwitchImages[i],
-                    not null when controllerName.Contains("XInputController") => promptXboxImages[i],
-                    not null when controllerName.Contains("DualShock4GamepadHID") => promptPlaystationImages[i],
-                    not null when controllerName.Contains("DualSenseGamepadHID") => promptPlaystationImages[i],
-                    not null when controllerName.Contains("Keyboard") => promptKeyboardImages[i],
-                    _ => promptKeyboardImages[i]
-                };
-        }
     }
 
     public void SetText(string value)
