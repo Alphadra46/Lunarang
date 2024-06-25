@@ -629,7 +629,7 @@ public class SC_DebuffsBuffsComponent : MonoBehaviour
 
     public void CreateVFX(Enum_Debuff debuff, GameObject vfxObject, Vector3 position, SC_DebuffsBuffsComponent applicator)
     {
-        
+        if(debuffsVFX.ContainsKey(debuff)) return;
         if(vfxObject == null) return;
 
         var go = Instantiate(vfxObject, transform);

@@ -156,19 +156,15 @@ public class SC_RewardItemUI : SerializedMonoBehaviour
                 break;
             case ConstellationName.Berserker:
                 outline.color = SC_GameManager.instance.playerSkillInventory.FindConstellationByName("Berserk").color;
-                crystal.color = SC_GameManager.instance.playerSkillInventory.FindConstellationByName("Berserk").color;
                 break;
             case ConstellationName.Tank:
                 outline.color = SC_GameManager.instance.playerSkillInventory.FindConstellationByName("Tank").color;
-                crystal.color = SC_GameManager.instance.playerSkillInventory.FindConstellationByName("Tank").color;
                 break;
             case ConstellationName.Freeze:
                 outline.color = SC_GameManager.instance.playerSkillInventory.FindConstellationByName("Freeze").color;
-                crystal.color = SC_GameManager.instance.playerSkillInventory.FindConstellationByName("Freeze").color;
                 break;
             case ConstellationName.Burn:
                 outline.color = SC_GameManager.instance.playerSkillInventory.FindConstellationByName("Burn").color;
-                crystal.color = SC_GameManager.instance.playerSkillInventory.FindConstellationByName("Burn").color;
                 break;
             default:
                 outline.color = baseColors["Default"];
