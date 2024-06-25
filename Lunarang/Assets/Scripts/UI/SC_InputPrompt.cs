@@ -42,7 +42,7 @@ public class SC_InputPrompt : MonoBehaviour
 
     public void Init(string controllerName)
     {
-        if (promptPlaystationImages.Length < 2 && promptSwitchImages.Length < 2 && promptXboxImages.Length < 2)
+        if (promptKeyboardImages.Length < 2)
         {
             
             // print(controllerName);
