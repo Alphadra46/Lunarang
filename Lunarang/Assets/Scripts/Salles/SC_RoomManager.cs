@@ -102,6 +102,7 @@ public class SC_RoomManager : MonoBehaviour
             roomClearVFX.SetVector2("Dimensions",new Vector2(size,size));
             roomClearVFX.gameObject.SetActive(true);
             roomClearVFX.Play();
+            roomInteractor.radius = roomSize == RoomSize.Large ? 29 : roomSize == RoomSize.Medium ? 24 : 19;
         }
         
         if (isInit)
@@ -167,6 +168,7 @@ public class SC_RoomManager : MonoBehaviour
             roomClearVFX.gameObject.SetActive(false);
             SC_Pooling.instance.ReturnItemToPool("VFX",roomClearVFX.gameObject);
             roomClearVFX = null;
+            roomInteractor.radius = 0;
         }
     }
 
