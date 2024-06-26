@@ -24,6 +24,7 @@ public class SC_PlayerController : MonoBehaviour
     
     private CharacterController _characterController;
     public Animator _animator;
+    
     private SC_SFXPlayerComponent _sfxPlayer;
 
     public Vector3 lastPos;
@@ -262,9 +263,12 @@ public class SC_PlayerController : MonoBehaviour
         Gravity();
         
         Rotate(); // Rotate the player
-        
-        if(isMovementInputPressed && !isAttacking)
+
+        if (isMovementInputPressed && !isAttacking)
+        {
             _characterController.Move((IsoVectorConvert(currentMovement) * SC_PlayerStats.instance.currentStats.currentSpeed) * Time.deltaTime); // Move the player
+        }
+            
         
     }
 

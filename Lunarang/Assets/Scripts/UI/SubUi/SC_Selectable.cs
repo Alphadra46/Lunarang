@@ -47,6 +47,7 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     
     private Canvas canvas;
     private SC_RewardUI rewardUI;
+    private SC_SFXPlayerComponent sfxComponent;
 
     public static GameObject lastSelected;
     
@@ -55,6 +56,7 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         canvas = GetComponentInParent<Canvas>();
         dissolveControllers = GetComponentsInChildren<UIDissolve>().ToList();
         rewardUI = GetComponentInParent<SC_RewardUI>();
+        sfxComponent = GetComponent<SC_SFXPlayerComponent>();
         SC_InputManager.instance.navigate.started += Navigate;
         //shockWavePS.material = new Material(shockWavePS.material);
         //shockWavePS.startColor = borderImage.color;
@@ -108,6 +110,10 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         isHovering = true;
         if (SC_InputManager.instance.lastDeviceUsed == "Mouse")
             EventSystem.current.SetSelectedGameObject(gameObject);
+
+        List<string> clips = new List<string>() { "SD_CompeteceHover_1", "SD_CompeteceHover_2", "SD_CompeteceHover_3" };
+        sfxComponent.PlayRandomClip(clips);
+        
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -131,6 +137,10 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         DOTween.Kill(2, true);
         shakeParent.DOPunchRotation(Vector3.forward * hoverPunchAngle, hoverTransition, 20, 1).SetUpdate(true).SetId(3);
         isHovering = true;
+        
+        List<string> clips = new List<string>() { "SD_CompeteceHover_1", "SD_CompeteceHover_2", "SD_CompeteceHover_3" };
+        sfxComponent.PlayRandomClip(clips);
+        
     }
 
     public void Exit()
@@ -191,6 +201,8 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         if (!isHovering)
             return;
+        
+        sfxComponent.PlayClip("SD_CompetenceSelect");
         
         canvas.overrideSorting = false;
         interactable = false;
