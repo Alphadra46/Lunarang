@@ -69,7 +69,10 @@ public class SC_ArchiveDiscoveredUI : MonoBehaviour
         archiveDescTMP.text = archive.shortDescription;
         archiveLoreTMP.text = archive.loreDescription;
         
-        firstPage.SetActive(true);
+        if(archive.splashArt != null)
+            firstPage.SetActive(true);
+        else
+            otherPage.SetActive(true);
         
         pagePanel.SetActive(archive.pagesText.Count > 0);
 
@@ -81,7 +84,7 @@ public class SC_ArchiveDiscoveredUI : MonoBehaviour
     public void SwitchPage()
     {
 
-        if (currentPage == 0)
+        if (currentPage == 0 && archive.splashArt != null)
         {
             firstPage.SetActive(true);
             otherPage.SetActive(false);
@@ -90,7 +93,7 @@ public class SC_ArchiveDiscoveredUI : MonoBehaviour
         {
             firstPage.SetActive(false);
             otherPage.SetActive(true);
-            archiveOtherPagesTMP.text = archive.pagesText[currentPage-1];
+            archiveOtherPagesTMP.text = archive.pagesText[currentPage];
         }
         
         

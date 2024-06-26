@@ -43,7 +43,7 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
     private SC_ComboController _comboController;
     
     [HideInInspector] public SC_DebuffsBuffsComponent debuffsBuffsComponent;
-    private SC_SFXPlayerComponent sfxPlayer;
+    public SC_SFXPlayerComponent sfxPlayer;
 
     public SC_StatsDebug statsDebug = null;
 

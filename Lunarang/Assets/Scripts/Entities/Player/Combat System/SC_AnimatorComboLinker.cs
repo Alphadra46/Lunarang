@@ -86,6 +86,14 @@ public class SC_AnimatorComboLinker : MonoBehaviour
         vfx.Play();
         
     }
+
+    public void PlaySFX(AudioClip sfx)
+    {
+        
+        if(sfx != null)
+            SC_PlayerStats.instance.sfxPlayer.PlayClip(sfx);
+        
+    }
     
 }
 
