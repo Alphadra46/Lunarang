@@ -25,6 +25,7 @@ public class SC_TutoRoomManager : MonoBehaviour
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject fountainTipsUIPrefab;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject skillChest;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject fountain;
+    [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject archiveToDrop;
     [SerializeField, TabGroup("Settings", "Global Settings")] private SC_Resource ressourceToForceAdd;
     [SerializeField, TabGroup("Settings", "Global Settings")] private int amountOfRessource;
     [SerializeField, TabGroup("Settings", "Global Settings")] private SC_Resource essenceFragment;
@@ -296,10 +297,17 @@ public class SC_TutoRoomManager : MonoBehaviour
             StartCoroutine(DisplayFountainUI(1f));
         }
         
+        if (archiveToDrop != null)
+        {
+            archiveToDrop.SetActive(true);
+        }
+        
         if (skillChest==null)
             return;
         
         RevealChest(skillChest);
+
+        
     }
 
     private void RevealChest(GameObject chest)
