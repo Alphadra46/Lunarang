@@ -53,6 +53,7 @@ public class SC_RoomManager : MonoBehaviour
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject resourceChest;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject skillChest;
     [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject fountain;
+    [SerializeField, TabGroup("Settings", "Global Settings")] private GameObject archive;
     [SerializeField, TabGroup("Settings", "Global Settings")] private Interactor roomInteractor;
     
     private CinemachineConfiner confiner;
