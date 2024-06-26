@@ -327,14 +327,20 @@ public class SC_UIManager : MonoBehaviour
             archiveDiscoveredUI.name = "ArchiveDiscoveredUI";
             
             if(archiveDiscoveredUI.TryGetComponent(out SC_ArchiveDiscoveredUI sc)) sc.Init(archiveToDisplay);
-            
-            ShowHUD();
+
+            if (SC_GameManager.instance.state is GameState.RUN or GameState.FTUE or GameState.TRAINING)
+            {
+                ShowHUD();
+            }
         }
         else
         {
             Destroy(archiveDiscoveredUI);
             archiveDiscoveredUI = null;
-            ShowHUD();
+            if (SC_GameManager.instance.state is GameState.RUN or GameState.FTUE or GameState.TRAINING)
+            {
+                ShowHUD();
+            }
         }
         
     }

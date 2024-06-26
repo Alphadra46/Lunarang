@@ -20,7 +20,7 @@ public class SC_Lobby : MonoBehaviour
     public static Action<SC_BuildingButton, bool> currentBuilding;
     public Action<SC_BuildingButton> upgradeFB;
     public Action<SC_BuildingButton> interactFB;
-    
+    public SO_Archive archiveTutorial;
     public GameObject lobbyUI;
     public GameObject lobbyTutorialUIPrefab;
 
@@ -66,6 +66,7 @@ public class SC_Lobby : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         SC_GameManager.instance.SetPause();
         lobbyTutorialUI = Instantiate(lobbyTutorialUIPrefab);
+        lobbyTutorialUI.GetComponent<SC_ArchiveDiscoveredUI>().Init(archiveTutorial);
         yield return new WaitForSecondsRealtime(1f);
         SC_InputManager.instance.cancel.started += QuitTutorial;
     }

@@ -129,8 +129,9 @@ public class SC_LibraryUI : MonoBehaviour
             var collectionGO = Instantiate(collectionPrefab, collectionsContent.transform);
             var collectionGOScript = collectionGO.GetComponent<SC_ArchiveCollectionUI>();
                 
-            if(collection.collectionType == ArchiveType.Enemies) collectionGOScript.InitEnemiesCollection(collection);
-            else collectionGOScript.InitStantardCollection(collection);
+            // if(collection.collectionType == ArchiveType.Enemies) collectionGOScript.InitEnemiesCollection(collection);
+            // else collectionGOScript.InitStantardCollection(collection);
+            collectionGOScript.InitStantardCollection(collection);
                 
             collectionsGO.Add(collectionGO);
             
