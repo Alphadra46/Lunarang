@@ -919,6 +919,7 @@ MonoBehaviour:
   fountainTipsUIPrefab: {fileID: 0}
   skillChest: {fileID: 0}
   fountain: {fileID: 0}
+  archiveToDrop: {fileID: 0}
   ressourceToForceAdd: {fileID: 0}
   amountOfRessource: 0
   essenceFragment: {fileID: 0}
@@ -1123,6 +1124,7 @@ MonoBehaviour:
   fountainTipsUIPrefab: {fileID: 0}
   skillChest: {fileID: 607054677}
   fountain: {fileID: 0}
+  archiveToDrop: {fileID: 0}
   ressourceToForceAdd: {fileID: 11400000, guid: 607d57884eb82594997929a8685838c6,
     type: 2}
   amountOfRessource: 15
@@ -1645,12 +1647,109 @@ MonoBehaviour:
   fountainTipsUIPrefab: {fileID: 0}
   skillChest: {fileID: 0}
   fountain: {fileID: 0}
+  archiveToDrop: {fileID: 0}
   ressourceToForceAdd: {fileID: 0}
   amountOfRessource: 0
   essenceFragment: {fileID: 0}
   totalEnemies: 0
   enemiesToSpawn: []
   isClear: 0
+--- !u!1001 &798736182
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1371996456}
+    m_Modifications:
+    - target: {fileID: 151407752687032476, guid: deb9c8c2b8641b64ca412faf6c51068d,
+        type: 3}
+      propertyPath: m_Name
+      value: Archive_Reward
+      objectReference: {fileID: 0}
+    - target: {fileID: 151407752687032476, guid: deb9c8c2b8641b64ca412faf6c51068d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 518422424453810338, guid: deb9c8c2b8641b64ca412faf6c51068d,
+        type: 3}
+      propertyPath: archiveAttached
+      value: 
+      objectReference: {fileID: 11400000, guid: afd4dc07f8aba154ca4c34210dbeca85,
+        type: 2}
+    - target: {fileID: 3453437775493925138, guid: deb9c8c2b8641b64ca412faf6c51068d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203216606512659952, guid: deb9c8c2b8641b64ca412faf6c51068d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.1767883
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203216606512659952, guid: deb9c8c2b8641b64ca412faf6c51068d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.106
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203216606512659952, guid: deb9c8c2b8641b64ca412faf6c51068d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.9228619
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203216606512659952, guid: deb9c8c2b8641b64ca412faf6c51068d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203216606512659952, guid: deb9c8c2b8641b64ca412faf6c51068d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203216606512659952, guid: deb9c8c2b8641b64ca412faf6c51068d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203216606512659952, guid: deb9c8c2b8641b64ca412faf6c51068d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203216606512659952, guid: deb9c8c2b8641b64ca412faf6c51068d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203216606512659952, guid: deb9c8c2b8641b64ca412faf6c51068d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203216606512659952, guid: deb9c8c2b8641b64ca412faf6c51068d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: deb9c8c2b8641b64ca412faf6c51068d, type: 3}
+--- !u!4 &798736183 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4203216606512659952, guid: deb9c8c2b8641b64ca412faf6c51068d,
+    type: 3}
+  m_PrefabInstance: {fileID: 798736182}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &798736184 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 151407752687032476, guid: deb9c8c2b8641b64ca412faf6c51068d,
+    type: 3}
+  m_PrefabInstance: {fileID: 798736182}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &875754354
 Mesh:
   m_ObjectHideFlags: 0
@@ -2587,6 +2686,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 593093928}
+    - targetCorrespondingSourceObject: {fileID: 1485743774016456087, guid: 91564bf0aa6d8114cb7d1c25a0b2e864,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 798736183}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1485743774016456084, guid: 91564bf0aa6d8114cb7d1c25a0b2e864,
         type: 3}
@@ -4685,6 +4788,7 @@ MonoBehaviour:
     type: 3}
   skillChest: {fileID: 0}
   fountain: {fileID: 593093927}
+  archiveToDrop: {fileID: 798736184}
   ressourceToForceAdd: {fileID: 11400000, guid: d172a70aac41d224faf81ca83b7d6b9c,
     type: 2}
   amountOfRessource: 10

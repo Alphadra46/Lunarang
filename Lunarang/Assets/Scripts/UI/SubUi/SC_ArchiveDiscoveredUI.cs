@@ -69,7 +69,10 @@ public class SC_ArchiveDiscoveredUI : MonoBehaviour
         archiveDescTMP.text = archive.shortDescription;
         archiveLoreTMP.text = archive.loreDescription;
         
-        firstPage.SetActive(true);
+        if(archive.splashArt != null)
+            firstPage.SetActive(true);
+        else
+            otherPage.SetActive(true);
         
         pagePanel.SetActive(archive.pagesText.Count > 0);
 
