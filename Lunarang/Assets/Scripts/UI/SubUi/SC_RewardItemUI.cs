@@ -55,14 +55,13 @@ public class SC_RewardItemUI : SerializedMonoBehaviour
         if(!TryGetComponent(out _layoutGroupComponent)) return;
         if(!TryGetComponent(out button)) return;
         
+        
         StartCoroutine(DelayInput());
     }
     
     public void OnClick()
     {
-
-        var clips = new List<string>() { "SD_CompetenceSelect" };
-        
+    
         SC_UIManager.instance.ShowRewardMenu();
         SC_GameManager.instance.SetPause();
         
@@ -72,6 +71,8 @@ public class SC_RewardItemUI : SerializedMonoBehaviour
         {
             SC_GameManager.instance.playerResourceInventory.AddResource(_resource, amount);
         }
+        
+        GetComponent<SC_SFXPlayerComponent>().PlayClip("SD_CompetenceSelect");
         
     }
 
