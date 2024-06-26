@@ -136,6 +136,7 @@ MonoBehaviour:
   _skinnedMeshRenderer:
   - {fileID: 7565307490641510677}
   _meshRenderer: []
+  _animator: {fileID: 0}
 --- !u!114 &6131542437344180434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +300,7 @@ MonoBehaviour:
   _renderer: {fileID: 0}
   _rb: {fileID: 0}
   _collider: {fileID: 0}
+  _debuffsBuffsComponent: {fileID: 0}
   summonCooldown: 9
   numbersOfSummons: 2
   maxNumbersOfSummons: 8
@@ -2253,7 +2255,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3c34f85fe515dbf4593250a8c7b09c76,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8964474532850575616}
+      addedObject: {fileID: 7963740011964708375}
   m_SourcePrefab: {fileID: 100100000, guid: 3c34f85fe515dbf4593250a8c7b09c76, type: 3}
 --- !u!1 &132705116543768683 stripped
 GameObject:
@@ -2261,7 +2263,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 942975567546475834}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8964474532850575616
+--- !u!114 &7963740011964708375
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2270,12 +2272,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 132705116543768683}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e0bab68fa332214d9852d1da7e50ee5, type: 3}
+  m_Script: {fileID: 11500000, guid: 4376e62ee56fa684395dc89fbd0d5ab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pComboController: {fileID: 0}
-  pController: {fileID: 0}
-  pFABuilder: {fileID: 0}
+  stats: {fileID: 0}
+  renderer: {fileID: 0}
 --- !u!4 &764668784010560209 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3c34f85fe515dbf4593250a8c7b09c76,

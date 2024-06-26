@@ -22,7 +22,6 @@ public class SC_ArchiveCollectionUI : MonoBehaviour
     public List<SC_ArchiveButtonUI> archivesGO = new List<SC_ArchiveButtonUI>();
 
     public GameObject standardCollectionPanel;
-    public GameObject enemiesCollectionPanel;
 
     public SO_ArchiveCollection collection;
 
@@ -57,7 +56,7 @@ public class SC_ArchiveCollectionUI : MonoBehaviour
     public void InitEnemiesCollection(SO_ArchiveCollection newCollection)
     {
         
-        enemiesCollectionPanel.SetActive(true);
+        standardCollectionPanel.SetActive(true);
         
         collection = newCollection;
         

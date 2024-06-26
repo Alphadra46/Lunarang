@@ -25,7 +25,7 @@ public class SC_MainMenuManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-
+        
     }
 
     private void Start()
@@ -48,7 +48,7 @@ public class SC_MainMenuManager : MonoBehaviour
     public void Play()
     {
 
-        SC_UIManager.instance.CreateLoadingScreen(SC_GameManager.isFirstLaunch?2:1);
+        SC_GameManager.instance.ChangeState(SC_GameManager.isFirstLaunch? GameState.LOBBY : GameState.FTUE);
         
     }
 

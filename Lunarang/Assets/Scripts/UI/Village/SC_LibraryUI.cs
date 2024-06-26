@@ -38,12 +38,17 @@ public class SC_LibraryUI : MonoBehaviour
     
     [PropertySpace(SpaceBefore = 15f)]
     public GameObject unlockedContent;
+    [PropertySpace(SpaceBefore = 15f)]
+    public GameObject firstPage;
+    [PropertySpace(SpaceBefore = 15f)]
+    public GameObject otherPage;
+
+    public TextMeshProUGUI archiveOtherPagesTMP;
+    public TextMeshProUGUI pageIndicatorTMP;
+
     
     [PropertySpace(SpaceBefore = 15f)]
     public GameObject unselectedContent;
-    
-    [PropertySpace(SpaceBefore = 15f)]
-    public Button backToLobbyButton;
     
     [PropertySpace(SpaceBefore = 15f)]
     public Image counterImage;
@@ -67,6 +72,9 @@ public class SC_LibraryUI : MonoBehaviour
     #endregion
     
     public ArchiveType typeShowed = ArchiveType.Story;
+
+    public int currentPage = 0;
+    public SO_Archive currentArchive;
 
     public Scrollbar scrollbar;
 
@@ -220,6 +228,8 @@ public class SC_LibraryUI : MonoBehaviour
 
     public void ShowInformations(SO_Archive archiveToDisplay)
     {
+
+        currentArchive = archiveToDisplay;
         
         if (archiveToDisplay.archiveState is ArchiveState.Hidden)
         {
@@ -230,11 +240,11 @@ public class SC_LibraryUI : MonoBehaviour
         {
             SwitchInformationsPanelState("unlocked");
             
-            var collectionNameTMP = unlockedContent.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            var archiveNameTMP = unlockedContent.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
-            var archiveImage = unlockedContent.transform.GetChild(3).GetComponent<Image>();
-            var archiveDescTMP = unlockedContent.transform.GetChild(4).GetComponent<TextMeshProUGUI>();
-            var archiveLoreTMP = unlockedContent.transform.GetChild(6).GetComponent<TextMeshProUGUI>();
+            var collectionNameTMP = firstPage.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            var archiveNameTMP = firstPage.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+            var archiveImage = firstPage.transform.GetChild(3).GetComponent<Image>();
+            var archiveDescTMP = firstPage.transform.GetChild(4).GetComponent<TextMeshProUGUI>();
+            var archiveLoreTMP = firstPage.transform.GetChild(6).GetComponent<TextMeshProUGUI>();
 
             var collection =
                 SC_GameManager.instance.archivesInventory.collections.FirstOrDefault(o =>
@@ -258,10 +268,32 @@ public class SC_LibraryUI : MonoBehaviour
             archiveLoreTMP.text = archiveToDisplay.loreDescription;
             archiveLoreTMP.CalculateLayoutInputVertical();
 
+            firstPage.gameObject.SetActive(true);
             LayoutRebuilder.ForceRebuildLayoutImmediate(unlockedContent.GetComponent<RectTransform>());
 
         }
         
+        
+    }
+
+    public void SwitchPage()
+    {
+        
+        if (currentPage == 0 && currentArchive.splashArt != null)
+        {
+            firstPage.SetActive(true);
+            otherPage.SetActive(false);
+        }
+        else
+        {
+            firstPage.SetActive(false);
+            otherPage.SetActive(true);
+            archiveOtherPagesTMP.text = currentArchive.pagesText[currentPage];
+        }
+        
+        
+        if (currentArchive.pagesText.Count > 0)
+            pageIndicatorTMP.text = $"{currentPage + 1}/{currentArchive.pagesText.Count+1}";
         
     }
 
