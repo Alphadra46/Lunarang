@@ -422,9 +422,10 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
         
         if (SC_GameManager.instance.playerSkillInventory.CheckHasSkillByName("Régénération"))
         {
-            print("ALLER");
             Heal(2);
         }
+        
+        sfxPlayer.PlayClip("SD_ClearRoom");
         
     }
 
