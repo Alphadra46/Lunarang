@@ -229,12 +229,15 @@ public class SC_LibraryUI : MonoBehaviour
         else
         {
             SwitchInformationsPanelState("unlocked");
+
+            var firstPage = unlockedContent.transform.GetChild(0);
             
-            var collectionNameTMP = unlockedContent.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            var archiveNameTMP = unlockedContent.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
-            var archiveImage = unlockedContent.transform.GetChild(3).GetComponent<Image>();
-            var archiveDescTMP = unlockedContent.transform.GetChild(4).GetComponent<TextMeshProUGUI>();
-            var archiveLoreTMP = unlockedContent.transform.GetChild(6).GetComponent<TextMeshProUGUI>();
+            
+            var collectionNameTMP = firstPage.GetChild(0).GetComponent<TextMeshProUGUI>();
+            var archiveNameTMP = firstPage.GetChild(2).GetComponent<TextMeshProUGUI>();
+            var archiveImage = firstPage.GetChild(3).GetComponent<Image>();
+            var archiveDescTMP = firstPage.GetChild(4).GetComponent<TextMeshProUGUI>();
+            var archiveLoreTMP = firstPage.GetChild(6).GetComponent<TextMeshProUGUI>();
 
             var collection =
                 SC_GameManager.instance.archivesInventory.collections.FirstOrDefault(o =>
@@ -258,6 +261,7 @@ public class SC_LibraryUI : MonoBehaviour
             archiveLoreTMP.text = archiveToDisplay.loreDescription;
             archiveLoreTMP.CalculateLayoutInputVertical();
 
+            firstPage.gameObject.SetActive(true);
             LayoutRebuilder.ForceRebuildLayoutImmediate(unlockedContent.GetComponent<RectTransform>());
 
         }

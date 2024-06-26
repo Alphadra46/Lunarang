@@ -85,12 +85,6 @@ public class SC_PlayerStats : SC_EntityBase, IDamageable
             isInvincible = true;
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Keypad9)) TakeDamage(5, false, null, true);
-        if(Input.GetKeyDown(KeyCode.Keypad8)) Heal(10);
-    }
-
 
     private void OnEnable()
     {

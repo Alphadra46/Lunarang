@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -14,6 +12,8 @@ using UnityEditor;
 
 public enum GameState
 {
+    Menu,
+    FTUE,
     LOBBY,
     TRAINING,
     RUN,
@@ -90,6 +90,11 @@ public class SC_GameManager : MonoBehaviour
     {
         
         if(state == GameState.RUN) IncrementingTimer();
+        
+        //Debug Inputs
+        if(Input.GetKeyDown(KeyCode.Keypad9)) SC_PlayerStats.instance.TakeDamage(5, false, null, true);
+        if(Input.GetKeyDown(KeyCode.Keypad8)) SC_PlayerStats.instance.Heal(10);
+        if(Input.GetKeyDown(KeyCode.Semicolon)) SC_UIManager.instance.CreateLoadingScreen(0);
         
     }
 
@@ -171,6 +176,26 @@ public class SC_GameManager : MonoBehaviour
 
         switch (state)
         {
+            case GameState.FTUE:
+                if (isPause) SetPause();
+                
+                if(SceneManager.GetActiveScene().buildIndex != 1)
+                    SC_UIManager.instance.CreateLoadingScreen(1);
+                
+                if (SC_PlayerController.instance != null)
+                {
+                    SC_PlayerController.instance.FreezeMovement(false);
+                    SC_PlayerController.instance.FreezeDash(false);
+                }
+                
+                SC_AIStats.onDeath += IncrementingKillCounter;
+                
+                SC_UIManager.instance.ResetTempReferences();
+                ResetTimer();
+                ResetKillCounter();
+                
+                break;
+            
             case GameState.LOBBY:
                 if (isPause) SetPause();
                 if(SceneManager.GetActiveScene().buildIndex != 2)
