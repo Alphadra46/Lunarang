@@ -5,6 +5,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -61,6 +62,8 @@ public class SC_LibraryUI : MonoBehaviour
     [BoxGroup("List")]
     public List<GameObject> collectionsGOShowed = new List<GameObject>();
 
+    private List<GameObject> typeButtons = new List<GameObject>();
+
     #endregion
     
     public ArchiveType typeShowed = ArchiveType.Story;
@@ -74,12 +77,25 @@ public class SC_LibraryUI : MonoBehaviour
     {
         showInformations += ShowInformations;
         SC_InputManager.instance.cancel.started += Close;
+        for (int i = 0; i < transform.GetChild(1).childCount; i++)
+        {
+            typeButtons.Add(transform.GetChild(1).GetChild(i).gameObject);
+        }
+        
+        if (collectionsGOShowed.Count>0&&collectionsGOShowed[0].GetComponent<SC_ArchiveCollectionUI>().archivesGO[0].gameObject)
+            EventSystem.current.SetSelectedGameObject(collectionsGOShowed[0].GetComponent<SC_ArchiveCollectionUI>().archivesGO[0].gameObject);
+        SC_InputManager.instance.switchToRight.started += SwitchTypeRight;
+        SC_InputManager.instance.switchToLeft.started += SwitchTypeLeft;
+        SwitchType((int) typeShowed);
     }
 
     private void OnDisable()
     {
+        typeButtons.Clear();
         showInformations -= ShowInformations;
         SC_InputManager.instance.cancel.started -= Close;
+        SC_InputManager.instance.switchToRight.started -= SwitchTypeRight;
+        SC_InputManager.instance.switchToLeft.started -= SwitchTypeLeft;
     }
 
     private void Awake()
@@ -117,15 +133,28 @@ public class SC_LibraryUI : MonoBehaviour
         counterText.text = SC_GameManager.instance.archivesInventory.GetNumbersOfDiscovoredArchives() + "/" +
                            SC_GameManager.instance.archivesInventory.GetNumbersOfArchives();
         
-        SwitchType((int) typeShowed);
         
-
+        
+        
     }
     
+    public void SwitchTypeLeft(InputAction.CallbackContext context)
+    {
+        SwitchType(Mathf.Clamp((int)typeShowed-1,0,4));
+    }
+    
+    public void SwitchTypeRight(InputAction.CallbackContext context)
+    {
+        SwitchType(Mathf.Clamp((int)typeShowed+1,0,4));
+    }
     
     public void SwitchType(int newType)
     {
-        
+        foreach (var button in typeButtons)
+        {
+            button.transform.GetChild(1).gameObject.SetActive(false);
+        }
+        typeButtons[newType].transform.GetChild(1).gameObject.SetActive(true);
         typeShowed = (ArchiveType) newType;
         
         collectionsGOShowed.Clear();
@@ -133,18 +162,47 @@ public class SC_LibraryUI : MonoBehaviour
         foreach (var collectionGO in collectionsGO)
         {
             
-            collectionGO.SetActive(collectionGO.GetComponent<SC_ArchiveCollectionUI>().collection.collectionType ==
-                                   typeShowed);
+            collectionGO.SetActive(collectionGO.GetComponent<SC_ArchiveCollectionUI>().collection.collectionType == typeShowed);
             
             if(collectionGO.activeInHierarchy) collectionsGOShowed.Add(collectionGO);
             
         }
         
         LayoutRebuilder.ForceRebuildLayoutImmediate(collectionsContent.GetComponent<RectTransform>());
+
+        if (collectionsGOShowed.Count>0&&collectionsGOShowed[0].GetComponent<SC_ArchiveCollectionUI>().archivesGO[0].gameObject)
+        {
+            EventSystem.current.SetSelectedGameObject(collectionsGOShowed[0].GetComponent<SC_ArchiveCollectionUI>().archivesGO[0].gameObject);
+        }
         
-        
+        SetNavigation();
     }
 
+    private void SetNavigation()
+    {
+        for (int i = 0; i < collectionsGOShowed.Count; i++)
+        {
+            var collection = collectionsGOShowed[i];
+            var c = collection.GetComponent<SC_ArchiveCollectionUI>();
+            for (int j = 0; j < c.archivesGO.Count; j++)
+            {
+                var archive = c.archivesGO[j];
+                var archiveUIElement = archive.GetComponent<Button>();
+                var nav = Navigation.defaultNavigation;
+                nav.mode = Navigation.Mode.Explicit;
+                nav.selectOnRight = j + 1 >= c.archivesGO.Count ? null : c.archivesGO[j + 1].GetComponent<Button>();
+                nav.selectOnLeft = j - 1 < 0 ? null : c.archivesGO[j - 1].GetComponent<Button>();
+                nav.selectOnDown = i + 1 >= collectionsGOShowed.Count
+                    ? null
+                    : collectionsGOShowed[i + 1].GetComponent<SC_ArchiveCollectionUI>().archivesGO[Mathf.Clamp(j,0,collectionsGOShowed[i + 1].GetComponent<SC_ArchiveCollectionUI>().archivesGO.Count - 1)].GetComponent<Button>();
+                nav.selectOnUp = i - 1 < 0
+                    ? null
+                    : collectionsGOShowed[i - 1].GetComponent<SC_ArchiveCollectionUI>().archivesGO[Mathf.Clamp(j,0,collectionsGOShowed[i - 1].GetComponent<SC_ArchiveCollectionUI>().archivesGO.Count - 1)].GetComponent<Button>();
+                archiveUIElement.navigation = nav;
+            }
+        }
+    }
+    
     private void Close(InputAction.CallbackContext ctx)
     {
         
