@@ -6,18 +6,25 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 
 public class SC_Lobby : MonoBehaviour
 {
 
     public static SC_Lobby instance;
+    public static bool isTutorialFinished;
 
     public static Action<SC_BuildingButton, bool> currentBuilding;
     public Action<SC_BuildingButton> upgradeFB;
     public Action<SC_BuildingButton> interactFB;
     
     public GameObject lobbyUI;
+    public GameObject lobbyTutorialUIPrefab;
 
+    private GameObject lobbyTutorialUI;
     private Selectable lastSelected;
     public SC_BuildingButton buildingSelected;
 
@@ -28,12 +35,53 @@ public class SC_Lobby : MonoBehaviour
             StartCoroutine(RetryInOneFrame());
             return;
         }
+
+        if (isTutorialFinished)
+        {
+            SC_InputManager.instance.develop.started += UpgradeBuilding;
+            SC_InputManager.instance.submit.started += InteractBuilding;
+        }
+        else
+        {
+            StartCoroutine(DelayTutorial());
+        }
+        
+#if UNITY_EDITOR
+        EditorApplication.playModeStateChanged += EditorStateChange;
+#endif
+    }
+
+#if UNITY_EDITOR
+    private void EditorStateChange(PlayModeStateChange playModeState)
+    {
+        if (playModeState == PlayModeStateChange.EnteredEditMode)
+        {
+            isTutorialFinished = false;
+        }
+    }
+#endif
+    
+    private IEnumerator DelayTutorial()
+    {
+        yield return new WaitForSeconds(0.1f);
+        SC_GameManager.instance.SetPause();
+        lobbyTutorialUI = Instantiate(lobbyTutorialUIPrefab);
+        yield return new WaitForSecondsRealtime(1f);
+        SC_InputManager.instance.cancel.started += QuitTutorial;
+    }
+
+    private void QuitTutorial(InputAction.CallbackContext context)
+    {
+        SC_InputManager.instance.cancel.started -= QuitTutorial;
+        Destroy(lobbyTutorialUI);
+        SC_GameManager.instance.SetPause();
+        isTutorialFinished = true;
         
         SC_InputManager.instance.develop.started += UpgradeBuilding;
         SC_InputManager.instance.submit.started += InteractBuilding;
-        
     }
-
+    
+    
     private IEnumerator RetryInOneFrame()
     {
 
