@@ -202,6 +202,8 @@ public class SC_Selectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (!isHovering)
             return;
         
+        sfxComponent.PlayClip("SD_CompetenceSelect");
+        
         canvas.overrideSorting = false;
         interactable = false;
         isSelected = true;
