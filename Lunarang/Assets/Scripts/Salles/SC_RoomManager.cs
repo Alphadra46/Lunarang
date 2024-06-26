@@ -120,15 +120,27 @@ public class SC_RoomManager : MonoBehaviour
             resourceChest.SetActive(false);
             SkillChestSpawn();
             ResourceChestSpawn();
-            if (roomSize == RoomSize.Large && !isSpecialRoom)
+        }
+        
+        if (roomSize == RoomSize.Large && !isSpecialRoom && fountain!=null)
+        {
+            fountain.SetActive(false);
+            FountainSpawn();
+        }
+        else if(isSpecialRoom && fountain!=null)
+        {
+            fountain.SetActive(true);
+            fountain.GetComponent<SC_InteractableBase>().isInteractable = true;
+        }
+
+        if (isSpecialRoom && archive!=null)
+        {
+            archive.SetActive(true);
+            var allArchives = Resources.LoadAll<SO_Archive>("Archives/").ToList();
+            var t = allArchives.Where(a => a.archiveState == ArchiveState.Hidden && !Resources.Load<SO_ArchiveInventory>("ArchiveInventory").archivesOwned.Contains(a) && a.archiveID is "017" or "018" or "019" or "020").ToList();//TODO - not all archives
+            if (t.Count>0)
             {
-                fountain.SetActive(false);
-                FountainSpawn();
-            }
-            else if(isSpecialRoom && fountain!=null)
-            {
-                fountain.SetActive(true);
-                fountain.GetComponent<SC_InteractableBase>().isInteractable = true;
+                archive.GetComponent<SC_ArchiveInteractable>().archiveAttached = t[Random.Range(0, t.Count())];
             }
         }
         
@@ -501,7 +513,8 @@ public class SC_RoomManager : MonoBehaviour
             RevealChest(skillChest);
             RevealChest(resourceChest);
         }
-        
+
+        SpawnArchive(5);
 
         if (hasBonusChallenge)
         {
@@ -510,6 +523,23 @@ public class SC_RoomManager : MonoBehaviour
         
     }
 
+    public void SpawnArchive(int spawnChance)
+    {
+        if (archive==null)
+            return;
+
+        var r = Random.Range(1,101);
+        if (r<=spawnChance)
+        {
+            archive.SetActive(true);
+            var allArchives = Resources.LoadAll<SO_Archive>("Archives/").ToList();
+            var t = allArchives.Where(a => a.archiveState == ArchiveState.Hidden && !Resources.Load<SO_ArchiveInventory>("ArchiveInventory").archivesOwned.Contains(a)).ToList();
+            if (t.Count>0) 
+                archive.GetComponent<SC_ArchiveInteractable>().archiveAttached = t[Random.Range(0, t.Count())];
+            
+        }
+    }
+    
     private IEnumerator PurifyRoom(float duration, Interactor interactor)
     {
         float timer = duration;
@@ -667,6 +697,8 @@ public class SC_RoomManager : MonoBehaviour
             RevealChest(skillChest);
             RevealChest(resourceChest);
         }
+        
+        SpawnArchive(5);
     }
 
     
