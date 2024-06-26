@@ -136,6 +136,7 @@ MonoBehaviour:
   _skinnedMeshRenderer:
   - {fileID: 8304035325178902809}
   _meshRenderer: []
+  _animator: {fileID: 0}
 --- !u!114 &4656920790845478726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,15 +248,15 @@ MonoBehaviour:
   typeID: badkyu
   isElite: 0
   canHaveShield: 0
-  hasShield: 0
   canRegenShield: 0
   delayBeforeRegen: 4
   shieldValue: 0
-  isBreaked: 0
   hasThorns: 0
+  hasShield: 0
+  isBreaked: 0
   moveValues:
+  - 8
   - 15
-  - 20
   moveValueIndex: 0
   onShieldBreaked: {fileID: 11400000, guid: 91102299776b5c448b019d03aa066879, type: 2}
   renderer: {fileID: 0}
@@ -299,6 +300,7 @@ MonoBehaviour:
   _renderer: {fileID: 0}
   _rb: {fileID: 0}
   _collider: {fileID: 0}
+  _debuffsBuffsComponent: {fileID: 0}
   maxProjectiles: 3
   currentProjectiles: 0
   projectileArms: {fileID: 8993542559262429342, guid: 7407d8eb4a2b67744898ed0f6cb2d3c1,
@@ -566,7 +568,7 @@ PrefabInstance:
     - target: {fileID: 5639235307506099298, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 2.5
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5639235307506099298, guid: 9887b8b3b187d3d4aa79613c02752f62,
         type: 3}

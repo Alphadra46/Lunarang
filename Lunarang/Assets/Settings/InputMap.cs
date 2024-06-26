@@ -787,6 +787,24 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TriggerLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""83efc1c4-759e-4daa-bcf8-6105e65303f2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TriggerRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""6c9bbf40-9930-4b18-84c1-49fb3bbbfc9b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1449,6 +1467,94 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""action"": ""SwitchView"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""db45538f-95f5-4916-b747-2438eaf2fa0d"",
+                    ""path"": ""<SwitchProControllerHID>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TriggerLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6f615b4b-c1dd-4847-9b73-a60cb1341195"",
+                    ""path"": ""<DualShockGamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TriggerLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c86bf839-20a2-44cd-bcd3-4f4ae6237d23"",
+                    ""path"": ""<XInputController>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TriggerLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""66fd6d32-2b6c-4091-b4d9-908951d05adf"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TriggerLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7db33886-f8c9-4874-8ee7-dc5a4df708e5"",
+                    ""path"": ""<SwitchProControllerHID>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TriggerRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3734a87-ca09-4a92-9977-106583f2db7f"",
+                    ""path"": ""<SwitchProControllerHID>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TriggerRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b3530d9e-717f-4db1-a1bd-c9fa1eae931b"",
+                    ""path"": ""<XInputController>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TriggerRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""06ef2c16-d685-4b40-a8f2-0dfbae337088"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TriggerRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1534,6 +1640,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_UI_SwitchToRight = m_UI.FindAction("SwitchToRight", throwIfNotFound: true);
         m_UI_SwitchToLeft = m_UI.FindAction("SwitchToLeft", throwIfNotFound: true);
         m_UI_SwitchView = m_UI.FindAction("SwitchView", throwIfNotFound: true);
+        m_UI_TriggerLeft = m_UI.FindAction("TriggerLeft", throwIfNotFound: true);
+        m_UI_TriggerRight = m_UI.FindAction("TriggerRight", throwIfNotFound: true);
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_Console = m_Debug.FindAction("Console", throwIfNotFound: true);
@@ -1738,6 +1846,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_SwitchToRight;
     private readonly InputAction m_UI_SwitchToLeft;
     private readonly InputAction m_UI_SwitchView;
+    private readonly InputAction m_UI_TriggerLeft;
+    private readonly InputAction m_UI_TriggerRight;
     public struct UIActions
     {
         private @InputMap m_Wrapper;
@@ -1756,6 +1866,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @SwitchToRight => m_Wrapper.m_UI_SwitchToRight;
         public InputAction @SwitchToLeft => m_Wrapper.m_UI_SwitchToLeft;
         public InputAction @SwitchView => m_Wrapper.m_UI_SwitchView;
+        public InputAction @TriggerLeft => m_Wrapper.m_UI_TriggerLeft;
+        public InputAction @TriggerRight => m_Wrapper.m_UI_TriggerRight;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1807,6 +1919,12 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @SwitchView.started += instance.OnSwitchView;
             @SwitchView.performed += instance.OnSwitchView;
             @SwitchView.canceled += instance.OnSwitchView;
+            @TriggerLeft.started += instance.OnTriggerLeft;
+            @TriggerLeft.performed += instance.OnTriggerLeft;
+            @TriggerLeft.canceled += instance.OnTriggerLeft;
+            @TriggerRight.started += instance.OnTriggerRight;
+            @TriggerRight.performed += instance.OnTriggerRight;
+            @TriggerRight.canceled += instance.OnTriggerRight;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1853,6 +1971,12 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @SwitchView.started -= instance.OnSwitchView;
             @SwitchView.performed -= instance.OnSwitchView;
             @SwitchView.canceled -= instance.OnSwitchView;
+            @TriggerLeft.started -= instance.OnTriggerLeft;
+            @TriggerLeft.performed -= instance.OnTriggerLeft;
+            @TriggerLeft.canceled -= instance.OnTriggerLeft;
+            @TriggerRight.started -= instance.OnTriggerRight;
+            @TriggerRight.performed -= instance.OnTriggerRight;
+            @TriggerRight.canceled -= instance.OnTriggerRight;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1946,6 +2070,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnSwitchToRight(InputAction.CallbackContext context);
         void OnSwitchToLeft(InputAction.CallbackContext context);
         void OnSwitchView(InputAction.CallbackContext context);
+        void OnTriggerLeft(InputAction.CallbackContext context);
+        void OnTriggerRight(InputAction.CallbackContext context);
     }
     public interface IDebugActions
     {
