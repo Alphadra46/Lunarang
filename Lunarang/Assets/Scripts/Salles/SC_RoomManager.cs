@@ -516,7 +516,7 @@ public class SC_RoomManager : MonoBehaviour
             RevealChest(resourceChest);
         }
 
-        SpawnArchive(5);
+        SpawnArchive(10);
 
         if (hasBonusChallenge)
         {
@@ -700,7 +700,7 @@ public class SC_RoomManager : MonoBehaviour
             RevealChest(resourceChest);
         }
         
-        SpawnArchive(5);
+        SpawnArchive(10);
     }
 
     
