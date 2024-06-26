@@ -136,6 +136,7 @@ MonoBehaviour:
   _skinnedMeshRenderer:
   - {fileID: 7622265253471175936}
   _meshRenderer: []
+  _animator: {fileID: 0}
 --- !u!114 &1753954169216546173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,12 +248,12 @@ MonoBehaviour:
   typeID: archer
   isElite: 0
   canHaveShield: 0
-  hasShield: 0
   canRegenShield: 0
   delayBeforeRegen: 4
   shieldValue: 0
-  isBreaked: 0
   hasThorns: 0
+  hasShield: 0
+  isBreaked: 0
   moveValues:
   - 0.3
   moveValueIndex: 0
@@ -299,6 +300,7 @@ MonoBehaviour:
   _renderer: {fileID: 0}
   _rb: {fileID: 0}
   _collider: {fileID: 0}
+  _debuffsBuffsComponent: {fileID: 0}
   atkBlockRotationDelay: 1
   defenseAreaRadius: 4
   defenseCDBase: 6
@@ -1105,6 +1107,11 @@ PrefabInstance:
     - target: {fileID: 6934251657800318233, guid: b36b1161cb351a54e979dfe7015d7ff5,
         type: 3}
       propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: fd2cf7d3f20fbed47845866442e6904f, type: 2}
+    - target: {fileID: 6934251657800318233, guid: b36b1161cb351a54e979dfe7015d7ff5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[3]
       value: 
       objectReference: {fileID: 2100000, guid: fd2cf7d3f20fbed47845866442e6904f, type: 2}
     - target: {fileID: 7063860866765585676, guid: b36b1161cb351a54e979dfe7015d7ff5,

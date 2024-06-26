@@ -94,6 +94,9 @@ public class SC_LibraryUI : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(collectionsGOShowed[0].GetComponent<SC_ArchiveCollectionUI>().archivesGO[0].gameObject);
         SC_InputManager.instance.switchToRight.started += SwitchTypeRight;
         SC_InputManager.instance.switchToLeft.started += SwitchTypeLeft;
+        SC_InputManager.instance.triggerLeft.started += OnSwitchToLeftPage;
+        SC_InputManager.instance.triggerLeft.started += OnSwitchToRightPage;
+        
         SwitchType((int) typeShowed);
     }
 
@@ -104,6 +107,8 @@ public class SC_LibraryUI : MonoBehaviour
         SC_InputManager.instance.cancel.started -= Close;
         SC_InputManager.instance.switchToRight.started -= SwitchTypeRight;
         SC_InputManager.instance.switchToLeft.started -= SwitchTypeLeft;
+        SC_InputManager.instance.triggerLeft.started -= OnSwitchToLeftPage;
+        SC_InputManager.instance.triggerLeft.started -= OnSwitchToRightPage;
     }
 
     private void Awake()
@@ -234,7 +239,8 @@ public class SC_LibraryUI : MonoBehaviour
         if (archiveToDisplay.archiveState is ArchiveState.Hidden)
         {
             SwitchInformationsPanelState("locked");
-            
+            pageIndicatorTMP.transform.parent.gameObject.SetActive(false);
+
         }
         else
         {
@@ -268,10 +274,24 @@ public class SC_LibraryUI : MonoBehaviour
             archiveLoreTMP.text = archiveToDisplay.loreDescription;
             archiveLoreTMP.CalculateLayoutInputVertical();
 
-            firstPage.gameObject.SetActive(true);
+            pageIndicatorTMP.transform.parent.gameObject.SetActive(true);
+            
+            if(currentArchive.splashArt != null)
+                firstPage.gameObject.SetActive(true);
+            else
+            {
+                otherPage.gameObject.SetActive(true);
+                archiveOtherPagesTMP.text = currentArchive.pagesText[currentPage];
+            }
+            
+            if (currentArchive.pagesText.Count > 0)
+                pageIndicatorTMP.text = currentArchive.splashArt != null ? $"{currentPage + 1}/{currentArchive.pagesText.Count + 1}" : $"{currentPage+1}/{currentArchive.pagesText.Count}";
+            
+            
             LayoutRebuilder.ForceRebuildLayoutImmediate(unlockedContent.GetComponent<RectTransform>());
 
         }
+        
         
         
     }
@@ -293,8 +313,38 @@ public class SC_LibraryUI : MonoBehaviour
         
         
         if (currentArchive.pagesText.Count > 0)
-            pageIndicatorTMP.text = $"{currentPage + 1}/{currentArchive.pagesText.Count+1}";
+            pageIndicatorTMP.text = currentArchive.splashArt != null ? $"{currentPage + 1}/{currentArchive.pagesText.Count + 1}" : $"{currentPage+1}/{currentArchive.pagesText.Count}";
         
+    }
+    
+    public void OnSwitchToLeftPage(InputAction.CallbackContext ctx)
+    {
+        SwitchToLeftPage();
+    }
+    
+    public void OnSwitchToRightPage(InputAction.CallbackContext ctx)
+    {
+        SwitchToRightPage();
+    }
+    
+    public void SwitchToLeftPage()
+    {
+        if(currentArchive.archiveState == ArchiveState.Hidden) return;
+        if(currentPage == 0) return;
+
+        currentPage--;
+        SwitchPage();
+
+    }
+    
+    public void SwitchToRightPage()
+    {
+        if(currentArchive.archiveState == ArchiveState.Hidden) return;
+        if(currentPage == currentArchive.pagesText.Count-1) return;
+
+        currentPage++;
+        SwitchPage();
+
     }
 
     public void SwitchInformationsPanelState(string state)

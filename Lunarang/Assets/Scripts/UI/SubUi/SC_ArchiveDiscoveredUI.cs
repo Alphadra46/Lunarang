@@ -42,13 +42,19 @@ public class SC_ArchiveDiscoveredUI : MonoBehaviour
     {
         
         SC_InputManager.instance.cancel.started += Close;
-        
+
+        SC_InputManager.instance.triggerLeft.started += OnSwitchToLeftPage;
+        SC_InputManager.instance.triggerRight.started += OnSwitchToRightPage;
+
     }
     
     private void OnDisable()
     {
         
         SC_InputManager.instance.cancel.started -= Close;
+        
+        SC_InputManager.instance.triggerLeft.started -= OnSwitchToLeftPage;
+        SC_InputManager.instance.triggerRight.started -= OnSwitchToRightPage;
         
     }
 
@@ -73,19 +79,17 @@ public class SC_ArchiveDiscoveredUI : MonoBehaviour
         {
             firstPage.SetActive(true);
             
-            if (archive.pagesText.Count > 0)
-                pageIndicatorTMP.text = $"{currentPage + 1}/{archive.pagesText.Count+1}";
-            
         }
         else {
             otherPage.SetActive(true);
             archiveOtherPagesTMP.text = archive.pagesText[currentPage];
             
-            if (archive.pagesText.Count > 0)
-                pageIndicatorTMP.text = $"{currentPage + 1}/{archive.pagesText.Count}";
         }
         
         pagePanel.SetActive(archive.pagesText.Count > 0);
+        
+        if (archive.pagesText.Count > 0)
+            pageIndicatorTMP.text = archive.splashArt != null ? $"{currentPage + 1}/{archive.pagesText.Count + 1}" : $"{currentPage+1}/{archive.pagesText.Count}";
 
     }
 
@@ -108,6 +112,16 @@ public class SC_ArchiveDiscoveredUI : MonoBehaviour
         if (archive.pagesText.Count > 0)
             pageIndicatorTMP.text = archive.splashArt != null ? $"{currentPage + 1}/{archive.pagesText.Count + 1}" : $"{currentPage+1}/{archive.pagesText.Count}";
 
+    }
+
+    public void OnSwitchToLeftPage(InputAction.CallbackContext ctx)
+    {
+        SwitchToLeftPage();
+    }
+    
+    public void OnSwitchToRightPage(InputAction.CallbackContext ctx)
+    {
+        SwitchToRightPage();
     }
 
     public void SwitchToLeftPage()
