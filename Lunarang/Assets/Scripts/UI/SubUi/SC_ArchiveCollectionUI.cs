@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SC_ArchiveCollectionUI : MonoBehaviour
 {
@@ -40,9 +41,9 @@ public class SC_ArchiveCollectionUI : MonoBehaviour
         {
             
             var archiveGO = Instantiate(archivePrefab, archivesParent).GetComponent<SC_ArchiveButtonUI>();
-
+            
             archiveGO.Init(archive);
-
+            archivesGO.Add(archiveGO);
         }
 
         if (!collection.hasBonusArchive) return;
@@ -50,7 +51,7 @@ public class SC_ArchiveCollectionUI : MonoBehaviour
         var specialGO = Instantiate(archivePrefab, archivesParent).GetComponent<SC_ArchiveButtonUI>();
         
         specialGO.Init(collection.bonusArchive);
-
+        archivesGO.Add(specialGO);
     }
     
     public void InitEnemiesCollection(SO_ArchiveCollection newCollection)
@@ -75,7 +76,7 @@ public class SC_ArchiveCollectionUI : MonoBehaviour
             }).GetComponent<SC_ArchiveButtonUI>();
 
             archiveGO.Init(archive);
-
+            archivesGO.Add(archiveGO);
         }
 
     }
