@@ -27,6 +27,7 @@ public class SC_MusicManager : SerializedMonoBehaviour
         if(!TryGetComponent(out source)) return;
 
         source.outputAudioMixerGroup = audioMixerGroup;
+        
     }
 
     private void Start()

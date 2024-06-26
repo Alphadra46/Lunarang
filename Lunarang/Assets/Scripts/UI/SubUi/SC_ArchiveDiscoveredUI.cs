@@ -70,14 +70,22 @@ public class SC_ArchiveDiscoveredUI : MonoBehaviour
         archiveLoreTMP.text = archive.loreDescription;
         
         if(archive.splashArt != null)
+        {
             firstPage.SetActive(true);
-        else
+            
+            if (archive.pagesText.Count > 0)
+                pageIndicatorTMP.text = $"{currentPage + 1}/{archive.pagesText.Count+1}";
+            
+        }
+        else {
             otherPage.SetActive(true);
+            archiveOtherPagesTMP.text = archive.pagesText[currentPage];
+            
+            if (archive.pagesText.Count > 0)
+                pageIndicatorTMP.text = $"{currentPage + 1}/{archive.pagesText.Count}";
+        }
         
         pagePanel.SetActive(archive.pagesText.Count > 0);
-
-        if (archive.pagesText.Count > 0)
-            pageIndicatorTMP.text = $"{currentPage + 1}/{archive.pagesText.Count+1}";
 
     }
 
@@ -98,7 +106,7 @@ public class SC_ArchiveDiscoveredUI : MonoBehaviour
         
         
         if (archive.pagesText.Count > 0)
-            pageIndicatorTMP.text = $"{currentPage + 1}/{archive.pagesText.Count+1}";
+            pageIndicatorTMP.text = archive.splashArt != null ? $"{currentPage + 1}/{archive.pagesText.Count + 1}" : $"{currentPage+1}/{archive.pagesText.Count}";
 
     }
 
@@ -114,7 +122,7 @@ public class SC_ArchiveDiscoveredUI : MonoBehaviour
     public void SwitchToRightPage()
     {
         
-        if(currentPage == archive.pagesText.Count) return;
+        if(currentPage == archive.pagesText.Count-1) return;
 
         currentPage++;
         SwitchPage();
