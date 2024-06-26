@@ -31,6 +31,14 @@ public class SC_SFXPlayerComponent : SerializedMonoBehaviour
         _audioSource.Play();
 
     }
+    
+    public void PlayClip(AudioClip clip)
+    {
+
+        _audioSource.clip = clip;
+        _audioSource.Play();
+
+    }
 
     public void PlayRandomClip(List<string> clipNames)
     {

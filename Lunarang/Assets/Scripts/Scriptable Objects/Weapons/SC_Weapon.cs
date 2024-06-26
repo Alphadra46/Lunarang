@@ -76,7 +76,9 @@ public class SC_Weapon : SerializedScriptableObject
     [PropertySpace(SpaceBefore = 5)]
     [TextArea] public string effectDesc;
     public float effectValue = 0f;
-    
+
+    [PropertySpace(SpaceBefore = 10)] public AudioClip sfx;
+
 
     #endregion
 
