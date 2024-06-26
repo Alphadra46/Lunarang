@@ -1,58 +1,91 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Audio;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(AudioSource))]
 public class SC_SFXPlayerComponent : SerializedMonoBehaviour
 {
 
     #region Variables
 
-    private AudioSource _audioSource;
+    private List<AudioSource> _audioSources = new List<AudioSource>();
 
     public Dictionary<string, AudioClip> clips = new Dictionary<string, AudioClip>();
 
+    public AudioMixerGroup audioMixerGroup;
+
     #endregion
+    
 
-
-    private void Awake()
+    public void CheckIfPlaying()
     {
-        if(!TryGetComponent(out _audioSource)) return;
 
-        _audioSource.loop = false;
+        var deleteLists = new List<AudioSource>();
+        
+        foreach (var source in _audioSources.Where(source => !source.isPlaying))
+        {
+            Destroy(source);
+            deleteLists.Add(source);
+        }
+
+        foreach (var deleteSource in deleteLists)
+        {
+
+            _audioSources.Remove(deleteSource);
+            
+        }
+        
+        deleteLists.Clear();
+        
     }
 
     public void PlayClip(string clipName)
     {
-
-        _audioSource.clip = clips[clipName];
-        _audioSource.Play();
+        CheckIfPlaying();
+        
+        var audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.loop = false;
+        audioSource.outputAudioMixerGroup = audioMixerGroup;
+        
+        audioSource.clip = clips[clipName];
+        audioSource.Play();
+        
+        _audioSources.Add(audioSource);
 
     }
     
     public void PlayClip(AudioClip clip)
     {
-
-        _audioSource.clip = clip;
-        _audioSource.Play();
+        CheckIfPlaying();
+        
+        var audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.loop = false;
+        audioSource.outputAudioMixerGroup = audioMixerGroup;
+        
+        audioSource.clip = clip;
+        audioSource.Play();
+        
+        _audioSources.Add(audioSource);
 
     }
 
     public void PlayRandomClip(List<string> clipNames)
     {
 
-        _audioSource.clip = clips[clipNames[Random.Range(0, clipNames.Count)]];
-        _audioSource.Play();
-
-    }
-
-    public void StopClip()
-    {
+        CheckIfPlaying();
         
-        _audioSource.Stop();
+        var audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.loop = false;
+        audioSource.outputAudioMixerGroup = audioMixerGroup;
         
+        audioSource.clip = clips[clipNames[Random.Range(0, clipNames.Count)]];
+        audioSource.Play();
+        
+        _audioSources.Add(audioSource);
+
     }
     
 }

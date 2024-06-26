@@ -266,10 +266,12 @@ public class SC_PlayerController : MonoBehaviour
 
         if (isMovementInputPressed && !isAttacking)
         {
-            _characterController.Move((IsoVectorConvert(currentMovement) * SC_PlayerStats.instance.currentStats.currentSpeed) * Time.deltaTime); // Move the player
+            _characterController.Move(
+                (IsoVectorConvert(currentMovement) * SC_PlayerStats.instance.currentStats.currentSpeed) *
+                Time.deltaTime); // Move the player
         }
-            
-        
+
+
     }
 
     
