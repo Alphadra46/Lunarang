@@ -89,13 +89,16 @@ public class SC_GameManager : MonoBehaviour
 
     private void Update()
     {
-        
+        if (Time.timeScale == 0 && state == GameState.Menu)
+        {
+            Time.timeScale = 1f;
+        }
         if(state == GameState.RUN) IncrementingTimer();
         
         //Debug Inputs
         if(Input.GetKeyDown(KeyCode.Keypad9)) SC_PlayerStats.instance.TakeDamage(5, false, null, true);
         if(Input.GetKeyDown(KeyCode.Keypad8)) SC_PlayerStats.instance.Heal(10);
-        if(Input.GetKeyDown(KeyCode.N)) SC_UIManager.instance.CreateLoadingScreen(0);
+        if(Input.GetKeyDown(KeyCode.KeypadMultiply)) SC_UIManager.instance.CreateLoadingScreen(0);
         
     }
 
