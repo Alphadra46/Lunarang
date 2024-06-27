@@ -54,9 +54,9 @@ public class SC_InteractableBase : MonoBehaviour, IInteractable
 
     public void Interact(SC_InteractorComponent newInteractor)
     {
-        if(!isInteractable) return;
+        if (!isInteractable) return;
         
-        if(interactableOnce && wasInteracted) return;
+        if (interactableOnce && wasInteracted) return;
 
         if (interactableOnce) wasInteracted = true;
         
@@ -80,6 +80,15 @@ public class SC_InteractableBase : MonoBehaviour, IInteractable
     {
         isInteractionEnded = true;
         SC_InteractorComponent.onInteractionEnd?.Invoke(gameObject, interactableOnce, destroyOnInteractionEnded);
+
+        if (interactableOnce)
+        {
+            whenInteractable -= ShowPrompt;
+            whenNotInteractable -= HidePrompt;
+        }
+        
+        promptUI.SetActive(false);
+        
     }
 
     private bool CheckInteractionStatut()

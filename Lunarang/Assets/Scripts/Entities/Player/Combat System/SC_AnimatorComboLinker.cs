@@ -45,6 +45,13 @@ public class SC_AnimatorComboLinker : MonoBehaviour
         
     }
 
+    public void CreateProjectile(GameObject projectile)
+    {
+
+        pComboController.CreateProjectile(projectile, 1, 0, 0, 35, 0, transform.forward);
+
+    }
+
     public void FreezeMovement()
     {
         pController.FreezeMovement(true);
