@@ -81,10 +81,22 @@ public class SC_GameManager : MonoBehaviour
 
     private void Start()
     {
+        if (!isFirstLaunch)
+        {
+            Resources.Load<SC_ResourcesInventory>("ResourceInventory").ClearResourceInventory();
+            Resources.Load<SO_ArchiveInventory>("ArchiveInventory").ClearArchiveOwnedInventory();
+        }
+        
         SC_InputManager.instance.pause.started += OnPauseKey;
 #if UNITY_EDITOR
         EditorApplication.playModeStateChanged += EditorStateChange;
 #endif
+    }
+
+    private void OnApplicationQuit()
+    {
+        isFirstLaunch = false;
+        isTutorialFinished = false;
     }
 
     private void Update()
