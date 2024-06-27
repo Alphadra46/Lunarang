@@ -45,20 +45,9 @@ public class SC_Lobby : MonoBehaviour
             StartCoroutine(DelayTutorial());
         }
         
-#if UNITY_EDITOR
-        EditorApplication.playModeStateChanged += EditorStateChange;
-#endif
     }
 
-#if UNITY_EDITOR
-    private void EditorStateChange(PlayModeStateChange playModeState)
-    {
-        if (playModeState == PlayModeStateChange.EnteredEditMode)
-        {
-            SC_GameManager.isTutorialFinished = false;
-        }
-    }
-#endif
+
     
     private IEnumerator DelayTutorial()
     {

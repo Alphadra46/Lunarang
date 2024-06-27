@@ -95,7 +95,7 @@ public class SC_GameManager : MonoBehaviour
         //Debug Inputs
         if(Input.GetKeyDown(KeyCode.Keypad9)) SC_PlayerStats.instance.TakeDamage(5, false, null, true);
         if(Input.GetKeyDown(KeyCode.Keypad8)) SC_PlayerStats.instance.Heal(10);
-        if(Input.GetKeyDown(KeyCode.Semicolon)) SC_UIManager.instance.CreateLoadingScreen(0);
+        if(Input.GetKeyDown(KeyCode.N)) SC_UIManager.instance.CreateLoadingScreen(0);
         
     }
 
@@ -105,6 +105,7 @@ public class SC_GameManager : MonoBehaviour
         if (playModeState == PlayModeStateChange.EnteredEditMode)
         {
             isFirstLaunch = false;
+            isTutorialFinished = false;
         }
     }
 #endif
