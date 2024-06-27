@@ -324,6 +324,9 @@ public class SC_GameManager : MonoBehaviour
     
     public void OpenInventory()
     {
+        if (SC_UIManager.instance.pauseUI != null || SC_UIManager.instance.rewardUI != null ||
+            SC_UIManager.instance.winUI != null || SC_UIManager.instance.gameOverUI != null) return;
+        
         SetPause();
         SC_UIManager.instance.ShowInventory();
     }
