@@ -51,7 +51,7 @@ public class SC_Lobby : MonoBehaviour
     
     private IEnumerator DelayTutorial()
     {
-        yield return new WaitForSeconds(0.1f);
+        //yield return new WaitForSecondsRealtime(0.1f);
         SC_GameManager.instance.SetPause();
         lobbyTutorialUI = Instantiate(lobbyTutorialUIPrefab);
         lobbyTutorialUI.GetComponent<SC_ArchiveDiscoveredUI>().Init(archiveTutorial);
