@@ -15,7 +15,6 @@ public class SC_Lobby : MonoBehaviour
 {
 
     public static SC_Lobby instance;
-    public static bool isTutorialFinished;
 
     public static Action<SC_BuildingButton, bool> currentBuilding;
     public Action<SC_BuildingButton> upgradeFB;
@@ -36,7 +35,7 @@ public class SC_Lobby : MonoBehaviour
             return;
         }
 
-        if (isTutorialFinished)
+        if (SC_GameManager.isTutorialFinished)
         {
             SC_InputManager.instance.develop.started += UpgradeBuilding;
             SC_InputManager.instance.submit.started += InteractBuilding;
@@ -56,7 +55,7 @@ public class SC_Lobby : MonoBehaviour
     {
         if (playModeState == PlayModeStateChange.EnteredEditMode)
         {
-            isTutorialFinished = false;
+            SC_GameManager.isTutorialFinished = false;
         }
     }
 #endif
@@ -76,7 +75,7 @@ public class SC_Lobby : MonoBehaviour
         SC_InputManager.instance.cancel.started -= QuitTutorial;
         Destroy(lobbyTutorialUI);
         SC_GameManager.instance.SetPause();
-        isTutorialFinished = true;
+        SC_GameManager.isTutorialFinished = true;
         
         SC_InputManager.instance.develop.started += UpgradeBuilding;
         SC_InputManager.instance.submit.started += InteractBuilding;
