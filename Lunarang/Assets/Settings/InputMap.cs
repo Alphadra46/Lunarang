@@ -1482,7 +1482,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6f615b4b-c1dd-4847-9b73-a60cb1341195"",
-                    ""path"": ""<DualShockGamepad>/leftShoulder"",
+                    ""path"": ""<DualShockGamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1526,7 +1526,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d3734a87-ca09-4a92-9977-106583f2db7f"",
-                    ""path"": ""<SwitchProControllerHID>/rightShoulder"",
+                    ""path"": ""<DualShockGamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
