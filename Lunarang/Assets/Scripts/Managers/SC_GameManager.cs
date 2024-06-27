@@ -28,6 +28,7 @@ public class SC_GameManager : MonoBehaviour
     public static Action clearRoom;
     
     public static bool isFirstLaunch;
+    public static bool isTutorialFinished;
     
     #region Variables
 
