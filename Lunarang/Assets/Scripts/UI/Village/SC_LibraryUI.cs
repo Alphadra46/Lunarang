@@ -95,7 +95,7 @@ public class SC_LibraryUI : MonoBehaviour
         SC_InputManager.instance.switchToRight.started += SwitchTypeRight;
         SC_InputManager.instance.switchToLeft.started += SwitchTypeLeft;
         SC_InputManager.instance.triggerLeft.started += OnSwitchToLeftPage;
-        SC_InputManager.instance.triggerLeft.started += OnSwitchToRightPage;
+        SC_InputManager.instance.triggerRight.started += OnSwitchToRightPage;
         
         SwitchType((int) typeShowed);
     }
@@ -108,7 +108,7 @@ public class SC_LibraryUI : MonoBehaviour
         SC_InputManager.instance.switchToRight.started -= SwitchTypeRight;
         SC_InputManager.instance.switchToLeft.started -= SwitchTypeLeft;
         SC_InputManager.instance.triggerLeft.started -= OnSwitchToLeftPage;
-        SC_InputManager.instance.triggerLeft.started -= OnSwitchToRightPage;
+        SC_InputManager.instance.triggerRight.started -= OnSwitchToRightPage;
     }
 
     private void Awake()
